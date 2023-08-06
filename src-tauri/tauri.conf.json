@@ -2,7 +2,7 @@
   "build": {
     "beforeDevCommand": "pnpm dev",
     "beforeBuildCommand": "pnpm build",
-    "devPath": "http://localhost:1420",
+    "devPath": "http://localhost:1420/",
     "distDir": "../dist",
     "withGlobalTauri": false
   },
@@ -34,19 +34,8 @@
       ]
     },
     "security": {
-      "csp": null
+      "csp": ""
     },
-    "windows": [
-      {
-        "fullscreen": false,
-        "resizable": true,
-        "title": "MonsterSirenDesktop",
-        "minWidth": 1280,
-        "minHeight": 800,
-        "width": 1280,
-        "height": 800,
-        "decorations": false
-      }
-    ]
+    "windows": []
   }
 }
