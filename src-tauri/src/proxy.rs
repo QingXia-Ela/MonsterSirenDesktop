@@ -1,6 +1,5 @@
 use std::net::SocketAddr;
 
-use futures::executor::block_on;
 use reqwest::{header::HeaderMap, Client};
 use warp::{path::FullPath, Filter};
 

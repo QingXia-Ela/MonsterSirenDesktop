@@ -20,6 +20,8 @@ reqwest = { version = "0.11", features = ["json", "blocking"] }
 tokio = { version = "1", features = ["full"] }
 warp = "0.3.5"
 futures = "0.3.28"
+ws = "0.9.2"
+env_logger = "0.6"
 
 [features]
 # this feature is used for production builds or when `devPath` points to the filesystem

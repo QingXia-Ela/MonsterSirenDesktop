@@ -4,6 +4,8 @@ import react from "@vitejs/plugin-react";
 // https://vitejs.dev/config/
 export default defineConfig(async () => ({
   plugins: [react()],
+  // root: "https://monster-siren.hypergryph.com/index.html",
+  // base: "https://monster-siren.hypergryph.com",
 
   // Vite options tailored for Tauri development and only applied in `tauri dev` or `tauri build`
   // prevent vite from obscuring rust errors
