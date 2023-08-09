@@ -1,9 +1,10 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
+import tauriHmr from './src/vite_plugin/tauri-hmr'
 
 // https://vitejs.dev/config/
 export default defineConfig(async () => ({
-  plugins: [react()],
+  plugins: [react(), tauriHmr()],
   // root: "https://monster-siren.hypergryph.com/index.html",
   // base: "https://monster-siren.hypergryph.com",
 

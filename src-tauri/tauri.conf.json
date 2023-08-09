@@ -34,7 +34,16 @@
       ]
     },
     "security": {
-      "csp": ""
+      "csp": "",
+      "dangerousRemoteDomainIpcAccess": [
+        {
+          "domain": "monster-siren.hypergryph.com",
+          "windows": [
+            "main"
+          ],
+          "enableTauriAPI": true
+        }
+      ]
     },
     "windows": [
       {
