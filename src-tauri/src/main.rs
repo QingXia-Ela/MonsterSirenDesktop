@@ -3,7 +3,7 @@
 
 use std::{fs, sync::mpsc, thread};
 
-use tauri::WindowBuilder;
+use tauri::{Manager, WindowBuilder};
 use ws::listen;
 
 // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
@@ -43,13 +43,15 @@ fn main() {
     tauri::Builder::default()
         .invoke_handler(tauri::generate_handler![greet])
         .setup(move |app| {
-            let core_app = WindowBuilder::new(
-                app,
-                "main",
-                tauri::WindowUrl::App("https://monster-siren.hypergryph.com".into()),
-            )
-            .initialization_script(js.as_str())
-            .build()?;
+            // let core_app = WindowBuilder::new(
+            //     app,
+            //     "main",
+            //     tauri::WindowUrl::App("https://monster-siren.hypergryph.com".into()),
+            // )
+            // .initialization_script(js.as_str())
+            // .build()?;
+            let core_app = app.get_window("main").unwrap();
+            core_app.eval(js.as_str()).unwrap();
 
             thread::spawn(move || {
                 for event in receiver {
@@ -61,6 +63,8 @@ fn main() {
                     }
                 }
             });
+            // core_app.
+            // app.app_handle().get_window(label)
 
             Ok(())
         })
