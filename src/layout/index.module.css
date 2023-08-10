@@ -1,0 +1,7 @@
+.titlebar_wrapper {
+  z-index: 2000;
+  position: fixed;
+  width: 100vw;
+  height: 1rem;
+  background: #fff;
+}

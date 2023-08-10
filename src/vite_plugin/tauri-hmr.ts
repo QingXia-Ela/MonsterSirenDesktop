@@ -45,7 +45,6 @@ async function build() {
     bundle: true,
     outfile: "src-tauri/inject.js",
     minify: true,
-    sourcemap: "linked",
   }).catch((err) => {
     logger.error(err.message)
   })

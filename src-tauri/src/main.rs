@@ -23,14 +23,14 @@ fn read_css() -> String {
 
 fn inject_css() -> String {
     format!(
-        "window.addEventListener('load', () => {{
-                let __INEJCT_CSS__ = document.getElementById('__INEJCT_CSS__');
-            if (!__INEJCT_CSS__) {{
-                __INEJCT_CSS__ = document.createElement('style');
-                __INEJCT_CSS__.setAttribute('id', '__INEJCT_CSS__');
-                document.head.appendChild(__INEJCT_CSS__);
+        "requestAnimationFrame(() => {{
+            var __INJECT_CSS__ = document.getElementById('__INJECT_CSS__');
+            if (!__INJECT_CSS__) {{
+                __INJECT_CSS__ = document.createElement('style');
+                __INJECT_CSS__.setAttribute('id', '__INJECT_CSS__');
+                document.head.appendChild(__INJECT_CSS__);
             }};
-            __INEJCT_CSS__.innerHTML = '{}';
+            if (__INJECT_CSS__) __INJECT_CSS__.innerHTML = '{}';
         }})",
         read_css().trim()
     )
@@ -76,7 +76,7 @@ fn main() {
                     match event.as_str() {
                         "inject" => {
                             let res = core_app.eval(read_js().as_str());
-                            // core_app.eval(inject_css().as_str()).unwrap();
+                            core_app.eval(inject_css().as_str()).unwrap();
                             if let Err(e) = res {
                                 logger.error(&e.to_string());
                             }
