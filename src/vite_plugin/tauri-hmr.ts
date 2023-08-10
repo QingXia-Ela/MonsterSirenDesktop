@@ -44,6 +44,7 @@ async function build() {
     entryPoints: ["src/main.tsx"],
     bundle: true,
     outfile: "src-tauri/inject.js",
+    minify: true
   }).catch((err) => {
     logger.error(err.message)
   })

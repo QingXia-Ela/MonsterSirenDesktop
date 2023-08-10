@@ -18,9 +18,10 @@ body {
   height: 100%;
 }
 
-#root {
-  width: 100%;
-  height: 100%;
+#inject-app {
+  position: fixed;
+  top: 0;
+  left: 0;
 }
 
 .titlebar {
