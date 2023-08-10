@@ -78,10 +78,7 @@ fn main() {
                             let res = core_app.eval(read_js().as_str());
                             // core_app.eval(inject_css().as_str()).unwrap();
                             if let Err(e) = res {
-                                println!("Error: {}", e);
-                            } else {
-                                // println!("")
-                                logger.info("Inject success");
+                                logger.error(&e.to_string());
                             }
                         }
                         _ => println!("Unknown event: {}", event),

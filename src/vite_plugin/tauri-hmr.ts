@@ -44,7 +44,8 @@ async function build() {
     entryPoints: ["src/main.tsx"],
     bundle: true,
     outfile: "src-tauri/inject.js",
-    minify: true
+    minify: true,
+    sourcemap: "linked",
   }).catch((err) => {
     logger.error(err.message)
   })
@@ -61,7 +62,8 @@ const Plugin = function () {
     handleHotUpdate(ctx) {
       if (!TauriWs || ctx.file.includes("src-tauri") || ctx.file.includes("dist")) return
       build().then(() => {
-        logger.info(`Update and build successfully.`)
+        TauriWs.send("inject")
+        logger.info(`Update and build successfully.`, { clear: true })
       })
     },
   } as PluginOption

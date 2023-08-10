@@ -3,8 +3,6 @@ import ReactDOM from "react-dom/client";
 import App from "./App";
 import "./styles.css";
 
-console.log('MonsterSirenDesktop');
-
 
 function render() {
   ReactDOM.createRoot(document.getElementById("inject-app") as HTMLElement).render(
@@ -20,11 +18,13 @@ window.addEventListener("load", () => {
     const InjectApp = document.createElement("div");
     InjectApp.id = "inject-app";
     document.body.appendChild(InjectApp);
+    console.log('MonsterSirenDesktop Inject App v0.0.1');
   }
 
   render()
 })
 
 if (document.getElementById("inject-app")) {
+  console.log("Inject hmr update");
   render()
 }
