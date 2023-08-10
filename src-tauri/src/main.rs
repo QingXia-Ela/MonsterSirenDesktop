@@ -46,7 +46,6 @@ fn main() {
     let js = fs::read_to_string("inject.js").unwrap();
 
     tauri::Builder::default()
-        .invoke_handler(tauri::generate_handler![greet])
         .setup(move |app| {
             let core_app = app.get_window("main").unwrap();
             core_app.eval(js.as_str()).unwrap();
@@ -65,6 +64,7 @@ fn main() {
 
             Ok(())
         })
+        .invoke_handler(tauri::generate_handler![greet])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

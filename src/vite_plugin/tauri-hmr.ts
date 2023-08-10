@@ -1,5 +1,6 @@
 import { PluginOption, createLogger } from "vite"
 import { WebSocketServer } from 'ws'
+import * as esbuild from 'esbuild'
 import chalk from 'chalk'
 import getTime from "./utils/getTime"
 
@@ -45,9 +46,18 @@ const Plugin = function () {
 
     },
     handleHotUpdate(ctx) {
-      if (!TauriWs || ctx.file.includes("src-tauri")) return
-      logger.info(`Update: ${ctx.file}`)
-      TauriWs.send("inject")
+      if (!TauriWs || ctx.file.includes("src-tauri") || ctx.file.includes("dist")) return
+      esbuild.build({
+        entryPoints: ["src/main.tsx"],
+        bundle: true,
+        outfile: "src-tauri/main.js",
+        minify: true
+      }).then(() => {
+        TauriWs.send("inject")
+        logger.info(`Update and build successfully: ${ctx.file}`.trim())
+      }).catch((err) => {
+        logger.error(err.message)
+      })
     },
   } as PluginOption
 }

@@ -12,6 +12,9 @@ dist
 dist-ssr
 *.local
 
+# inject js
+src-tauri/inject.js
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
