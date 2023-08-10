@@ -39,24 +39,28 @@ wss.on("connection", (ws) => {
   TauriWs = ws
 })
 
+async function build() {
+  return esbuild.build({
+    entryPoints: ["src/main.tsx"],
+    bundle: true,
+    outfile: "src-tauri/inject.js",
+  }).catch((err) => {
+    logger.error(err.message)
+  })
+}
+
 const Plugin = function () {
   return {
     name: "tauri-hmr",
     options(options) {
-
+      build().then(() => {
+        logger.info(`Update and build successfully.`)
+      })
     },
     handleHotUpdate(ctx) {
       if (!TauriWs || ctx.file.includes("src-tauri") || ctx.file.includes("dist")) return
-      esbuild.build({
-        entryPoints: ["src/main.tsx"],
-        bundle: true,
-        outfile: "src-tauri/main.js",
-        minify: true
-      }).then(() => {
-        TauriWs.send("inject")
-        logger.info(`Update and build successfully: ${ctx.file}`.trim())
-      }).catch((err) => {
-        logger.error(err.message)
+      build().then(() => {
+        logger.info(`Update and build successfully.`)
       })
     },
   } as PluginOption
