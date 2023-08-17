@@ -1,7 +1,16 @@
 .titlebar_wrapper {
   z-index: 2000;
   position: fixed;
+  top: 0;
+  left: 0;
   width: 100vw;
-  height: 1rem;
-  background: #fff;
+  height: 0.9rem;
+  background: #000;
+}
+
+.sidebar_wrapper {
+  position: fixed;
+  top: 0.9rem;
+  left: 0;
+  height: calc(100% - 0.9rem);
 }
