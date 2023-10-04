@@ -67,8 +67,8 @@ fn main() {
     tauri::Builder::default()
         .setup(move |app| {
             let core_app = app.get_window("main").unwrap();
-            core_app.eval(js.as_str()).unwrap();
-            core_app.eval(inject_css().as_str()).unwrap();
+            // core_app.eval(js.as_str()).unwrap();
+            // core_app.eval(inject_css().as_str()).unwrap();
 
             thread::spawn(move || {
                 let logger = Logger::new();
@@ -76,7 +76,7 @@ fn main() {
                     match event.as_str() {
                         "inject" => {
                             let res = core_app.eval(read_js().as_str());
-                            core_app.eval(inject_css().as_str()).unwrap();
+                            // core_app.eval(inject_css().as_str()).unwrap();
                             if let Err(e) = res {
                                 logger.error(&e.to_string());
                             }

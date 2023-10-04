@@ -2,7 +2,7 @@
   "build": {
     "beforeDevCommand": "pnpm dev",
     "beforeBuildCommand": "pnpm build",
-    "devPath": "http://localhost:1420/",
+    "devPath": "http://localhost:8000/",
     "distDir": "../dist",
     "withGlobalTauri": false
   },
@@ -47,7 +47,7 @@
     },
     "windows": [
       {
-        "url": "https://monster-siren.hypergryph.com",
+        "url": "http://localhost:8000",
         "label": "main",
         "fullscreen": false,
         "resizable": true,

@@ -1,0 +1,33 @@
+{
+  "background_color": "black",
+  "theme_color": "black",
+  "description": "MONSTER SIREN - a world familiarly unknown.",
+  "display": "standalone",
+  "icons": [
+    {
+      "src": "http://localhost:11451/siren/site/manifest/icon_192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "http://localhost:11451/siren/site/manifest/icon_512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "http://localhost:11451/siren/site/manifest/icon_192_maskable.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "http://localhost:11451/siren/site/manifest/icon_512_maskable.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "name": "塞壬唱片 - MONSTER SIREN",
+  "short_name": "塞壬唱片",
+  "start_url": "/"
+}
