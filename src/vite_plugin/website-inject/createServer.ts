@@ -19,6 +19,8 @@ cdnProxy.on("proxyRes", (proxyRes, req, res) => {
       const str = body.replaceAll("web.hycdn.cn", "localhost:11451")
         .replaceAll("https", "http")
         .replaceAll("/api/", "http://localhost:11452/")
+        // log store change
+        .replaceAll("return function(n){if", "return function(n){console.log(n);if")
         // inject store to global
         .replace("this.store=e,", "this.store=e,window.siren_store=e,")
 
@@ -41,15 +43,16 @@ const apiProxy = Server.createProxyServer(apiOptions)
 apiProxy.on("proxyRes", (proxyRes, req, res) => {
   console.log(req.url);
   res.setHeader("Access-Control-Allow-Origin", "*")
-  if (proxyRes.headers['content-encoding']) {
-    let _write = res.write;
-    let _end = res.end;
-    let chunks = []
-    res.write = function (data, cb) {
-      chunks.push(data);
-    }
+  let chunks = []
+  let _write = res.write;
+  let _end = res.end;
+  res.write = function (data, cb) {
+    chunks.push(data);
+  }
 
-    res.end = function () {
+  res.end = function () {
+    // br buffer
+    if (proxyRes.headers['content-encoding']) {
       const compressedBuffer = Buffer.concat(chunks);
       zlib.brotliDecompress(compressedBuffer, function (err, decompressedBuffer) {
         if (!err) {
@@ -57,6 +60,9 @@ apiProxy.on("proxyRes", (proxyRes, req, res) => {
 
           body = body.replaceAll("web.hycdn.cn", "localhost:11451")
             .replaceAll("https", "http")
+
+          console.log(body);
+
 
           res.setHeader("Content-Encoding", proxyRes.headers['content-encoding'])
 
@@ -66,6 +72,15 @@ apiProxy.on("proxyRes", (proxyRes, req, res) => {
           console.error(err);
         }
       });
+    }
+    // normal response
+    else {
+      let body = Buffer.concat(chunks)
+        .toString()
+        .replaceAll("web.hycdn.cn", "localhost:11451")
+        .replaceAll("https", "http");
+      _write.call(res, body);
+      _end.call(res);
     }
   }
 })

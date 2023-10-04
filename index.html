@@ -1,6 +1,10 @@
 <script>
+  window.siren_store.getState().player.volume = 0
   const injectApp = document.createElement("div");
   injectApp.id = "inject-app";
   document.body.appendChild(injectApp)
+  window.addEventListener("load", () => {
+    console.log(1);
+  })
 </script>
 <script type="module" src="/src/main.tsx"></script>

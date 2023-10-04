@@ -21,7 +21,7 @@ const InjectLayout: FunctionComponent<InjectLayoutProps> = ({ children }) => {
 
         </div>
       </div>
-      <div className={`w-full ${Styles.sidebar_wrapper}`}>
+      <div className={Styles.sidebar_wrapper}>
         <SideBar />
       </div>
       {children}

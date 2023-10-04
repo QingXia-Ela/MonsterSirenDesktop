@@ -13,29 +13,6 @@ fn greet(name: &str) -> String {
     format!("Hello, {}! You've been greeted from Rust!", name)
 }
 
-fn read_js() -> String {
-    fs::read_to_string("inject.js").unwrap()
-}
-
-fn read_css() -> String {
-    fs::read_to_string("inject.css").unwrap()
-}
-
-fn inject_css() -> String {
-    format!(
-        "requestAnimationFrame(() => {{
-            var __INJECT_CSS__ = document.getElementById('__INJECT_CSS__');
-            if (!__INJECT_CSS__) {{
-                __INJECT_CSS__ = document.createElement('style');
-                __INJECT_CSS__.setAttribute('id', '__INJECT_CSS__');
-                document.head.appendChild(__INJECT_CSS__);
-            }};
-            if (__INJECT_CSS__) __INJECT_CSS__.innerHTML = '{}';
-        }})",
-        read_css().trim()
-    )
-}
-
 fn main() {
     let (sender, receiver) = mpsc::channel::<String>();
     let logger = Logger::new();
@@ -62,29 +39,11 @@ fn main() {
         });
     });
 
-    let js = fs::read_to_string("inject.js").unwrap();
-
     tauri::Builder::default()
         .setup(move |app| {
             let core_app = app.get_window("main").unwrap();
             // core_app.eval(js.as_str()).unwrap();
             // core_app.eval(inject_css().as_str()).unwrap();
-
-            thread::spawn(move || {
-                let logger = Logger::new();
-                for event in receiver {
-                    match event.as_str() {
-                        "inject" => {
-                            let res = core_app.eval(read_js().as_str());
-                            // core_app.eval(inject_css().as_str()).unwrap();
-                            if let Err(e) = res {
-                                logger.error(&e.to_string());
-                            }
-                        }
-                        _ => println!("Unknown event: {}", event),
-                    }
-                }
-            });
 
             Ok(())
         })
