@@ -30,7 +30,7 @@ cdnProxy.on("proxyRes", (proxyRes, req, res) => {
     })
   }
 })
-cdnProxy.listen(11451)
+// cdnProxy.listen(11451)
 
 const apiOptions = {
   target: "https://monster-siren.hypergryph.com/api",
@@ -61,9 +61,6 @@ apiProxy.on("proxyRes", (proxyRes, req, res) => {
           body = body.replaceAll("web.hycdn.cn", "localhost:11451")
             .replaceAll("https", "http")
 
-          console.log(body);
-
-
           res.setHeader("Content-Encoding", proxyRes.headers['content-encoding'])
 
           _write.call(res, zlib.brotliCompressSync(body));
@@ -79,6 +76,8 @@ apiProxy.on("proxyRes", (proxyRes, req, res) => {
         .toString()
         .replaceAll("web.hycdn.cn", "localhost:11451")
         .replaceAll("https", "http");
+      res.setHeader("Content-Length", Buffer.byteLength(body))
+
       _write.call(res, body);
       _end.call(res);
     }
