@@ -16,7 +16,7 @@ impl CdnProxy {
     /// # Example
     /// ```
     /// thread::spawn(move || {
-    ///   let _ = CdnProxy::new(19198);
+    ///   let _ = CdnProxy::new(11451);
     /// })
     /// ```
     #[tokio::main]
@@ -40,7 +40,6 @@ async fn handle_request(
     let client = Client::new();
     let target_url = format!("https://web.hycdn.cn{}", path.as_str());
     let mut request_builder = client.get(&target_url);
-
     request_builder = request_builder.header("referer", SIREN_WEBSITE);
 
     let response_file = request_builder.send().await.unwrap();
@@ -60,9 +59,9 @@ async fn handle_request(
     }
 
     let res_header_map = response.headers_mut();
-    for (k, v) in header_map.borrow_mut().into_iter() {
-        res_header_map.insert(k.clone(), v.clone());
-    }
+    // for (k, v) in header_map.borrow_mut().into_iter() {
+    //     res_header_map.insert(k.clone(), v.clone());
+    // }
     res_header_map.insert(ACCESS_CONTROL_ALLOW_ORIGIN, "*".parse().unwrap());
 
     Ok(response)

@@ -23,6 +23,7 @@ futures = "0.3.28"
 ws = "0.9.2"
 env_logger = "0.6"
 colored = "2"
+brotlic = "0.8.1"
 
 [features]
 # this feature is used for production builds or when `devPath` points to the filesystem

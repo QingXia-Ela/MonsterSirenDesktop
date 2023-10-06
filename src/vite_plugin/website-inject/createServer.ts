@@ -83,6 +83,6 @@ apiProxy.on("proxyRes", (proxyRes, req, res) => {
     }
   }
 })
-apiProxy.listen(11452)
+// apiProxy.listen(11452)
 
 export default cdnProxy

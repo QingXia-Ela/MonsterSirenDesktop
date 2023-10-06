@@ -1,91 +1,98 @@
-use std::net::SocketAddrV4;
-
+use brotlic::{
+    decode::{DecodeError, DecodeResult, DecoderInfo},
+    BrotliDecoder,
+};
 use futures::executor::block_on;
-use reqwest::{header::HeaderMap, Client};
-use warp::{path::FullPath, Filter};
+use reqwest::{
+    header::{HeaderMap, ACCESS_CONTROL_ALLOW_ORIGIN, CONTENT_ENCODING},
+    Client,
+};
+use std::io::{self, Read};
+use std::{borrow::BorrowMut, net::SocketAddrV4};
+use warp::{path::FullPath, reply::Response, Filter};
+
+const SIREN_WEBSITE: &str = "https://monster-siren.hypergryph.com";
 pub struct ApiProxy;
 
 impl ApiProxy {
-    fn new(port: u16) -> Self {
+    /// Create a new api proxy server
+    /// # Example
+    /// ```
+    /// thread::spawn(move || {
+    ///   let _ = ApiProxy::new(11452);
+    /// })
+    /// `
+    #[tokio::main]
+    pub async fn new(port: u16) -> Self {
         let proxy = warp::path::full()
             .and(warp::header::headers_cloned())
             .and_then(handle_request);
-        // .map(
-        //     |path: FullPath, headers: HeaderMap| {
-        //         let client = Client::new();
-        //         let target_url = format!("https://monster-siren.hypergryph.com{}", path.as_str());
-
-        //         println!("Requesting {}", target_url);
-
-        //         let mut request_builder = client.get(&target_url).header("Referer", "noreferrer");
-
-        //         for (name, value) in headers.iter() {
-        //             request_builder = request_builder.header(name.clone(), value.clone());
-        //         }
-
-        //         let response = block_on(async {
-        //             // let response = request_builder.send().await;
-        //             // response.text().await.unwrap()
-        //             match request_builder.send().await {
-        //                 Ok(response) => response.bytes().await.unwrap().to_vec(),
-        //                 Err(e) => panic!("{}", e),
-        //             }
-        //         });
-
-        //         // println!("{}", response);
-        //         // response
-        //         // warp::reply::with_header(response, "Content-Type", "text/html")
-        //         target_url
-        //     },
-        // );
         block_on(async {
-            let addr: SocketAddrV4 = format!("localhost:{}", port).parse().unwrap();
+            let addr: SocketAddrV4 = format!("127.0.0.1:{}", port).parse().unwrap();
             warp::serve(proxy).run(addr).await;
         });
         ApiProxy {}
     }
-
-    // fn
 }
 
 async fn handle_request(
     path: FullPath,
-    headers: HeaderMap,
+    _headers: HeaderMap,
 ) -> Result<impl warp::Reply, warp::Rejection> {
     let client = Client::new();
-    // let target_url = format!("https://monster-siren.hypergryph.com{}", path.as_str());
-    let target_url = "https://monster-siren.hypergryph.com".to_string();
+    let target_url = String::from(format!(
+        "https://monster-siren.hypergryph.com/api{}",
+        path.as_str()
+    ));
     let mut request_builder = client.get(&target_url);
+    request_builder = request_builder.header("referer", SIREN_WEBSITE);
 
-    // println!(
-    //     "{}",
-    //     reqwest::get(&target_url)
-    //         .await
-    //         .unwrap()
-    //         .text()
-    //         .await
-    //         .unwrap()
-    // );
+    let response_json = request_builder.send().await.unwrap();
+    let mut response = Response::new("".into());
 
-    // println!("Requesting {}", target_url);
+    let mut header_map = HeaderMap::new();
+    for (k, v) in response_json.headers().iter() {
+        header_map.insert(k.clone(), v.clone());
+    }
 
-    // for (name, value) in headers.iter() {
-    //     request_builder = request_builder.header(name.clone(), value.clone());
-    // }
+    match response.headers().get(CONTENT_ENCODING) {
+        Some(v) => match v.to_str() {
+            Ok("br") => {
+                let decoded =
+                    decode_brotli(&response_json.bytes().await.unwrap().to_vec().as_slice())
+                        .unwrap();
+                response = Response::new(decoded.into());
+            }
+            _ => response = Response::new(response_json.bytes().await.unwrap().to_vec().into()),
+        },
+        _ => response = Response::new(response_json.bytes().await.unwrap().to_vec().into()),
+    };
 
-    // let response = request_builder.send().await;
-    // println!("Successfully requested {}", target_url);
+    let res_header_map = response.headers_mut();
+    for (k, v) in header_map.borrow_mut().into_iter() {
+        res_header_map.insert(k.clone(), v.clone());
+    }
+    res_header_map.remove(CONTENT_ENCODING);
+    res_header_map.insert(ACCESS_CONTROL_ALLOW_ORIGIN, "*".parse().unwrap());
 
-    let response = reqwest::get(&target_url)
-        .await
-        .unwrap()
-        .text()
-        .await
-        .unwrap();
+    Ok(response)
+}
 
-    Ok(warp::reply::with_header(
-        response,
-        "Content-Type",
-        "text/html",
-    ))
+fn decode_brotli(body: &[u8]) -> Result<Vec<u8>, DecodeError> {
+    // let mut decompressor = DecompressorReader::new([u8; 1024]);
+    let mut decoder = BrotliDecoder::new();
+    let mut res = [0; 114514];
+    let res: Result<DecodeResult, brotlic::decode::DecodeError> =
+        decoder.decompress(body, &mut res);
+    match res {
+        Ok(_) => Ok(unsafe { decoder.take_output() }.unwrap().to_vec()),
+        Err(dec_err) => Err(dec_err),
+    }
+}
+
+fn change_body(body: String) -> String {
+    body
+        // to cdn proxy
+        .replace("web.hycdn.cn", "localhost:11451")
+        .replace("https", "http")
 }
