@@ -1,8 +1,8 @@
-use std::net::SocketAddrV4;
+use std::{borrow::BorrowMut, net::SocketAddrV4};
 
 use futures::executor::block_on;
 use reqwest::{
-    header::{HeaderMap, HeaderValue, ACCESS_CONTROL_ALLOW_ORIGIN, CONTENT_LENGTH, HOST},
+    header::{HeaderMap, ACCESS_CONTROL_ALLOW_ORIGIN, CONTENT_LENGTH},
     Client,
 };
 use warp::{path::FullPath, Filter};
@@ -34,7 +34,7 @@ impl CdnProxy {
 
 async fn handle_request(
     path: FullPath,
-    headers: HeaderMap,
+    _headers: HeaderMap,
     port: u16,
 ) -> Result<impl warp::Reply, warp::Rejection> {
     let client = Client::new();
@@ -42,29 +42,28 @@ async fn handle_request(
     let mut request_builder = client.get(&target_url);
 
     request_builder = request_builder.header("referer", SIREN_WEBSITE);
-    // .header("host", SIREN_WEBSITE);
 
     let response_file = request_builder.send().await.unwrap();
     let mut response = warp::reply::Response::new("".into());
 
-    let mut content_length: u64 = 0;
+    let mut header_map = HeaderMap::new();
+    for (k, v) in response_file.headers().iter() {
+        header_map.insert(k.clone(), v.clone());
+    }
 
     // basic js css change
     if target_url.contains(".js") || target_url.contains(".css") {
         let res_str = change_body(response_file.text().await.unwrap(), port);
-        content_length = res_str.len() as u64;
         response = warp::reply::Response::new(res_str.into());
     } else {
-        content_length = response_file.content_length().unwrap();
         response = warp::reply::Response::new(response_file.bytes().await.unwrap().into());
     }
 
     let res_header_map = response.headers_mut();
+    for (k, v) in header_map.borrow_mut().into_iter() {
+        res_header_map.insert(k.clone(), v.clone());
+    }
     res_header_map.insert(ACCESS_CONTROL_ALLOW_ORIGIN, "*".parse().unwrap());
-    res_header_map.insert(
-        CONTENT_LENGTH,
-        format!("{}", content_length).parse().unwrap(),
-    );
 
     Ok(response)
 }
