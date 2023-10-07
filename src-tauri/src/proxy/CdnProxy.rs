@@ -42,7 +42,7 @@ async fn handle_request(
     let mut request_builder = client.get(&target_url);
     request_builder = request_builder.header("referer", SIREN_WEBSITE);
 
-    let response_file = request_builder.send().await.unwrap();
+    let response_file = Box::new(request_builder.send().await.unwrap());
     let mut response = warp::reply::Response::new("".into());
 
     let mut header_map = HeaderMap::new();
@@ -75,5 +75,13 @@ fn change_body(body: String, port: u16) -> String {
         // change site all store request api
         .replace("/api/", "http://localhost:11452/")
         // expose store to window
+        // log store change
+        .replace(
+            "return function(n){if",
+            "return function(n){console.log(n);if",
+        )
+        // prevent autoplay
+        .replace("var o=[\"mousedown\",\"touchstart\"]", "var o=[]")
+        .replace("document.addEventListener(\"mousedown\",e),", "")
         .replace("this.store=e,", "this.store=e,window.siren_store=e,")
 }
