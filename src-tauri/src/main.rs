@@ -23,7 +23,7 @@ fn main() {
         );
     });
     thread::spawn(|| {
-        ApiProxy::ApiProxy::new(11452);
+        ApiProxy::ApiProxy::new(11452, vec![]);
     });
     tauri::Builder::default()
         .setup(move |app| {

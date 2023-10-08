@@ -82,15 +82,6 @@ fn change_body(body: String, port: u16, filter_rules: FilterType) -> String {
         basic = basic.replace(find, replace);
     }
     basic
-    // expose store to window
-    // log store change
-    // .replace(
-    //     "return function(n){if",
-    //     "return function(n){console.log(n);if",
-    // )
-    // // prevent autoplay
-    // .replace("var o=[\"mousedown\",\"touchstart\"]", "var o=[]")
-    // .replace("this.store=e,", "this.store=e,window.siren_store=e,")
 }
 
 #[derive(Debug, Eq, PartialEq, Hash)]

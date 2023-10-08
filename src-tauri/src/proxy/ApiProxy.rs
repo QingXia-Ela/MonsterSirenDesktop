@@ -1,5 +1,5 @@
 use brotlic::{
-    decode::{DecodeError, DecodeResult, DecoderInfo},
+    decode::{DecodeError, DecodeResult},
     BrotliDecoder,
 };
 use futures::executor::block_on;
@@ -7,11 +7,13 @@ use reqwest::{
     header::{HeaderMap, ACCESS_CONTROL_ALLOW_ORIGIN, CONTENT_ENCODING, CONTENT_LENGTH},
     Client,
 };
-use std::io::{self, Read};
+use std::collections::HashSet;
 use std::{borrow::BorrowMut, net::SocketAddrV4};
 use warp::{path::FullPath, reply::Response, Filter};
 
 const SIREN_WEBSITE: &str = "https://monster-siren.hypergryph.com";
+type FilterType = Vec<[&'static str; 2]>;
+
 pub struct ApiProxy;
 
 impl ApiProxy {
@@ -23,10 +25,10 @@ impl ApiProxy {
     /// })
     /// `
     #[tokio::main]
-    pub async fn new(port: u16) -> Self {
+    pub async fn new(port: u16, filter_rules: FilterType) -> Self {
         let proxy = warp::path::full()
             .and(warp::header::headers_cloned())
-            .and_then(handle_request);
+            .and_then(move |p, r| handle_request(p, r, filter_rules.clone()));
         block_on(async {
             let addr: SocketAddrV4 = format!("127.0.0.1:{}", port).parse().unwrap();
             warp::serve(proxy).run(addr).await;
@@ -38,6 +40,7 @@ impl ApiProxy {
 async fn handle_request(
     path: FullPath,
     _headers: HeaderMap,
+    filter_rules: FilterType,
 ) -> Result<impl warp::Reply, warp::Rejection> {
     let client = Client::new();
     let target_url = String::from(format!(
@@ -69,7 +72,7 @@ async fn handle_request(
         _ => res_str = response_json.text().await.unwrap(),
     };
 
-    res_str = change_body(res_str);
+    res_str = change_body(res_str, filter_rules);
     response = Response::new(res_str.clone().into());
 
     let res_header_map = response.headers_mut();
@@ -97,9 +100,34 @@ fn decode_brotli(body: &[u8]) -> Result<Vec<u8>, DecodeError> {
     }
 }
 
-fn change_body(body: String) -> String {
-    body
-        // to cdn proxy
-        .replace("web.hycdn.cn", "localhost:11451")
-        .replace("https", "http")
+fn change_body(body: String, filter_rules: FilterType) -> String {
+    let mut basic = body
+        // replace cdn
+        .replace("web.hycdn.cn", "http://localhost:11451/")
+        .replace("https", "http");
+
+    for [find, replace] in filter_rules.iter() {
+        basic = basic.replace(find, replace);
+    }
+    basic
+}
+
+#[derive(Debug, Eq, PartialEq, Hash)]
+pub enum ApiProxyRules {}
+
+pub fn get_basic_filter_rules(mut settings: Vec<ApiProxyRules>) -> FilterType {
+    let mut rules = vec![];
+    let settings = settings
+        .into_iter()
+        .collect::<HashSet<_>>()
+        .into_iter()
+        .collect::<Vec<_>>();
+
+    for v in settings {
+        match v {
+            _ => (),
+        }
+    }
+
+    rules
 }
