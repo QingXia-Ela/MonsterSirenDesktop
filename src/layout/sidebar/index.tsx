@@ -2,39 +2,42 @@ import { useEffect, useState } from "react";
 import useSirenCtx from "@/hooks/useSirenCtx";
 import Styles from './index.module.css'
 import Drawer from '@mui/material/Drawer'
+import { Portal } from "@mui/material";
 
 function SideBar() {
   const [open, setOpen] = useState(false);
+  const rootApp = useSirenCtx()
+  // @ts-expect-error
+  window._setOpen_ = setOpen
+  const homeBtn = rootApp.querySelector('header')?.querySelector("a[class*='home']") as HTMLElement
+  const layout = rootApp.querySelector("#layout") as HTMLDivElement
+
+  let closeFn = () => {
+    setOpen(false)
+    layout.style.filter = ""
+    layout.style.pointerEvents = ""
+  }
+
   useEffect(() => {
-    const rootApp = useSirenCtx()
-    // @ts-expect-error
-    window._setOpen_ = setOpen
-    // console.log(rootApp);
-    const homeBtn = rootApp.querySelector('header')?.querySelector("a[class*='home']") as HTMLElement
     if (homeBtn) {
       homeBtn.onclick = (e) => {
         e.preventDefault()
       }
-      homeBtn.addEventListener('click', (e) => {
-        setOpen(!open)
-        if (open) {
-          rootApp.style.filter = ""
-          rootApp.style.pointerEvents = ""
-        } else {
-          // rootApp.style.filter = "blur(10px)"
-          // rootApp.style.pointerEvents = "none"
-        }
+
+      homeBtn.addEventListener('click', () => {
+        setOpen(true)
+        layout.style.filter = "blur(10px)"
+        layout.style.pointerEvents = "none"
       })
     }
   }, [])
   return (
     <>
-      {/* <Drawer anchor="left" open={open} onClose={() => setOpen(false)} style={{
-        zIndex: 100
-      }} /> */}
-
+      <Portal>
+        {open && <div className={Styles.sidebar_cover} onClick={closeFn}></div>}
+      </Portal>
       <div className={Styles.sidebar_main} style={{
-        transform: open ? "translateX(0)" : "translateX(-100%)",
+        transform: open ? "translateX(1.2rem)" : "translateX(-100%)",
         opacity: open ? 1 : 0
       }}>
         main

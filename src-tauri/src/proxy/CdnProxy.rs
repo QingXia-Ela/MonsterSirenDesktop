@@ -117,7 +117,7 @@ pub fn get_basic_filter_rules(mut settings: Vec<CdnProxyRules>) -> FilterType {
                 "return function(n){console.log(n);if",
             ]),
             CdnProxyRules::PreventAutoplay => {
-                rules.push(["var o=[\"mousedown\",\"touchstart\"]", "var o=[]"])
+                rules.push(["i.initCtx()}i.play()};", "i.initCtx()}};"])
             }
         }
     }

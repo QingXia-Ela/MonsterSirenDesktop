@@ -17,16 +17,6 @@ export default defineConfig(async () => ({
   server: {
     port: 8000,
     strictPort: true,
-    proxy: {
-      "/cdn_proxy": {
-        target: "https://web.hycdn.cn",
-        rewrite: (path) => path.replace(/^\/cdn_proxy/, ""),
-        changeOrigin: true,
-        headers: {
-          "referer": "https://monster-siren.hypergryph.com",
-        },
-      }
-    }
   },
   resolve: {
     alias: {
