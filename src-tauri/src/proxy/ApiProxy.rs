@@ -18,17 +18,20 @@ pub struct ApiProxy;
 
 impl ApiProxy {
     /// Create a new api proxy server
+    ///
+    /// [api docs](https://github.com/QingXia-Ela/MonsterSirenApi/blob/main/docs/dev/%E6%8E%A5%E5%8F%A3%E4%B8%80%E8%A7%88.md)
+    ///
     /// # Example
     /// ```
     /// thread::spawn(move || {
-    ///   let _ = ApiProxy::new(11452);
+    ///   let _ = ApiProxy::new(11452, 11451, vec![["content will be replace", "content will use"]]);
     /// })
     /// `
     #[tokio::main]
-    pub async fn new(port: u16, filter_rules: FilterType) -> Self {
+    pub async fn new(port: u16, cdn_port: u16, filter_rules: FilterType) -> Self {
         let proxy = warp::path::full()
             .and(warp::header::headers_cloned())
-            .and_then(move |p, r| handle_request(p, r, filter_rules.clone()));
+            .and_then(move |p, r| handle_request(port, cdn_port, p, r, filter_rules.clone()));
         block_on(async {
             let addr: SocketAddrV4 = format!("127.0.0.1:{}", port).parse().unwrap();
             warp::serve(proxy).run(addr).await;
@@ -38,6 +41,8 @@ impl ApiProxy {
 }
 
 async fn handle_request(
+    port: u16,
+    cdn_port: u16,
     path: FullPath,
     _headers: HeaderMap,
     filter_rules: FilterType,
@@ -72,7 +77,7 @@ async fn handle_request(
         _ => res_str = response_json.text().await.unwrap(),
     };
 
-    res_str = change_body(res_str, filter_rules);
+    res_str = change_body(res_str, filter_rules, port, cdn_port);
     response = Response::new(res_str.clone().into());
 
     let res_header_map = response.headers_mut();
@@ -100,10 +105,15 @@ fn decode_brotli(body: &[u8]) -> Result<Vec<u8>, DecodeError> {
     }
 }
 
-fn change_body(body: String, filter_rules: FilterType) -> String {
+fn change_body(body: String, filter_rules: FilterType, port: u16, cdn_port: u16) -> String {
     let mut basic = body
         // replace cdn
-        .replace("web.hycdn.cn", "http://localhost:11451/")
+        .replace("web.hycdn.cn", format!("localhost:{}", cdn_port).as_str())
+        // replace api (maybe seems not useful)
+        .replace(
+            format!("{}/api", SIREN_WEBSITE).as_str(),
+            format!("localhost:{}", port).as_str(),
+        )
         .replace("https", "http");
 
     for [find, replace] in filter_rules.iter() {

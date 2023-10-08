@@ -19,11 +19,12 @@ fn main() {
     thread::spawn(|| {
         CdnProxy::CdnProxy::new(
             11451,
+            11452,
             get_basic_filter_rules(vec![CdnProxyRules::PreventAutoplay]),
         );
     });
     thread::spawn(|| {
-        ApiProxy::ApiProxy::new(11452, vec![]);
+        ApiProxy::ApiProxy::new(11452, 11451, vec![]);
     });
     tauri::Builder::default()
         .setup(move |app| {

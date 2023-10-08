@@ -1,4 +1,4 @@
-use std::{borrow::BorrowMut, collections::HashSet, net::SocketAddrV4};
+use std::{collections::HashSet, net::SocketAddrV4};
 
 use futures::executor::block_on;
 use reqwest::{
@@ -18,14 +18,14 @@ impl CdnProxy {
     /// # Example
     /// ```
     /// thread::spawn(move || {
-    ///   let _ = CdnProxy::new(11451);
+    ///   let _ = CdnProxy::new(11451, 11452, vec![["content will be replace", "content will use"]]);
     /// })
     /// ```
     #[tokio::main]
-    pub async fn new(port: u16, filter_rules: FilterType) -> Self {
+    pub async fn new(port: u16, api_port: u16, filter_rules: FilterType) -> Self {
         let proxy = warp::path::full()
             .and(warp::header::headers_cloned())
-            .and_then(move |p, h| handle_request(p, h, port, filter_rules.clone()));
+            .and_then(move |p, h| handle_request(p, h, port, api_port, filter_rules.clone()));
         block_on(async {
             let addr: SocketAddrV4 = format!("127.0.0.1:{}", port).parse().unwrap();
             warp::serve(proxy).run(addr).await;
@@ -38,6 +38,7 @@ async fn handle_request(
     path: FullPath,
     _headers: HeaderMap,
     port: u16,
+    api_port: u16,
     filter_rules: FilterType,
 ) -> Result<impl warp::Reply, warp::Rejection> {
     let client = Client::new();
@@ -55,7 +56,12 @@ async fn handle_request(
 
     // basic js css change
     if target_url.contains(".js") || target_url.contains(".css") {
-        let res_str = change_body(response_file.text().await.unwrap(), port, filter_rules);
+        let res_str = change_body(
+            response_file.text().await.unwrap(),
+            port,
+            api_port,
+            filter_rules,
+        );
         response = warp::reply::Response::new(res_str.into());
     } else {
         response = warp::reply::Response::new(response_file.bytes().await.unwrap().into());
@@ -70,13 +76,13 @@ async fn handle_request(
     Ok(response)
 }
 
-fn change_body(body: String, port: u16, filter_rules: FilterType) -> String {
+fn change_body(body: String, port: u16, api_port: u16, filter_rules: FilterType) -> String {
     let mut basic = body
         // replace cdn
         .replace("web.hycdn.cn", format!("localhost:{}", port).as_str())
         .replace("https", "http")
         // change site all store request api
-        .replace("/api/", "http://localhost:11452/");
+        .replace("/api/", format!("http://localhost:{}/", api_port).as_str());
 
     for [find, replace] in filter_rules.iter() {
         basic = basic.replace(find, replace);
