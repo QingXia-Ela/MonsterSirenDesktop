@@ -3,12 +3,11 @@
 
 use std::{fs, sync::mpsc, thread};
 
-use monster_siren_desktop::{
-    logger::Logger,
-    proxy::{ApiProxy, CdnProxy},
+use monster_siren_desktop::proxy::{
+    ApiProxy,
+    CdnProxy::{self, get_basic_filter_rules, CdnProxyRules},
 };
 use tauri::Manager;
-use ws::connect;
 
 // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command
 #[tauri::command]
@@ -18,7 +17,10 @@ fn greet(name: &str) -> String {
 
 fn main() {
     thread::spawn(|| {
-        CdnProxy::CdnProxy::new(11451);
+        CdnProxy::CdnProxy::new(
+            11451,
+            get_basic_filter_rules(vec![CdnProxyRules::PreventAutoplay]),
+        );
     });
     thread::spawn(|| {
         ApiProxy::ApiProxy::new(11452);

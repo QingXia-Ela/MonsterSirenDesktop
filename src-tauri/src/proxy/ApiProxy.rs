@@ -63,7 +63,6 @@ async fn handle_request(
                     decode_brotli(&response_json.bytes().await.unwrap().to_vec().as_slice())
                         .unwrap();
                 res_str = String::from_utf8(decoded).unwrap();
-                // response = Response::new(decoded.into());
             }
             _ => res_str = response_json.text().await.unwrap(),
         },
@@ -78,7 +77,8 @@ async fn handle_request(
         res_header_map.insert(k.clone(), v.clone());
     }
     res_header_map.remove(CONTENT_ENCODING);
-    // avoid content-length not actual length
+
+    // avoid content-length are not actual length
     res_header_map.insert(CONTENT_LENGTH, res_str.len().into());
     res_header_map.insert(ACCESS_CONTROL_ALLOW_ORIGIN, "*".parse().unwrap());
 
