@@ -1914,9 +1914,11 @@ name = "monster-siren-desktop"
 version = "0.0.0"
 dependencies = [
  "brotlic",
+ "bytes 1.4.0",
  "colored",
  "env_logger",
  "futures",
+ "once_cell",
  "reqwest",
  "serde",
  "serde_json",

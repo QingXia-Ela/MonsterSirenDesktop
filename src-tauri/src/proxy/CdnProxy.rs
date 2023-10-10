@@ -1,6 +1,12 @@
-use std::{collections::HashSet, net::SocketAddrV4};
+use std::{
+    collections::{HashMap, HashSet},
+    net::SocketAddrV4,
+    ops::Deref,
+    sync::{Arc, Mutex},
+};
 
 use futures::executor::block_on;
+use once_cell::sync::Lazy;
 use reqwest::{
     header::{HeaderMap, ACCESS_CONTROL_ALLOW_ORIGIN},
     Client,
@@ -11,7 +17,10 @@ const SIREN_WEBSITE: &str = "https://monster-siren.hypergryph.com";
 
 type FilterType = Vec<[&'static str; 2]>;
 
-pub struct CdnProxy;
+static mut request_cache: Lazy<Mutex<HashMap<String, Box<bytes::Bytes>>>> =
+    Lazy::new(|| Mutex::new(HashMap::new()));
+
+pub struct CdnProxy {}
 
 impl CdnProxy {
     /// Create a new cdn proxy server
@@ -41,8 +50,25 @@ async fn handle_request(
     api_port: u16,
     filter_rules: FilterType,
 ) -> Result<impl warp::Reply, warp::Rejection> {
+    // cache
+    unsafe {
+        if let Some(v) = request_cache
+            .lock()
+            .unwrap()
+            .get(&path.as_str().to_string())
+        {
+            let final_bytes = *v.clone();
+            let mut response = warp::reply::Response::new(final_bytes.into());
+            response
+                .headers_mut()
+                .insert(ACCESS_CONTROL_ALLOW_ORIGIN, "*".parse().unwrap());
+            return Ok(response);
+        }
+    }
+
     let client = Client::new();
     let target_url = format!("https://web.hycdn.cn{}", path.as_str());
+
     let mut request_builder = client.get(&target_url);
     request_builder = request_builder.header("referer", SIREN_WEBSITE);
 
@@ -54,6 +80,7 @@ async fn handle_request(
         header_map.insert(k.clone(), v.clone());
     }
 
+    let mut response_bytes = bytes::Bytes::new();
     // basic js css change
     if target_url.contains(".js") || target_url.contains(".css") {
         let res_str = change_body(
@@ -62,9 +89,18 @@ async fn handle_request(
             api_port,
             filter_rules,
         );
-        response = warp::reply::Response::new(res_str.into());
+        response_bytes = res_str.into();
     } else {
-        response = warp::reply::Response::new(response_file.bytes().await.unwrap().into());
+        response_bytes = response_file.bytes().await.unwrap();
+    }
+
+    response = warp::reply::Response::new(response_bytes.clone().into());
+    // cache set
+    unsafe {
+        request_cache
+            .lock()
+            .unwrap()
+            .insert(path.as_str().to_string(), Box::new(response_bytes));
     }
 
     let res_header_map = response.headers_mut();
