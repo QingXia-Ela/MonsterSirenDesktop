@@ -22,3 +22,8 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# font
+src/assets/fonts/**/*.*
+!src/assets/fonts/**/iconfont.css
+!src/assets/fonts/**/iconfont.ttf

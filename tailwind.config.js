@@ -5,7 +5,10 @@ module.exports = {
     "./src/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-
+    fontSize: {
+      base: "50px"
+    }
   },
   plugins: [],
+  important: "#inject-app",
 }
