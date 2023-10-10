@@ -31,7 +31,7 @@ const InjectLayout: FunctionComponent<InjectLayoutProps> = ({ children }) => {
   return (
     <>
       <div data-tauri-drag-region className={`w-full ${Styles.titlebar_wrapper} flex justify-between items-center px-2`}>
-        <div className="text-[.24rem]">Monster Siren Desktop App(v0.0.1)</div>
+        <div className={`text-[.24rem] font-["Geometos"]`}>Monster Siren Desktop App(v0.0.1)</div>
         <div className="flex gap-[.65rem]"><i className={`iconfont icon-24gl-minimization ${Styles.iconfont}`} onClick={() => appWindow.minimize()}></i>
           <Suspense>
             <i className={`iconfont icon-24gl-${min ? "minimize" : "square"} ${Styles.iconfont}`} onClick={changeWindowSize}></i>
