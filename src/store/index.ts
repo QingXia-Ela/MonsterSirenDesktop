@@ -1,4 +1,4 @@
-import settings from './models/settings'
+import * as settings from './models/settings'
 
 export default {
   settings
