@@ -19,12 +19,18 @@
       },
       "window": {
         "all": true
+      },
+      "fs": {
+        "all": true,
+        "scope": [
+          "$APPDATA/**/*"
+        ]
       }
     },
     "bundle": {
       "active": true,
       "targets": "all",
-      "identifier": "com.tauri.dev",
+      "identifier": "MonsterSirenDesktop",
       "icon": [
         "icons/32x32.png",
         "icons/128x128.png",
@@ -40,8 +46,7 @@
           "domain": "monster-siren.hypergryph.com",
           "windows": [
             "main"
-          ],
-          "enableTauriAPI": true
+          ]
         }
       ]
     },

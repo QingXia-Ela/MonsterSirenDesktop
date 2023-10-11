@@ -21,6 +21,7 @@ export default defineConfig(async () => ({
   resolve: {
     alias: {
       "@": "/src",
+      "SirenStore": "/src/store/SirenStore",
     },
   },
   // to make use of `TAURI_DEBUG` and other env variables

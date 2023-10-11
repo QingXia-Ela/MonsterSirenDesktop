@@ -3,5 +3,11 @@
   const injectApp = document.createElement("div");
   injectApp.id = "inject-app";
   document.body.appendChild(injectApp)
+
+  // 未联网处理
+  // 需要屏蔽 api 请求、在线音乐获取
+  if (!navigator.onLine) {
+
+  }
 </script>
 <script type="module" src="/src/main.tsx"></script>
