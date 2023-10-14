@@ -140,5 +140,5 @@ interface SirenStoreCollect {
   getState: () => SirenStoreState
 }
 
-// todo add saga type
+// todo! add saga type
 export type SirenStore = Store<SirenStoreState, Actions> & SirenStoreCollect
