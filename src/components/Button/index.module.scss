@@ -1,0 +1,91 @@
+.button {
+  position: relative;
+  width: 3.2222rem;
+  height: 1.3333rem;
+  font-size: .4333rem;
+  padding: 0;
+  border: 1px solid #a2a6ae;
+  font-family: "SourceHanSansCN-Bold", "Microsoft Yahei", sans-serif;
+  color: #a2a6ae;
+  font-weight: 700;
+  line-height: 1.2;
+  text-align: center;
+  background-color: transparent;
+  transition: background-color .3s;
+  outline: 0;
+  cursor: pointer;
+
+  &::before,
+  &::after {
+    position: absolute;
+    left: -4px;
+    height: 7px;
+    width: calc(100% + 8px);
+    background-image: linear-gradient(90deg, #aeb3be 0, #aeb3be 7px, transparent 0, transparent calc(100% - 7px), #aeb3be calc(100% - 7px), #aeb3be);
+  }
+
+  &::before {
+    top: -4px;
+  }
+
+  &::after {
+    bottom: -4px;
+  }
+}
+
+.button_disabled {
+  cursor: not-allowed;
+  opacity: .65;
+  pointer-events: none;
+}
+
+.button_decorate {
+
+  &::before,
+  &::after {
+    content: "";
+  }
+}
+
+.button--primary {
+  border: none;
+  background-color: rgba(174, 179, 190, .1);
+
+  &:hover {
+    background-color: rgba(174, 179, 190, .2);
+  }
+
+  &::before,
+  &::after {
+    left: -3px;
+    height: 4px;
+    width: calc(100% + 6px);
+    background-image: linear-gradient(90deg, #aeb3be 0, #aeb3be 5px, transparent 0, transparent calc(100% - 5px), #aeb3be calc(100% - 5px), #aeb3be);
+  }
+
+  &::before {
+    top: -2px;
+  }
+
+  &::after {
+    bottom: -2px;
+  }
+}
+
+.button--large {
+  width: 4.4444rem;
+  height: 1.7778rem;
+  font-size: .5778rem;
+}
+
+.button--medium {
+  width: 3.2222rem;
+  height: 1.3333rem;
+  font-size: .4333rem;
+}
+
+.button--small {
+  width: 2.2222rem;
+  height: 1.1111rem;
+  font-size: .3778rem;
+}

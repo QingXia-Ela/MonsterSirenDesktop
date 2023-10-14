@@ -14,6 +14,8 @@ function Plugin() {
   return {
     name: "website-inject",
     async transformIndexHtml(html, ctx) {
+      if (process.env.STORYBOOK) return html
+
       return replaceStr((await fetch("https://monster-siren.hypergryph.com").then(res => res.text())), CDN_PATH, "localhost:11451")
         + html
       // + `<script>${await fetch("https://web.hycdn.cn/service-worker.js").then(res => res.text())}</script>`

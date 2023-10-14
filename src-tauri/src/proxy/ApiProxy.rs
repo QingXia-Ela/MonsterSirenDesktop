@@ -109,7 +109,6 @@ fn change_body(body: String, filter_rules: FilterType, port: u16, cdn_port: u16)
     let mut basic = body
         // replace cdn
         .replace("web.hycdn.cn", format!("localhost:{}", cdn_port).as_str())
-        // replace api (maybe seems not useful)
         .replace(
             format!("{}/api", SIREN_WEBSITE).as_str(),
             format!("localhost:{}", port).as_str(),

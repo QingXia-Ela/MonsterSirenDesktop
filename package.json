@@ -7,7 +7,9 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "tauri": "tauri dev"
+    "tauri": "tauri dev",
+    "storybook": "set STORYBOOK=true&& storybook dev -p 6006",
+    "build-storybook": "storybook build"
   },
   "dependencies": {
     "@emotion/react": "^11.11.1",
@@ -26,6 +28,14 @@
     "styled-components": "^6.0.7"
   },
   "devDependencies": {
+    "@storybook/addon-essentials": "7.4.6",
+    "@storybook/addon-interactions": "7.4.6",
+    "@storybook/addon-links": "7.4.6",
+    "@storybook/addon-onboarding": "1.0.8",
+    "@storybook/blocks": "7.4.6",
+    "@storybook/react": "7.4.6",
+    "@storybook/react-vite": "7.4.6",
+    "@storybook/testing-library": "0.2.2",
     "@tauri-apps/cli": "^1.4.0",
     "@types/http-proxy": "^1.17.12",
     "@types/node": "^20.4.5",
@@ -41,6 +51,7 @@
     "http-proxy": "^1.18.1",
     "http-proxy-response-rewrite": "^0.0.1",
     "postcss": "^8.4.26",
+    "storybook": "7.4.6",
     "tailwindcss": "^3.3.3",
     "typescript": "^5.0.2",
     "vite": "^4.4.4",

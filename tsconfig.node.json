@@ -1,14 +1,15 @@
 {
   "compilerOptions": {
-    "target": "es2017",
+    "target": "ES2021",
     "composite": true,
     "skipLibCheck": true,
     "module": "ESNext",
     "moduleResolution": "bundler",
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "jsx": "react-jsx"
   },
   "include": [
     "vite.config.ts",
-    "./src/**/*.ts",
+    "./src/**/*",
   ],
 }
