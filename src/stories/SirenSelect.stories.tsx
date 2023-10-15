@@ -24,10 +24,14 @@ export const Primary: Story = {
     value: "test",
     placeholder: "请选择",
     listHeight: "2.1rem",
+    height: "2.8rem",
+    closeAfterSelect: false,
+    arrow: false,
     options: [
       { label: "Ad Astra", value: "1" },
       { label: "Operation Pyrite", value: "2" },
       { label: "Missy you", value: "3" },
-    ]
+    ],
+    addonListAfter: <div style={{ fontSize: ".4rem" }}>suffix</div>,
   },
 };

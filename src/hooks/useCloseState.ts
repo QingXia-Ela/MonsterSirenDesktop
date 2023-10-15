@@ -1,7 +1,7 @@
 import IterParentElement from "@/utils/iterParentElement";
 import { useState } from "react";
 
-export default function useCloseState(parentAttr: string): [boolean, (e: React.MouseEvent) => void] {
+export default function useCloseState(parentAttr: string, closeOnClickSelf = false): [boolean, (e: React.MouseEvent) => void] {
   const [open, setOpen] = useState(false);
 
   const close = () => {
@@ -16,7 +16,7 @@ export default function useCloseState(parentAttr: string): [boolean, (e: React.M
         window.addEventListener("click", close);
       });
     }
-    if (IterParentElement(e.target as HTMLElement, (e) => e.hasAttribute(parentAttr))) {
+    if (!closeOnClickSelf && IterParentElement(e.target as HTMLElement, (e) => e?.hasAttribute?.(parentAttr))) {
       e.stopPropagation()
     }
   }
