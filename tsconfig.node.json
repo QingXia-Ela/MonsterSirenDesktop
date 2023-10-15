@@ -4,12 +4,13 @@
     "composite": true,
     "skipLibCheck": true,
     "module": "ESNext",
+    "checkJs": false,
     "moduleResolution": "bundler",
     "allowSyntheticDefaultImports": true,
-    "jsx": "react-jsx"
+    "jsx": "react-jsx",
+    "paths": {
+      "@/*": ["src/*"]
+    }
   },
-  "include": [
-    "vite.config.ts",
-    "./src/**/*",
-  ],
+  "include": ["vite.config.ts", "./src/**/*"]
 }

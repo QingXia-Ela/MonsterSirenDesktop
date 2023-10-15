@@ -24,12 +24,14 @@
   justify-content: center;
   align-items: center;
   font-weight: 700;
-  font-size: .3rem !important;
+  font-size: 0.3rem !important;
   color: #fff;
   mix-blend-mode: exclusion;
   filter: drop-shadow(0 0 1.5px #000);
-  opacity: .8;
-  transition: filter .3s, opacity .3s;
+  opacity: 0.8;
+  transition:
+    filter 0.3s,
+    opacity 0.3s;
   cursor: pointer;
 
   &:hover {

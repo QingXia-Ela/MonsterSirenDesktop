@@ -6,8 +6,6 @@ function useBackground(doc: Document) {
   /** select element that class has page perfix */
   const pageList = layout.querySelectorAll("[class^='page']");
   console.log(pageList);
-
-
 }
 
-export default useBackground
+export default useBackground;

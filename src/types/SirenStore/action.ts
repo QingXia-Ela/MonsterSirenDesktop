@@ -5,7 +5,7 @@ export interface globalGetFontset extends AnyAction {
 }
 
 export interface playerGetPlayList extends AnyAction {
-  type: "player/getPlayList"
+  type: "player/getPlayList";
 }
 
 export type Actions = globalGetFontset | playerGetPlayList;

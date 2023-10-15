@@ -1,12 +1,12 @@
-type EventName = 'change' | 'created'
-import type { WritableAtom } from 'nanostores'
+type EventName = "change" | "created";
+import type { WritableAtom } from "nanostores";
 
 export default function createEffectManager(data: any) {
   const atomList: Array<{
-    key: string,
-    atom: WritableAtom<any>
-  }> = []
-  const eventMap = {}
+    key: string;
+    atom: WritableAtom<any>;
+  }> = [];
+  const eventMap = {};
 
   /**
    * @param atom atom instance
@@ -14,16 +14,16 @@ export default function createEffectManager(data: any) {
    */
   function addAtom<T = any>(atom: WritableAtom<T>, key: string) {
     if (data[key]) {
-      atom.set(data[key])
+      atom.set(data[key]);
     }
 
-    atomList.push({ atom, key })
+    atomList.push({ atom, key });
 
     atom.listen((v) => {
-      eventMap['change']?.forEach(f => {
-        f(key, v)
-      })
-    })
+      eventMap["change"]?.forEach((f) => {
+        f(key, v);
+      });
+    });
   }
 
   /**
@@ -34,11 +34,10 @@ export default function createEffectManager(data: any) {
    */
   function on(eventName: EventName, callback) {
     if (!eventMap[eventName]) {
-      eventMap[eventName] = []
+      eventMap[eventName] = [];
     }
-    eventMap[eventName] = callback
+    eventMap[eventName] = callback;
   }
-
 
   /**
    * Retrieves the combined state of all atoms.
@@ -46,22 +45,22 @@ export default function createEffectManager(data: any) {
    * @return {Object} The combined state object.
    */
   function getCombinedState() {
-    const state = {}
+    const state = {};
     atomList.forEach(({ atom, key }) => {
-      state[key] = atom.get()
-    })
-    return state
+      state[key] = atom.get();
+    });
+    return state;
   }
 
   requestAnimationFrame(() => {
-    eventMap['created']?.forEach(f => {
-      f()
+    eventMap["created"]?.forEach((f) => {
+      f();
     });
-  })
+  });
 
   return {
     addAtom,
     on,
-    getCombinedState
-  }
+    getCombinedState,
+  };
 }

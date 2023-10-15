@@ -38,11 +38,8 @@ function App() {
       {/* {
         !window.__TAURI_IPC__ && <iframe id="MonsterSirenCore" className="w-full h-full p-0.5 bg-black" src="https://monster-siren.hypergryph.com" frameBorder={0} ref={MonsterSirenCore} referrerPolicy="no-referrer"></iframe>
       } */}
-      <InjectLayout>
-
-      </InjectLayout>
+      <InjectLayout></InjectLayout>
     </>
-
   );
 }
 

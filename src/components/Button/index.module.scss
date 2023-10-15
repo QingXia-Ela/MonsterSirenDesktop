@@ -2,7 +2,7 @@
   position: relative;
   width: 3.2222rem;
   height: 1.3333rem;
-  font-size: .4333rem;
+  font-size: 0.4333rem;
   padding: 0;
   border: 1px solid #a2a6ae;
   font-family: "SourceHanSansCN-Bold", "Microsoft Yahei", sans-serif;
@@ -11,7 +11,7 @@
   line-height: 1.2;
   text-align: center;
   background-color: transparent;
-  transition: background-color .3s;
+  transition: background-color 0.3s;
   outline: 0;
   cursor: pointer;
 
@@ -21,7 +21,15 @@
     left: -4px;
     height: 7px;
     width: calc(100% + 8px);
-    background-image: linear-gradient(90deg, #aeb3be 0, #aeb3be 7px, transparent 0, transparent calc(100% - 7px), #aeb3be calc(100% - 7px), #aeb3be);
+    background-image: linear-gradient(
+      90deg,
+      #aeb3be 0,
+      #aeb3be 7px,
+      transparent 0,
+      transparent calc(100% - 7px),
+      #aeb3be calc(100% - 7px),
+      #aeb3be
+    );
   }
 
   &::before {
@@ -35,12 +43,11 @@
 
 .button_disabled {
   cursor: not-allowed;
-  opacity: .65;
+  opacity: 0.65;
   pointer-events: none;
 }
 
 .button_decorate {
-
   &::before,
   &::after {
     content: "";
@@ -49,10 +56,10 @@
 
 .button--primary {
   border: none;
-  background-color: rgba(174, 179, 190, .1);
+  background-color: rgba(174, 179, 190, 0.1);
 
   &:hover {
-    background-color: rgba(174, 179, 190, .2);
+    background-color: rgba(174, 179, 190, 0.2);
   }
 
   &::before,
@@ -60,7 +67,15 @@
     left: -3px;
     height: 4px;
     width: calc(100% + 6px);
-    background-image: linear-gradient(90deg, #aeb3be 0, #aeb3be 5px, transparent 0, transparent calc(100% - 5px), #aeb3be calc(100% - 5px), #aeb3be);
+    background-image: linear-gradient(
+      90deg,
+      #aeb3be 0,
+      #aeb3be 5px,
+      transparent 0,
+      transparent calc(100% - 5px),
+      #aeb3be calc(100% - 5px),
+      #aeb3be
+    );
   }
 
   &::before {
@@ -75,17 +90,17 @@
 .button--large {
   width: 4.4444rem;
   height: 1.7778rem;
-  font-size: .5778rem;
+  font-size: 0.5778rem;
 }
 
 .button--medium {
   width: 3.2222rem;
   height: 1.3333rem;
-  font-size: .4333rem;
+  font-size: 0.4333rem;
 }
 
 .button--small {
   width: 2.2222rem;
   height: 1.1111rem;
-  font-size: .3778rem;
+  font-size: 0.3778rem;
 }

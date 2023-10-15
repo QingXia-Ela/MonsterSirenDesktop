@@ -1,144 +1,142 @@
-import type { Store } from '@reduxjs/toolkit'
-import { Actions } from './action'
+import type { Store } from "@reduxjs/toolkit";
+import { Actions } from "./action";
 
 const initalProps = {
-  "router": {
-    "location": {
-      "pathname": "\u002F",
-      "search": "",
-      "hash": "",
-      "query": {},
-      "state": "undefined",
-      "key": "ch8xbu"
+  router: {
+    location: {
+      pathname: "\u002F",
+      search: "",
+      hash: "",
+      query: {},
+      state: "undefined",
+      key: "ch8xbu",
     },
-    "action": "POP"
+    action: "POP",
   },
-  "logo": {
-    "visible": true,
-    "animation": true
+  logo: {
+    visible: true,
+    animation: true,
   },
-  "news": {
-    "visible": false,
-    "detail": {
-      "cid": "",
-      "title": "",
-      "cate": 0,
-      "author": "",
-      "content": "",
-      "date": ""
-    }
+  news: {
+    visible: false,
+    detail: {
+      cid: "",
+      title: "",
+      cate: 0,
+      author: "",
+      content: "",
+      date: "",
+    },
   },
-  "player": {
-    "list": [
+  player: {
+    list: [
       {
-        "cid": "125079",
-        "name": "Settle Into Ash (Instrumental)",
-        "albumCid": "6664",
-        "artists": [
-          "塞壬唱片-MSR"
-        ]
+        cid: "125079",
+        name: "Settle Into Ash (Instrumental)",
+        albumCid: "6664",
+        artists: ["塞壬唱片-MSR"],
       },
     ],
-    "autoplay": null,
-    "mode": "list",
-    "current": null,
-    "volume": 50,
-    "isPlaying": false,
-    "isMute": false,
-    "songDetail": {
-      "cid": "",
-      "albumCid": "",
-      "mvUrl": null,
-      "lyricUrl": null,
-      "sourceUrl": null,
-      "name": "",
-      "artists": []
+    autoplay: null,
+    mode: "list",
+    current: null,
+    volume: 50,
+    isPlaying: false,
+    isMute: false,
+    songDetail: {
+      cid: "",
+      albumCid: "",
+      mvUrl: null,
+      lyricUrl: null,
+      sourceUrl: null,
+      name: "",
+      artists: [],
     },
-    "initial": true
+    initial: true,
   },
-  "section": {
-    "layoutStatus": {
-      "layoutStatus": {},
-      "canRoute": false,
-      "pageStatus": {},
-      "Layout": {
-        "initiated": true,
-        "active": false
-      }
+  section: {
+    layoutStatus: {
+      layoutStatus: {},
+      canRoute: false,
+      pageStatus: {},
+      Layout: {
+        initiated: true,
+        active: false,
+      },
     },
-    "canRoute": false,
-    "pageStatus": {
+    canRoute: false,
+    pageStatus: {
       "\u002F": {
-        "initiated": true,
-        "active": false
-      }
+        initiated: true,
+        active: false,
+      },
     },
-    "firstInitial": true
+    firstInitial: true,
   },
-  "user": {
-    "userInfo": {
-      "isLogin": false,
-      "uid": null
-    }
-  },
-  "index": {
-    "searchResultVisible": false,
-    "albums": {
-      "list": [],
-      "end": true
+  user: {
+    userInfo: {
+      isLogin: false,
+      uid: null,
     },
-    "news": {
-      "list": [],
-      "end": true
-    }
   },
-  "info": {
-    "recommends": [],
-    "newsList": [],
-    "newsEnd": false
-  },
-  "music": {
-    "keyword": "",
-    "albumList": [],
-    "currentPage": 0,
-    "albumDetailVisible": false,
-    "currentAlbum": null
-  },
-  "musicPlay": {
-    "albumDetail": {
-      "cid": "",
-      "name": "",
-      "intro": "",
-      "belong": "",
-      "coverUrl": null,
-      "coverDeUrl": null,
-      "songs": []
-    }
-  },
-  "loading": {
-    "global": false,
-    "models": {
-      "global": false,
-      "player": false
+  index: {
+    searchResultVisible: false,
+    albums: {
+      list: [],
+      end: true,
     },
-    "effects": {
+    news: {
+      list: [],
+      end: true,
+    },
+  },
+  info: {
+    recommends: [],
+    newsList: [],
+    newsEnd: false,
+  },
+  music: {
+    keyword: "",
+    albumList: [],
+    currentPage: 0,
+    albumDetailVisible: false,
+    currentAlbum: null,
+  },
+  musicPlay: {
+    albumDetail: {
+      cid: "",
+      name: "",
+      intro: "",
+      belong: "",
+      coverUrl: null,
+      coverDeUrl: null,
+      songs: [],
+    },
+  },
+  loading: {
+    global: false,
+    models: {
+      global: false,
+      player: false,
+    },
+    effects: {
       "global\u002FgetFontSet": false,
-      "player\u002FgetPlayList": false
-    }
-  }
-}
+      "player\u002FgetPlayList": false,
+    },
+  },
+};
 
 interface SirenGlobalType {
-  variables: {},
-  background: {},
-  font: Record<string, Record<string, string>>,
+  variables: {};
+  background: {};
+  font: Record<string, Record<string, string>>;
 }
 
-type SirenStoreState = SirenGlobalType & typeof initalProps
+type SirenStoreState = SirenGlobalType & typeof initalProps;
 
 interface SirenStoreCollect {
-  getState: () => SirenStoreState
+  getState: () => SirenStoreState;
 }
 
 // todo! add saga type
-export type SirenStore = Store<SirenStoreState, Actions> & SirenStoreCollect
+export type SirenStore = Store<SirenStoreState, Actions> & SirenStoreCollect;

@@ -1,7 +1,7 @@
-import { IncomingMessage, ServerResponse } from 'http';
-import concatStream from "concat-stream"
-import BufferHelper from 'bufferhelper'
-import zlib from 'zlib'
+import { IncomingMessage, ServerResponse } from "http";
+import concatStream from "concat-stream";
+import BufferHelper from "bufferhelper";
+import zlib from "zlib";
 
 /**
  * Modify the response
@@ -9,14 +9,17 @@ import zlib from 'zlib'
  * @param contentEncoding {String} The http header content-encoding: gzip/deflate
  * @param callback {Function} Custom modified logic
  */
-export default function brModifyResponse(res: ServerResponse<IncomingMessage>, callback) {
+export default function brModifyResponse(
+  res: ServerResponse<IncomingMessage>,
+  callback,
+) {
   // The cache response method can be called after the modification.
   let _write = res.write;
   let _end = res.end;
-  let chunks = []
+  let chunks = [];
   res.write = function (data, cb) {
     chunks.push(data);
-  }
+  };
 
   res.end = function () {
     const compressedBuffer = Buffer.concat(chunks);
@@ -35,5 +38,5 @@ export default function brModifyResponse(res: ServerResponse<IncomingMessage>, c
     //     console.error(err);
     //   }
     // });
-  }
-};
+  };
+}

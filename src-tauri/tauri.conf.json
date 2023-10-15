@@ -22,9 +22,7 @@
       },
       "fs": {
         "all": true,
-        "scope": [
-          "$APPDATA/**/*"
-        ]
+        "scope": ["$APPDATA/**/*"]
       }
     },
     "bundle": {
@@ -44,9 +42,7 @@
       "dangerousRemoteDomainIpcAccess": [
         {
           "domain": "monster-siren.hypergryph.com",
-          "windows": [
-            "main"
-          ]
+          "windows": ["main"]
         }
       ]
     },

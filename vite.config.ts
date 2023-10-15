@@ -1,8 +1,8 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
-import tauriHmr from './src/vite_plugin/tauri-hmr'
-import basicSsl from '@vitejs/plugin-basic-ssl'
-import websiteInject from './src/vite_plugin/website-inject'
+import tauriHmr from "./src/vite_plugin/tauri-hmr";
+import basicSsl from "@vitejs/plugin-basic-ssl";
+import websiteInject from "./src/vite_plugin/website-inject";
 
 // https://vitejs.dev/config/
 export default defineConfig(async () => ({
@@ -18,7 +18,7 @@ export default defineConfig(async () => ({
   resolve: {
     alias: {
       "@": "/src",
-      "SirenStore": "/src/store/SirenStore",
+      SirenStore: "/src/store/SirenStore",
     },
   },
   // to make use of `TAURI_DEBUG` and other env variables
