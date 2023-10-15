@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
+import Search from '@mui/icons-material/Search';
 
 import Input from "@/components/Input";
 
@@ -22,7 +23,7 @@ type Story = StoryObj<typeof meta>;
 export const Primary: Story = {
   args: {
     value: "Input",
-    theme: "primary",
     placeholder: "测试文字",
+    addonAfter: <Search style={{ fontSize: ".6rem", marginRight: ".3rem" }} />
   },
 };

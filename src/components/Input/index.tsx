@@ -5,22 +5,21 @@ import {
   useMemo,
 } from "react";
 import Styles from "./index.module.scss";
-import type { SizeEnum } from "@/types";
 
 interface InputProps
   extends Omit<InputHTMLAttributes<HTMLInputElement>, "size"> {
-  size?: SizeEnum;
+  addonAfter?: React.ReactNode;
 }
 
 const Input: FunctionComponent<InputProps> = forwardRef<
   HTMLInputElement,
   InputProps
->(({ className, placeholder, value, children, size, ...props }, ref) => {
+>(({ className, placeholder, value, addonAfter, ...props }, ref) => {
   const emptyInput = useMemo(() => {
     return !value;
   }, [value]);
   return (
-    <div className={Styles.input}>
+    <div className={`${Styles.input} ${className}`}>
       <div className={Styles.wrapper}>
         <input
           className={Styles.inner}
@@ -32,6 +31,7 @@ const Input: FunctionComponent<InputProps> = forwardRef<
         {emptyInput && (
           <span className={Styles.placeholder}>{placeholder}</span>
         )}
+        {addonAfter}
       </div>
     </div>
   );

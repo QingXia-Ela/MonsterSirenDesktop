@@ -22,17 +22,18 @@ const Button: FunctionComponent<ButtonProps> = ({
   theme = "primary",
   disabled,
   children,
-  size,
+  size = "medium",
   ...props
 }) => {
   return (
     <button
       className={`${Styles.button} 
-    ${Styles[`button--${size}`]} 
-    ${Styles[`button--${theme}`]} 
-    ${decorate && Styles.button_decorate} 
-    ${disabled && Styles.button_disabled}
-    ${className}`}
+      ${Styles[`button--${size}`]} 
+      ${Styles[`button--${theme}`]} 
+      ${decorate && Styles.button_decorate} 
+      ${disabled && Styles.button_disabled}
+      ${className}
+    `}
       {...props}
     >
       {children}
