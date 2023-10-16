@@ -51,7 +51,7 @@ function SideBar() {
           opacity: open ? 1 : 0,
         }}
       >
-        test
+
       </div>
       <div
         className={Styles.sidebar_buttons}
