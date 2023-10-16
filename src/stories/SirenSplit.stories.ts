@@ -22,5 +22,5 @@ type Story = StoryObj<typeof meta>;
 export const Primary: Story = {
   args: {
     width: "11rem",
-  }
+  },
 };

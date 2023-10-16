@@ -4,7 +4,7 @@
   align-items: center;
   width: 100%;
   min-width: 5rem;
-  transition: background .5s;
+  transition: background 0.5s;
 
   &:hover {
     background-color: rgba(255, 255, 255, 0.1);
@@ -14,13 +14,13 @@
     flex: 1;
     color: #c6c9ce;
     font-family: "Sans-Regular";
-    font-size: .38rem;
+    font-size: 0.38rem;
     white-space: nowrap;
     position: relative;
     user-select: none;
-    height: .8rem;
-    line-height: .8rem;
-    padding-left: .3rem;
+    height: 0.8rem;
+    line-height: 0.8rem;
+    padding-left: 0.3rem;
     overflow: hidden;
     cursor: pointer;
   }
@@ -29,12 +29,12 @@
 .dropdown__content {
   position: absolute;
   top: 100%;
-  background-color: rgba(0, 0, 0, .7);
+  background-color: rgba(0, 0, 0, 0.7);
   width: 100%;
   height: 0;
   overflow: hidden;
   color: #c6c9ce;
-  transition: height .5s;
+  transition: height 0.5s;
 }
 
 .dropdown__list {
@@ -44,17 +44,21 @@
 }
 
 .dropdown__option {
-  padding-left: .4rem;
-  padding-top: .1rem;
-  padding-bottom: .1rem;
-  font-size: .36rem;
+  padding-left: 0.4rem;
+  padding-top: 0.1rem;
+  padding-bottom: 0.1rem;
+  font-size: 0.36rem;
   list-style: none;
-  transition: background .5s;
+  transition: background 0.5s;
   cursor: pointer;
 
   &:hover,
   &.selected {
-    background: linear-gradient(90deg, rgba(35, 39, 46, .9), rgba(35, 39, 46, .1));
+    background: linear-gradient(
+      90deg,
+      rgba(35, 39, 46, 0.9),
+      rgba(35, 39, 46, 0.1)
+    );
   }
 }
 
@@ -63,8 +67,8 @@
   height: 100%;
   justify-content: center;
   align-items: center;
-  padding-left: .1rem;
-  padding-right: .3rem;
+  padding-left: 0.1rem;
+  padding-right: 0.3rem;
   color: #c6c9ce;
   cursor: pointer;
 }
@@ -74,29 +78,30 @@
 }
 
 .dropdown.dropdown--border-block {
-
   &::before,
   &::after {
     content: "";
     display: block;
     position: absolute;
-    left: -.07rem;
-    width: calc(100% + .14rem);
-    height: .07rem;
-    background-image: linear-gradient(90deg,
-        #c6c9ce 0,
-        #c6c9ce .07rem,
-        transparent 0,
-        transparent calc(100% - .07rem),
-        #c6c9ce calc(100% - .07rem),
-        #c6c9ce);
+    left: -0.07rem;
+    width: calc(100% + 0.14rem);
+    height: 0.07rem;
+    background-image: linear-gradient(
+      90deg,
+      #c6c9ce 0,
+      #c6c9ce 0.07rem,
+      transparent 0,
+      transparent calc(100% - 0.07rem),
+      #c6c9ce calc(100% - 0.07rem),
+      #c6c9ce
+    );
   }
 
   &::before {
-    top: -.07rem;
+    top: -0.07rem;
   }
 
   &::after {
-    bottom: -.07rem;
+    bottom: -0.07rem;
   }
 }

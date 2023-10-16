@@ -1,13 +1,16 @@
 import IterParentElement from "@/utils/iterParentElement";
 import { useState } from "react";
 
-export default function useCloseState(parentAttr: string, closeOnClickSelf = false): [boolean, (e: React.MouseEvent) => void] {
+export default function useCloseState(
+  parentAttr: string,
+  closeOnClickSelf = false,
+): [boolean, (e: React.MouseEvent) => void] {
   const [open, setOpen] = useState(false);
 
   const close = () => {
     window.removeEventListener("click", close);
     setOpen(false);
-  }
+  };
 
   const handleClick = (e: React.MouseEvent) => {
     if (!open) {
@@ -16,10 +19,16 @@ export default function useCloseState(parentAttr: string, closeOnClickSelf = fal
         window.addEventListener("click", close);
       });
     }
-    if (!closeOnClickSelf && IterParentElement(e.target as HTMLElement, (e) => e?.hasAttribute?.(parentAttr))) {
-      e.stopPropagation()
+    if (
+      !closeOnClickSelf &&
+      IterParentElement(
+        e.target as HTMLElement,
+        (e) => e?.hasAttribute?.(parentAttr),
+      )
+    ) {
+      e.stopPropagation();
     }
-  }
+  };
 
-  return [open, handleClick]
+  return [open, handleClick];
 }

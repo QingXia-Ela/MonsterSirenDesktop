@@ -20,6 +20,6 @@ type Story = StoryObj<typeof meta>;
 export const Primary: Story = {
   args: {
     title: "测试模态框",
-    children: "详见 src/stories/SirenDialog/index.tsx"
-  }
+    children: "详见 src/stories/SirenDialog/index.tsx",
+  },
 };

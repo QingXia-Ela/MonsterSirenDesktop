@@ -1,39 +1,38 @@
 .checkbox {
   display: flex;
   align-items: center;
-  gap: .2rem;
+  gap: 0.2rem;
   cursor: pointer;
 
   &.disabled {
     pointer-events: none;
     cursor: not-allowed;
-    opacity: .5;
+    opacity: 0.5;
   }
 
   &:hover {
     .checkbox__check {
-      border: .04rem solid #ccc;
+      border: 0.04rem solid #ccc;
     }
   }
 }
 
-
 .checkbox__check {
   box-sizing: border-box;
-  border: .02rem solid hsla(0, 0%, 56.5%, .5);
+  border: 0.02rem solid hsla(0, 0%, 56.5%, 0.5);
   background: transparent;
-  width: .32rem;
-  height: .32rem;
-  transition: all .3s ease;
+  width: 0.32rem;
+  height: 0.32rem;
+  transition: all 0.3s ease;
 
   &.selected {
     background: #787878;
-    border: .04rem solid #fff !important;
+    border: 0.04rem solid #fff !important;
   }
 }
 
 .checkbox__content {
   color: #fff;
-  font-size: .4rem;
+  font-size: 0.4rem;
   user-select: none;
 }

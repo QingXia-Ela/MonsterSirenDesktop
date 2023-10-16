@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "baseUrl": "./",
     "target": "ES2021",
     "composite": true,
     "skipLibCheck": true,
@@ -9,8 +10,13 @@
     "allowSyntheticDefaultImports": true,
     "jsx": "react-jsx",
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": [
+        "src/*"
+      ]
     }
   },
-  "include": ["vite.config.ts", "./src/**/*"]
+  "include": [
+    "vite.config.ts",
+    "./src/**/*"
+  ]
 }

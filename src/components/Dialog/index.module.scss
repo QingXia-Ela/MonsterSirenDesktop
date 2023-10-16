@@ -1,7 +1,7 @@
 .dialog {
   width: 10.3125rem;
-  padding: .5555rem 0;
-  font-size: .4889rem;
+  padding: 0.5555rem 0;
+  font-size: 0.4889rem;
   font-family: "SourceHanSansCN-Bold", "Microsoft Yahei", sans-serif;
   font-weight: 700;
   line-height: 1.2;
@@ -18,18 +18,26 @@
   &::after {
     content: "";
     position: absolute;
-    left: -.1333rem;
-    height: .2666rem;
-    width: calc(100% + .2666rem);
-    background-image: linear-gradient(90deg, #aeb3be 0, #aeb3be .2666rem, transparent 0, transparent calc(100% - .2666rem), #aeb3be calc(100% - .2666rem), #aeb3be);
+    left: -0.1333rem;
+    height: 0.2666rem;
+    width: calc(100% + 0.2666rem);
+    background-image: linear-gradient(
+      90deg,
+      #aeb3be 0,
+      #aeb3be 0.2666rem,
+      transparent 0,
+      transparent calc(100% - 0.2666rem),
+      #aeb3be calc(100% - 0.2666rem),
+      #aeb3be
+    );
   }
 
   &::before {
-    top: -.1333rem;
+    top: -0.1333rem;
   }
 
   &::after {
-    bottom: -.1333rem;
+    bottom: -0.1333rem;
   }
 }
 
@@ -45,7 +53,7 @@
 
 .dialog__title {
   position: relative;
-  margin: .6666rem 0;
+  margin: 0.6666rem 0;
   text-align: center;
 
   &::before,
@@ -71,7 +79,7 @@
 
 .dialog__title__inner {
   position: relative;
-  font-size: .5333rem;
+  font-size: 0.5333rem;
   color: #a2a6ae;
   font-weight: 700;
   line-height: 1.2;
@@ -79,6 +87,6 @@
 }
 
 .dialog__body {
-  margin: 1.3333rem .5555rem;
+  margin: 1.3333rem 0.5555rem;
   font-weight: 400;
 }

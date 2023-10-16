@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/react";
-import Search from '@mui/icons-material/Search';
+import Search from "@mui/icons-material/Search";
 
 import Input from "@/components/Input";
 
@@ -24,6 +24,6 @@ export const Primary: Story = {
   args: {
     value: "Input",
     placeholder: "测试文字",
-    addonAfter: <Search style={{ fontSize: ".6rem", marginRight: ".3rem" }} />
+    addonAfter: <Search style={{ fontSize: ".6rem", marginRight: ".3rem" }} />,
   },
 };

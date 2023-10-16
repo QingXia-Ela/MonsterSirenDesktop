@@ -2,7 +2,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 0.1250rem;
+  height: 0.125rem;
 }
 
 .line {
@@ -13,16 +13,32 @@
 }
 
 .zebra {
-  height: .12rem;
-  width: .84rem;
-  background-size: .12rem .12rem;
+  height: 0.12rem;
+  width: 0.84rem;
+  background-size: 0.12rem 0.12rem;
   background-repeat: repeat;
 }
 
 .zebra_left {
-  background-image: linear-gradient(45deg, transparent, transparent 40%, #858585 0, #858585 60%, transparent 0, transparent);
+  background-image: linear-gradient(
+    45deg,
+    transparent,
+    transparent 40%,
+    #858585 0,
+    #858585 60%,
+    transparent 0,
+    transparent
+  );
 }
 
 .zebra_right {
-  background-image: linear-gradient(-45deg, transparent, transparent 40%, #858585 0, #858585 60%, transparent 0, transparent);
+  background-image: linear-gradient(
+    -45deg,
+    transparent,
+    transparent 40%,
+    #858585 0,
+    #858585 60%,
+    transparent 0,
+    transparent
+  );
 }

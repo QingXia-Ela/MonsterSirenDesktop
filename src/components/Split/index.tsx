@@ -1,15 +1,14 @@
-import { FunctionComponent } from 'react';
-import Styles from './index.module.scss'
-
+import { FunctionComponent } from "react";
+import Styles from "./index.module.scss";
 
 interface SplitProps {
-  children?: any
-  width?: number | string
+  children?: any;
+  width?: number | string;
 }
 
-export const ZebraLine = `${Styles.line}`
-export const ZebraLeft = `${Styles.zebra} ${Styles.zebra_left}`
-export const ZebraRight = `${Styles.zebra} ${Styles.zebra_right}`
+export const ZebraLine = `${Styles.line}`;
+export const ZebraLeft = `${Styles.zebra} ${Styles.zebra_left}`;
+export const ZebraRight = `${Styles.zebra} ${Styles.zebra_right}`;
 
 const Split: FunctionComponent<SplitProps> = ({ children, width }) => {
   return (
@@ -23,6 +22,6 @@ const Split: FunctionComponent<SplitProps> = ({ children, width }) => {
       )}
     </div>
   );
-}
+};
 
 export default Split;

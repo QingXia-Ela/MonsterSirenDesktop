@@ -1,7 +1,4 @@
-function isChildElement(
-  childElement: HTMLElement,
-  parentElement: HTMLElement
-) {
+function isChildElement(childElement: HTMLElement, parentElement: HTMLElement) {
   let currentElement = childElement.parentNode;
 
   while (currentElement !== null) {

@@ -1,6 +1,6 @@
 export default function IterParentElement(
   element: HTMLElement,
-  callback: (element: HTMLElement) => boolean
+  callback: (element: HTMLElement) => boolean,
 ) {
   let currentElement = element;
 
