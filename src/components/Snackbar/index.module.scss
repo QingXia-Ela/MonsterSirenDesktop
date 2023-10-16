@@ -1,0 +1,17 @@
+.snackbar__alert {
+  font-size: .4rem;
+  color: #fff;
+  background-color: rgb(15, 15, 15);
+  background-image: url(@/assets/images/bg_modal.png);
+  background-position: right;
+  background-size: contain;
+  background-repeat: no-repeat;
+
+  .alert__title {
+    display: flex;
+    justify-content: space-between;
+    font-weight: 700;
+    font-size: .46rem;
+    font-family: "SourceHanSansCN-Bold", "Microsoft Yahei", sans-serif;
+  }
+}

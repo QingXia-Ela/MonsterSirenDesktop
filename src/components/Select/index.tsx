@@ -2,7 +2,6 @@ import React, { FunctionComponent, HTMLAttributes, ReactNode, createRef, useEffe
 import Styles from './index.module.scss'
 import ArrowBackIosNewIcon from '@mui/icons-material/ArrowBackIosNew';
 import useCloseState from "@/hooks/useCloseState";
-import IterParentElement from "@/utils/iterParentElement";
 
 interface SingleOption {
   label: string
@@ -59,7 +58,7 @@ const DropDown: FunctionComponent<DropDownProps> = ({
       onClick={handleClick}
       {...props}
     >
-      <div className={Styles.dropdown__label}>{currentLabel.length ? currentLabel : placeholder}</div>
+      <div className={Styles.dropdown__label}>{currentLabel?.length ? currentLabel : placeholder}</div>
       <div
         data-select-wrapper
         style={{ height: isOpen ? height : 0 }}
