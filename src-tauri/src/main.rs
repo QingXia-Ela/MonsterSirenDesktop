@@ -20,7 +20,10 @@ fn main() {
         CdnProxy::CdnProxy::new(
             11451,
             11452,
-            get_basic_filter_rules(vec![CdnProxyRules::PreventAutoplay]),
+            get_basic_filter_rules(vec![
+                CdnProxyRules::PreventAutoplay,
+                CdnProxyRules::LogStoreChange,
+            ]),
         );
     });
     thread::spawn(|| {

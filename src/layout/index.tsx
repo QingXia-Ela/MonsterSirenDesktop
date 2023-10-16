@@ -33,7 +33,7 @@ const InjectLayout: FunctionComponent<InjectLayoutProps> = ({ children }) => {
         data-tauri-drag-region
         className={`w-full ${Styles.titlebar_wrapper} flex justify-between items-center px-2`}
       >
-        <div className={`text-[.24rem] font-["Geometos"]`}>
+        <div className={`text-[.3rem] font-["Geometos"]`}>
           Monster Siren Desktop App(v0.0.1)
         </div>
         <div className="flex gap-[.65rem]">
@@ -43,9 +43,8 @@ const InjectLayout: FunctionComponent<InjectLayoutProps> = ({ children }) => {
           ></i>
           <Suspense>
             <i
-              className={`iconfont icon-24gl-${min ? "minimize" : "square"} ${
-                Styles.iconfont
-              }`}
+              className={`iconfont icon-24gl-${min ? "minimize" : "square"} ${Styles.iconfont
+                }`}
               onClick={changeWindowSize}
             ></i>
           </Suspense>

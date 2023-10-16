@@ -8,4 +8,16 @@ export interface playerGetPlayList extends AnyAction {
   type: "player/getPlayList";
 }
 
-export type Actions = globalGetFontset | playerGetPlayList;
+export interface playerSetVolume extends AnyAction {
+  type: "player/setVolume", volume: number
+}
+
+export interface playerSelectSong extends AnyAction {
+  type: "player/selectSong", cid: string
+}
+
+export type Actions =
+  globalGetFontset |
+  playerGetPlayList |
+  playerSetVolume |
+  playerSelectSong;

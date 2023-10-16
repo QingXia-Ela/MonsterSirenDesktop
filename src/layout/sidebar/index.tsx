@@ -5,6 +5,7 @@ import { useStore } from "@nanostores/react";
 import $settingBasic, { changeAutoPlay } from "@/store/models/settings/basic";
 import { Portal } from "@mui/material";
 import SirenStore from "@/store/SirenStore";
+import SidebarLeftOptionList from "./components/LeftOptionList";
 
 // SirenStore["default"].
 // SirenStore.dispatch({type: ""})
@@ -13,15 +14,13 @@ function SideBar() {
   SirenStore;
   const [open, setOpen] = useState(false);
   const rootApp = useSirenCtx();
-  // @ts-expect-error
-  window._setOpen_ = setOpen;
   const homeBtn = rootApp
     .querySelector("header")
     ?.querySelector("a[class*='home']") as HTMLElement;
   const layout = rootApp.querySelector("#layout") as HTMLDivElement;
   const { closeAutoPlay } = useStore($settingBasic);
 
-  let closeFn = () => {
+  const closeFn = () => {
     setOpen(false);
     layout.style.filter = "";
     layout.style.pointerEvents = "";
@@ -48,23 +47,20 @@ function SideBar() {
       <div
         className={`${Styles.sidebar_main} p-1`}
         style={{
-          transform: open ? "translateX(1.2rem)" : "translateX(-100%)",
+          transform: open ? "translateX(1.7rem)" : "translateX(-100%)",
           opacity: open ? 1 : 0,
         }}
       >
-        <input
-          type="checkbox"
-          value={closeAutoPlay}
-          onChange={() => changeAutoPlay(!closeAutoPlay)}
-        />
-        Autoplay: {closeAutoPlay ? "close" : "open"}
+        test
       </div>
       <div
         className={Styles.sidebar_buttons}
         style={{
           transform: open ? "translateX(0)" : "translateX(-100%)",
         }}
-      ></div>
+      >
+        <SidebarLeftOptionList />
+      </div>
     </>
   );
 }
