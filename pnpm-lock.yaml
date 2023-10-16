@@ -38,18 +38,27 @@ dependencies:
   esbuild:
     specifier: ^0.19.0
     version: 0.19.0
+  lodash:
+    specifier: ^4.17.21
+    version: registry.npmmirror.com/lodash@4.17.21
   nanostores:
     specifier: ^0.9.3
     version: registry.npmmirror.com/nanostores@0.9.3
   react:
     specifier: ^18.2.0
     version: 18.2.0
+  react-custom-scrollbars:
+    specifier: ^4.2.1
+    version: registry.npmmirror.com/react-custom-scrollbars@4.2.1(react-dom@18.2.0)(react@18.2.0)
   react-dom:
     specifier: ^18.2.0
     version: 18.2.0(react@18.2.0)
   react-transition-group:
     specifier: ^4.4.5
     version: registry.npmmirror.com/react-transition-group@4.4.5(react-dom@18.2.0)(react@18.2.0)
+  react-virtuoso:
+    specifier: ^4.6.1
+    version: registry.npmmirror.com/react-virtuoso@4.6.1(react-dom@18.2.0)(react@18.2.0)
   sass:
     specifier: ^1.69.1
     version: registry.npmmirror.com/sass@1.69.1
@@ -91,12 +100,18 @@ devDependencies:
   '@types/http-proxy':
     specifier: ^1.17.12
     version: registry.npmmirror.com/@types/http-proxy@1.17.12
+  '@types/lodash':
+    specifier: ^4.14.199
+    version: registry.npmmirror.com/@types/lodash@4.14.199
   '@types/node':
     specifier: ^20.4.5
     version: 20.4.5
   '@types/react':
     specifier: ^18.2.15
     version: 18.2.15
+  '@types/react-custom-scrollbars':
+    specifier: ^4.0.10
+    version: registry.npmmirror.com/@types/react-custom-scrollbars@4.0.10
   '@types/react-dom':
     specifier: ^18.2.7
     version: 18.2.7
@@ -7714,6 +7729,14 @@ packages:
     version: 1.2.5
     dev: true
 
+  registry.npmmirror.com/@types/react-custom-scrollbars@4.0.10:
+    resolution: {integrity: sha512-1T430E+usndUjymkXB8k/zGpWehggircq/QaQMuFLMJceccAcD9vcmbUXF1LjeVP/+P4wI/bad6BF1E+7IGlqA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@types/react-custom-scrollbars/-/react-custom-scrollbars-4.0.10.tgz}
+    name: '@types/react-custom-scrollbars'
+    version: 4.0.10
+    dependencies:
+      '@types/react': registry.npmmirror.com/@types/react@18.2.15
+    dev: true
+
   registry.npmmirror.com/@types/react-router-dom@4.3.5:
     resolution: {integrity: sha512-eFajSUASYbPHg2BDM1G8Btx+YqGgvROPIg6sBhl3O4kbDdYXdFdfrgQFf/pcBuQVObjfT9AL/dd15jilR5DIEA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@types/react-router-dom/-/react-router-dom-4.3.5.tgz}
     name: '@types/react-router-dom'
@@ -8107,6 +8130,12 @@ packages:
     engines: {node: '>=0.4.0'}
     hasBin: true
     dev: true
+
+  registry.npmmirror.com/add-px-to-style@1.0.0:
+    resolution: {integrity: sha512-YMyxSlXpPjD8uWekCQGuN40lV4bnZagUwqa2m/uFv1z/tNImSk9fnXVMUI5qwME/zzI3MMQRvjZ+69zyfSSyew==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/add-px-to-style/-/add-px-to-style-1.0.0.tgz}
+    name: add-px-to-style
+    version: 1.0.0
+    dev: false
 
   registry.npmmirror.com/address@1.2.2:
     resolution: {integrity: sha512-4B/qKCfeE/ODUaAUpSwfzazo5x29WD4r3vXiWsB7I2mSDAihwEqKO+g8GELZUQSSAo5e1XTYh3ZVfLyxBc12nA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/address/-/address-1.2.2.tgz}
@@ -9251,6 +9280,16 @@ packages:
     name: dom-accessibility-api
     version: 0.5.16
     dev: true
+
+  registry.npmmirror.com/dom-css@2.1.0:
+    resolution: {integrity: sha512-w9kU7FAbaSh3QKijL6n59ofAhkkmMJ31GclJIz/vyQdjogfyxcB6Zf8CZyibOERI5o0Hxz30VmJS7+7r5fEj2Q==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/dom-css/-/dom-css-2.1.0.tgz}
+    name: dom-css
+    version: 2.1.0
+    dependencies:
+      add-px-to-style: registry.npmmirror.com/add-px-to-style@1.0.0
+      prefix-style: registry.npmmirror.com/prefix-style@2.0.1
+      to-camel-case: registry.npmmirror.com/to-camel-case@1.0.0
+    dev: false
 
   registry.npmmirror.com/dom-helpers@5.2.1:
     resolution: {integrity: sha512-nRCa7CK3VTrM2NmGkIy4cbK7IZlgBE/PYMn55rrXefr5xXDP0LdtfPnblFDoVdcAfslJ7or6iqAUnx0CCGIWQA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/dom-helpers/-/dom-helpers-5.2.1.tgz}
@@ -12351,6 +12390,12 @@ packages:
       '@babel/runtime': registry.npmmirror.com/@babel/runtime@7.22.10
     dev: true
 
+  registry.npmmirror.com/prefix-style@2.0.1:
+    resolution: {integrity: sha512-gdr1MBNVT0drzTq95CbSNdsrBDoHGlb2aDJP/FoY+1e+jSDPOb1Cv554gH2MGiSr2WTcXi/zu+NaFzfcHQkfBQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/prefix-style/-/prefix-style-2.0.1.tgz}
+    name: prefix-style
+    version: 2.0.1
+    dev: false
+
   registry.npmmirror.com/prelude-ls@1.2.1:
     resolution: {integrity: sha512-vkcDPrRZo1QZLbn5RLGPpg/WmIQ65qoWWhcGKf/b5eplkkarX0m9z8ppCat4mlOqUsWpyNuYgO3VRyrYHSzX5g==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/prelude-ls/-/prelude-ls-1.2.1.tgz}
     name: prelude-ls
@@ -12585,6 +12630,22 @@ packages:
       react: 18.2.0
       tween-functions: registry.npmmirror.com/tween-functions@1.2.0
     dev: true
+
+  registry.npmmirror.com/react-custom-scrollbars@4.2.1(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-VtJTUvZ7kPh/auZWIbBRceGPkE30XBYe+HktFxuMWBR2eVQQ+Ur6yFJMoaYcNpyGq22uYJ9Wx4UAEcC0K+LNPQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/react-custom-scrollbars/-/react-custom-scrollbars-4.2.1.tgz}
+    id: registry.npmmirror.com/react-custom-scrollbars/4.2.1
+    name: react-custom-scrollbars
+    version: 4.2.1
+    peerDependencies:
+      react: ^0.14.0 || ^15.0.0 || ^16.0.0
+      react-dom: ^0.14.0 || ^15.0.0 || ^16.0.0
+    dependencies:
+      dom-css: registry.npmmirror.com/dom-css@2.1.0
+      prop-types: registry.npmmirror.com/prop-types@15.8.1
+      raf: registry.npmmirror.com/raf@3.4.1
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+    dev: false
 
   registry.npmmirror.com/react-docgen-typescript@2.2.2(typescript@5.1.6):
     resolution: {integrity: sha512-tvg2ZtOpOi6QDwsb3GZhOjDkkX0h8Z2gipvTg6OVMUyoYoURhEiRNePT8NZItTVCDh39JJHnLdfCOkzoLbFnTg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/react-docgen-typescript/-/react-docgen-typescript-2.2.2.tgz}
@@ -12841,6 +12902,20 @@ packages:
       dom-helpers: registry.npmmirror.com/dom-helpers@5.2.1
       loose-envify: registry.npmmirror.com/loose-envify@1.4.0
       prop-types: registry.npmmirror.com/prop-types@15.8.1
+      react: 18.2.0
+      react-dom: 18.2.0(react@18.2.0)
+    dev: false
+
+  registry.npmmirror.com/react-virtuoso@4.6.1(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-dQq0yOdRjdWIYaiTvUbudqmTodGSdWGt5lVYz3mM07TTEV91yv7eL5Fn3FPEJOA36whScxPWg0GiYBIOZYEIEA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/react-virtuoso/-/react-virtuoso-4.6.1.tgz}
+    id: registry.npmmirror.com/react-virtuoso/4.6.1
+    name: react-virtuoso
+    version: 4.6.1
+    engines: {node: '>=10'}
+    peerDependencies:
+      react: '>=16 || >=17 || >= 18'
+      react-dom: '>=16 || >=17 || >= 18'
+    dependencies:
       react: 18.2.0
       react-dom: 18.2.0(react@18.2.0)
     dev: false
@@ -13835,12 +13910,26 @@ packages:
     version: 1.0.5
     dev: true
 
+  registry.npmmirror.com/to-camel-case@1.0.0:
+    resolution: {integrity: sha512-nD8pQi5H34kyu1QDMFjzEIYqk0xa9Alt6ZfrdEMuHCFOfTLhDG5pgTu/aAM9Wt9lXILwlXmWP43b8sav0GNE8Q==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/to-camel-case/-/to-camel-case-1.0.0.tgz}
+    name: to-camel-case
+    version: 1.0.0
+    dependencies:
+      to-space-case: registry.npmmirror.com/to-space-case@1.0.0
+    dev: false
+
   registry.npmmirror.com/to-fast-properties@2.0.0:
     resolution: {integrity: sha512-/OaKK0xYrs3DmxRYqL/yDc+FxFUVYhDlXMhRmv3z915w2HF1tnN1omB354j8VUGO/hbRzyD6Y3sA7v7GS/ceog==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/to-fast-properties/-/to-fast-properties-2.0.0.tgz}
     name: to-fast-properties
     version: 2.0.0
     engines: {node: '>=4'}
     dev: true
+
+  registry.npmmirror.com/to-no-case@1.0.2:
+    resolution: {integrity: sha512-Z3g735FxuZY8rodxV4gH7LxClE4H0hTIyHNIHdk+vpQxjLm0cwnKXq/OFVZ76SOQmto7txVcwSCwkU5kqp+FKg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/to-no-case/-/to-no-case-1.0.2.tgz}
+    name: to-no-case
+    version: 1.0.2
+    dev: false
 
   registry.npmmirror.com/to-regex-range@5.0.1:
     resolution: {integrity: sha512-65P7iz6X5yEr1cwcgvQxbbIw7Uk3gOy5dIdtZ4rDveLqhrdJP+Li/Hx6tyK0NEb+2GCyneCMJiGqrADCSNk8sQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/to-regex-range/-/to-regex-range-5.0.1.tgz}
@@ -13849,6 +13938,14 @@ packages:
     engines: {node: '>=8.0'}
     dependencies:
       is-number: registry.npmmirror.com/is-number@7.0.0
+
+  registry.npmmirror.com/to-space-case@1.0.0:
+    resolution: {integrity: sha512-rLdvwXZ39VOn1IxGL3V6ZstoTbwLRckQmn/U8ZDLuWwIXNpuZDhQ3AiRUlhTbOXFVE9C+dR51wM0CBDhk31VcA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/to-space-case/-/to-space-case-1.0.0.tgz}
+    name: to-space-case
+    version: 1.0.0
+    dependencies:
+      to-no-case: registry.npmmirror.com/to-no-case@1.0.2
+    dev: false
 
   registry.npmmirror.com/tocbot@4.21.2:
     resolution: {integrity: sha512-R5Muhi/TUu4i4snWVrMgNoXyJm2f8sJfdgIkQvqb+cuIXQEIMAiWGWgCgYXHqX4+XiS/Bnm7IYZ9Zy6NVe6lhw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/tocbot/-/tocbot-4.21.2.tgz}
