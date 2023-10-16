@@ -1,7 +1,7 @@
 .snackbar__alert {
-  font-size: .4rem;
-  color: #fff;
-  background-color: rgb(15, 15, 15);
+  font-size: .4rem !important;
+  color: #fff !important;
+  background-color: rgb(15, 15, 15) !important;
   background-image: url(@/assets/images/bg_modal.png);
   background-position: right;
   background-size: contain;
