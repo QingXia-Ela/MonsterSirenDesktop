@@ -11,6 +11,28 @@ const INIT_CONFIG: &str = r#"{
     "basic": {
       "closeAutoPlay": true,
       "volume": 20
+    },
+    "background": {
+      "enable": false,
+      "url": "",
+      "blur": 0,
+      "maskOpacity": 0
+    },
+    "localMusic": {
+      "enable": false,
+      "paths": []
+    },
+    "download": {
+      "path": "",
+      "downloadLrc": false,
+      "parseFileType": "none"
+    },
+    "outputDevice": {},
+    "desktopLrc": {},
+    "advanced": {
+      "enable": false,
+      "cdnProxyPort": 0,
+      "apiProxyPort": 0
     }
   }"#;
 

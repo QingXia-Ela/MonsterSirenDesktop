@@ -6,6 +6,8 @@ import $settingBasic, { changeAutoPlay } from "@/store/models/settings/basic";
 import { Portal } from "@mui/material";
 import SirenStore from "@/store/SirenStore";
 import SidebarLeftOptionList from "./components/LeftOptionList";
+import { OptionList } from "./constants/config";
+import RightOptionDetail from "./components/RightOptionDetail";
 
 // SirenStore["default"].
 // SirenStore.dispatch({type: ""})
@@ -13,6 +15,7 @@ import SidebarLeftOptionList from "./components/LeftOptionList";
 function SideBar() {
   SirenStore;
   const [open, setOpen] = useState(false);
+  const [selectedValue, setSelectedValue] = useState(OptionList[0].value);
   const rootApp = useSirenCtx();
   const homeBtn = rootApp
     .querySelector("header")
@@ -45,13 +48,13 @@ function SideBar() {
         {open && <div className={Styles.sidebar_cover} onClick={closeFn}></div>}
       </Portal>
       <div
-        className={`${Styles.sidebar_main} p-1`}
+        className={`${Styles.sidebar_main} px-2 py-1`}
         style={{
           transform: open ? "translateX(1.7rem)" : "translateX(-100%)",
           opacity: open ? 1 : 0,
         }}
       >
-
+        <RightOptionDetail value={selectedValue} optionList={OptionList} />
       </div>
       <div
         className={Styles.sidebar_buttons}
@@ -59,7 +62,7 @@ function SideBar() {
           transform: open ? "translateX(0)" : "translateX(-100%)",
         }}
       >
-        <SidebarLeftOptionList />
+        <SidebarLeftOptionList value={selectedValue} onValueChange={setSelectedValue} optionList={OptionList} />
       </div>
     </>
   );

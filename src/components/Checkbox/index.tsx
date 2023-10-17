@@ -1,4 +1,4 @@
-import { FunctionComponent, InputHTMLAttributes, useState } from "react";
+import { FunctionComponent, InputHTMLAttributes, forwardRef, useState } from "react";
 import Styles from "./index.module.scss";
 
 interface CheckboxProps
@@ -6,13 +6,13 @@ interface CheckboxProps
   onChange?: (e: boolean) => void;
 }
 
-const Checkbox: FunctionComponent<CheckboxProps> = ({
+const Checkbox = forwardRef<HTMLDivElement, CheckboxProps>(function Checkbox({
   checked,
   onChange,
   disabled,
   children,
   ...props
-}) => {
+}, ref) {
   const [checkedState, setCheckedState] = useState(checked);
 
   const handleChange = () => {
@@ -24,11 +24,13 @@ const Checkbox: FunctionComponent<CheckboxProps> = ({
     <div
       className={`${Styles.checkbox} ${disabled && Styles.disabled}`}
       onClick={handleChange}
+      ref={ref}
     >
       <input
         type="checkbox"
         style={{ display: "none" }}
         checked={checkedState}
+        readOnly
         {...props}
       />
       <div
@@ -38,6 +40,6 @@ const Checkbox: FunctionComponent<CheckboxProps> = ({
       <div className={Styles.checkbox__content}>{children}</div>
     </div>
   );
-};
+})
 
 export default Checkbox;

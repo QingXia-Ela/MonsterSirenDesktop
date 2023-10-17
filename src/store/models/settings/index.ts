@@ -6,22 +6,20 @@ import {
   createDir,
   exists,
 } from "@tauri-apps/api/fs";
-import basic from "./basic";
-import { WritableAtom } from "nanostores";
+import { WritableAtom, atom } from "nanostores";
 
 const SETTINGS_PATH = "config\\settings.json";
 
 await createDir("config", { dir: BaseDirectory.AppData, recursive: true });
 
-if (!(await exists(SETTINGS_PATH, { dir: BaseDirectory.AppData }))) {
-  await writeTextFile(SETTINGS_PATH, "{}", { dir: BaseDirectory.AppData });
-}
-
 const content = JSON.parse(
   await readTextFile(SETTINGS_PATH, { dir: BaseDirectory.AppData }),
 );
 
-const DEFAULT_CONFIG = {
+/**
+ * The default settings **DON'T CHANGE IT**
+ */
+export const DEFAULT_CONFIG = {
   basic: {
     closeAutoPlay: false,
     volume: 20,
@@ -50,15 +48,19 @@ const DEFAULT_CONFIG = {
   },
 };
 
+const cfg: typeof DEFAULT_CONFIG = Object.assign({}, DEFAULT_CONFIG, content)
+
 const SettingsManager = createEffectManager(
-  Object.assign({}, DEFAULT_CONFIG, content),
+  cfg,
 );
 
 // SettingsManager.addAtom(basic)
-const atomList: Array<[WritableAtom<any>, string]> = [[basic, "basic"]];
+const atomList: Array<[string, WritableAtom<any>]> = [
+  ["basic", atom(cfg.basic)]
+];
 
-atomList.forEach(([atom, key]) => {
-  SettingsManager.addAtom(atom, key);
+atomList.forEach(([key, atom]) => {
+  SettingsManager.addAtom(key, atom);
 });
 
 async function saveSettings() {

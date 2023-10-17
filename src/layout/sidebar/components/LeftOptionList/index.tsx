@@ -1,31 +1,28 @@
 import { FunctionComponent, HTMLAttributes } from "react";
 import '@/assets/fonts/menu/iconfont.css'
 import SingleOptionItem from "./SingleOptionItem";
+import { OptionType, SingleOptionItemProps } from "../../constants/config";
 
 interface SidebarLeftOptionListProps extends HTMLAttributes<HTMLDivElement> {
-
+  optionList: Array<SingleOptionItemProps>;
+  value: OptionType;
+  onValueChange?: (value: OptionType) => void;
 }
 
-const SidebarLeftOptionList: FunctionComponent<SidebarLeftOptionListProps> = ({ ...props }) => {
+const SidebarLeftOptionList: FunctionComponent<SidebarLeftOptionListProps> = ({ optionList, value, onValueChange, ...props }) => {
   return (
     <div className="h-full flex flex-col justify-between" {...props}>
       <div>
-        <SingleOptionItem
-          iconClass="icon-24gl-gear4"
-          title="基本设置"
-        />
-        <SingleOptionItem
-          iconClass="icon-24gl-musicAlbum"
-          title="本地音乐"
-        />
-        <SingleOptionItem
-          iconClass="icon-24gl-download"
-          title="下载设置"
-        />
-        <SingleOptionItem
-          iconClass="icon-adobe-lightroom"
-          title="桌面歌词"
-        />
+        {
+          optionList.map((item, index) => (
+            <SingleOptionItem
+              key={index}
+              selected={item.value === value}
+              {...item}
+              onClick={() => onValueChange?.(item.value)}
+            />
+          ))
+        }
       </div>
       <div>
         <SingleOptionItem

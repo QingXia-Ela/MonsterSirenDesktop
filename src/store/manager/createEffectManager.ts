@@ -2,22 +2,19 @@ type EventName = "change" | "created";
 import type { WritableAtom } from "nanostores";
 
 export default function createEffectManager(data: any) {
-  const atomList: Array<{
-    key: string;
-    atom: WritableAtom<any>;
-  }> = [];
+  const atomMap = new Map<string, WritableAtom<any>>();
   const eventMap = {};
 
   /**
-   * @param atom atom instance
    * @param key the key that use from data, will be used as the init value
+   * @param atom atom instance
    */
-  function addAtom<T = any>(atom: WritableAtom<T>, key: string) {
+  function addAtom<T = any>(key: string, atom: WritableAtom<T>) {
     if (data[key]) {
       atom.set(data[key]);
     }
 
-    atomList.push({ atom, key });
+    atomMap.set(key, atom);
 
     atom.listen((v) => {
       eventMap["change"]?.forEach((f) => {
@@ -46,10 +43,20 @@ export default function createEffectManager(data: any) {
    */
   function getCombinedState() {
     const state = {};
-    atomList.forEach(({ atom, key }) => {
+    atomMap.forEach((atom, key) => {
       state[key] = atom.get();
     });
     return state;
+  }
+
+  /**
+   * Retrieves an atom instance by key.
+   *
+   * @param {string} key - The key of the atom.
+   * @return {WritableAtom} The atom instance.
+   */
+  function getAtom<T>(key: string): WritableAtom<T> {
+    return atomMap.get(key);
   }
 
   requestAnimationFrame(() => {
@@ -62,5 +69,6 @@ export default function createEffectManager(data: any) {
     addAtom,
     on,
     getCombinedState,
+    getAtom
   };
 }
