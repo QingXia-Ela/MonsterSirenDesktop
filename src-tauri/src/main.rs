@@ -4,6 +4,7 @@ mod config;
 
 use std::thread::{self, JoinHandle};
 
+use config::Config;
 // use config::init_config;
 use monster_siren_desktop::proxy::{
     ApiProxy,
@@ -17,16 +18,15 @@ fn greet(name: &str) -> String {
     format!("Hello, {}! You've been greeted from Rust!", name)
 }
 
-fn spawn_cdn_proxy() -> JoinHandle<()> {
+fn spawn_cdn_proxy(config: &Config) -> JoinHandle<()> {
+    let mut rules = vec![CdnProxyRules::LogStoreChange];
+
+    if config.basic.closeAutoPlay {
+        rules.push(CdnProxyRules::PreventAutoplay)
+    }
+
     thread::spawn(|| {
-        CdnProxy::CdnProxy::new(
-            11451,
-            11452,
-            get_basic_filter_rules(vec![
-                CdnProxyRules::PreventAutoplay,
-                CdnProxyRules::LogStoreChange,
-            ]),
-        );
+        CdnProxy::CdnProxy::new(11451, 11452, get_basic_filter_rules(rules));
     })
 }
 
@@ -50,7 +50,7 @@ fn init(app: &mut App) {
             .to_string(),
         String::from("settings.json"),
     );
-    spawn_cdn_proxy();
+    spawn_cdn_proxy(&app_config);
     spawn_api_proxy();
 }
 

@@ -25,7 +25,6 @@ body {
 }
 
 #inject-app {
-
   @font-face {
     font-family: "SourceHanSansCN-Bold";
     src: url(@/assets/fonts/SourceHanSansCN-Bold.otf);
@@ -35,9 +34,7 @@ body {
   position: fixed;
   top: 0;
   left: 0;
-  font-family: "SourceHanSansCN-Bold",
-  "Microsoft Yahei",
-  sans-serif;
+  font-family: "SourceHanSansCN-Bold", "Microsoft Yahei", sans-serif;
 }
 
 #inject-app * {
@@ -48,16 +45,16 @@ body {
 
 .activeSelect {
   position: relative;
+}
 
-  &::before {
-    content: "";
-    display: block;
-    position: absolute;
-    left: 0;
-    top: 0;
-    background: #fff;
-    width: 3px;
-    height: 100%;
-    box-shadow: 0 0 6px #fff;
-  }
+.activeSelect::before {
+  content: "";
+  display: block;
+  position: absolute;
+  left: 0;
+  top: 0;
+  background: #fff;
+  width: 3px;
+  height: 100%;
+  box-shadow: 0 0 6px #fff;
 }

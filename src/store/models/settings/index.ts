@@ -48,15 +48,13 @@ export const DEFAULT_CONFIG = {
   },
 };
 
-const cfg: typeof DEFAULT_CONFIG = Object.assign({}, DEFAULT_CONFIG, content)
+const cfg: typeof DEFAULT_CONFIG = Object.assign({}, DEFAULT_CONFIG, content);
 
-const SettingsManager = createEffectManager(
-  cfg,
-);
+const SettingsManager = createEffectManager(cfg);
 
 // SettingsManager.addAtom(basic)
 const atomList: Array<[string, WritableAtom<any>]> = [
-  ["basic", atom(cfg.basic)]
+  ["basic", atom(cfg.basic)],
 ];
 
 atomList.forEach(([key, atom]) => {

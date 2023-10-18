@@ -23,6 +23,7 @@ export const Primary: Story = {
   args: {
     children: "多选框",
     checked: true,
-    disabled: true,
+    disabled: false,
+    theme: "config",
   },
 };

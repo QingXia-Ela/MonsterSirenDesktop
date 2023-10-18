@@ -69,6 +69,6 @@ export default function createEffectManager(data: any) {
     addAtom,
     on,
     getCombinedState,
-    getAtom
+    getAtom,
   };
 }

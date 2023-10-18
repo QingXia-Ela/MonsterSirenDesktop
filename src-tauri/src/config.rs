@@ -1,3 +1,4 @@
+#[warn(non_snake_case)]
 use std::{
     fs,
     io::{self, Error},
@@ -37,14 +38,14 @@ const INIT_CONFIG: &str = r#"{
   }"#;
 
 #[derive(Serialize, Deserialize, Debug)]
-struct BaiscConfig {
-    closeAutoPlay: bool,
-    volume: u8,
+pub struct BaiscConfig {
+    pub closeAutoPlay: bool,
+    pub volume: u8,
 }
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct Config {
-    basic: BaiscConfig,
+    pub basic: BaiscConfig,
 }
 
 pub fn get_config(raw_json: &String) -> Result<Config, Error> {

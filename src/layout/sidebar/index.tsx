@@ -1,47 +1,37 @@
 import { useEffect, useState } from "react";
 import useSirenCtx from "@/hooks/useSirenCtx";
 import Styles from "./index.module.css";
-import { useStore } from "@nanostores/react";
-import $settingBasic, { changeAutoPlay } from "@/store/models/settings/basic";
 import { Portal } from "@mui/material";
 import SirenStore from "@/store/SirenStore";
 import SidebarLeftOptionList from "./components/LeftOptionList";
 import { OptionList } from "./constants/config";
 import RightOptionDetail from "./components/RightOptionDetail";
+import { saveSettings } from "@/store/models/settings";
 
 // SirenStore["default"].
 // SirenStore.dispatch({type: ""})
 // SirenStore["default"].
-function SideBar() {
-  SirenStore;
-  const [open, setOpen] = useState(false);
+interface SideBarProps {
+  open: boolean;
+  setOpen: (open: boolean) => void;
+}
+function SideBar({ open, setOpen }: SideBarProps) {
   const [selectedValue, setSelectedValue] = useState(OptionList[0].value);
   const rootApp = useSirenCtx();
-  const homeBtn = rootApp
-    .querySelector("header")
-    ?.querySelector("a[class*='home']") as HTMLElement;
   const layout = rootApp.querySelector("#layout") as HTMLDivElement;
-  const { closeAutoPlay } = useStore($settingBasic);
 
   const closeFn = () => {
     setOpen(false);
     layout.style.filter = "";
     layout.style.pointerEvents = "";
+    saveSettings().then(() => {});
   };
 
-  useEffect(() => {
-    if (homeBtn) {
-      homeBtn.onclick = (e) => {
-        e.preventDefault();
-      };
+  if (open) {
+    layout.style.filter = "blur(10px)";
+    layout.style.pointerEvents = "none";
+  }
 
-      homeBtn.addEventListener("click", () => {
-        setOpen(true);
-        layout.style.filter = "blur(10px)";
-        layout.style.pointerEvents = "none";
-      });
-    }
-  }, []);
   return (
     <>
       <Portal>
@@ -62,7 +52,11 @@ function SideBar() {
           transform: open ? "translateX(0)" : "translateX(-100%)",
         }}
       >
-        <SidebarLeftOptionList value={selectedValue} onValueChange={setSelectedValue} optionList={OptionList} />
+        <SidebarLeftOptionList
+          value={selectedValue}
+          onValueChange={setSelectedValue}
+          optionList={OptionList}
+        />
       </div>
     </>
   );

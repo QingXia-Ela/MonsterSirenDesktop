@@ -9,15 +9,17 @@ export interface playerGetPlayList extends AnyAction {
 }
 
 export interface playerSetVolume extends AnyAction {
-  type: "player/setVolume", volume: number
+  type: "player/setVolume";
+  volume: number;
 }
 
 export interface playerSelectSong extends AnyAction {
-  type: "player/selectSong", cid: string
+  type: "player/selectSong";
+  cid: string;
 }
 
 export type Actions =
-  globalGetFontset |
-  playerGetPlayList |
-  playerSetVolume |
-  playerSelectSong;
+  | globalGetFontset
+  | playerGetPlayList
+  | playerSetVolume
+  | playerSelectSong;
