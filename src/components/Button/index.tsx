@@ -30,8 +30,8 @@ const Button: FunctionComponent<ButtonProps> = ({
       className={`${Styles.button} 
       ${Styles[`button--${size}`]} 
       ${Styles[`button--${theme}`]} 
-      ${decorate && Styles.button_decorate} 
-      ${disabled && Styles.button_disabled}
+      ${decorate ? Styles.button_decorate : ""} 
+      ${disabled ? Styles.button_disabled : ""}
       ${className}
     `}
       {...props}

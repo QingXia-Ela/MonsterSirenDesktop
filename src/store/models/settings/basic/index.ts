@@ -1,4 +1,4 @@
-import { DEFAULT_CONFIG, SettingsManager } from ".";
+import { DEFAULT_CONFIG, SettingsManager } from "../";
 
 const basic =
   SettingsManager.getAtom<(typeof DEFAULT_CONFIG)["basic"]>("basic");

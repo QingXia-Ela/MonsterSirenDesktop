@@ -20,15 +20,13 @@ const BasicSettings: FunctionComponent<BasicSettingsProps> = () => {
         placement="bottom-start"
       >
         <HoverWhiteBg>
-          <div className="flex flex-col">
-            <Checkbox
-              checked={closeAutoPlay}
-              onChange={changeAutoPlay}
-              theme="config"
-            >
-              关闭页面自动播放
-            </Checkbox>
-          </div>
+          <Checkbox
+            checked={closeAutoPlay}
+            onChange={changeAutoPlay}
+            theme="config"
+          >
+            关闭页面自动播放
+          </Checkbox>
         </HoverWhiteBg>
       </StyledTooltip>
     </div>

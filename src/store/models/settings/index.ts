@@ -27,7 +27,6 @@ export const DEFAULT_CONFIG = {
   background: {
     enable: false,
     url: "",
-    blur: 0,
     maskOpacity: 0,
   },
   localMusic: {
@@ -53,8 +52,9 @@ const cfg: typeof DEFAULT_CONFIG = Object.assign({}, DEFAULT_CONFIG, content);
 const SettingsManager = createEffectManager(cfg);
 
 // SettingsManager.addAtom(basic)
-const atomList: Array<[string, WritableAtom<any>]> = [
+const atomList: Array<[string, WritableAtom<typeof DEFAULT_CONFIG>]> = [
   ["basic", atom(cfg.basic)],
+  ["background", atom(cfg.background)],
 ];
 
 atomList.forEach(([key, atom]) => {

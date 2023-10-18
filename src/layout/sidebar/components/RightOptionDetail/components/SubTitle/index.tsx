@@ -6,7 +6,7 @@ interface SubTitleProps extends PropsWithChildren {
 
 const SubTitle: FunctionComponent<SubTitleProps> = ({ children }) => {
   return (
-    <span className="text-[.34rem] font-['SourceHanSansCN-Bold']">{children}</span>
+    <span className="block text-[.34rem] font-['SourceHanSansCN-Bold']">{children}</span>
   );
 }
 

@@ -4,10 +4,7 @@ mod config;
 mod proxy;
 mod server;
 
-use proxy::{
-    ApiProxy::{self, spawn_api_proxy},
-    CdnProxy::{self, get_basic_filter_rules, spawn_cdn_proxy, CdnProxyRules},
-};
+use proxy::{ApiProxy::spawn_api_proxy, CdnProxy::spawn_cdn_proxy};
 use server::spanw_file_server;
 use tauri::{App, Manager};
 

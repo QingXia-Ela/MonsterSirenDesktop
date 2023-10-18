@@ -43,8 +43,16 @@ pub struct BaiscConfig {
 }
 
 #[derive(Serialize, Deserialize, Debug)]
+pub struct BackgroundConfig {
+    pub enable: bool,
+    pub url: String,
+    pub maskOpacity: u8,
+}
+
+#[derive(Serialize, Deserialize, Debug)]
 pub struct Config {
     pub basic: BaiscConfig,
+    pub background: BackgroundConfig,
 }
 
 pub fn get_config(raw_json: &String) -> Result<Config, Error> {
