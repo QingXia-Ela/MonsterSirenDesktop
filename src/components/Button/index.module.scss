@@ -2,8 +2,9 @@
   position: relative;
   width: 2.2222rem;
   height: .9rem;
-  font-size: 0.4rem;
-  padding: 0;
+  font-size: 0.34rem;
+  padding-left: .3rem;
+  padding-right: .3rem;
   border: 1px solid #a2a6ae;
   font-family: "SourceHanSansCN-Bold", "Microsoft Yahei", sans-serif;
   color: #cacdd4;
@@ -12,8 +13,11 @@
   text-align: center;
   background-color: transparent;
   transition: background-color 0.3s;
-  outline: 0;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
   cursor: pointer;
+  outline: 0;
 
   &::before,
   &::after {
@@ -87,13 +91,13 @@
 .button--large {
   width: 4.4444rem;
   height: 1.2222rem;
-  font-size: 0.5rem;
+  font-size: 0.38rem;
 }
 
 .button--medium {
   width: 2.2222rem;
   height: .9rem;
-  font-size: 0.4rem;
+  font-size: 0.34rem;
 }
 
 .button--small {

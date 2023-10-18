@@ -1,19 +1,27 @@
-import { FunctionComponent } from "react";
+import { FunctionComponent, useEffect } from "react";
 import SubTitle from "../../components/SubTitle";
 import { open } from '@tauri-apps/api/dialog'
 import { useStore } from "@nanostores/react";
-import $settingBackground, { changeBackgroundEnabled } from "@/store/models/settings/background";
+import $settingBackground, { changeBackgroundEnabled, changeBackgroundImage } from "@/store/models/settings/background";
 import HoverWhiteBg from "@/components/HoverWhiteBg";
 import Checkbox from "@/components/Checkbox";
 import DisabledMark from "@/components/DisabledMark";
 import Button from "@/components/Button";
+import useSirenCtx from "@/hooks/useSirenCtx";
+import Styles from './index.module.scss'
 
 interface BackgroundSettingsProps {
 
 }
 
+const INJECT_BACKGROUND_ID = "inject-app__bg"
+
+function getEncodedUrl(url: string) {
+  return encodeURI(`http://localhost:11453/?path=${url}`)
+}
+
 async function getBackgroundImage() {
-  const selected = await open({
+  const ImagePath = await open({
     filters: [
       {
         name: '图片',
@@ -22,14 +30,52 @@ async function getBackgroundImage() {
     ]
   }) as string
 
-  const ImageFile = new Image()
-  ImageFile.src = `http://localhost:11453/?path=${selected}`
+  // Image
 
-  return ImageFile
+  return {
+    path: ImagePath,
+    encodedUrl: getEncodedUrl(ImagePath)
+  }
+}
+
+function initBackground(url: string, maskOpacity = 0.45) {
+  const root = useSirenCtx()
+  const layout = root.querySelector("#layout") as HTMLDivElement
+  layout.classList.add("background__instead")
+
+  const bgElement = document.querySelector(`#${INJECT_BACKGROUND_ID}`) as HTMLDivElement || document.createElement("div")
+
+  bgElement.id = INJECT_BACKGROUND_ID
+  bgElement.className = Styles.bg
+  bgElement.style.backgroundImage = `url(${url})`
+  bgElement.style.opacity = `${maskOpacity}`
+  layout.append(bgElement)
+}
+
+function destroyBackground() {
+  const root = useSirenCtx()
+  const layout = root.querySelector("#layout") as HTMLDivElement
+  layout?.classList.remove("background__instead")
+  layout.style.removeProperty("background-image")
+
+  layout.querySelector(`#${INJECT_BACKGROUND_ID}`)?.remove()
 }
 
 const BackgroundSettings: FunctionComponent<BackgroundSettingsProps> = () => {
   const { enable, url, maskOpacity } = useStore($settingBackground)
+  async function handleSelectImage() {
+    const { path } = await getBackgroundImage()
+    changeBackgroundImage(path)
+  }
+
+  useEffect(() => {
+    if (enable) {
+      initBackground(getEncodedUrl(url))
+    } else {
+      destroyBackground()
+    }
+  }, [enable, url])
+
   return (
     <div className="w-full flex flex-col gap-1">
       <SubTitle>基本设置</SubTitle>
@@ -44,7 +90,7 @@ const BackgroundSettings: FunctionComponent<BackgroundSettingsProps> = () => {
       </HoverWhiteBg>
       <DisabledMark disabled={!enable}>
         <SubTitle>背景图选择</SubTitle>
-        <Button className="mt-2 w-full" decorate>
+        <Button onClick={handleSelectImage} title={url} className="mt-2 w-full" decorate>
           {url?.length ? url : "选择图片"}
         </Button>
       </DisabledMark>

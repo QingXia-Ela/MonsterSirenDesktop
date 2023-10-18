@@ -2,6 +2,7 @@
   window.siren_store.getState().player.volume = 0;
   const injectApp = document.createElement("div");
   injectApp.id = "inject-app";
+  injectApp.classList.add("inject_app_class_namespace")
   document.body.appendChild(injectApp);
 
   // 未联网处理

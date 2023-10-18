@@ -2,6 +2,8 @@
 
 /* background instead */
 #layout.background__instead {
+  background-image: none;
+  background-color: #000;
 
   /* first route container div */
   &>div:first-child {
@@ -12,10 +14,21 @@
       background-image: none;
 
       /* clear some div with self bg */
-      &>div[class^="background"] {
+      &>div[class^="background"],
+      &>div[class*="albumSelect"] {
         background-color: transparent;
         background-image: none;
       }
+
+      /* speical for album */
+      &>div[class^="albumSelect"] {
+        backdrop-filter: blur(5px);
+      }
+    }
+
+    /* speical for musicPlayPage */
+    &>div[class^="musicPlayPage"] {
+      backdrop-filter: blur(8px);
     }
   }
 }

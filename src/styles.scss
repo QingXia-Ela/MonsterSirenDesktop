@@ -26,9 +26,8 @@
   sans-serif;
 }
 
-#inject-app * {
-  margin: 0;
-  padding: 0;
+// make css level lower
+.inject_app_class_namespace * {
   box-sizing: border-box;
 }
 
