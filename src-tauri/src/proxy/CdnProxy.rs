@@ -3,6 +3,7 @@ use std::{
     net::SocketAddrV4,
     ops::Deref,
     sync::{Arc, Mutex},
+    thread::{self, JoinHandle},
 };
 
 use futures::executor::block_on;
@@ -17,7 +18,7 @@ const SIREN_WEBSITE: &str = "https://monster-siren.hypergryph.com";
 
 type FilterType = Vec<[&'static str; 2]>;
 
-static mut request_cache: Lazy<Mutex<HashMap<String, Box<bytes::Bytes>>>> =
+static mut REQUEST_CACHE: Lazy<Mutex<HashMap<String, Box<bytes::Bytes>>>> =
     Lazy::new(|| Mutex::new(HashMap::new()));
 
 pub struct CdnProxy {}
@@ -52,7 +53,7 @@ async fn handle_request(
 ) -> Result<impl warp::Reply, warp::Rejection> {
     // cache
     unsafe {
-        if let Some(v) = request_cache
+        if let Some(v) = REQUEST_CACHE
             .lock()
             .unwrap()
             .get(&path.as_str().to_string())
@@ -97,7 +98,7 @@ async fn handle_request(
     response = warp::reply::Response::new(response_bytes.clone().into());
     // cache set
     unsafe {
-        request_cache
+        REQUEST_CACHE
             .lock()
             .unwrap()
             .insert(path.as_str().to_string(), Box::new(response_bytes));
@@ -159,4 +160,16 @@ pub fn get_basic_filter_rules(mut settings: Vec<CdnProxyRules>) -> FilterType {
     }
 
     rules
+}
+
+pub fn spawn_cdn_proxy(config: &crate::config::Config) -> JoinHandle<()> {
+    let mut rules = vec![];
+
+    if config.basic.closeAutoPlay {
+        rules.push(CdnProxyRules::PreventAutoplay)
+    }
+
+    thread::spawn(|| {
+        CdnProxy::new(11451, 11452, get_basic_filter_rules(rules));
+    })
 }

@@ -1,0 +1,21 @@
+/* global rewrite siren root styles */
+
+/* background instead */
+#layout.background__instead {
+
+  /* first route container div */
+  &>div:first-child {
+
+    /* second page div */
+    &>div {
+      background-color: transparent;
+      background-image: none;
+
+      /* clear some div with self bg */
+      &>div[class^="background"] {
+        background-color: transparent;
+        background-image: none;
+      }
+    }
+  }
+}

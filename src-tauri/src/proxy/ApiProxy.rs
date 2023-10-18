@@ -7,8 +7,8 @@ use reqwest::{
     header::{HeaderMap, ACCESS_CONTROL_ALLOW_ORIGIN, CONTENT_ENCODING, CONTENT_LENGTH},
     Client,
 };
-use std::collections::HashSet;
-use std::{borrow::BorrowMut, net::SocketAddrV4};
+use std::{borrow::BorrowMut, net::SocketAddrV4, thread};
+use std::{collections::HashSet, thread::JoinHandle};
 use warp::{path::FullPath, reply::Response, Filter};
 
 const SIREN_WEBSITE: &str = "https://monster-siren.hypergryph.com";
@@ -139,4 +139,10 @@ pub fn get_basic_filter_rules(mut settings: Vec<ApiProxyRules>) -> FilterType {
     }
 
     rules
+}
+
+pub fn spawn_api_proxy() -> JoinHandle<()> {
+    thread::spawn(|| {
+        ApiProxy::new(11452, 11451, vec![]);
+    })
 }

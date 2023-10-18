@@ -16,7 +16,6 @@ const INIT_CONFIG: &str = r#"{
     "background": {
       "enable": false,
       "url": "",
-      "blur": 0,
       "maskOpacity": 0
     },
     "localMusic": {

@@ -1,8 +1,10 @@
 import { FunctionComponent } from "react";
 import BasicSettings from "../components/RightOptionDetail/Settings/BasicSettings";
+import BackgroundSettings from "../components/RightOptionDetail/Settings/BackgroundSettings";
 
 export enum OptionType {
   BasicSettings,
+  BackgroundSettings
 }
 
 export interface SingleOptionItemProps {
@@ -20,4 +22,10 @@ export const OptionList: Array<SingleOptionItemProps> = [
     value: OptionType.BasicSettings,
     rightComponent: BasicSettings,
   },
+  {
+    iconClass: "icon-image",
+    title: "背景设置",
+    value: OptionType.BackgroundSettings,
+    rightComponent: BackgroundSettings,
+  }
 ];

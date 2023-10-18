@@ -1,17 +1,4 @@
-/* * {
-  margin: 0;
-  padding: 0;
-}
-
-html {
-  width: 100%;
-  height: 100%;
-}
-
-body {
-  width: 100%;
-  height: 100%;
-} */
+@import url(./styles/rewrite.scss);
 @tailwind components;
 @tailwind utilities;
 
@@ -34,7 +21,9 @@ body {
   position: fixed;
   top: 0;
   left: 0;
-  font-family: "SourceHanSansCN-Bold", "Microsoft Yahei", sans-serif;
+  font-family: "SourceHanSansCN-Bold",
+  "Microsoft Yahei",
+  sans-serif;
 }
 
 #inject-app * {
