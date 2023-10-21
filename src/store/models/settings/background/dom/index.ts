@@ -16,6 +16,10 @@ function initBackground(url: string, maskOpacity = 0.45) {
 
   const bgElement = document.querySelector(`#${INJECT_BACKGROUND_ID}`) as HTMLDivElement || document.createElement("div")
 
+  bgElement.addEventListener("error", () => {
+
+  })
+
   bgElement.id = INJECT_BACKGROUND_ID
   bgElement.className = Styles.bg
   bgElement.style.backgroundImage = `url(${url})`
