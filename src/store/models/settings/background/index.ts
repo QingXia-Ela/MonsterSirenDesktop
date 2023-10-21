@@ -13,6 +13,34 @@ export function changeBackgroundImage(url: string) {
   background.set({ ...background.get(), url });
 }
 
+export function changeBackgroundOpacity(pageName: string, opacity: number) {
+  const source = background.get()
+
+  background.set({
+    ...source,
+    backgroundOptions: source.backgroundOptions.map((item) => {
+      if (item.pageName === pageName) {
+        return { ...item, opacity };
+      }
+      return item;
+    }),
+  });
+}
+
+export function changeBackgroundBlur(pageName: string, blur: number) {
+  const source = background.get()
+
+  background.set({
+    ...source,
+    backgroundOptions: source.backgroundOptions.map((item) => {
+      if (item.pageName === pageName) {
+        return { ...item, blur };
+      }
+      return item;
+    }),
+  })
+}
+
 init(background)
 
 export default background;
