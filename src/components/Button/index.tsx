@@ -36,7 +36,7 @@ const Button: FunctionComponent<ButtonProps> = ({
     `}
       {...props}
     >
-      {children}
+      <div className="w-full overflow-hidden text-ellipsis whitespace-nowrap">{children}</div>
     </button>
   );
 };

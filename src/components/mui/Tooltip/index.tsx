@@ -7,6 +7,8 @@ const StyledTooltip = (props: any) => {
       classes={{
         tooltip: Styles.tooltip,
       }}
+      followCursor
+      placement="bottom-start"
       {...props}
     />
   );

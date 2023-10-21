@@ -1,10 +1,10 @@
 import Slider from "@mui/material/Slider";
 import Styles from './index.module.scss'
 
-const StyledSlider = ({ orientation = "horizontal", ...props }: any) => {
+const StyledSlider = ({ orientation = "horizontal", className, ...props }: any) => {
   return <Slider
     valueLabelDisplay="off"
-    className={`${Styles.slider} ${Styles[orientation]}`}
+    className={`${Styles.slider} ${Styles[orientation]} ${className ?? ""}`}
     classes={{
       track: Styles.track,
       rail: Styles.rail,
@@ -14,4 +14,4 @@ const StyledSlider = ({ orientation = "horizontal", ...props }: any) => {
   />;
 }
 
-export default StyledSlider;
+export default StyledSlider as typeof Slider;

@@ -1,4 +1,4 @@
-import { FunctionComponent, useEffect } from "react";
+import { FunctionComponent, useEffect, useState } from "react";
 import SubTitle from "../../components/SubTitle";
 import { open } from '@tauri-apps/api/dialog'
 import { useStore } from "@nanostores/react";
@@ -7,14 +7,13 @@ import HoverWhiteBg from "@/components/HoverWhiteBg";
 import Checkbox from "@/components/Checkbox";
 import DisabledMark from "@/components/DisabledMark";
 import Button from "@/components/Button";
-import useSirenCtx from "@/hooks/useSirenCtx";
-import Styles from './index.module.scss'
+import OptionMargin from "../../components/OptionMargin";
+import PageStyleChange from "./components/PageStyleChange";
 
 interface BackgroundSettingsProps {
 
 }
 
-const INJECT_BACKGROUND_ID = "inject-app__bg"
 
 function getEncodedUrl(url: string) {
   return encodeURI(`http://localhost:11453/?path=${url}`)
@@ -30,8 +29,6 @@ async function getBackgroundImage() {
     ]
   }) as string
 
-  // Image
-
   return {
     path: ImagePath,
     encodedUrl: getEncodedUrl(ImagePath)
@@ -39,14 +36,15 @@ async function getBackgroundImage() {
 }
 
 const BackgroundSettings: FunctionComponent<BackgroundSettingsProps> = () => {
-  const { enable, url, maskOpacity } = useStore($settingBackground)
+  const { enable, url } = useStore($settingBackground)
   async function handleSelectImage() {
     const { path } = await getBackgroundImage()
+    if (!path) return
     changeBackgroundImage(path)
   }
 
   return (
-    <div className="w-full flex flex-col gap-1">
+    <div className="w-full flex flex-col gap-1 text-[.32rem]">
       <SubTitle>基本设置</SubTitle>
       <HoverWhiteBg>
         <Checkbox
@@ -58,10 +56,13 @@ const BackgroundSettings: FunctionComponent<BackgroundSettingsProps> = () => {
         </Checkbox>
       </HoverWhiteBg>
       <DisabledMark disabled={!enable}>
-        <SubTitle>背景图选择</SubTitle>
-        <Button onClick={handleSelectImage} title={url} className="mt-2 w-full" decorate>
-          {url?.length ? url : "选择图片"}
-        </Button>
+        <OptionMargin>
+          <SubTitle>背景图选择</SubTitle>
+          <Button onClick={handleSelectImage} title={url} className="w-full" decorate>
+            {url?.length ? url : "选择图片"}
+          </Button>
+          <PageStyleChange />
+        </OptionMargin>
       </DisabledMark>
     </div>
   );

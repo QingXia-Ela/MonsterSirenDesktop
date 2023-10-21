@@ -14,6 +14,11 @@ pub const INIT_CONFIG: &str = r#"{
         "blur": 0
       },
       {
+        "pageName": "about",
+        "opacity": 45,
+        "blur": 0
+      },
+      {
         "pageName": "albums",
         "opacity": 35,
         "blur": 0

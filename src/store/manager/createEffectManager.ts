@@ -3,7 +3,7 @@ import type { WritableAtom } from "nanostores";
 
 export default function createEffectManager(data: any) {
   const atomMap = new Map<string, WritableAtom<any>>();
-  const eventMap = {};
+  const eventMap: Record<EventName, Array<() => void>> = {};
 
   /**
    * @param key the key that use from data, will be used as the init value

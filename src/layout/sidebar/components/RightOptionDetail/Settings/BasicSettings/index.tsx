@@ -16,8 +16,6 @@ const BasicSettings: FunctionComponent<BasicSettingsProps> = () => {
       <SubTitle>基本</SubTitle>
       <StyledTooltip
         title="当页面首次进行点击时，播放器会自动播放最新的专辑，可以通过这个选项关闭这个行为"
-        followCursor
-        placement="bottom-start"
       >
         <HoverWhiteBg>
           <Checkbox

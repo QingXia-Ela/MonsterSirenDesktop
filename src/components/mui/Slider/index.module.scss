@@ -1,22 +1,23 @@
 .vertical {
-  width: 2px;
+  width: 2px !important;
 }
 
 .horizontal {
-  height: 2px;
+  height: 2px !important;
 }
 
 .track {
-  background-color: #fff;
+  background-color: #fff !important;
+  border-color: #fff !important;
 }
 
 .rail {
-  background-color: #2d2e2f;
+  background-color: #86898c !important;
 }
 
 .thumb {
-  background-color: #fff;
+  background-color: #fff !important;
   box-shadow: none !important;
-  width: 9px;
-  height: 9px;
+  width: .2rem !important;
+  height: .2rem !important;
 }

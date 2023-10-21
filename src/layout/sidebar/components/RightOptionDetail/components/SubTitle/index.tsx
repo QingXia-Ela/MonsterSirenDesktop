@@ -1,13 +1,19 @@
-import { FunctionComponent, PropsWithChildren } from "react";
+import { HTMLAttributes, forwardRef } from "react";
 
-interface SubTitleProps extends PropsWithChildren {
+interface SubTitleProps extends HTMLAttributes<HTMLSpanElement> {
 
 }
 
-const SubTitle: FunctionComponent<SubTitleProps> = ({ children }) => {
+const SubTitle = forwardRef<HTMLSpanElement, SubTitleProps>(function SubTitle({ children, className, ...props }, ref) {
   return (
-    <span className="block text-[.34rem] font-['SourceHanSansCN-Bold']">{children}</span>
+    <span
+      ref={ref}
+      className={`block text-[.4rem] font-['SourceHanSansCN-Bold'] ${className ?? ""}`}
+      {...props}
+    >
+      {children}
+    </span>
   );
-}
+})
 
 export default SubTitle;

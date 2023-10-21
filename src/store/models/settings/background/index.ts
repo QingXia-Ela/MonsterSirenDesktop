@@ -1,3 +1,4 @@
+import { throttle } from "lodash";
 import { SettingsManager } from "../";
 import { CONFIG_TYPE } from "../types";
 import init from "./dom";
@@ -13,7 +14,7 @@ export function changeBackgroundImage(url: string) {
   background.set({ ...background.get(), url });
 }
 
-export function changeBackgroundOpacity(pageName: string, opacity: number) {
+export const throttleChangeBackgroundOpacity = throttle(function changeBackgroundOpacity(pageName: string, opacity: number) {
   const source = background.get()
 
   background.set({
@@ -25,9 +26,9 @@ export function changeBackgroundOpacity(pageName: string, opacity: number) {
       return item;
     }),
   });
-}
+}, 500)
 
-export function changeBackgroundBlur(pageName: string, blur: number) {
+export const throttleChangeBackgroundBlur = throttle(function changeBackgroundBlur(pageName: string, blur: number) {
   const source = background.get()
 
   background.set({
@@ -39,7 +40,7 @@ export function changeBackgroundBlur(pageName: string, blur: number) {
       return item;
     }),
   })
-}
+}, 500)
 
 init(background)
 

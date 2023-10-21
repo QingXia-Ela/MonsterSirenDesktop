@@ -10,8 +10,8 @@ const DisabledMark = forwardRef<HTMLDivElement, DisabledMarkProps>(function Disa
   ref
 ) {
   return (
-    <div className={`w-full transition-opacity ${disabled && Styles.disabled} ${className ?? ""}`} ref={ref} {...props}>
-      {children}
+    <div className={`w-full flex transition-opacity ${disabled && Styles.disabled} ${className ?? ""}`} ref={ref} {...props}>
+      <div className="w-full">{children}</div>
     </div>
   )
 })

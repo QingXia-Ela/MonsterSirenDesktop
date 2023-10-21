@@ -1,7 +1,7 @@
 .checkbox {
   display: flex;
   align-items: center;
-  gap: 0.2em;
+  gap: 1rem;
   cursor: pointer;
 
   &.disabled {
@@ -12,36 +12,37 @@
 
   &:hover {
     .checkbox__check {
-      border: 0.04em solid #ccc;
+      border: 0.04rem solid #ccc;
     }
   }
 }
 
 .checkbox__check {
   box-sizing: border-box;
-  border: 0.04em solid hsla(0, 0%, 76%, 0.5);
+  border: 0.04rem solid hsla(0, 0%, 76%, 0.5);
   background: transparent;
-  width: 0.32em;
-  height: 0.32em;
+  width: 0.32rem;
+  height: 0.32rem;
   transition: all 0.3s ease;
 
   &.selected {
     background: #d6d6d6;
-    border: 0.04em solid #fff !important;
+    border: 0.04rem solid #fff !important;
   }
 }
 
 .checkbox__content {
   color: #fff;
-  font-size: 0.4em;
+  font-size: .34rem;
   user-select: none;
 }
 
 .checkboxTheme--config {
-  width: 0.84em;
-  height: 0.24em;
+  width: 0.6rem;
+  height: 0.14rem;
 }
 
 .checkboxTheme--normal {
-  width: 0.32em;
+  width: 0.32rem;
+  margin-right: 0.2rem;
 }

@@ -23,7 +23,6 @@ interface DropDownProps extends HTMLAttributes<HTMLDivElement> {
   placeholder?: string;
   arrow?: boolean;
   height: number | string;
-  listHeight: number | string;
   onChange?: (value: any) => void;
   borderTheme?: "block" | "line" | "none";
   addonListBefore?: ReactNode;
@@ -33,11 +32,10 @@ interface DropDownProps extends HTMLAttributes<HTMLDivElement> {
   options: SingleOption[];
 }
 
-const DropDown: FunctionComponent<DropDownProps> = ({
+const Select: FunctionComponent<DropDownProps> = ({
   value,
   placeholder,
   height,
-  listHeight,
   arrow,
   options,
   onChange,
@@ -61,14 +59,13 @@ const DropDown: FunctionComponent<DropDownProps> = ({
     const value = (e.target as HTMLLIElement).getAttribute("data-value");
     onChange?.(value);
     setCurrentValue(value);
-    setCurrentLabel(label);
+    setCurrentLabel(label ?? "");
   };
 
   return (
     <div
-      className={`${Styles.dropdown} ${
-        borderTheme !== "none" && Styles[`dropdown--border-${borderTheme}`]
-      }`}
+      className={`${Styles.dropdown} ${borderTheme !== "none" && Styles[`dropdown--border-${borderTheme}`]
+        }`}
       onClick={handleClick}
       {...props}
     >
@@ -78,12 +75,11 @@ const DropDown: FunctionComponent<DropDownProps> = ({
       <div
         data-select-wrapper
         style={{ height: isOpen ? height : 0 }}
-        className={Styles.dropdown__content}
+        className={`scrollbar__hidden ${Styles.dropdown__content}`}
       >
         {addonListBefore}
         <ul
           className={Styles.dropdown__list}
-          style={{ height: listHeight }}
           onClick={handleListClick}
         >
           {options.map((option) => (
@@ -117,4 +113,4 @@ const DropDown: FunctionComponent<DropDownProps> = ({
   );
 };
 
-export default DropDown;
+export default Select;
