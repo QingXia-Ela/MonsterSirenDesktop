@@ -38,43 +38,12 @@ async function getBackgroundImage() {
   }
 }
 
-function initBackground(url: string, maskOpacity = 0.45) {
-  const root = useSirenCtx()
-  const layout = root.querySelector("#layout") as HTMLDivElement
-  layout.classList.add("background__instead")
-
-  const bgElement = document.querySelector(`#${INJECT_BACKGROUND_ID}`) as HTMLDivElement || document.createElement("div")
-
-  bgElement.id = INJECT_BACKGROUND_ID
-  bgElement.className = Styles.bg
-  bgElement.style.backgroundImage = `url(${url})`
-  bgElement.style.opacity = `${maskOpacity}`
-  layout.append(bgElement)
-}
-
-function destroyBackground() {
-  const root = useSirenCtx()
-  const layout = root.querySelector("#layout") as HTMLDivElement
-  layout?.classList.remove("background__instead")
-  layout.style.removeProperty("background-image")
-
-  layout.querySelector(`#${INJECT_BACKGROUND_ID}`)?.remove()
-}
-
 const BackgroundSettings: FunctionComponent<BackgroundSettingsProps> = () => {
   const { enable, url, maskOpacity } = useStore($settingBackground)
   async function handleSelectImage() {
     const { path } = await getBackgroundImage()
     changeBackgroundImage(path)
   }
-
-  useEffect(() => {
-    if (enable) {
-      initBackground(getEncodedUrl(url))
-    } else {
-      destroyBackground()
-    }
-  }, [enable, url])
 
   return (
     <div className="w-full flex flex-col gap-1">

@@ -1,4 +1,5 @@
 import { DEFAULT_CONFIG, SettingsManager } from "../";
+import init from "./dom";
 
 const background =
   SettingsManager.getAtom<(typeof DEFAULT_CONFIG)["background"]>("background");
@@ -14,5 +15,7 @@ export function changeBackgroundImage(url: string) {
 export function changeMaskOpacity(maskOpacity: number) {
   background.set({ ...background.get(), maskOpacity });
 }
+
+init(background)
 
 export default background;
