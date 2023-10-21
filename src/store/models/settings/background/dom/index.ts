@@ -1,9 +1,9 @@
 import useSirenCtx from "@/hooks/useSirenCtx";
 import Styles from './index.module.scss'
 import type BackgroundStore from '../'
+import { CONFIG_TYPE } from "../../types";
 
 const INJECT_BACKGROUND_ID = "inject-app__bg"
-// let DomContentLoaded = false
 
 function getEncodedUrl(url: string) {
   return encodeURI(`http://localhost:11453/?path=${url}`)
@@ -15,10 +15,6 @@ function initBackground(url: string, maskOpacity = 0.45) {
   layout.classList.add("background__instead")
 
   const bgElement = document.querySelector(`#${INJECT_BACKGROUND_ID}`) as HTMLDivElement || document.createElement("div")
-
-  bgElement.addEventListener("error", () => {
-
-  })
 
   bgElement.id = INJECT_BACKGROUND_ID
   bgElement.className = Styles.bg
@@ -36,9 +32,9 @@ function destroyBackground() {
   layout.querySelector(`#${INJECT_BACKGROUND_ID}`)?.remove()
 }
 
-const onStateChange = ({ enable, maskOpacity, url }) => {
+const onStateChange = ({ enable, url }: CONFIG_TYPE["background"]) => {
   if (enable) {
-    initBackground(getEncodedUrl(url), maskOpacity)
+    initBackground(getEncodedUrl(url))
   } else {
     destroyBackground()
   }

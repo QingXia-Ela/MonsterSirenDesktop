@@ -1,8 +1,9 @@
-import { DEFAULT_CONFIG, SettingsManager } from "../";
+import { SettingsManager } from "../";
+import { CONFIG_TYPE } from "../types";
 import init from "./dom";
 
 const background =
-  SettingsManager.getAtom<(typeof DEFAULT_CONFIG)["background"]>("background");
+  SettingsManager.getAtom<CONFIG_TYPE["background"]>("background");
 
 export function changeBackgroundEnabled(enable: boolean) {
   background.set({ ...background.get(), enable });
@@ -10,10 +11,6 @@ export function changeBackgroundEnabled(enable: boolean) {
 
 export function changeBackgroundImage(url: string) {
   background.set({ ...background.get(), url });
-}
-
-export function changeMaskOpacity(maskOpacity: number) {
-  background.set({ ...background.get(), maskOpacity });
 }
 
 init(background)

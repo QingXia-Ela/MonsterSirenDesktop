@@ -6,35 +6,9 @@ use std::{
 };
 
 use serde::{Deserialize, Serialize};
-
-/// sync with `src/public/init_config.json`
-const INIT_CONFIG: &str = r#"{
-    "basic": {
-      "closeAutoPlay": true,
-      "volume": 20
-    },
-    "background": {
-      "enable": false,
-      "url": "",
-      "maskOpacity": 0
-    },
-    "localMusic": {
-      "enable": false,
-      "paths": []
-    },
-    "download": {
-      "path": "",
-      "downloadLrc": false,
-      "parseFileType": "none"
-    },
-    "outputDevice": {},
-    "desktopLrc": {},
-    "advanced": {
-      "enable": false,
-      "cdnProxyPort": 0,
-      "apiProxyPort": 0
-    }
-  }"#;
+mod BackgroundConfig;
+mod constants;
+use constants::INIT_CONFIG;
 
 #[derive(Serialize, Deserialize, Debug)]
 pub struct BaiscConfig {
@@ -43,16 +17,9 @@ pub struct BaiscConfig {
 }
 
 #[derive(Serialize, Deserialize, Debug)]
-pub struct BackgroundConfig {
-    pub enable: bool,
-    pub url: String,
-    pub maskOpacity: u8,
-}
-
-#[derive(Serialize, Deserialize, Debug)]
 pub struct Config {
     pub basic: BaiscConfig,
-    pub background: BackgroundConfig,
+    pub background: BackgroundConfig::Config,
 }
 
 pub fn get_config(raw_json: &String) -> Result<Config, Error> {

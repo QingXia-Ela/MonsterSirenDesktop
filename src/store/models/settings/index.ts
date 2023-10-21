@@ -1,4 +1,5 @@
 import createEffectManager from "../../manager/createEffectManager";
+import DEFAULT_CONFIG from '@/constant/json/init_config.json' assert { type: "json" }
 import {
   readTextFile,
   writeTextFile,
@@ -16,42 +17,10 @@ const content = JSON.parse(
   await readTextFile(SETTINGS_PATH, { dir: BaseDirectory.AppData }),
 );
 
-/**
- * The default settings **DON'T CHANGE IT**
- */
-export const DEFAULT_CONFIG = {
-  basic: {
-    closeAutoPlay: false,
-    volume: 20,
-  },
-  background: {
-    enable: false,
-    url: "",
-    maskOpacity: 0,
-  },
-  localMusic: {
-    enable: false,
-    paths: [],
-  },
-  download: {
-    path: "",
-    downloadLrc: false,
-    parseFileType: "none",
-  },
-  outputDevice: {},
-  desktopLrc: {},
-  advanced: {
-    enable: false,
-    cdnProxyPort: 0,
-    apiProxyPort: 0,
-  },
-};
-
 const cfg: typeof DEFAULT_CONFIG = Object.assign({}, DEFAULT_CONFIG, content);
 
 const SettingsManager = createEffectManager(cfg);
 
-// SettingsManager.addAtom(basic)
 const atomList: Array<[string, WritableAtom<typeof DEFAULT_CONFIG>]> = [
   ["basic", atom(cfg.basic)],
   ["background", atom(cfg.background)],
