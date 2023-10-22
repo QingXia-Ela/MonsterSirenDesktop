@@ -1,0 +1,31 @@
+.playlist {
+  position: absolute;
+  top: 50%;
+  right: 0;
+  height: 16rem;
+  width: 7.5rem;
+  background-color: rgba(22, 22, 22, .8);
+  transition: transform .5s;
+
+  &::before,
+  &::after {
+    content: "";
+    display: block;
+    position: absolute;
+    left: -.12rem;
+    width: calc(100% + .24rem);
+    height: .24rem;
+    background-image: linear-gradient(#ccc, #ccc), linear-gradient(#ccc, #ccc);
+    background-size: .24rem 100%, .24rem 100%;
+    background-position: 0, 100%;
+    background-repeat: no-repeat, no-repeat;
+  }
+
+  &::before {
+    top: -.12rem;
+  }
+
+  &::after {
+    bottom: -.12rem;
+  }
+}
