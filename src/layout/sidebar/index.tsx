@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import useSirenCtx from "@/hooks/useSirenCtx";
+import getSirenCtx from "@/hooks/getSirenCtx";
 import Styles from "./index.module.css";
 import { Portal } from "@mui/material";
 import SirenStore from "@/store/SirenStore";
@@ -17,7 +17,7 @@ interface SideBarProps {
 }
 function SideBar({ open, setOpen }: SideBarProps) {
   const [selectedValue, setSelectedValue] = useState(OptionList[0].value);
-  const rootApp = useSirenCtx();
+  const rootApp = getSirenCtx();
   const layout = rootApp.querySelector("#layout") as HTMLDivElement;
 
   const closeFn = () => {

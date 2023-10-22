@@ -1,5 +1,5 @@
-function useSirenCtx() {
+function getSirenCtx() {
   return document.getElementById("root") as HTMLDivElement;
 }
 
-export default useSirenCtx;
+export default getSirenCtx;

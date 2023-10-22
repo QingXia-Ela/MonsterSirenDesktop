@@ -1,4 +1,4 @@
-import useSirenCtx from "@/hooks/useSirenCtx";
+import getSirenCtx from "@/hooks/getSirenCtx";
 import Styles from './index.module.scss';
 import BackgroundStore from '../';
 import { CONFIG_TYPE } from "../../types";
@@ -67,7 +67,7 @@ function onHistoryChange() {
 }
 
 function initBackground(url: string) {
-  const root = useSirenCtx()
+  const root = getSirenCtx()
   const layout = root.querySelector("#layout") as HTMLDivElement
   layout.classList.add("background__instead")
 
@@ -91,7 +91,7 @@ function initBackground(url: string) {
 }
 
 function destroyBackground() {
-  const root = useSirenCtx()
+  const root = getSirenCtx()
   const layout = root.querySelector("#layout") as HTMLDivElement
   layout?.classList.remove("background__instead")
   layout.style.removeProperty("background-image")

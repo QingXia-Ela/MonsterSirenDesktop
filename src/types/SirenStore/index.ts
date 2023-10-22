@@ -127,12 +127,27 @@ const initalProps = {
 };
 
 interface SirenGlobalType {
-  variables: {};
-  background: {};
+  variables: object;
+  background: object;
   font: Record<string, Record<string, string>>;
 }
 
-type SirenStoreState = SirenGlobalType & typeof initalProps;
+interface SirenPlayerType {
+  player: {
+    list: Array<{
+      cid: string;
+      name: string;
+      albumCid: string;
+      artists: string[];
+    }>;
+    mode: "list" | "album" | "loop" | "random";
+    current: string | null;
+  }
+}
+
+type SirenStoreState = typeof initalProps &
+  SirenGlobalType &
+  SirenPlayerType;
 
 interface SirenStoreCollect {
   getState: () => SirenStoreState;

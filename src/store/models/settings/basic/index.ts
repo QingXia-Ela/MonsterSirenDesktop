@@ -1,7 +1,8 @@
-import { DEFAULT_CONFIG, SettingsManager } from "../";
+import { SettingsManager } from "../";
+import { CONFIG_TYPE } from "../types";
 
 const basic =
-  SettingsManager.getAtom<(typeof DEFAULT_CONFIG)["basic"]>("basic");
+  SettingsManager.getAtom<(CONFIG_TYPE)["basic"]>("basic");
 
 export function changeAutoPlay(closeAutoPlay: boolean) {
   basic.set({ ...basic.get(), closeAutoPlay });
