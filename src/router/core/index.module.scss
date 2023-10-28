@@ -1,0 +1,15 @@
+.navItem {
+  padding: .18rem;
+  font-size: .36rem;
+  font-family: "SourceHanSansCN-Bold";
+  color: #c6c9ce;
+  line-height: 1.2;
+  text-decoration: none;
+  transition: color .3s ease;
+  cursor: pointer;
+}
+
+.navActive {
+  color: #595b5d !important;
+  pointer-events: none;
+}

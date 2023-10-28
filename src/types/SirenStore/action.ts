@@ -1,4 +1,6 @@
 import { AnyAction } from "@reduxjs/toolkit";
+import { sectionActivatePage, sectionInitPage, sectionPageEntered } from "./actions/section";
+import { logoShowLogo, logoHideLogo } from "./actions/logo";
 
 export interface globalGetFontset extends AnyAction {
   type: "global/getFontSet";
@@ -18,8 +20,16 @@ export interface playerSelectSong extends AnyAction {
   cid: string;
 }
 
+
 export type Actions =
   | globalGetFontset
   | playerGetPlayList
   | playerSetVolume
-  | playerSelectSong;
+  | playerSelectSong
+  | sectionActivatePage
+  | sectionInitPage
+  | sectionPageEntered
+  | logoShowLogo
+  | logoHideLogo
+
+

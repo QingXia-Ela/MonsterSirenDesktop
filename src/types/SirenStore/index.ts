@@ -145,9 +145,16 @@ interface SirenPlayerType {
   }
 }
 
+interface SirenSectionType {
+  section: {
+    pageStatus: Record<string, { active: boolean; initiated: boolean }>;
+  }
+}
+
 type SirenStoreState = typeof initalProps &
   SirenGlobalType &
-  SirenPlayerType;
+  SirenPlayerType &
+  SirenSectionType;
 
 interface SirenStoreCollect {
   getState: () => SirenStoreState;

@@ -132,12 +132,17 @@ pub enum CdnProxyRules {
     LogStoreChange,
     PreventAutoplay,
     ExposeStore,
+    ExposeHistory,
 }
 
 pub fn get_basic_filter_rules(mut settings: Vec<CdnProxyRules>) -> FilterType {
     let mut rules = vec![];
     // default expose store
-    settings.extend(vec![CdnProxyRules::ExposeStore]);
+    settings.extend(vec![
+        CdnProxyRules::ExposeStore,
+        CdnProxyRules::ExposeHistory,
+        CdnProxyRules::LogStoreChange,
+    ]);
     let settings = settings
         .into_iter()
         .collect::<HashSet<_>>()
@@ -155,6 +160,9 @@ pub fn get_basic_filter_rules(mut settings: Vec<CdnProxyRules>) -> FilterType {
             ]),
             CdnProxyRules::PreventAutoplay => {
                 rules.push(["i.initCtx()}i.play()};", "i.initCtx()}};"])
+            }
+            CdnProxyRules::ExposeHistory => {
+                rules.push(["};return X", "};window.siren_router=X;return X"])
             }
         }
     }

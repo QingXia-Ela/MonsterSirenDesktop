@@ -2,6 +2,7 @@ import { createRef, useEffect, useState } from "react";
 import { invoke } from "@tauri-apps/api/tauri";
 import InjectLayout from "./layout";
 import useBackground from "./hooks/useBackground";
+import SirenCustomView from "@/router/core/CustomView";
 
 function App() {
   const [greetMsg, setGreetMsg] = useState("");
@@ -14,31 +15,9 @@ function App() {
   }
 
   return (
-    // <div className="container">
-    //   111
-
-    //   <form
-    //     className="row"
-    //     onSubmit={(e) => {
-    //       e.preventDefault();
-    //       greet();
-    //     }}
-    //   >
-    //     <input
-    //       id="greet-input"
-    //       onChange={(e) => setName(e.currentTarget.value)}
-    //       placeholder="Enter a name..."
-    //     />
-    //     <button type="submit">Greet</button>
-    //   </form>
-
-    //   <p>{greetMsg}</p>
-    // </div>
     <>
-      {/* {
-        !window.__TAURI_IPC__ && <iframe id="MonsterSirenCore" className="w-full h-full p-0.5 bg-black" src="https://monster-siren.hypergryph.com" frameBorder={0} ref={MonsterSirenCore} referrerPolicy="no-referrer"></iframe>
-      } */}
       <InjectLayout></InjectLayout>
+      <SirenCustomView />
     </>
   );
 }

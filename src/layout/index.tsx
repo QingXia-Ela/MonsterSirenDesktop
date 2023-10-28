@@ -5,6 +5,7 @@ import Styles from "./index.module.scss";
 import SideBar from "./sidebar";
 import { isTauri } from "@/hooks/getPlatform";
 import PlayList from "./playlist";
+import { INJECT_ROUTER_VIEW } from "@/router/core/constants";
 
 interface InjectLayoutProps {
   children: React.ReactNode;
@@ -64,6 +65,7 @@ const InjectLayout: FunctionComponent<InjectLayoutProps> = ({ children }) => {
       <div className={Styles.sidebar_wrapper}>
         <SideBar open={open} setOpen={setOpen} />
       </div>
+      <div id={INJECT_ROUTER_VIEW}></div>
       <PlayList />
       {children}
     </>

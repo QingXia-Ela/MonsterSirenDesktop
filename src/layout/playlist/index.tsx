@@ -8,42 +8,12 @@ interface PlayListProps {
 
 }
 
-let globalShowList = false
-
 const injectElement = document.querySelector("#inject-app") as HTMLDivElement
 
 const PlayList: FunctionComponent<PlayListProps> = () => {
-
-  const [showList, setShowList] = useState(false);
-
-  useEffect(() => {
-    const root = getSirenCtx();
-    const nav = root.querySelector("header")
-      ?.querySelector("nav") as HTMLDivElement;
-
-    nav.querySelector("div[class*='userGroup']")
-      ?.remove()
-
-    const showListButton = document.createElement("div");
-    showListButton.className = nav.querySelector("a")?.className ?? ""
-    showListButton.innerHTML = "播放列表"
-    showListButton.style.cssText = `cursor: pointer;`
-
-    nav.appendChild(showListButton)
-
-    showListButton.addEventListener("click", () => {
-      globalShowList = !globalShowList
-      setShowList(globalShowList)
-    })
-
-    return () => {
-      nav.removeChild(showListButton);
-    }
-  }, [])
-
   return (
     <Portal container={injectElement}>
-      <div className="fixed top-0 right-0 h-full">
+      {/* <div className="fixed top-0 right-0 h-full">
         <div
           className={Styles.playlist}
           // don't know why tailwind doesn't work
@@ -53,7 +23,7 @@ const PlayList: FunctionComponent<PlayListProps> = () => {
         >
           <PlayListHeader />
         </div>
-      </div>
+      </div> */}
     </Portal>
   );
 }
