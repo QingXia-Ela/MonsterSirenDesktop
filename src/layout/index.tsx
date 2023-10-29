@@ -1,14 +1,13 @@
-import { FunctionComponent, Suspense, useEffect, useState } from "react";
+import { FunctionComponent, PropsWithChildren, Suspense, useEffect, useState } from "react";
 import { appWindow } from "@tauri-apps/api/window";
 import "@/assets/fonts/basic/iconfont.css";
 import Styles from "./index.module.scss";
 import SideBar from "./sidebar";
 import { isTauri } from "@/hooks/getPlatform";
 import PlayList from "./playlist";
-import { INJECT_ROUTER_VIEW } from "@/router/core/constants";
 
-interface InjectLayoutProps {
-  children: React.ReactNode;
+interface InjectLayoutProps extends PropsWithChildren {
+
 }
 
 const InjectLayout: FunctionComponent<InjectLayoutProps> = ({ children }) => {
@@ -65,7 +64,6 @@ const InjectLayout: FunctionComponent<InjectLayoutProps> = ({ children }) => {
       <div className={Styles.sidebar_wrapper}>
         <SideBar open={open} setOpen={setOpen} />
       </div>
-      <div id={INJECT_ROUTER_VIEW}></div>
       <PlayList />
       {children}
     </>

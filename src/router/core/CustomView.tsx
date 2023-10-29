@@ -6,9 +6,17 @@ import { createView } from "./index"
 import { useStore } from "@nanostores/react";
 import $customRouter from "@/store/models/router";
 import { RouterCombineProps } from "../types";
+import getSirenCtx from "@/hooks/getSirenCtx";
 
 interface SirenCustomViewProps extends PropsWithChildren {
+
 }
+
+// inject router view in root app
+const root = getSirenCtx()
+const view = document.createElement("div")
+view.id = INJECT_ROUTER_VIEW
+root.querySelector("#layout")?.append(view)
 
 const pathMap: Record<string, FunctionComponent<RouterCombineProps & any>> = {}
 const pathSet = new Set<string>()

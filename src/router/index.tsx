@@ -1,5 +1,6 @@
 import { HTMLAttributes, useEffect } from "react"
 import { RouteItem, RouterCombineProps } from "./types"
+import PlayList from "@/pages/playlist";
 
 const TestComponent = (
   { active, path, ...props }:
@@ -19,9 +20,9 @@ const TestComponent = (
 const routes: RouteItem[] = [
   {
     path: "/playlist",
-    component: TestComponent,
+    component: PlayList,
     addToNav: true,
-    name: "测试"
+    name: "播放列表"
   },
   {
     path: "/test",
