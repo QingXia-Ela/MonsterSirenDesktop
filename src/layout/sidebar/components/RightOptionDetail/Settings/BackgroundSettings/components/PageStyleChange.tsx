@@ -35,6 +35,10 @@ const PAGE_OPTION_NAME_MAP = [
   {
     label: "音乐播放页",
     value: "music"
+  },
+  {
+    label: "播放列表",
+    value: "playlist"
   }
 ]
 const PageStyleChange: FunctionComponent<PageStyleChangeProps> = () => {
@@ -75,7 +79,7 @@ const PageStyleChange: FunctionComponent<PageStyleChangeProps> = () => {
       />
       <DisabledMark disabled={currentSelectPage.length === 0}>
         <StyledTooltip
-          className="h-fit"
+          className="!h-fit text-[.3rem]"
           title="背景透明度，建议值在 45 左右"
         >
           <HoverWhiteBg className="flex justify-between items-center">
@@ -83,12 +87,12 @@ const PageStyleChange: FunctionComponent<PageStyleChangeProps> = () => {
             <StyledSlider
               value={opacity}
               onChange={((_, v) => handleOpacityChange(v as number))}
-              className="w-8"
+              className="w-8 ml-2"
             />
           </HoverWhiteBg>
         </StyledTooltip>
         <StyledTooltip
-          className="h-fit"
+          className="!h-fit text-[.3rem]"
           title="背景模糊度，建议在有文字需要阅览的页面设置较大的值(10~20)，非文字背景则设置为 0"
         >
           <HoverWhiteBg className="flex justify-between items-center">
@@ -96,7 +100,7 @@ const PageStyleChange: FunctionComponent<PageStyleChangeProps> = () => {
             <StyledSlider
               value={blur}
               onChange={((_, v) => handleBlurChange(v as number))}
-              className="w-8"
+              className="w-8 ml-2"
             />
           </HoverWhiteBg>
         </StyledTooltip>

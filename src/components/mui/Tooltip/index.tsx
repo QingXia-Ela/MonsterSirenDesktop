@@ -4,12 +4,12 @@ import Styles from "./index.module.scss";
 const StyledTooltip = (props: any) => {
   return (
     <Tooltip
-      classes={{
-        tooltip: Styles.tooltip,
-      }}
       followCursor
       placement="bottom-start"
       {...props}
+      classes={{
+        tooltip: Styles.tooltip,
+      }}
     />
   );
 };

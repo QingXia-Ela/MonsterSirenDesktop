@@ -1,33 +1,33 @@
 .list_item {
   justify-content: start;
-  width: calc(100% - 1.2500rem);
+  width: 100%;
   contain-intrinsic-height: 3.7500rem;
-  padding: 0.6250rem 0.3125rem;
+  padding: 0.14rem 0.3rem;
   user-select: none;
+  box-sizing: border-box;
 }
 
 .item_description {
-  width: calc(100% - 0.6250rem);
-  margin-left: 0.5000rem;
+  width: calc(100% - 0.20rem);
+  margin-left: 0.3rem;
 
   .title {
-    font-size: 0.9375rem;
+    font-size: 0.3rem;
+    font-weight: 700;
+    margin-bottom: 0.08rem;
   }
 
   .description {
     opacity: .8;
-    font-size: 0.6875rem;
-  }
-
-  &.img,
-  &.icon {
-    width: calc(100% - 3.7500rem);
-    margin-left: 0.6250rem;
+    font-size: 0.22rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 }
 
 .img {
-  width: 2.5000rem;
-  height: 2.5000rem;
-  margin-left: 0.5000rem;
+  width: .5rem;
+  height: .5rem;
+  font-size: .54rem;
 }

@@ -132,7 +132,7 @@ const Scrollbar: FunctionComponent<PropsWithChildren<ScrollbarProps>> = ({
         )}
         renderThumbVertical={(prop) => <div {...prop}></div>}
         renderView={(p) => (
-          <div {...p} className={`${Styles.scroll_view} hide_scrollbar`}></div>
+          <div {...p} className={`${Styles.scroll_view} scrollbar__hidden`}></div>
         )}
         onScroll={(e) => {
           ScrollbarProps?.onScroll && ScrollbarProps.onScroll(e);

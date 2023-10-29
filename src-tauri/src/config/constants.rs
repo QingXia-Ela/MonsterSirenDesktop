@@ -37,6 +37,11 @@ pub const INIT_CONFIG: &str = r#"{
         "pageName": "music",
         "opacity": 30,
         "blur": 10
+      },
+      {
+        "pageName": "playlist",
+        "opacity": 30,
+        "blur": 10
       }
     ]
   },
