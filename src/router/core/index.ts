@@ -62,6 +62,4 @@ export function createView() {
       }
     })
   }, [])
-
-  return Fragment
 }

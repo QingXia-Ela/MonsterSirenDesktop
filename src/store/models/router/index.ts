@@ -2,6 +2,8 @@ import { atom } from "nanostores";
 import SirenStore from "@/store/SirenStore";
 import SirenRouter from "@/router/SirenRouter";
 
+// var a = require("@mui/material")
+
 const $customRouter = atom({
   path: "",
   pageEntered: true,

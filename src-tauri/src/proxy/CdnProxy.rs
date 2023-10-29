@@ -1,4 +1,5 @@
 use std::{
+    borrow::BorrowMut,
     collections::{HashMap, HashSet},
     net::SocketAddrV4,
     ops::Deref,
@@ -9,7 +10,7 @@ use std::{
 use futures::executor::block_on;
 use once_cell::sync::Lazy;
 use reqwest::{
-    header::{HeaderMap, ACCESS_CONTROL_ALLOW_ORIGIN},
+    header::{HeaderMap, ACCESS_CONTROL_ALLOW_ORIGIN, CONTENT_LENGTH},
     Client,
 };
 use warp::{path::FullPath, Filter};
@@ -18,7 +19,9 @@ const SIREN_WEBSITE: &str = "https://monster-siren.hypergryph.com";
 
 type FilterType = Vec<[&'static str; 2]>;
 
-static mut REQUEST_CACHE: Lazy<Mutex<HashMap<String, Box<bytes::Bytes>>>> =
+struct cache_item(HeaderMap, Box<bytes::Bytes>);
+
+static mut REQUEST_CACHE: Lazy<Mutex<HashMap<String, cache_item>>> =
     Lazy::new(|| Mutex::new(HashMap::new()));
 
 pub struct CdnProxy {}
@@ -58,11 +61,16 @@ async fn handle_request(
             .unwrap()
             .get(&path.as_str().to_string())
         {
-            let final_bytes = *v.clone();
+            let final_bytes = *v.1.clone();
+            let cache_header = &v.0;
             let mut response = warp::reply::Response::new(final_bytes.into());
-            response
-                .headers_mut()
-                .insert(ACCESS_CONTROL_ALLOW_ORIGIN, "*".parse().unwrap());
+
+            let res_header = response.headers_mut();
+
+            for (k, v) in cache_header.iter() {
+                res_header.insert(k, v.clone());
+            }
+
             return Ok(response);
         }
     }
@@ -96,19 +104,21 @@ async fn handle_request(
     }
 
     response = warp::reply::Response::new(response_bytes.clone().into());
+    let res_header_map = response.headers_mut();
+    for (k, v) in header_map.borrow_mut().into_iter() {
+        res_header_map.insert(k.clone(), v.clone());
+    }
+    // remove source to let warp auto generate
+    res_header_map.remove(CONTENT_LENGTH);
+    res_header_map.insert(ACCESS_CONTROL_ALLOW_ORIGIN, "*".parse().unwrap());
+
     // cache set
     unsafe {
-        REQUEST_CACHE
-            .lock()
-            .unwrap()
-            .insert(path.as_str().to_string(), Box::new(response_bytes));
+        REQUEST_CACHE.lock().unwrap().insert(
+            path.as_str().to_string(),
+            cache_item(res_header_map.clone(), Box::new(response_bytes)),
+        );
     }
-
-    let res_header_map = response.headers_mut();
-    // for (k, v) in header_map.borrow_mut().into_iter() {
-    //     res_header_map.insert(k.clone(), v.clone());
-    // }
-    res_header_map.insert(ACCESS_CONTROL_ALLOW_ORIGIN, "*".parse().unwrap());
 
     Ok(response)
 }

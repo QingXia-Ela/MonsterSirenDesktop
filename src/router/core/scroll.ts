@@ -1,3 +1,6 @@
+/**
+ * @deprecated
+ */
 import SirenStore from "@/store/SirenStore"
 import routes from ".."
 import { throttle } from "lodash"
