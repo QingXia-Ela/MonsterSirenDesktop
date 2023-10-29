@@ -1,0 +1,33 @@
+.list_item {
+  justify-content: start;
+  width: calc(100% - 1.2500rem);
+  contain-intrinsic-height: 3.7500rem;
+  padding: 0.6250rem 0.3125rem;
+  user-select: none;
+}
+
+.item_description {
+  width: calc(100% - 0.6250rem);
+  margin-left: 0.5000rem;
+
+  .title {
+    font-size: 0.9375rem;
+  }
+
+  .description {
+    opacity: .8;
+    font-size: 0.6875rem;
+  }
+
+  &.img,
+  &.icon {
+    width: calc(100% - 3.7500rem);
+    margin-left: 0.6250rem;
+  }
+}
+
+.img {
+  width: 2.5000rem;
+  height: 2.5000rem;
+  margin-left: 0.5000rem;
+}

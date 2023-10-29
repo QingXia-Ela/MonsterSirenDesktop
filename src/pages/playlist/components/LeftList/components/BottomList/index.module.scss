@@ -1,0 +1,16 @@
+.list {
+  margin-top: 0.9375rem;
+  height: calc(100% - 4.0625rem);
+}
+
+.empty {
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+
+  .text {
+    font-size: 0.9375rem;
+  }
+}

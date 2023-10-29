@@ -7,5 +7,8 @@ module.exports = {
     },
   },
   plugins: [],
-  important: "#inject-app",
+  important: [
+    "#inject-app",
+    "inject-router-view",
+  ],
 };
