@@ -40,11 +40,7 @@ const SirenCustomView: FunctionComponent<SirenCustomViewProps> = () => {
       {
         Array.from(pathSet).map(path => {
           const Component = pathMap[path]
-          return Component ? <Component style={{
-            opacity: finalPath === path ? 1 : 0,
-            transition: "opacity 0.4s",
-            zIndex: finalPath === path ? 1 : 0
-          }} path={path} active={path === finalPath} /> : null
+          return Component ? <Component path={path} active={path === finalPath} /> : null
         })
       }
     </Portal>
