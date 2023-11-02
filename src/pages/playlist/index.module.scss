@@ -10,13 +10,13 @@
   box-sizing: border-box;
   font-size: .6rem;
   opacity: 0;
-  animation: hideAnime .6s;
+  animation: hideAnime .7s;
 }
 
 .playlistShow {
   z-index: 1;
   opacity: 1;
-  animation: showAnime .6s;
+  animation: showAnime .7s;
 }
 
 @keyframes showAnime {
@@ -25,24 +25,29 @@
   }
 
   30% {
+    transform: scale(0.98);
     opacity: 0;
   }
 
   100% {
+    transform: scale(1);
     opacity: 1;
   }
 }
 
 @keyframes hideAnime {
   0% {
+    transform: scale(1);
     opacity: 1;
   }
 
   40% {
+    transform: scale(0.98);
     opacity: 0;
   }
 
   100% {
+    transform: scale(0.98);
     opacity: 0;
   }
 }

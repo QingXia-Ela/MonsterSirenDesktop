@@ -1,0 +1,29 @@
+.textContainer {
+  position: relative;
+
+  &:hover {
+    animation: textMove linear infinite;
+  }
+}
+
+@keyframes textMove {
+  0% {
+    left: 0;
+  }
+
+  35% {
+    left: var(--move-value);
+  }
+
+  45% {
+    left: var(--move-value);
+  }
+
+  80% {
+    left: 0;
+  }
+
+  100% {
+    left: 0;
+  }
+}

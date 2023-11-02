@@ -2,6 +2,7 @@ import NormalListItem from "@/components/NormalListItem";
 import { FunctionComponent } from "react";
 import { BottomListIconItemType, BottomListImgItemType, SingleBottomListItemType } from "../../constant";
 import Styles from './index.module.scss'
+import FlowText from "@/components/FlowText";
 
 interface ListLeftBottomDetailItemProps extends React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
   item: SingleBottomListItemType
@@ -38,7 +39,9 @@ const ListLeftBottomDetailItem: FunctionComponent<ListLeftBottomDetailItemProps>
     <NormalListItem {...p} className={Styles.list_item} selected={item.selected} SmallScaleNum={0.97}>
       {getInnerContent(item)}
       <div className={`${Styles.item_description} ${getDescriptionStyle(item)}`}>
-        <div className={`${Styles.title} text_nowrap`} title={item.title}>{item.title}</div>
+        <div className={`${Styles.title} text_nowrap`} title={item.title}>
+          <FlowText>{item.title}</FlowText>
+        </div>
         <div className={`${Styles.description} text_nowrap`}>{item.subTitle}</div>
       </div>
     </NormalListItem>

@@ -5,7 +5,10 @@ import { BottomListType } from "../constant";
 import ListLeftBottomDetailItem from "./ListItem";
 
 interface ListLeftBottomDetailsProps {
-  ListData: BottomListType
+  ListData: Array<{
+    title: string
+    data: BottomListType
+  }>
   ScrollbarDegNum?: number
   onClickItem?: (id: string) => void
 }
@@ -13,8 +16,15 @@ interface ListLeftBottomDetailsProps {
 const ListLeftBottomDetails: FunctionComponent<ListLeftBottomDetailsProps> = ({ ListData, ScrollbarDegNum }) => {
 
   const ListDataNodes = useMemo(() => {
-    return ListData.map((v) => (
-      <ListLeftBottomDetailItem item={v} key={v.id} />
+    return ListData.map(({ data, title }) => (
+      <>
+        <span className="mb-[.08rem] text-[.28rem] block">{title}</span>
+        {
+          data.map((v) => (
+            <ListLeftBottomDetailItem item={v} key={v.id} />
+          ))
+        }
+      </>
     ))
   }, [ListData])
 

@@ -9,7 +9,8 @@
 
 .item_description {
   width: calc(100% - 0.20rem);
-  margin-left: 0.3rem;
+  padding: 0 0.3rem;
+  box-sizing: border-box;
 
   .title {
     font-size: 0.3rem;

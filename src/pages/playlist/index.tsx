@@ -8,7 +8,8 @@ interface PlayListProps extends RouterCombineProps {
 }
 
 const PlayList: FunctionComponent<PlayListProps> = ({ active, ...props }) => {
-  const [cssActive, setcssActive] = useState(false)
+  // first active always show
+  const [cssActive, setcssActive] = useState(true)
   // delay css control show to next tick
   useEffect(() => {
     setcssActive(active)

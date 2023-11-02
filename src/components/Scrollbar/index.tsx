@@ -61,6 +61,7 @@ const Scrollbar: FunctionComponent<PropsWithChildren<ScrollbarProps>> = ({
 
   const marginBarHeightStyle = React.useMemo(
     () => ({
+      width: "0.1rem",
       margin: `${marginBarHeightLimit}rem 0`,
       height: `calc(100% - ${marginBarHeightLimit * 2}rem)`,
     }),
