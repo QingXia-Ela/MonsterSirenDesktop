@@ -16,7 +16,7 @@ const LeftList: FunctionComponent<LeftListProps> = () => {
           {
             title: "测试",
             namespace: "test",
-            data: Array.from({ length: 100 }).map((v, i) => ({
+            data: Array.from({ length: 10 }).map((v, i) => ({
               type: "icon",
               iconClass: "iconfont icon-24gl-musicAlbum",
               id: i.toString(),
