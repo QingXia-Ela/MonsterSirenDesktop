@@ -37,6 +37,8 @@ interface ScrollbarProps {
   ScrollbarProps?: CustomScrollbarProps;
 }
 
+let change = false
+
 const Scrollbar: FunctionComponent<PropsWithChildren<ScrollbarProps>> = ({
   children,
   marginBarHeightLimit = 0,
@@ -51,17 +53,23 @@ const Scrollbar: FunctionComponent<PropsWithChildren<ScrollbarProps>> = ({
   // resize on children change
   React.useEffect(() => {
     OuterThumbInstance.current?.ScrollTo(ScrollInstance.current!.getValues());
-    if (window.__TAURI_METADATA__)
-      appWindow.onResized(function () {
-        OuterThumbInstance.current?.ScrollTo(
-          ScrollInstance.current!.getValues(),
-        );
-      });
+    if (window.__TAURI_METADATA__) {
+      if (!change) {
+        change = true
+        appWindow.onResized(function () {
+          requestAnimationFrame(() => {
+            OuterThumbInstance.current?.ScrollTo(
+              ScrollInstance.current!.getValues(),
+            );
+          })
+        });
+      }
+    }
   }, [children, OuterThumbInstance]);
 
   const marginBarHeightStyle = React.useMemo(
     () => ({
-      width: "0.1rem",
+      width: "0.12rem",
       margin: `${marginBarHeightLimit}rem 0`,
       height: `calc(100% - ${marginBarHeightLimit * 2}rem)`,
     }),

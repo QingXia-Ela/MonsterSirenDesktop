@@ -5,6 +5,21 @@
   padding: 0.14rem 0.3rem;
   user-select: none;
   box-sizing: border-box;
+
+  &::before {
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    background: #fff;
+    width: 3px;
+    height: 100%;
+    box-shadow: 0 0 6px #fff;
+  }
+
+  &.active::before {
+    content: "";
+  }
 }
 
 .item_description {

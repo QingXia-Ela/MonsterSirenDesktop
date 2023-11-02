@@ -7,24 +7,26 @@ import ListLeftBottomDetailItem from "./ListItem";
 interface ListLeftBottomDetailsProps {
   ListData: Array<{
     title: string
+    namespace: string
     data: BottomListType
   }>
+  activeId?: string
   ScrollbarDegNum?: number
   onClickItem?: (id: string) => void
 }
 
-const ListLeftBottomDetails: FunctionComponent<ListLeftBottomDetailsProps> = ({ ListData, ScrollbarDegNum }) => {
-
+const ListLeftBottomDetails: FunctionComponent<ListLeftBottomDetailsProps> = ({ ListData, activeId, ScrollbarDegNum }) => {
+  const [namespace, id] = activeId?.split("/") || []
   const ListDataNodes = useMemo(() => {
-    return ListData.map(({ data, title }) => (
-      <>
+    return ListData.map(({ data, title, namespace: n }) => (
+      <div key={n} className="w-full">
         <span className="mb-[.08rem] text-[.28rem] block">{title}</span>
         {
           data.map((v) => (
-            <ListLeftBottomDetailItem item={v} key={v.id} />
+            <ListLeftBottomDetailItem item={v} key={v.id} active={namespace === n && id === v.id} />
           ))
         }
-      </>
+      </div>
     ))
   }, [ListData])
 

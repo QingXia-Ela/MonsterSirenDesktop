@@ -6,6 +6,7 @@ import FlowText from "@/components/FlowText";
 
 interface ListLeftBottomDetailItemProps extends React.DetailedHTMLProps<React.HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
   item: SingleBottomListItemType
+  active?: boolean
 }
 
 
@@ -34,9 +35,9 @@ const getDescriptionStyle = (t: SingleBottomListItemType) => {
   }
 }
 
-const ListLeftBottomDetailItem: FunctionComponent<ListLeftBottomDetailItemProps> = ({ item, ...p }) => {
+const ListLeftBottomDetailItem: FunctionComponent<ListLeftBottomDetailItemProps> = ({ item, active = false, ...p }) => {
   return (
-    <NormalListItem {...p} className={Styles.list_item} selected={item.selected} SmallScaleNum={0.97}>
+    <NormalListItem {...p} className={`${Styles.list_item} ${active && Styles.active}`} selected={item.selected} SmallScaleNum={0.97}>
       {getInnerContent(item)}
       <div className={`${Styles.item_description} ${getDescriptionStyle(item)}`}>
         <div className={`${Styles.title} text_nowrap`} title={item.title}>
