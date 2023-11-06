@@ -23,25 +23,23 @@ const CheckboxComponent: FunctionComponent<{
   children: React.ReactNode;
 }> = ({ checked, theme, children }) => (
   <div
-    className={`w-full flex items-center ${
-      theme === "config" ? "flex-row-reverse justify-between" : ""
-    }`}
+    className={`w-full flex items-center ${theme === "config" ? "flex-row-reverse justify-between" : ""
+      }`}
   >
     <div
       className={`ml-1
       ${Styles.checkbox__check}
       ${checked && Styles.selected}
-      ${
-        Styles[
-          theme === "config" ? "checkboxTheme--config" : "checkboxTheme--normal"
+      ${Styles[
+        theme === "config" ? "checkboxTheme--config" : "checkboxTheme--normal"
         ]
-      }`}
+        }`}
     ></div>
     <div className={Styles.checkbox__content}>{children}</div>
   </div>
 );
 
-const Checkbox = forwardRef<HTMLDivElement, CheckboxProps>(function Checkbox(
+const Checkbox = forwardRef<HTMLAnchorElement, CheckboxProps>(function Checkbox(
   { checked, onChange, disabled, children, theme = "normal", ...props },
   ref,
 ) {
@@ -53,7 +51,7 @@ const Checkbox = forwardRef<HTMLDivElement, CheckboxProps>(function Checkbox(
   };
 
   return (
-    <div
+    <a
       className={`${Styles.checkbox} ${disabled && Styles.disabled}`}
       onClick={handleChange}
       ref={ref}
@@ -68,7 +66,7 @@ const Checkbox = forwardRef<HTMLDivElement, CheckboxProps>(function Checkbox(
       <CheckboxComponent checked={checkedState} theme={theme}>
         {children}
       </CheckboxComponent>
-    </div>
+    </a>
   );
 });
 

@@ -40,25 +40,25 @@ const InjectLayout: FunctionComponent<InjectLayoutProps> = ({ children }) => {
           Monster Siren Desktop App(v0.0.1)
         </div>
         <div className="flex gap-[.65rem]">
-          <i
+          <a
             className={`iconfont icon-24gl-gear4 ${Styles.iconfont}`}
             onClick={() => setOpen(true)}
-          ></i>
-          <i
+          ></a>
+          <a
             className={`iconfont icon-24gl-minimization ${Styles.iconfont}`}
             onClick={() => appWindow.minimize()}
-          ></i>
+          ></a>
           <Suspense>
-            <i
+            <a
               className={`iconfont icon-24gl-${min ? "minimize" : "square"} ${Styles.iconfont
                 }`}
               onClick={changeWindowSize}
-            ></i>
+            ></a>
           </Suspense>
-          <i
+          <a
             className={`iconfont icon-24gl-cross ${Styles.iconfont}`}
             onClick={() => appWindow.close()}
-          ></i>
+          ></a>
         </div>
       </div>
       <div className={Styles.sidebar_wrapper}>

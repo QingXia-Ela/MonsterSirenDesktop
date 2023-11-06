@@ -22,7 +22,6 @@
     line-height: 0.8rem;
     padding-left: 0.3rem;
     overflow: hidden;
-    cursor: pointer;
   }
 }
 
@@ -51,7 +50,6 @@
   font-size: 0.36rem;
   list-style: none;
   transition: background 0.5s;
-  cursor: pointer;
 
   &:hover,
   &.selected {
@@ -69,7 +67,6 @@
   padding-left: 0.1rem;
   padding-right: 0.3rem;
   color: #c6c9ce;
-  cursor: pointer;
 }
 
 .dropdown.dropdown.dropdown--border-line {
