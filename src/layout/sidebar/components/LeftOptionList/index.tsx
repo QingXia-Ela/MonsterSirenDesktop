@@ -15,10 +15,12 @@ const SidebarLeftOptionList: FunctionComponent<SidebarLeftOptionListProps> = ({
   onValueChange,
   ...props
 }) => {
+  const topList = optionList.filter((item) => item.position !== "bottom");
+  const bottomList = optionList.filter((item) => item.position === "bottom");
   return (
     <div className="h-full flex flex-col justify-between" {...props}>
       <div>
-        {optionList.map((item, index) => (
+        {topList.map((item, index) => (
           <SingleOptionItem
             key={index}
             selected={item.value === value}
@@ -28,8 +30,14 @@ const SidebarLeftOptionList: FunctionComponent<SidebarLeftOptionListProps> = ({
         ))}
       </div>
       <div>
-        <SingleOptionItem iconClass="icon-tool" title="高级设置" />
-        <SingleOptionItem iconClass="icon-24gl-infoCircle" title="关于" />
+        {bottomList.map((item, index) => (
+          <SingleOptionItem
+            key={index}
+            selected={item.value === value}
+            {...item}
+            onClick={() => onValueChange?.(item.value)}
+          />
+        ))}
       </div>
     </div>
   );

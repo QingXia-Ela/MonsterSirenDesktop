@@ -24,11 +24,17 @@ const SettingsManager = createEffectManager(cfg);
 const atomList: Array<[string, WritableAtom<typeof DEFAULT_CONFIG>]> = [
   ["basic", atom(cfg.basic)],
   ["background", atom(cfg.background)],
+  ["advancement", atom(cfg.advancement)],
 ];
 
 atomList.forEach(([key, atom]) => {
   SettingsManager.addAtom(key, atom);
 });
+
+// init config namespace
+if (!window.siren_config) {
+  window.siren_config = {};
+}
 
 async function saveSettings() {
   await writeTextFile(

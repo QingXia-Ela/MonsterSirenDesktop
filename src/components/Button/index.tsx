@@ -1,4 +1,4 @@
-import { ButtonHTMLAttributes, FunctionComponent } from "react";
+import { ButtonHTMLAttributes, FunctionComponent, forwardRef } from "react";
 import Styles from "./index.module.scss";
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
@@ -16,7 +16,7 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   disabled?: boolean;
 }
 
-const Button: FunctionComponent<ButtonProps> = ({
+const Button = forwardRef<HTMLButtonElement, ButtonProps>(({
   className,
   decorate,
   theme = "primary",
@@ -24,9 +24,10 @@ const Button: FunctionComponent<ButtonProps> = ({
   children,
   size = "medium",
   ...props
-}) => {
+}, ref) => {
   return (
     <button
+      ref={ref}
       className={`${Styles.button} 
       ${Styles[`button--${size}`]} 
       ${Styles[`button--${theme}`]} 
@@ -39,6 +40,8 @@ const Button: FunctionComponent<ButtonProps> = ({
       <div className="w-full overflow-hidden text-ellipsis whitespace-nowrap">{children}</div>
     </button>
   );
-};
+});
+
+Button.displayName = "Button";
 
 export default Button;

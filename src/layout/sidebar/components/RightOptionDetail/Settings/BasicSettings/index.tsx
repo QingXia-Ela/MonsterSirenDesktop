@@ -9,7 +9,7 @@ import SubTitle from "../../components/SubTitle";
 interface BasicSettingsProps { }
 
 const BasicSettings: FunctionComponent<BasicSettingsProps> = () => {
-  const { closeAutoPlay, volume } = useStore($settingBasic);
+  const { closeAutoPlay } = useStore($settingBasic);
 
   return (
     <div className="w-full flex flex-col gap-1">

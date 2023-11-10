@@ -166,7 +166,7 @@ pub fn get_basic_filter_rules(mut settings: Vec<CdnProxyRules>) -> FilterType {
             }
             CdnProxyRules::LogStoreChange => rules.push([
                 "return function(n){if",
-                "return function(n){console.log(n);if",
+                "return function(n){if(window.siren_config?.log_store)console.log(n);if",
             ]),
             CdnProxyRules::PreventAutoplay => {
                 rules.push(["i.initCtx()}i.play()};", "i.initCtx()}};"])

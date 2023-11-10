@@ -56,9 +56,10 @@ pub const INIT_CONFIG: &str = r#"{
   },
   "outputDevice": {},
   "desktopLrc": {},
-  "advanced": {
+  "advancement": {
     "enable": false,
     "cdnProxyPort": 0,
-    "apiProxyPort": 0
+    "apiProxyPort": 0,
+    "logStore": false
   }
 }"#;
