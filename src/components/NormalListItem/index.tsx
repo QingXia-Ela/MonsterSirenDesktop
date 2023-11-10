@@ -1,4 +1,4 @@
-import { FunctionComponent, DetailedHTMLProps, HTMLAttributes } from "react";
+import { FunctionComponent, DetailedHTMLProps, HTMLAttributes, forwardRef, AnchorHTMLAttributes } from "react";
 import Styles from './index.module.scss'
 
 
@@ -24,19 +24,6 @@ const getSpeicalStyle = (props: NormalListItemProps) => {
   return finalStyle
 }
 
-const NormalListItem: FunctionComponent<NormalListItemProps> = ({ SmallScaleNum, className, children, ref, ...p }) => (
-  <div
-    {...p}
-    className={`${Styles.normal_list_item} ${getSpeicalStyle(p)} ${className ?? ""}`}
-    ref={ref}
-    style={{
-      ...p.style,
-      // @ts-expect-error: custom val
-      "--normal-list-item-scale": SmallScaleNum ?? 0.98
-    }}
-  >{children}</div>
-)
-
 export const getNormalListItemStyle = ({ className, SmallScaleNum, invalid, selected, activeOnClick, disabled }: NormalListItemProps = {}) => (
   {
     className: `${Styles.normal_list_item} ${getSpeicalStyle({
@@ -47,5 +34,20 @@ export const getNormalListItemStyle = ({ className, SmallScaleNum, invalid, sele
     }
   }
 )
+
+const NormalListItem = forwardRef<HTMLAnchorElement, NormalListItemProps>(({ SmallScaleNum, className, children, ...p }, ref) => (
+  <a
+    {...p}
+    className={`${Styles.normal_list_item} ${getSpeicalStyle(p)} ${className ?? ""}`}
+    ref={ref}
+    style={{
+      ...p.style,
+      // @ts-expect-error: custom val
+      "--normal-list-item-scale": SmallScaleNum ?? 0.98
+    }}
+  >{children}</a>
+))
+
+NormalListItem.displayName = "NormalListItem"
 
 export default NormalListItem;

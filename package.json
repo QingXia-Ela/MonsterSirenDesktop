@@ -36,6 +36,7 @@
     "tdesign-react": "^1.2.6"
   },
   "devDependencies": {
+    "@iconify/react": "^4.1.1",
     "@storybook/addon-essentials": "7.4.6",
     "@storybook/addon-interactions": "7.4.6",
     "@storybook/addon-links": "7.4.6",
@@ -70,6 +71,8 @@
     "tailwindcss": "^3.3.3",
     "typescript": "^5.0.2",
     "vite": "^4.4.4",
+    "vite-plugin-svg-icons": "^2.0.1",
+    "vite-svg-loader": "^4.0.0",
     "ws": "^8.13.0"
   }
 }

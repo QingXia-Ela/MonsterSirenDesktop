@@ -1,4 +1,4 @@
-import SirenLogo from "@/icons/SirenLogo";
+import SirenLogo from "@/icons/tsx/SirenLogo";
 import { FunctionComponent } from "react";
 
 interface EmptyTipsProps {

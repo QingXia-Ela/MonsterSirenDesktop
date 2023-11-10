@@ -1,5 +1,5 @@
 import { FunctionComponent } from "react";
-import SirenLogoBg from "@/icons/SirenLogoBg";
+import SirenLogoBg from "@/icons/tsx/SirenLogoBg";
 import Styles from './index.module.scss'
 
 interface PlayListHeaderProps {

@@ -1,12 +1,14 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
-import tauriHmr from "./src/vite_plugin/tauri-hmr";
-import basicSsl from "@vitejs/plugin-basic-ssl";
+import svgLoader from 'vite-svg-loader';
 import websiteInject from "./src/vite_plugin/website-inject";
+import createSvgIcon from './src/vite_plugin/svg-icon'
 
 // https://vitejs.dev/config/
 export default defineConfig(async () => ({
-  plugins: [react(), websiteInject()],
+  plugins: [react(), svgLoader({
+    defaultImport: 'component',
+  }), createSvgIcon(), websiteInject()],
   // Vite options tailored for Tauri development and only applied in `tauri dev` or `tauri build`
   // prevent vite from obscuring rust errors
   clearScreen: false,

@@ -4,8 +4,8 @@ import {
   DialogProps as MuiDialogProps,
 } from "@mui/material";
 import Styles from "./index.module.scss";
-import ZebraRight from "@/icons/Zebra/Right";
-import ZebraLeft from "@/icons/Zebra/Left";
+import ZebraRight from "@/icons/tsx/Zebra/Right";
+import ZebraLeft from "@/icons/tsx/Zebra/Left";
 import { Transition } from "react-transition-group";
 import { TransitionProps } from "react-transition-group/Transition";
 
