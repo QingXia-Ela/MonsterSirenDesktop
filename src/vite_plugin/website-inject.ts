@@ -19,8 +19,13 @@ function Plugin() {
 
       return (
         replaceStr(
-          await fetch("https://monster-siren.hypergryph.com").then((res) =>
-            res.text(),
+          await fetch("https://monster-siren.hypergryph.com", {
+            headers: {
+              "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/89.0.142.86 Safari/537.36",
+            }
+          }).then((res) => {
+            return res.text()
+          },
           ),
           CDN_PATH,
           "localhost:11451",

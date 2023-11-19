@@ -1,3 +1,9 @@
 import DEFAULT_CONFIG from '@/constant/json/init_config.json' assert { type: "json" }
 
-export type CONFIG_TYPE = typeof DEFAULT_CONFIG;
+interface AdditionConfig {
+  basic: {
+    closeMode?: 'minimize' | 'close'
+  }
+}
+
+export type CONFIG_TYPE = (typeof DEFAULT_CONFIG) & AdditionConfig;

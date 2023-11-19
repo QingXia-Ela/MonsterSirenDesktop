@@ -26,12 +26,12 @@
 
   &.selected {
     background: #d6d6d6;
-    border: 0.04rem solid #fff !important;
+    border: 0.04rem solid inherit !important;
   }
 }
 
 .checkbox__content {
-  color: #fff;
+  color: inherit;
   font-size: .34rem;
   user-select: none;
 }

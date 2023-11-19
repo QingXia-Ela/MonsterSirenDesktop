@@ -2,22 +2,29 @@ import { appWindow } from "@tauri-apps/api/window";
 import { FunctionComponent, Suspense, useState } from "react";
 import Styles from './index.module.scss'
 import { isTauri } from "@/hooks/getPlatform";
+import CloseModeChoose from "./components/CloseModeChoose";
 
 interface AppOperationProps {
   open: boolean;
   setOpen: (open: boolean) => void
 }
 
+
 const AppOperation: FunctionComponent<AppOperationProps> = ({
   open,
   setOpen
 }) => {
   const [min, setMin] = useState(true);
+  const [showModeDialog, setShowModeDialog] = useState(false);
 
   function changeWindowSize() {
     if (!isTauri()) return;
     setMin(!min);
     min ? appWindow.unmaximize() : appWindow.maximize();
+  }
+
+  function handleClose() {
+    setShowModeDialog(true)
   }
 
   return (
@@ -39,8 +46,9 @@ const AppOperation: FunctionComponent<AppOperationProps> = ({
       </Suspense>
       <a
         className={`iconfont icon-24gl-cross ${Styles.iconfont}`}
-        onClick={() => appWindow.close()}
+        onClick={handleClose}
       ></a>
+      <CloseModeChoose open={showModeDialog} setOpen={setShowModeDialog} />
     </div>
   );
 }

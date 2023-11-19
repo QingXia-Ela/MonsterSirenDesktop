@@ -2,6 +2,7 @@ import {
   FunctionComponent,
   InputHTMLAttributes,
   forwardRef,
+  useEffect,
   useState,
 } from "react";
 import Styles from "./index.module.scss";
@@ -50,6 +51,10 @@ const Checkbox = forwardRef<HTMLAnchorElement, CheckboxProps>(function Checkbox(
     setCheckedState(!checkedState);
   };
 
+  useEffect(() => {
+    setCheckedState(checked)
+  }, [checked])
+
   return (
     <a
       className={`${Styles.checkbox} ${disabled && Styles.disabled}`}
@@ -59,11 +64,11 @@ const Checkbox = forwardRef<HTMLAnchorElement, CheckboxProps>(function Checkbox(
       <input
         type="checkbox"
         style={{ display: "none" }}
-        checked={checkedState}
+        checked={checked ?? checkedState}
         readOnly
         {...props}
       />
-      <CheckboxComponent checked={checkedState} theme={theme}>
+      <CheckboxComponent checked={checked ?? checkedState} theme={theme}>
         {children}
       </CheckboxComponent>
     </a>

@@ -21,15 +21,13 @@
     left: -0.1333rem;
     height: 0.2666rem;
     width: calc(100% + 0.2666rem);
-    background-image: linear-gradient(
-      90deg,
-      #aeb3be 0,
-      #aeb3be 0.2666rem,
-      transparent 0,
-      transparent calc(100% - 0.2666rem),
-      #aeb3be calc(100% - 0.2666rem),
-      #aeb3be
-    );
+    background-image: linear-gradient(90deg,
+        #aeb3be 0,
+        #aeb3be 0.2666rem,
+        transparent 0,
+        transparent calc(100% - 0.2666rem),
+        #aeb3be calc(100% - 0.2666rem),
+        #aeb3be);
   }
 
   &::before {
@@ -87,6 +85,6 @@
 }
 
 .dialog__body {
-  margin: 1.3333rem 0.5555rem;
+  margin: .8rem .55rem;
   font-weight: 400;
 }

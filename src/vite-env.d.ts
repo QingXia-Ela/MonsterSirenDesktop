@@ -2,7 +2,7 @@
 
 import SirenStore from "./store/SirenStore"
 
-declare module globalThis {
+declare module Window {
   const siren_config = {}
   const siren_store: typeof SirenStore
   export {
