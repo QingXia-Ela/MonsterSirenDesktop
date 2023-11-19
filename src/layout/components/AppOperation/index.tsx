@@ -3,6 +3,7 @@ import { FunctionComponent, Suspense, useState } from "react";
 import Styles from './index.module.scss'
 import { isTauri } from "@/hooks/getPlatform";
 import CloseModeChoose from "./components/CloseModeChoose";
+import $settingBasic from "@/store/models/settings/basic";
 
 interface AppOperationProps {
   open: boolean;
@@ -24,7 +25,18 @@ const AppOperation: FunctionComponent<AppOperationProps> = ({
   }
 
   function handleClose() {
-    setShowModeDialog(true)
+    const { closeMode } = $settingBasic.get()
+    switch (closeMode) {
+      case "close":
+        appWindow.close()
+        break;
+      case "minimize":
+        appWindow.minimize()
+        break;
+      default:
+        setShowModeDialog(true)
+        break;
+    }
   }
 
   return (

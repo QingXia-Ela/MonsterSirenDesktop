@@ -1,7 +1,8 @@
 {
   "basic": {
     "closeAutoPlay": true,
-    "volume": 20
+    "volume": 20,
+    "closeMode": ""
   },
   "background": {
     "enable": false,
