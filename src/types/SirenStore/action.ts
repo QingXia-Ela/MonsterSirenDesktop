@@ -1,25 +1,28 @@
-import { AnyAction } from "@reduxjs/toolkit";
-import { sectionActivatePage, sectionInitPage, sectionPageEntered } from "./actions/section";
-import { logoShowLogo, logoHideLogo } from "./actions/logo";
+import { AnyAction } from '@reduxjs/toolkit';
+import {
+  sectionActivatePage,
+  sectionInitPage,
+  sectionPageEntered,
+} from './actions/section';
+import { logoShowLogo, logoHideLogo } from './actions/logo';
 
 export interface globalGetFontset extends AnyAction {
-  type: "global/getFontSet";
+  type: 'global/getFontSet';
 }
 
 export interface playerGetPlayList extends AnyAction {
-  type: "player/getPlayList";
+  type: 'player/getPlayList';
 }
 
 export interface playerSetVolume extends AnyAction {
-  type: "player/setVolume";
+  type: 'player/setVolume';
   volume: number;
 }
 
 export interface playerSelectSong extends AnyAction {
-  type: "player/selectSong";
+  type: 'player/selectSong';
   cid: string;
 }
-
 
 export type Actions =
   | globalGetFontset
@@ -30,6 +33,4 @@ export type Actions =
   | sectionInitPage
   | sectionPageEntered
   | logoShowLogo
-  | logoHideLogo
-
-
+  | logoHideLogo;

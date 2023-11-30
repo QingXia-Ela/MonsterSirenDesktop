@@ -1,17 +1,17 @@
-import type { Store } from "@reduxjs/toolkit";
-import { Actions } from "./action";
+import type { Store } from '@reduxjs/toolkit';
+import { Actions } from './action';
 
 const initalProps = {
   router: {
     location: {
-      pathname: "\u002F",
-      search: "",
-      hash: "",
+      pathname: '\u002F',
+      search: '',
+      hash: '',
       query: {},
-      state: "undefined",
-      key: "ch8xbu",
+      state: 'undefined',
+      key: 'ch8xbu',
     },
-    action: "POP",
+    action: 'POP',
   },
   logo: {
     visible: true,
@@ -20,36 +20,36 @@ const initalProps = {
   news: {
     visible: false,
     detail: {
-      cid: "",
-      title: "",
+      cid: '',
+      title: '',
       cate: 0,
-      author: "",
-      content: "",
-      date: "",
+      author: '',
+      content: '',
+      date: '',
     },
   },
   player: {
     list: [
       {
-        cid: "125079",
-        name: "Settle Into Ash (Instrumental)",
-        albumCid: "6664",
-        artists: ["塞壬唱片-MSR"],
+        cid: '125079',
+        name: 'Settle Into Ash (Instrumental)',
+        albumCid: '6664',
+        artists: ['塞壬唱片-MSR'],
       },
     ],
     autoplay: null,
-    mode: "list",
+    mode: 'list',
     current: null,
     volume: 50,
     isPlaying: false,
     isMute: false,
     songDetail: {
-      cid: "",
-      albumCid: "",
+      cid: '',
+      albumCid: '',
       mvUrl: null,
       lyricUrl: null,
       sourceUrl: null,
-      name: "",
+      name: '',
       artists: [],
     },
     initial: true,
@@ -66,7 +66,7 @@ const initalProps = {
     },
     canRoute: false,
     pageStatus: {
-      "\u002F": {
+      '\u002F': {
         initiated: true,
         active: false,
       },
@@ -96,7 +96,7 @@ const initalProps = {
     newsEnd: false,
   },
   music: {
-    keyword: "",
+    keyword: '',
     albumList: [],
     currentPage: 0,
     albumDetailVisible: false,
@@ -104,10 +104,10 @@ const initalProps = {
   },
   musicPlay: {
     albumDetail: {
-      cid: "",
-      name: "",
-      intro: "",
-      belong: "",
+      cid: '',
+      name: '',
+      intro: '',
+      belong: '',
       coverUrl: null,
       coverDeUrl: null,
       songs: [],
@@ -120,8 +120,8 @@ const initalProps = {
       player: false,
     },
     effects: {
-      "global\u002FgetFontSet": false,
-      "player\u002FgetPlayList": false,
+      'global\u002FgetFontSet': false,
+      'player\u002FgetPlayList': false,
     },
   },
 };
@@ -140,15 +140,15 @@ interface SirenPlayerType {
       albumCid: string;
       artists: string[];
     }>;
-    mode: "list" | "album" | "loop" | "random";
+    mode: 'list' | 'album' | 'loop' | 'random';
     current: string | null;
-  }
+  };
 }
 
 interface SirenSectionType {
   section: {
     pageStatus: Record<string, { active: boolean; initiated: boolean }>;
-  }
+  };
 }
 
 type SirenStoreState = typeof initalProps &

@@ -1,12 +1,12 @@
-import { useEffect, useState } from "react";
-import getSirenCtx from "@/hooks/getSirenCtx";
-import Styles from "./index.module.css";
-import { Portal } from "@mui/material";
-import SirenStore from "@/store/SirenStore";
-import SidebarLeftOptionList from "./components/LeftOptionList";
-import { OptionList } from "./constants/config";
-import RightOptionDetail from "./components/RightOptionDetail";
-import { saveSettings } from "@/store/models/settings";
+import { useEffect, useState } from 'react';
+import getSirenCtx from '@/hooks/getSirenCtx';
+import Styles from './index.module.css';
+import { Portal } from '@mui/material';
+import SirenStore from '@/store/SirenStore';
+import SidebarLeftOptionList from './components/LeftOptionList';
+import { OptionList } from './constants/config';
+import RightOptionDetail from './components/RightOptionDetail';
+import { saveSettings } from '@/store/models/settings';
 
 // SirenStore["default"].
 // SirenStore.dispatch({type: ""})
@@ -18,18 +18,18 @@ interface SideBarProps {
 function SideBar({ open, setOpen }: SideBarProps) {
   const [selectedValue, setSelectedValue] = useState(OptionList[0].value);
   const rootApp = getSirenCtx();
-  const layout = rootApp.querySelector("#layout") as HTMLDivElement;
+  const layout = rootApp.querySelector('#layout') as HTMLDivElement;
 
   const closeFn = () => {
     setOpen(false);
-    layout.style.filter = "";
-    layout.style.pointerEvents = "";
-    saveSettings().then(() => { });
+    layout.style.filter = '';
+    layout.style.pointerEvents = '';
+    saveSettings().then(() => {});
   };
 
   if (open) {
-    layout.style.filter = "blur(10px)";
-    layout.style.pointerEvents = "none";
+    layout.style.filter = 'blur(10px)';
+    layout.style.pointerEvents = 'none';
   }
 
   return (
@@ -40,7 +40,7 @@ function SideBar({ open, setOpen }: SideBarProps) {
       <div
         className={`${Styles.sidebar_main} px-2 py-1`}
         style={{
-          transform: open ? "translateX(1.7rem)" : "translateX(-100%)",
+          transform: open ? 'translateX(1.7rem)' : 'translateX(-100%)',
           opacity: open ? 1 : 0,
         }}
       >
@@ -49,7 +49,7 @@ function SideBar({ open, setOpen }: SideBarProps) {
       <div
         className={Styles.sidebar_buttons}
         style={{
-          transform: open ? "translateX(0)" : "translateX(-100%)",
+          transform: open ? 'translateX(0)' : 'translateX(-100%)',
         }}
       >
         <SidebarLeftOptionList

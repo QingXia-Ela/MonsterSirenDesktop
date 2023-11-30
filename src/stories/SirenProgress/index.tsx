@@ -1,5 +1,5 @@
-import { FunctionComponent } from "react";
-import Progress from "@/components/Progress";
+import { FunctionComponent } from 'react';
+import Progress from '@/components/Progress';
 
 interface SirenProgressStoryProps {
   precentage?: number;

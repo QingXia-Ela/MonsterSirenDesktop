@@ -1,10 +1,10 @@
-import { AnyAction } from "@reduxjs/toolkit";
+import { AnyAction } from '@reduxjs/toolkit';
 
 /**
  * 页面首次进入时调用，且只调用一次
  */
 export interface sectionInitPage extends AnyAction {
-  type: "section/initPage";
+  type: 'section/initPage';
   path: string;
 }
 
@@ -12,7 +12,7 @@ export interface sectionInitPage extends AnyAction {
  * 页面被激活时调用
  */
 export interface sectionActivatePage extends AnyAction {
-  type: "section/activatePage";
+  type: 'section/activatePage';
   path: string;
 }
 
@@ -20,6 +20,6 @@ export interface sectionActivatePage extends AnyAction {
  * 页面动画完成时调用
  */
 export interface sectionPageEntered extends AnyAction {
-  type: "section/pageEntered";
+  type: 'section/pageEntered';
   path: string;
 }

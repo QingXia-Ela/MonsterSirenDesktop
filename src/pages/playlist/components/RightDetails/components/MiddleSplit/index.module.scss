@@ -1,0 +1,37 @@
+.middle_control {
+  display: flex;
+  align-items: center;
+  margin: 0.6rem 0;
+
+  .button {
+    width: 2.4rem;
+  }
+}
+
+.icon {
+  width: 0.36rem;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  pointer-events: none;
+}
+
+.text {
+  color: #c6c9ce;
+  font-size: 0.32rem;
+  font-weight: 700;
+}
+
+.divider {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: calc(100% - 6.25rem);
+  height: 100%;
+  padding: 0 0.5rem;
+}
+
+.search {
+  height: 2rem;
+  font-size: 0.625rem;
+}

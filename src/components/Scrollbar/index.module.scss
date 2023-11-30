@@ -10,13 +10,15 @@
   width: 0.12rem;
   right: 0;
   height: 100%;
-  background-image: linear-gradient(45deg,
-      transparent,
-      transparent 40%,
-      hsla(0, 0%, 58%, 0.5) 0,
-      hsla(0, 0%, 58%, 0.5) 60%,
-      transparent 0,
-      transparent);
+  background-image: linear-gradient(
+    45deg,
+    transparent,
+    transparent 40%,
+    hsla(0, 0%, 58%, 0.5) 0,
+    hsla(0, 0%, 58%, 0.5) 60%,
+    transparent 0,
+    transparent
+  );
   background-repeat: repeat;
   background-size: 0.12rem 0.12rem;
 }
@@ -26,13 +28,15 @@
   top: 0;
   right: 0;
   width: 0.12rem;
-  background-image: linear-gradient(45deg,
-      transparent,
-      transparent 40%,
-      #ccc 0,
-      #ccc 60%,
-      transparent 0,
-      transparent);
+  background-image: linear-gradient(
+    45deg,
+    transparent,
+    transparent 40%,
+    #ccc 0,
+    #ccc 60%,
+    transparent 0,
+    transparent
+  );
   background-repeat: repeat;
   background-size: 0.12rem 0.12rem;
   transform: none !important;
@@ -43,6 +47,6 @@
   margin-right: 0 !important;
   margin-bottom: 0 !important;
   scrollbar-width: none;
-  padding-right: .4rem;
+  padding-right: 0.4rem;
   box-sizing: border-box;
 }

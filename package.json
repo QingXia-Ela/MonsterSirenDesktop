@@ -21,6 +21,7 @@
     "@nanostores/react": "^0.7.1",
     "@reduxjs/toolkit": "^1.9.7",
     "@tauri-apps/api": "^1.4.0",
+    "@tweenjs/tween.js": "^21.0.0",
     "@types/react-transition-group": "^4.4.7",
     "dva": "^2.4.1",
     "esbuild": "^0.19.0",

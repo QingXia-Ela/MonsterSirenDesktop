@@ -1,10 +1,10 @@
 @font-face {
-  font-family: "iconfont"; /* Project id  */
-  src: url("iconfont.ttf?t=1697467277556") format("truetype");
+  font-family: 'iconfont'; /* Project id  */
+  src: url('iconfont.ttf?t=1697467277556') format('truetype');
 }
 
 .iconfont {
-  font-family: "iconfont" !important;
+  font-family: 'iconfont' !important;
   font-size: 16px;
   font-style: normal;
   -webkit-font-smoothing: antialiased;
@@ -12,29 +12,29 @@
 }
 
 .icon-image:before {
-  content: "\e746";
+  content: '\e746';
 }
 
 .icon-tool:before {
-  content: "\e75b";
+  content: '\e75b';
 }
 
 .icon-24gl-gear4:before {
-  content: "\e9bc";
+  content: '\e9bc';
 }
 
 .icon-24gl-headset:before {
-  content: "\ea0a";
+  content: '\ea0a';
 }
 
 .icon-24gl-musicAlbum:before {
-  content: "\ea0b";
+  content: '\ea0b';
 }
 
 .icon-24gl-download:before {
-  content: "\eb6c";
+  content: '\eb6c';
 }
 
 .icon-adobe-lightroom:before {
-  content: "\e69d";
+  content: '\e69d';
 }

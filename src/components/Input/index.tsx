@@ -3,11 +3,11 @@ import {
   FunctionComponent,
   forwardRef,
   useMemo,
-} from "react";
-import Styles from "./index.module.scss";
+} from 'react';
+import Styles from './index.module.scss';
 
 interface InputProps
-  extends Omit<InputHTMLAttributes<HTMLInputElement>, "size"> {
+  extends Omit<InputHTMLAttributes<HTMLInputElement>, 'size'> {
   addonAfter?: React.ReactNode;
 }
 
@@ -23,7 +23,7 @@ const Input: FunctionComponent<InputProps> = forwardRef<
       <div className={Styles.wrapper}>
         <input
           className={Styles.inner}
-          placeholder=""
+          placeholder=''
           ref={ref}
           value={value}
           {...props}
@@ -37,6 +37,6 @@ const Input: FunctionComponent<InputProps> = forwardRef<
   );
 });
 
-Input.displayName = "Input";
+Input.displayName = 'Input';
 
 export default Input;

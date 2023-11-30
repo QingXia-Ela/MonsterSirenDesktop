@@ -2,7 +2,7 @@
   width: 10.3125rem;
   padding: 0.5555rem 0;
   font-size: 0.4889rem;
-  font-family: "SourceHanSansCN-Bold", "Microsoft Yahei", sans-serif;
+  font-family: 'SourceHanSansCN-Bold', 'Microsoft Yahei', sans-serif;
   font-weight: 700;
   line-height: 1.2;
   color: #a2a6ae;
@@ -16,18 +16,20 @@
 
   &::before,
   &::after {
-    content: "";
+    content: '';
     position: absolute;
     left: -0.1333rem;
     height: 0.2666rem;
     width: calc(100% + 0.2666rem);
-    background-image: linear-gradient(90deg,
-        #aeb3be 0,
-        #aeb3be 0.2666rem,
-        transparent 0,
-        transparent calc(100% - 0.2666rem),
-        #aeb3be calc(100% - 0.2666rem),
-        #aeb3be);
+    background-image: linear-gradient(
+      90deg,
+      #aeb3be 0,
+      #aeb3be 0.2666rem,
+      transparent 0,
+      transparent calc(100% - 0.2666rem),
+      #aeb3be calc(100% - 0.2666rem),
+      #aeb3be
+    );
   }
 
   &::before {
@@ -56,7 +58,7 @@
 
   &::before,
   &::after {
-    content: "";
+    content: '';
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
@@ -85,7 +87,7 @@
 }
 
 .dialog__body {
-  margin-left: .55rem;
-  margin-right: .55rem;
+  margin-left: 0.55rem;
+  margin-right: 0.55rem;
   font-weight: 400;
 }

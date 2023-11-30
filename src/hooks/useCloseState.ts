@@ -1,5 +1,5 @@
-import IterParentElement from "@/utils/iterParentElement";
-import { useState } from "react";
+import IterParentElement from '@/utils/iterParentElement';
+import { useState } from 'react';
 
 export default function useCloseState(
   parentAttr: string,
@@ -8,7 +8,7 @@ export default function useCloseState(
   const [open, setOpen] = useState(false);
 
   const close = () => {
-    window.removeEventListener("click", close);
+    window.removeEventListener('click', close);
     setOpen(false);
   };
 
@@ -16,7 +16,7 @@ export default function useCloseState(
     if (!open) {
       setOpen(true);
       requestAnimationFrame(() => {
-        window.addEventListener("click", close);
+        window.addEventListener('click', close);
       });
     }
     if (

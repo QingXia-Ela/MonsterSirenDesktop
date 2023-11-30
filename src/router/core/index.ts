@@ -1,65 +1,77 @@
-import { Fragment, createElement, useEffect } from "react";
-import routes from "..";
-import getSirenCtx from "@/hooks/getSirenCtx";
-import { RouteItem } from "../types";
-import Styles from "./index.module.scss"
-import $customRouter, { setCanRoute, setPageEntered, setRouterPath } from "@/store/models/router";
+import { Fragment, createElement, useEffect } from 'react';
+import routes from '..';
+import getSirenCtx from '@/hooks/getSirenCtx';
+import { RouteItem } from '../types';
+import Styles from './index.module.scss';
+import $customRouter, {
+  setCanRoute,
+  setPageEntered,
+  setRouterPath,
+} from '@/store/models/router';
 
-const addToNavRoutes = routes.filter(route => route.addToNav)
+const addToNavRoutes = routes.filter((route) => route.addToNav);
 
-let navClassName: string
+let navClassName: string;
 
-function createButton({ path, name = "", duration }: Omit<RouteItem, "component">) {
-  const button = document.createElement("a");
-  button.className = navClassName
-  button.innerHTML = name
+function createButton({
+  path,
+  name = '',
+  duration,
+}: Omit<RouteItem, 'component'>) {
+  const button = document.createElement('a');
+  button.className = navClassName;
+  button.innerHTML = name;
 
   const toggleActive = (active = false) => {
-    active ? button.classList.add(Styles.navActive) : button.classList.remove(Styles.navActive)
-  }
+    active
+      ? button.classList.add(Styles.navActive)
+      : button.classList.remove(Styles.navActive);
+  };
 
   $customRouter.listen(() => {
-    path === $customRouter.get().path ? toggleActive(true) : toggleActive(false)
-  })
+    path === $customRouter.get().path
+      ? toggleActive(true)
+      : toggleActive(false);
+  });
 
-  button.addEventListener("click", () => {
-    const { canRoute } = $customRouter.get()
+  button.addEventListener('click', () => {
+    const { canRoute } = $customRouter.get();
     if (canRoute) {
-      setRouterPath(path)
-      setCanRoute(false)
+      setRouterPath(path);
+      setCanRoute(false);
 
       setTimeout(() => {
-        setCanRoute(true)
-      }, duration)
+        setCanRoute(true);
+      }, duration);
     }
-  })
+  });
 
-  return button
+  return button;
 }
 
-const addedSet = new Set()
-const buttons: string[] = []
+const addedSet = new Set();
+const buttons: string[] = [];
 
 export function createView() {
   useEffect(() => {
     const root = getSirenCtx();
-    const nav = root.querySelector("header")
-      ?.querySelector("nav") as HTMLDivElement;
+    const nav = root
+      .querySelector('header')
+      ?.querySelector('nav') as HTMLDivElement;
 
-    nav.querySelector("div[class*='userGroup']")
-      ?.remove()
+    nav.querySelector("div[class*='userGroup']")?.remove();
 
-    navClassName = nav.querySelector("a")?.className ?? Styles.navItem
+    navClassName = nav.querySelector('a')?.className ?? Styles.navItem;
 
     addToNavRoutes.forEach(({ path, name, duration = 500 }) => {
       if (!addedSet.has(path)) {
-        addedSet.add(path)
-        const button = createButton({ path, name, duration })
+        addedSet.add(path);
+        const button = createButton({ path, name, duration });
         if (!buttons.includes(path)) {
-          nav.appendChild(button)
-          buttons.push(path)
+          nav.appendChild(button);
+          buttons.push(path);
         }
       }
-    })
-  }, [])
+    });
+  }, []);
 }

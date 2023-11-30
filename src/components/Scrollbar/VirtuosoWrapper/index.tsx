@@ -1,6 +1,6 @@
-import React, { FunctionComponent } from "react";
-import { VirtuosoHandle, Virtuoso, VirtuosoProps } from "react-virtuoso";
-import Styles from "./index.module.scss";
+import React, { FunctionComponent } from 'react';
+import { VirtuosoHandle, Virtuoso, VirtuosoProps } from 'react-virtuoso';
+import Styles from './index.module.scss';
 
 export interface VirtuosoWrapperProps extends React.HTMLProps<HTMLDivElement> {
   VirtuosoProps: VirtuosoProps<any, any>;

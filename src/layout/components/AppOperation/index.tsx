@@ -1,19 +1,18 @@
-import { appWindow } from "@tauri-apps/api/window";
-import { FunctionComponent, Suspense, useState } from "react";
-import Styles from './index.module.scss'
-import { isTauri } from "@/hooks/getPlatform";
-import CloseModeChoose from "./components/CloseModeChoose";
-import $settingBasic from "@/store/models/settings/basic";
+import { appWindow } from '@tauri-apps/api/window';
+import { FunctionComponent, Suspense, useState } from 'react';
+import Styles from './index.module.scss';
+import { isTauri } from '@/hooks/getPlatform';
+import CloseModeChoose from './components/CloseModeChoose';
+import $settingBasic from '@/store/models/settings/basic';
 
 interface AppOperationProps {
   open: boolean;
-  setOpen: (open: boolean) => void
+  setOpen: (open: boolean) => void;
 }
-
 
 const AppOperation: FunctionComponent<AppOperationProps> = ({
   open,
-  setOpen
+  setOpen,
 }) => {
   const [min, setMin] = useState(true);
   const [showModeDialog, setShowModeDialog] = useState(false);
@@ -25,22 +24,22 @@ const AppOperation: FunctionComponent<AppOperationProps> = ({
   }
 
   function handleClose() {
-    const { closeMode } = $settingBasic.get()
+    const { closeMode } = $settingBasic.get();
     switch (closeMode) {
-      case "close":
-        appWindow.close()
+      case 'close':
+        appWindow.close();
         break;
-      case "minimize":
-        appWindow.minimize()
+      case 'minimize':
+        appWindow.minimize();
         break;
       default:
-        setShowModeDialog(true)
+        setShowModeDialog(true);
         break;
     }
   }
 
   return (
-    <div className="flex gap-[.65rem]">
+    <div className='flex gap-[.65rem]'>
       <a
         className={`iconfont icon-24gl-gear4 ${Styles.iconfont}`}
         onClick={() => setOpen(true)}
@@ -51,8 +50,9 @@ const AppOperation: FunctionComponent<AppOperationProps> = ({
       ></a>
       <Suspense>
         <a
-          className={`iconfont icon-24gl-${min ? "minimize" : "square"} ${Styles.iconfont
-            }`}
+          className={`iconfont icon-24gl-${min ? 'minimize' : 'square'} ${
+            Styles.iconfont
+          }`}
           onClick={changeWindowSize}
         ></a>
       </Suspense>
@@ -63,6 +63,6 @@ const AppOperation: FunctionComponent<AppOperationProps> = ({
       <CloseModeChoose open={showModeDialog} setOpen={setShowModeDialog} />
     </div>
   );
-}
+};
 
 export default AppOperation;

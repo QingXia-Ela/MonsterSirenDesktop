@@ -2,8 +2,8 @@ import React, {
   FunctionComponent,
   CSSProperties,
   useImperativeHandle,
-} from "react";
-import { positionValues } from "react-custom-scrollbars";
+} from 'react';
+import { positionValues } from 'react-custom-scrollbars';
 
 export interface ScrollClipPathProps {
   lt: number | string;
@@ -29,15 +29,15 @@ export interface OuterThumbMethods {
 }
 
 const OuterThumbStyle: CSSProperties = {
-  position: "absolute",
+  position: 'absolute',
   top: 0,
   right: 0,
-  width: "10px",
+  width: '10px',
   backgroundImage:
-    "linear-gradient(45deg, transparent, transparent 40%, #ccc 0, #ccc 60%, transparent 0, transparent)",
-  backgroundRepeat: "repeat",
-  backgroundSize: "0.3750rem 0.3750rem",
-  transform: "none !important",
+    'linear-gradient(45deg, transparent, transparent 40%, #ccc 0, #ccc 60%, transparent 0, transparent)',
+  backgroundRepeat: 'repeat',
+  backgroundSize: '0.3750rem 0.3750rem',
+  transform: 'none !important',
 };
 
 const OuterThumb = React.forwardRef<OuterThumbMethods, OuterThumbProps>(

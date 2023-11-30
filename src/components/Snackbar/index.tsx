@@ -1,18 +1,18 @@
-import { FunctionComponent } from "react";
+import { FunctionComponent } from 'react';
 import MuiSnackbar, {
   SnackbarProps as MuiSnackbarProps,
-} from "@mui/material/Snackbar";
-import Alert, { AlertProps } from "@mui/material/Alert";
-import AlertTitle from "@mui/material/AlertTitle";
-import Styles from "./index.module.scss";
+} from '@mui/material/Snackbar';
+import Alert, { AlertProps } from '@mui/material/Alert';
+import AlertTitle from '@mui/material/AlertTitle';
+import Styles from './index.module.scss';
 
 type SnackbarProps = MuiSnackbarProps &
-  Pick<AlertProps, "title" | "severity"> & {
+  Pick<AlertProps, 'title' | 'severity'> & {
     content: string;
   };
 
 const Snackbar: FunctionComponent<SnackbarProps> = ({
-  severity = "info",
+  severity = 'info',
   title,
   content,
   action,

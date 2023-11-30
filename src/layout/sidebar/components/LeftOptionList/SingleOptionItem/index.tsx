@@ -1,4 +1,4 @@
-import { FunctionComponent } from "react";
+import { FunctionComponent } from 'react';
 
 interface SingleOptionItemProps {
   iconClass: string;
@@ -17,11 +17,11 @@ const SingleOptionItem: FunctionComponent<SingleOptionItemProps> = ({
     <div
       onClick={onClick}
       className={`flex flex-col gap-[.2rem] p-1 justify-center items-center cursor-pointer transition-colors hover:bg-black ${
-        selected ? "bg-black" : ""
+        selected ? 'bg-black' : ''
       }`}
     >
       <i className={`iconfont ${iconClass} text-[.56rem]`}></i>
-      <span className="text-[.3rem]">{title}</span>
+      <span className='text-[.3rem]'>{title}</span>
     </div>
   );
 };

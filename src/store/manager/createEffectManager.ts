@@ -1,5 +1,5 @@
-type EventName = "change" | "created";
-import type { WritableAtom } from "nanostores";
+type EventName = 'change' | 'created';
+import type { WritableAtom } from 'nanostores';
 
 export default function createEffectManager(data: any) {
   const atomMap = new Map<string, WritableAtom<any>>();
@@ -17,7 +17,7 @@ export default function createEffectManager(data: any) {
     atomMap.set(key, atom);
 
     atom.listen((v) => {
-      eventMap["change"]?.forEach((f) => {
+      eventMap['change']?.forEach((f) => {
         f(key, v);
       });
     });
@@ -60,7 +60,7 @@ export default function createEffectManager(data: any) {
   }
 
   requestAnimationFrame(() => {
-    eventMap["created"]?.forEach((f) => {
+    eventMap['created']?.forEach((f) => {
       f();
     });
   });

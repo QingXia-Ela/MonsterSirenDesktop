@@ -3,7 +3,7 @@ import {
   HTMLAttributes,
   PropsWithChildren,
   forwardRef,
-} from "react";
+} from 'react';
 
 interface HoverWhiteBgProps
   extends PropsWithChildren<HTMLAttributes<HTMLDivElement>> {}
@@ -14,7 +14,7 @@ const HoverWhiteBg = forwardRef<HTMLDivElement, HoverWhiteBgProps>(
       <div
         ref={ref}
         className={`w-full h-full transition-[background-color] bg-white bg-opacity-0 hover:bg-opacity-10 p-1 cursor-pointer ${
-          className ?? ""
+          className ?? ''
         }`}
         {...props}
       >

@@ -1,7 +1,7 @@
-import { IncomingMessage, ServerResponse } from "http";
-import concatStream from "concat-stream";
-import BufferHelper from "bufferhelper";
-import zlib from "zlib";
+import { IncomingMessage, ServerResponse } from 'http';
+import concatStream from 'concat-stream';
+import BufferHelper from 'bufferhelper';
+import zlib from 'zlib';
 
 /**
  * Modify the response

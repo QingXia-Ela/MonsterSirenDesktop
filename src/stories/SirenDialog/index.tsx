@@ -1,6 +1,6 @@
-import Button from "@/components/Button";
-import Dialog from "@/components/Dialog";
-import { FunctionComponent, PropsWithChildren, useState } from "react";
+import Button from '@/components/Button';
+import Dialog from '@/components/Dialog';
+import { FunctionComponent, PropsWithChildren, useState } from 'react';
 
 interface DialogStoryProps extends PropsWithChildren {
   title: string;

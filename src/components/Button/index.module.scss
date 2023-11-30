@@ -1,12 +1,12 @@
 .button {
   position: relative;
   width: 2.2222rem;
-  height: .9rem;
+  height: 0.9rem;
   font-size: 0.34rem;
-  padding-left: .3rem;
-  padding-right: .3rem;
+  padding-left: 0.3rem;
+  padding-right: 0.3rem;
   border: 1px solid #a2a6ae;
-  font-family: "SourceHanSansCN-Bold", "Microsoft Yahei", sans-serif;
+  font-family: 'SourceHanSansCN-Bold', 'Microsoft Yahei', sans-serif;
   color: #cacdd4;
   font-weight: 700;
   line-height: 1.2;
@@ -19,15 +19,17 @@
   &::after {
     position: absolute;
     left: -4px;
-    height: .08rem;
-    width: calc(100% + .1rem);
-    background-image: linear-gradient(90deg,
-        #aeb3be 0,
-        #aeb3be .08rem,
-        transparent 0,
-        transparent calc(100% - .08rem),
-        #aeb3be calc(100% - .08rem),
-        #aeb3be);
+    height: 0.08rem;
+    width: calc(100% + 0.1rem);
+    background-image: linear-gradient(
+      90deg,
+      #aeb3be 0,
+      #aeb3be 0.08rem,
+      transparent 0,
+      transparent calc(100% - 0.08rem),
+      #aeb3be calc(100% - 0.08rem),
+      #aeb3be
+    );
   }
 
   &::before {
@@ -46,10 +48,9 @@
 }
 
 .button_decorate {
-
   &::before,
   &::after {
-    content: "";
+    content: '';
   }
 }
 
@@ -64,15 +65,17 @@
   &::before,
   &::after {
     left: -3px;
-    height: .08rem;
-    width: calc(100% + .1rem);
-    background-image: linear-gradient(90deg,
-        #aeb3be 0,
-        #aeb3be .08rem,
-        transparent 0,
-        transparent calc(100% - .08rem),
-        #aeb3be calc(100% - .08rem),
-        #aeb3be);
+    height: 0.08rem;
+    width: calc(100% + 0.1rem);
+    background-image: linear-gradient(
+      90deg,
+      #aeb3be 0,
+      #aeb3be 0.08rem,
+      transparent 0,
+      transparent calc(100% - 0.08rem),
+      #aeb3be calc(100% - 0.08rem),
+      #aeb3be
+    );
   }
 
   &::before {
@@ -92,12 +95,12 @@
 
 .button--medium {
   width: 2.2rem;
-  height: .9rem;
+  height: 0.9rem;
   font-size: 0.34rem;
 }
 
 .button--small {
   width: 1.6rem;
-  height: .6rem;
+  height: 0.6rem;
   font-size: 0.26rem;
 }

@@ -1,1 +1,1 @@
-export type SizeEnum = "small" | "medium" | "large";
+export type SizeEnum = 'small' | 'medium' | 'large';

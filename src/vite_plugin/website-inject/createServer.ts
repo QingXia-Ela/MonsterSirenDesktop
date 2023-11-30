@@ -1,35 +1,35 @@
-import { writeFileSync } from "fs";
-import Server from "http-proxy";
-import modifyResponse from "http-proxy-response-rewrite";
-import zlib from "zlib";
+import { writeFileSync } from 'fs';
+import Server from 'http-proxy';
+import modifyResponse from 'http-proxy-response-rewrite';
+import zlib from 'zlib';
 // import brModifyResponse from './modifyResponse/br'
 
 const cdnOptions = {
-  target: "https://web.hycdn.cn",
+  target: 'https://web.hycdn.cn',
   // rewrite: (path) => path.replace(/^\/cdn_proxy/, ""),
   changeOrigin: true,
   headers: {
-    referer: "https://monster-siren.hypergryph.com",
+    referer: 'https://monster-siren.hypergryph.com',
   },
 } as Server.ServerOptions;
 const cdnProxy = Server.createProxyServer(cdnOptions);
-cdnProxy.on("proxyRes", (proxyRes, req, res) => {
-  if (req.url.includes(".js") || req.url.includes(".css")) {
-    modifyResponse(res, "gzip", function (body) {
+cdnProxy.on('proxyRes', (proxyRes, req, res) => {
+  if (req.url.includes('.js') || req.url.includes('.css')) {
+    modifyResponse(res, 'gzip', function (body) {
       const str = body
-        .replaceAll("web.hycdn.cn", "localhost:11451")
-        .replaceAll("https", "http")
-        .replaceAll("/api/", "http://localhost:11452/")
+        .replaceAll('web.hycdn.cn', 'localhost:11451')
+        .replaceAll('https', 'http')
+        .replaceAll('/api/', 'http://localhost:11452/')
         // log store change
         .replaceAll(
-          "return function(n){if",
-          "return function(n){console.log(n);if",
+          'return function(n){if',
+          'return function(n){console.log(n);if',
         )
         // inject store to global
-        .replace("this.store=e,", "this.store=e,window.siren_store=e,");
+        .replace('this.store=e,', 'this.store=e,window.siren_store=e,');
 
-      res.setHeader("Access-Control-Allow-Origin", "*");
-      res.setHeader("Content-Length", Buffer.byteLength(str));
+      res.setHeader('Access-Control-Allow-Origin', '*');
+      res.setHeader('Content-Length', Buffer.byteLength(str));
       return str;
     });
   }
@@ -37,16 +37,16 @@ cdnProxy.on("proxyRes", (proxyRes, req, res) => {
 // cdnProxy.listen(11451)
 
 const apiOptions = {
-  target: "https://monster-siren.hypergryph.com/api",
+  target: 'https://monster-siren.hypergryph.com/api',
   changeOrigin: true,
   headers: {
-    referer: "https://monster-siren.hypergryph.com",
+    referer: 'https://monster-siren.hypergryph.com',
   },
 } as Server.ServerOptions;
 const apiProxy = Server.createProxyServer(apiOptions);
-apiProxy.on("proxyRes", (proxyRes, req, res) => {
+apiProxy.on('proxyRes', (proxyRes, req, res) => {
   console.log(req.url);
-  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader('Access-Control-Allow-Origin', '*');
   let chunks = [];
   let _write = res.write;
   let _end = res.end;
@@ -56,7 +56,7 @@ apiProxy.on("proxyRes", (proxyRes, req, res) => {
 
   res.end = function () {
     // br buffer
-    if (proxyRes.headers["content-encoding"]) {
+    if (proxyRes.headers['content-encoding']) {
       const compressedBuffer = Buffer.concat(chunks);
       zlib.brotliDecompress(
         compressedBuffer,
@@ -65,12 +65,12 @@ apiProxy.on("proxyRes", (proxyRes, req, res) => {
             let body: string | Buffer = decompressedBuffer.toString();
 
             body = body
-              .replaceAll("web.hycdn.cn", "localhost:11451")
-              .replaceAll("https", "http");
+              .replaceAll('web.hycdn.cn', 'localhost:11451')
+              .replaceAll('https', 'http');
 
             res.setHeader(
-              "Content-Encoding",
-              proxyRes.headers["content-encoding"],
+              'Content-Encoding',
+              proxyRes.headers['content-encoding'],
             );
 
             _write.call(res, zlib.brotliCompressSync(body));
@@ -85,9 +85,9 @@ apiProxy.on("proxyRes", (proxyRes, req, res) => {
     else {
       let body = Buffer.concat(chunks)
         .toString()
-        .replaceAll("web.hycdn.cn", "localhost:11451")
-        .replaceAll("https", "http");
-      res.setHeader("Content-Length", Buffer.byteLength(body));
+        .replaceAll('web.hycdn.cn', 'localhost:11451')
+        .replaceAll('https', 'http');
+      res.setHeader('Content-Length', Buffer.byteLength(body));
 
       _write.call(res, body);
       _end.call(res);

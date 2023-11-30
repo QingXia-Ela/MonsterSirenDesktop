@@ -6,16 +6,15 @@
   background-color: #000;
 
   /* first route container div */
-  &>div:first-child {
-
+  & > div:first-child {
     /* second page div */
-    &>div {
+    & > div {
       background-color: transparent;
       background-image: none;
 
       /* clear some div with self bg */
-      &>div[class^="background"],
-      &>div[class*="albumSelect"] {
+      & > div[class^='background'],
+      & > div[class*='albumSelect'] {
         background-color: transparent;
         background-image: none;
       }

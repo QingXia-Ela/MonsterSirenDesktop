@@ -1,21 +1,21 @@
-import React, { FunctionComponent } from "react";
+import React, { FunctionComponent } from 'react';
 import {
   Dialog as MuiDialog,
   DialogProps as MuiDialogProps,
-} from "@mui/material";
-import Styles from "./index.module.scss";
-import ZebraRight from "@/icons/tsx/Zebra/Right";
-import ZebraLeft from "@/icons/tsx/Zebra/Left";
-import { Transition } from "react-transition-group";
-import { TransitionProps } from "react-transition-group/Transition";
+} from '@mui/material';
+import Styles from './index.module.scss';
+import ZebraRight from '@/icons/tsx/Zebra/Right';
+import ZebraLeft from '@/icons/tsx/Zebra/Left';
+import { Transition } from 'react-transition-group';
+import { TransitionProps } from 'react-transition-group/Transition';
 
 const duration = 300;
 
 const defaultStyle = {
   transition: `opacity ${duration}ms, transform ${duration}ms`,
   opacity: 0,
-  width: "100%",
-  height: "100%",
+  width: '100%',
+  height: '100%',
 };
 
 const TransitionComponent = React.forwardRef<
@@ -28,11 +28,11 @@ const TransitionComponent = React.forwardRef<
         <div
           style={{
             ...defaultStyle,
-            opacity: state === "entering" || state === "entered" ? 1 : 0,
+            opacity: state === 'entering' || state === 'entered' ? 1 : 0,
             transform:
-              state === "entering" || state === "entered"
-                ? "translateX(0)"
-                : "translateY(-.6rem)",
+              state === 'entering' || state === 'entered'
+                ? 'translateX(0)'
+                : 'translateY(-.6rem)',
           }}
           ref={ref}
         >
@@ -43,7 +43,7 @@ const TransitionComponent = React.forwardRef<
   );
 });
 
-TransitionComponent.displayName = "TransitionComponent";
+TransitionComponent.displayName = 'TransitionComponent';
 
 type DialogProps = MuiDialogProps;
 
@@ -58,7 +58,7 @@ const Dialog: FunctionComponent<DialogProps> = ({
       classes={{
         paper: Styles.dialog__paper,
       }}
-      className={`${Styles.dialog__bg} ${className ?? ""}`}
+      className={`${Styles.dialog__bg} ${className ?? ''}`}
       TransitionComponent={TransitionComponent}
       {...props}
     >

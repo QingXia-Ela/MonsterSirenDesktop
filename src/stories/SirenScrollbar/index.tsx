@@ -1,5 +1,5 @@
-import Scrollbar from "@/components/Scrollbar";
-import { FunctionComponent } from "react";
+import Scrollbar from '@/components/Scrollbar';
+import { FunctionComponent } from 'react';
 
 interface SirenScrollbarStoryProps {}
 
@@ -9,7 +9,7 @@ const SirenScrollbarStory: FunctionComponent<SirenScrollbarStoryProps> = () => {
       style={{
         width: 1200,
         height: 500,
-        backgroundColor: "#000",
+        backgroundColor: '#000',
         padding: 20,
       }}
     >
@@ -17,7 +17,7 @@ const SirenScrollbarStory: FunctionComponent<SirenScrollbarStoryProps> = () => {
         <div
           style={{
             height: 2000,
-            color: "#fff",
+            color: '#fff',
           }}
         >
           test

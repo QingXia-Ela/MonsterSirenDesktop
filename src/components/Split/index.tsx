@@ -1,5 +1,5 @@
-import { FunctionComponent, HTMLAttributes } from "react";
-import Styles from "./index.module.scss";
+import { FunctionComponent, HTMLAttributes } from 'react';
+import Styles from './index.module.scss';
 
 interface SplitProps extends HTMLAttributes<HTMLDivElement> {
   children?: any;

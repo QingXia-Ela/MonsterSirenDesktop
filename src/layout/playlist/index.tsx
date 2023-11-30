@@ -1,14 +1,12 @@
-import getSirenCtx from "@/hooks/getSirenCtx";
-import { FunctionComponent, useEffect, useState } from "react";
-import { Portal } from "@mui/material";
-import Styles from './index.module.scss'
-import PlayListHeader from "./components/header";
+import getSirenCtx from '@/hooks/getSirenCtx';
+import { FunctionComponent, useEffect, useState } from 'react';
+import { Portal } from '@mui/material';
+import Styles from './index.module.scss';
+import PlayListHeader from './components/header';
 
-interface PlayListProps {
+interface PlayListProps {}
 
-}
-
-const injectElement = document.querySelector("#inject-app") as HTMLDivElement
+const injectElement = document.querySelector('#inject-app') as HTMLDivElement;
 
 const PlayList: FunctionComponent<PlayListProps> = () => {
   return (
@@ -26,6 +24,6 @@ const PlayList: FunctionComponent<PlayListProps> = () => {
       </div> */}
     </Portal>
   );
-}
+};
 
 export default PlayList;

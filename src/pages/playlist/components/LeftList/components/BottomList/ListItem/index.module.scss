@@ -1,7 +1,7 @@
 .list_item {
   justify-content: start;
   width: 100%;
-  contain-intrinsic-height: 3.7500rem;
+  contain-intrinsic-height: 3.75rem;
   padding: 0.14rem 0.3rem;
   user-select: none;
   box-sizing: border-box;
@@ -18,12 +18,12 @@
   }
 
   &.active::before {
-    content: "";
+    content: '';
   }
 }
 
 .item_description {
-  width: calc(100% - 0.20rem);
+  width: calc(100% - 0.2rem);
   padding: 0 0.3rem;
   box-sizing: border-box;
 
@@ -34,7 +34,7 @@
   }
 
   .description {
-    opacity: .8;
+    opacity: 0.8;
     font-size: 0.22rem;
     white-space: nowrap;
     overflow: hidden;
@@ -43,7 +43,7 @@
 }
 
 .img {
-  width: .5rem;
-  height: .5rem;
-  font-size: .54rem;
+  width: 0.5rem;
+  height: 0.5rem;
+  font-size: 0.54rem;
 }

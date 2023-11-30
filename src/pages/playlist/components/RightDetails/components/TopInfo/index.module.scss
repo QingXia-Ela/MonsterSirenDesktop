@@ -1,0 +1,92 @@
+.top_info {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  user-select: none;
+}
+
+.left_img_wrapper {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 3rem;
+  height: 3rem;
+  box-shadow: 0 5px 10px 2px rgba(0, 0, 0, 0.37);
+  transform-origin: center;
+  opacity: 0.9;
+  transition:
+    transform 0.3s,
+    opacity 0.3s;
+  object-fit: cover;
+  overflow: hidden;
+
+  &::after {
+    content: '';
+    position: absolute;
+    top: -58%;
+    left: -18%;
+    width: 150%;
+    height: 150%;
+    background-image: linear-gradient(
+      hsla(0, 0%, 100%, 0.2),
+      hsla(0, 0%, 100%, 0.25) 48%,
+      hsla(0, 0%, 100%, 0) 52%
+    );
+    transform: rotate(24deg);
+    opacity: 0.5;
+    transition:
+      transform 0.5s ease,
+      opacity 0.5s ease;
+    pointer-events: none;
+  }
+
+  &:hover {
+    box-shadow: 0 7px 15px 4px rgba(0, 0, 0, 0.3);
+    opacity: 1;
+    transform: scale(1.06);
+
+    &::after {
+      transform: rotate(24deg) translateY(16%);
+      opacity: 1;
+    }
+  }
+}
+
+.left_img {
+  width: 100%;
+  height: 100%;
+  border: none;
+}
+
+.right_info {
+  font-family: 'Microsoft YaHei';
+  display: flex;
+  width: calc(100% - 10.625rem);
+  height: 100%;
+  padding-left: 0.6rem;
+  flex-flow: column nowrap;
+
+  .title {
+    font-size: 0.4rem;
+    font-weight: 700;
+    opacity: 0.9;
+    margin-bottom: 0.06rem;
+  }
+
+  .author {
+    font-family: 'SourceHanSansCN-Normal';
+    font-size: 0.3rem;
+    opacity: 0.8;
+    margin-bottom: 0.4rem;
+  }
+
+  .intro {
+    font-size: 0.24rem;
+
+    .block {
+      margin-top: 0.1rem;
+      margin-bottom: 0.1rem;
+    }
+  }
+}

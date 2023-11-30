@@ -1,7 +1,6 @@
-import SirenStore from "@/store/SirenStore";
-import { atom } from "nanostores";
+import SirenStore from '@/store/SirenStore';
+import { atom } from 'nanostores';
 
-const playerState = atom(SirenStore.getState().player)
+const playerState = atom(SirenStore.getState().player);
 
-
-export default playerState
+export default playerState;

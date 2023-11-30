@@ -1,7 +1,7 @@
-import { FunctionComponent, HTMLAttributes } from "react";
-import "@/assets/fonts/menu/iconfont.css";
-import SingleOptionItem from "./SingleOptionItem";
-import { OptionType, SingleOptionItemProps } from "../../constants/config";
+import { FunctionComponent, HTMLAttributes } from 'react';
+import '@/assets/fonts/menu/iconfont.css';
+import SingleOptionItem from './SingleOptionItem';
+import { OptionType, SingleOptionItemProps } from '../../constants/config';
 
 interface SidebarLeftOptionListProps extends HTMLAttributes<HTMLDivElement> {
   optionList: Array<SingleOptionItemProps>;
@@ -15,10 +15,10 @@ const SidebarLeftOptionList: FunctionComponent<SidebarLeftOptionListProps> = ({
   onValueChange,
   ...props
 }) => {
-  const topList = optionList.filter((item) => item.position !== "bottom");
-  const bottomList = optionList.filter((item) => item.position === "bottom");
+  const topList = optionList.filter((item) => item.position !== 'bottom');
+  const bottomList = optionList.filter((item) => item.position === 'bottom');
   return (
-    <div className="h-full flex flex-col justify-between" {...props}>
+    <div className='h-full flex flex-col justify-between' {...props}>
       <div>
         {topList.map((item, index) => (
           <SingleOptionItem

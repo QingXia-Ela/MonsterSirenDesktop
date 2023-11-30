@@ -1,16 +1,16 @@
-import React, { FunctionComponent, PropsWithChildren } from "react";
-import Styles from "./index.module.scss";
+import React, { FunctionComponent, PropsWithChildren } from 'react';
+import Styles from './index.module.scss';
 import {
   ScrollbarProps as CustomScrollbarProps,
   Scrollbars,
-} from "react-custom-scrollbars";
-import OuterThumb, { OuterThumbMethods } from "./OuterThumb";
+} from 'react-custom-scrollbars';
+import OuterThumb, { OuterThumbMethods } from './OuterThumb';
 import VirtuosoWrapper, {
   VirtuosoMethods,
   VirtuosoWrapperProps,
-} from "./VirtuosoWrapper";
-import throttle from "lodash/throttle";
-import { appWindow } from "@tauri-apps/api/window";
+} from './VirtuosoWrapper';
+import throttle from 'lodash/throttle';
+import { appWindow } from '@tauri-apps/api/window';
 
 interface ScrollbarProps {
   /** 以 rem 作为单位 */
@@ -37,7 +37,7 @@ interface ScrollbarProps {
   ScrollbarProps?: CustomScrollbarProps;
 }
 
-let change = false
+let change = false;
 
 const Scrollbar: FunctionComponent<PropsWithChildren<ScrollbarProps>> = ({
   children,
@@ -55,13 +55,13 @@ const Scrollbar: FunctionComponent<PropsWithChildren<ScrollbarProps>> = ({
     OuterThumbInstance.current?.ScrollTo(ScrollInstance.current!.getValues());
     if (window.__TAURI_METADATA__) {
       if (!change) {
-        change = true
+        change = true;
         appWindow.onResized(function () {
           requestAnimationFrame(() => {
             OuterThumbInstance.current?.ScrollTo(
               ScrollInstance.current!.getValues(),
             );
-          })
+          });
         });
       }
     }
@@ -69,7 +69,7 @@ const Scrollbar: FunctionComponent<PropsWithChildren<ScrollbarProps>> = ({
 
   const marginBarHeightStyle = React.useMemo(
     () => ({
-      width: "0.12rem",
+      width: '0.12rem',
       margin: `${marginBarHeightLimit}rem 0`,
       height: `calc(100% - ${marginBarHeightLimit * 2}rem)`,
     }),
@@ -120,7 +120,7 @@ const Scrollbar: FunctionComponent<PropsWithChildren<ScrollbarProps>> = ({
     <div className={Styles.white_scroll_wrapper}>
       <OuterThumb
         marginBarHeightLimit={marginBarHeightLimit}
-        className={Styles["white_zebra_scrollbar_thumb-vertical"]}
+        className={Styles['white_zebra_scrollbar_thumb-vertical']}
         ref={OuterThumbInstance}
         ScrollbarDegNum={ScrollbarDegNum}
       />
@@ -135,13 +135,16 @@ const Scrollbar: FunctionComponent<PropsWithChildren<ScrollbarProps>> = ({
         renderTrackVertical={(prop) => (
           <div
             {...prop}
-            className={Styles["white_zebra_scrollbar_track-vertical"]}
+            className={Styles['white_zebra_scrollbar_track-vertical']}
             style={{ ...prop.style, ...marginBarHeightStyle }}
           />
         )}
         renderThumbVertical={(prop) => <div {...prop}></div>}
         renderView={(p) => (
-          <div {...p} className={`${Styles.scroll_view} scrollbar__hidden`}></div>
+          <div
+            {...p}
+            className={`${Styles.scroll_view} scrollbar__hidden`}
+          ></div>
         )}
         onScroll={(e) => {
           ScrollbarProps?.onScroll && ScrollbarProps.onScroll(e);
