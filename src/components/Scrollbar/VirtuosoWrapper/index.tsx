@@ -6,7 +6,7 @@ export interface VirtuosoWrapperProps extends React.HTMLProps<HTMLDivElement> {
   VirtuosoProps: VirtuosoProps<any, any>;
 }
 
-export interface VirtuosoElement {}
+export interface VirtuosoElement { }
 
 export interface VirtuosoMethods {
   VirtuosoInstance: React.RefObject<VirtuosoHandle>;
@@ -29,7 +29,7 @@ const VirtuosoWrapper = React.forwardRef<VirtuosoMethods, VirtuosoWrapperProps>(
       <div {...props} className={Styles.virtuoso_style}>
         <Virtuoso
           {...VirtuosoProps}
-          className={`${Styles.virtuoso} hide_scrollbar`}
+          className={`${Styles.virtuoso} scrollbar__hidden`}
           ref={VirtuosoInstance}
           // @ts-expect-error: change instance
           scrollerRef={(e) => (VirtuosoScroller.current = e)}

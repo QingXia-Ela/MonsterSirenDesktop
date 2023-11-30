@@ -1,0 +1,17 @@
+.audio_tag {
+  display: inline-block;
+  font-family: Bender-Bold;
+  font-size: .2rem;
+  padding: 0.04rem 0.08rem;
+  border: 1px solid #fff;
+  border-color: inherit;
+  color: inherit;
+}
+
+.alink {
+  &:hover {
+    opacity: .8;
+  }
+
+  cursor: pointer;
+}
