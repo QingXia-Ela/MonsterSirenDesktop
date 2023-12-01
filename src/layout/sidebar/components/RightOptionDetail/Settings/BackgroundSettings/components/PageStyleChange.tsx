@@ -10,7 +10,7 @@ import $settingBackground, {
   throttleChangeBackgroundOpacity,
 } from '@/store/models/settings/background';
 
-interface PageStyleChangeProps {}
+interface PageStyleChangeProps { }
 
 const PAGE_OPTION_NAME_MAP = [
   {
@@ -41,6 +41,10 @@ const PAGE_OPTION_NAME_MAP = [
     label: '播放列表',
     value: 'playlist',
   },
+  {
+    label: '下载页',
+    value: 'download',
+  }
 ];
 const PageStyleChange: FunctionComponent<PageStyleChangeProps> = () => {
   const [currentSelectPage, setCurrentSelectPage] = useState('');

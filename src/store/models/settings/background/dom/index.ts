@@ -15,6 +15,7 @@ const NameRouteMap = [
   ['/contact', 'contact'],
   ['/music/:id', 'music'],
   ['/playlist', 'playlist'],
+  ['/download', 'download'],
 ];
 
 const default_bg_val = {
