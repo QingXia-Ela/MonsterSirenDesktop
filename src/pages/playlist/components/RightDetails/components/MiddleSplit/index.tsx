@@ -22,7 +22,7 @@ const RightDetailsMiddleSplit: FunctionComponent<
               y2='19'
               strokeLinecap='round'
               strokeWidth='4'
-              stroke='#c6c9ce'
+              stroke='#fff'
               fill='none'
             ></line>
             <line
@@ -32,7 +32,7 @@ const RightDetailsMiddleSplit: FunctionComponent<
               y2='16'
               strokeLinecap='round'
               strokeWidth='4'
-              stroke='#c6c9ce'
+              stroke='#fff'
               fill='none'
             ></line>
             <line
@@ -42,7 +42,7 @@ const RightDetailsMiddleSplit: FunctionComponent<
               y2='23'
               strokeLinecap='round'
               strokeWidth='4'
-              stroke='#c6c9ce'
+              stroke='#fff'
               fill='none'
             ></line>
             <line
@@ -52,7 +52,7 @@ const RightDetailsMiddleSplit: FunctionComponent<
               y2='19'
               strokeLinecap='round'
               strokeWidth='4'
-              stroke='#c6c9ce'
+              stroke='#fff'
               fill='none'
             ></line>
           </svg>

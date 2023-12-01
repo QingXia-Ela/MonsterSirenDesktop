@@ -1,0 +1,31 @@
+.control_button {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  font-weight: 700;
+  font-size: 0.36rem;
+  padding: 0.3rem 0.6rem;
+  border-radius: 0.3rem;
+  transition:
+    transform 0.2s,
+    background-color 0.2s;
+
+  &:hover,
+  &.active {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+
+  &:active {
+    transform: scale(0.97);
+  }
+
+  .text {
+    font-size: 1em;
+    margin-left: 1em;
+  }
+
+  .iconfont {
+    font-size: 1.2em;
+    font-weight: 400;
+  }
+}
