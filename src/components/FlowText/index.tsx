@@ -15,6 +15,8 @@ const FlowText: FunctionComponent<FlowTextProps> = ({ children }) => {
 
   const [moveValue, setMoveValue] = useState(0);
 
+  const animateTime = moveValue / 10 > 4 ? moveValue / 10 : 4;
+
   useEffect(() => {
     if (textContainer.current && outerContainer.current) {
       const outerWidth = outerContainer.current.offsetWidth,
@@ -35,7 +37,7 @@ const FlowText: FunctionComponent<FlowTextProps> = ({ children }) => {
       <span
         className={`${Styles.textContainer} whitespace-nowrap`}
         style={{
-          animationDuration: `${moveValue / 10}s`,
+          animationDuration: `${animateTime}s`,
         }}
         ref={textContainer}
       >

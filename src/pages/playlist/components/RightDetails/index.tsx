@@ -4,7 +4,7 @@ import RightDetailsTopInfo from './components/TopInfo';
 import RightDetailsMiddleSplit from './components/MiddleSplit';
 import RightDetailsBottomList from './components/BottomList';
 
-interface RightDetailsProps { }
+interface RightDetailsProps {}
 
 const RightDetails: FunctionComponent<RightDetailsProps> = () => {
   return (

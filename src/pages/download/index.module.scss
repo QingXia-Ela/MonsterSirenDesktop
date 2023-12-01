@@ -1,0 +1,53 @@
+.download {
+  z-index: 0;
+  display: flex;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  padding: 3rem 2rem 2.4rem 2.5rem;
+  box-sizing: border-box;
+  font-size: 0.6rem;
+  opacity: 0;
+  animation: hideAnime 0.7s;
+}
+
+@keyframes showAnime {
+  0% {
+    opacity: 0;
+  }
+
+  30% {
+    transform: scale(0.98);
+    opacity: 0;
+  }
+
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.downloadShow {
+  z-index: 1;
+  opacity: 1;
+  animation: showAnime 0.7s;
+}
+
+@keyframes hideAnime {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+
+  40% {
+    transform: scale(0.98);
+    opacity: 0;
+  }
+
+  100% {
+    transform: scale(0.98);
+    opacity: 0;
+  }
+}

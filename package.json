@@ -70,7 +70,7 @@
     "prettier": "3.0.3",
     "storybook": "7.4.6",
     "tailwindcss": "^3.3.3",
-    "typescript": "^5.0.2",
+    "typescript": "^5.3.2",
     "vite": "^4.4.4",
     "vite-plugin-svg-icons": "^2.0.1",
     "vite-svg-loader": "^4.0.0",

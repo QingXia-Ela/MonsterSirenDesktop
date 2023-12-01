@@ -1,7 +1,7 @@
 .audio_tag {
   display: inline-block;
   font-family: Bender-Bold;
-  font-size: .2rem;
+  font-size: 0.2rem;
   padding: 0.04rem 0.08rem;
   border: 1px solid #fff;
   border-color: inherit;
@@ -10,7 +10,7 @@
 
 .alink {
   &:hover {
-    opacity: .8;
+    opacity: 0.8;
   }
 
   cursor: pointer;

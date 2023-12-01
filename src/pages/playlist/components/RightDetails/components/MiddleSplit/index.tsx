@@ -4,7 +4,7 @@ import { FunctionComponent, memo, useState } from 'react';
 import Styles from './index.module.scss';
 import NavSearch from '@/components/Input';
 
-interface RightDetailsMiddleSplitProps { }
+interface RightDetailsMiddleSplitProps {}
 
 const RightDetailsMiddleSplit: FunctionComponent<
   RightDetailsMiddleSplitProps

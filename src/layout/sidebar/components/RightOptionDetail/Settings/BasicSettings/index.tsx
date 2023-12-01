@@ -20,7 +20,6 @@ const SELECT_OPTIONS = CloseModeChooses.map(({ title, value }) => ({
 
 const BasicSettings: FunctionComponent<BasicSettingsProps> = () => {
   const { closeAutoPlay, closeMode } = useStore($settingBasic);
-  console.log(closeMode);
 
   return (
     <div className='w-full flex flex-col gap-1'>

@@ -1,6 +1,7 @@
 import { HTMLAttributes, useEffect } from 'react';
 import { RouteItem, RouterCombineProps } from './types';
 import PlayList from '@/pages/playlist';
+import Download from '@/pages/download';
 
 const TestComponent = ({
   active,
@@ -28,6 +29,11 @@ const routes: RouteItem[] = [
     component: PlayList,
     addToNav: true,
     name: '播放列表',
+  },
+  {
+    path: '/download',
+    component: Download,
+    name: '下载',
   },
   {
     path: '/test',
