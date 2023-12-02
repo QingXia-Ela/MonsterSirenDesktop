@@ -17,7 +17,8 @@ const SingleItem: React.FC<{
     duration-300 text-[.36rem] active:opacity-60 select-none box-border'
   >
     <div className='w-[30%]'>{name}</div>
-    <div className='flex-1 flex gap-1 items-center'><span className='mr-1'>{text}</span>
+    <div className='flex-1 flex gap-1 items-center'>
+      <span className='mr-1'>{text}</span>
       <div className='w-[50%] text-[#ccc]'>
         {typeof precentage === 'number' && (
           <Progress
@@ -40,7 +41,7 @@ const SingleItem: React.FC<{
   </a>
 );
 
-interface DownloadingListProps { }
+interface DownloadingListProps {}
 
 const DownloadingList: FunctionComponent<DownloadingListProps> = () => {
   return (

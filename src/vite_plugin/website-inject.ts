@@ -1,7 +1,7 @@
 import { PluginOption } from 'vite';
 import fs from 'fs';
 import { request } from 'https';
-import './website-inject/createServer';
+// import './website-inject/createServer';
 
 const CDN_PATH = 'web.hycdn.cn';
 
