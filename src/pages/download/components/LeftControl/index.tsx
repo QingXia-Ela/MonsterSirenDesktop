@@ -25,9 +25,9 @@ const ControlButton: FunctionComponent<
     icon: string;
     text: string;
     active?: boolean;
-  } & HTMLAttributes<HTMLDivElement>
+  } & HTMLAttributes<HTMLAnchorElement>
 > = ({ icon, text, className, active = false, ...props }) => (
-  <div
+  <a
     className={`${Styles.control_button} ${className} ${
       active && Styles.active
     }`}
@@ -35,7 +35,7 @@ const ControlButton: FunctionComponent<
   >
     <i className={`iconfont ${Styles.iconfont} ${icon}`}></i>
     <span className={Styles.text}>{text}</span>
-  </div>
+  </a>
 );
 
 interface DownloadLeftControlProps {
@@ -48,7 +48,7 @@ const DownloadLeftControl: FunctionComponent<DownloadLeftControlProps> = ({
   onChange,
 }) => {
   return (
-    <div className='w-16 flex flex-col gap-1'>
+    <div className='w-20 flex flex-col gap-1'>
       <div className='text-[.6em] font-bold mb-1'>下载管理</div>
       {buttons.map(({ value, icon, text }) => (
         <ControlButton

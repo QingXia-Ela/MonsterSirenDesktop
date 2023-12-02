@@ -10,7 +10,8 @@
     "tauri": "tauri dev",
     "lint": "npx prettier ./src --write",
     "storybook": "set STORYBOOK=true&& storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "prepare": "husky install"
   },
   "dependencies": {
     "@emotion/react": "^11.11.1",
@@ -66,6 +67,8 @@
     "eslint-plugin-react": "^7.33.2",
     "http-proxy": "^1.18.1",
     "http-proxy-response-rewrite": "^0.0.1",
+    "husky": "^8.0.3",
+    "lint-staged": "^15.1.0",
     "postcss": "^8.4.26",
     "prettier": "3.0.3",
     "storybook": "7.4.6",

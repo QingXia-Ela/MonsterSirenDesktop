@@ -4,6 +4,7 @@ import { RouterCombineProps } from '@/router/types';
 import DownloadLeftControl, {
   DownloadButtonValue,
 } from './components/LeftControl';
+import DownloadRightDetails from './components/RightDetails';
 
 interface DownloadProps extends RouterCombineProps {}
 
@@ -24,6 +25,7 @@ const Download: FunctionComponent<DownloadProps> = ({ active, ...props }) => {
     >
       <DownloadLeftControl value={selectValue} onChange={setSelectValue} />
       {/* DOWNLOAD */}
+      <DownloadRightDetails />
     </div>
   );
 };
