@@ -2,8 +2,10 @@
 
 import SirenStore from './store/SirenStore';
 
-declare module Window {
-  const siren_config = {};
-  const siren_store: typeof SirenStore;
-  export { siren_config, siren_store };
+declare global {
+  declare module globalThis {
+    const siren_config: Record<string, any>;
+    const siren_store: typeof SirenStore;
+    export { siren_config, siren_store };
+  }
 }

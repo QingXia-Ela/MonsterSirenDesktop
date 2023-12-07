@@ -4,7 +4,9 @@ use brotlic::{
 };
 use futures::executor::block_on;
 use reqwest::{
-    header::{HeaderMap, ACCESS_CONTROL_ALLOW_ORIGIN, CONTENT_ENCODING, CONTENT_LENGTH},
+    header::{
+        HeaderMap, ACCESS_CONTROL_ALLOW_ORIGIN, CONTENT_ENCODING, CONTENT_LENGTH, CONTENT_TYPE,
+    },
     Client,
 };
 use std::{borrow::BorrowMut, net::SocketAddrV4, thread};
@@ -52,6 +54,58 @@ async fn handle_request(
         "https://monster-siren.hypergryph.com/api{}",
         path.as_str()
     ));
+    // test only
+    if path.as_str() == "/song/self:114514" {
+        let mut res = Response::new(
+            r#"{
+            "code": 0,
+            "msg": "",
+            "data": {
+                "cid": "self:114514",
+                "name": "Snow Halation",
+                "albumCid": "self:1919810",
+                "sourceUrl": "http://127.0.0.1:8080/μ's - Snow halation.flac",
+                "artists": ["μ's", "LoveLive School Idol Project!"],
+                "lyricUrl": "http://127.0.0.1:8080/μ's - Snow halation.lrc"
+            }
+        }"#
+            .into(),
+        );
+        let mut header = res.headers_mut();
+        header.insert(CONTENT_TYPE, "application/json".parse().unwrap());
+        header.insert(ACCESS_CONTROL_ALLOW_ORIGIN, "*".parse().unwrap());
+        return Ok(res);
+    } else if path.as_str() == "/album/self:1919810/detail" {
+        let mut res = Response::new(
+            r#"{
+            "code": 0,
+            "msg": "",
+            "data": {
+                "cid": "self:1919810",
+                "name": "Snow Halation",
+                "intro": "啊哈哈...",
+                "belong": "μ's",
+                "coverUrl": "https://p2.music.126.net/h3X24IkUDnSMCQM60L5n0g==/109951168958569548.jpg",
+                "coverDeUrl": "http://localhost:11451/siren/pic/20231204/808e8e61be79018befa887c44731d5aa.jpg",
+                "songs": [
+                    {
+                        "cid": "self:114514",
+                        "name": "Snow Halation",
+                        "artistes": [
+                            "μ's"
+                        ]
+                    }
+                ]
+            }
+        }"#
+            .into(),
+        );
+        let mut header = res.headers_mut();
+        header.insert(CONTENT_TYPE, "application/json".parse().unwrap());
+        header.insert(ACCESS_CONTROL_ALLOW_ORIGIN, "*".parse().unwrap());
+        return Ok(res);
+    }
+
     let mut request_builder = client.get(&target_url);
     request_builder = request_builder.header("referer", SIREN_WEBSITE);
 

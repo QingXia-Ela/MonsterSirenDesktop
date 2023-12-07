@@ -1,6 +1,21 @@
 import { FunctionComponent } from 'react';
 
-export interface RouteItem {
+export type RouteItemType = 'path' | 'vanilla';
+
+export interface BasicRouteItem {
+  type: RouteItemType;
+}
+
+/**
+ * 原生路由，一般用于跳转塞壬唱片内部路径
+ */
+export interface VanillaRouteItem extends BasicRouteItem {
+  name?: string;
+  element: HTMLElement
+  addToNav: true;
+}
+
+export interface PathRouteItem extends BasicRouteItem {
   /** 导航栏中文名字 */
   name?: string;
   /**
@@ -19,6 +34,8 @@ export interface RouteItem {
   /** 是否添加到导航栏 */
   addToNav?: boolean;
 }
+
+export type RouteItem = PathRouteItem | VanillaRouteItem;
 
 export interface RouterCombineProps {
   /**

@@ -1,7 +1,8 @@
+// TODO!: 重构路由核心
 import { Fragment, createElement, useEffect } from 'react';
 import routes from '..';
 import getSirenCtx from '@/hooks/getSirenCtx';
-import { RouteItem } from '../types';
+import { PathRouteItem, RouteItem, VanillaRouteItem } from '../types';
 import Styles from './index.module.scss';
 import $customRouter, {
   setCanRoute,
@@ -17,7 +18,7 @@ function createButton({
   path,
   name = '',
   duration,
-}: Omit<RouteItem, 'component'>) {
+}: Omit<PathRouteItem, 'component'>) {
   const button = document.createElement('a');
   button.className = navClassName;
   button.innerHTML = name;
@@ -63,15 +64,28 @@ export function createView() {
 
     navClassName = nav.querySelector('a')?.className ?? Styles.navItem;
 
-    addToNavRoutes.forEach(({ path, name, duration = 500 }) => {
-      if (!addedSet.has(path)) {
-        addedSet.add(path);
-        const button = createButton({ path, name, duration });
-        if (!buttons.includes(path)) {
-          nav.appendChild(button);
-          buttons.push(path);
+    addToNavRoutes.forEach((v) => {
+      switch (v.type) {
+        case 'path': {
+          const { path, name, duration = 500, type } = v as PathRouteItem;
+          if (!addedSet.has(path)) {
+            addedSet.add(path);
+            const button = createButton({ path, name, duration, type });
+            if (!buttons.includes(path)) {
+              nav.appendChild(button);
+              buttons.push(path);
+            }
+          }
+          break
+        }
+        case 'vanilla': {
+          const { element, name = "" } = v as VanillaRouteItem
+          element.className += navClassName;
+          element.innerHTML = name;
+          nav.appendChild(element);
         }
       }
+
     });
   }, []);
 }

@@ -27,12 +27,10 @@
       "@/*": [
         "src/*"
       ]
-    },
-    "types": [
-      "./src/vite-env.d.ts"
-    ]
+    }
   },
   "include": [
     "src",
+    "./src/vite-env.d.ts"
   ]
 }

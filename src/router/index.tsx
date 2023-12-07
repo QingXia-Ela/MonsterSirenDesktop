@@ -2,44 +2,29 @@ import { HTMLAttributes, useEffect } from 'react';
 import { RouteItem, RouterCombineProps } from './types';
 import PlayList from '@/pages/playlist';
 import Download from '@/pages/download';
-
-const TestComponent = ({
-  active,
-  path,
-  ...props
-}: RouterCombineProps & {
-  content: React.ReactNode;
-} & HTMLAttributes<HTMLDivElement>) => {
-  useEffect(() => {
-    console.log(active);
-  });
-  return (
-    <div key={path} {...props}>
-      {path}
-    </div>
-  );
-};
-
 /**
  * 路由只会往页面尾部追加
  */
 const routes: RouteItem[] = [
   {
+    type: 'path',
     path: '/playlist',
     component: PlayList,
     addToNav: true,
     name: '播放列表',
   },
   {
+    type: 'path',
     path: '/download',
     component: Download,
     name: '下载',
   },
   {
-    path: '/test',
-    component: TestComponent,
-    name: '测试test',
-  },
+    type: 'vanilla',
+    name: '正在播放',
+    element: document.createElement('a'),
+    addToNav: true,
+  }
 ];
 
 export default routes;
