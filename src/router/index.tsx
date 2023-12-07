@@ -24,7 +24,7 @@ const routes: RouteItem[] = [
     name: '正在播放',
     element: document.createElement('a'),
     addToNav: true,
-  }
+  },
 ];
 
 export default routes;

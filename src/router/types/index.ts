@@ -11,7 +11,7 @@ export interface BasicRouteItem {
  */
 export interface VanillaRouteItem extends BasicRouteItem {
   name?: string;
-  element: HTMLElement
+  element: HTMLElement;
   addToNav: true;
 }
 

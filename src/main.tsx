@@ -5,8 +5,8 @@ import './styles.scss';
 import 'tdesign-react/es/style/index.css';
 
 window.siren_config = {
-  log_store: true
-}
+  log_store: true,
+};
 
 ReactDOM.createRoot(
   document.getElementById('inject-app') as HTMLElement,

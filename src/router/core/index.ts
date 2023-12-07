@@ -76,16 +76,15 @@ export function createView() {
               buttons.push(path);
             }
           }
-          break
+          break;
         }
         case 'vanilla': {
-          const { element, name = "" } = v as VanillaRouteItem
+          const { element, name = '' } = v as VanillaRouteItem;
           element.className += navClassName;
           element.innerHTML = name;
           nav.appendChild(element);
         }
       }
-
     });
   }, []);
 }
