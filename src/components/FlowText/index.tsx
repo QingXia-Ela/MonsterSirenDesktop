@@ -33,6 +33,7 @@ const FlowText: FunctionComponent<FlowTextProps> = ({ children }) => {
         '--move-value': `-${moveValue}px`,
       }}
       className='w-full overflow-hidden'
+      title={typeof children === 'string' ? children : ''}
     >
       <span
         className={`${Styles.textContainer} whitespace-nowrap`}

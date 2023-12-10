@@ -1,3 +1,4 @@
+use config::Config as ConfigLib;
 #[warn(non_snake_case)]
 use std::{
     fs,
@@ -6,6 +7,7 @@ use std::{
 };
 
 use serde::{Deserialize, Serialize};
+mod AdvancementConfig;
 mod BackgroundConfig;
 mod constants;
 use constants::INIT_CONFIG;
@@ -20,28 +22,27 @@ pub struct BaiscConfig {
 pub struct Config {
     pub basic: BaiscConfig,
     pub background: BackgroundConfig::Config,
+    pub advancement: AdvancementConfig::Config,
 }
 
-pub fn get_config(raw_json: &String) -> Result<Config, Error> {
-    let parsed: Config = serde_json::from_str(raw_json)?;
-    Ok(parsed)
+pub fn init_window_from_config(window: &mut tauri::Window, config: &Config) {
+    // let main_window = app.get_window("main").unwrap();
+    AdvancementConfig::init(window, &config.advancement);
 }
 
 /// Initialize and get the config file
 pub fn init_config(path: String, filename: String) -> Config {
     let full_path = format!("{}\\{}", path, filename);
+    // if path of file doesn't exist just create it
     if fs::metadata(&path).is_err() || fs::metadata(&full_path).is_err() {
         let _ = fs::create_dir(&path);
+        fs::write(&full_path, INIT_CONFIG).unwrap();
     }
 
-    let raw_json = fs::read_to_string(&full_path).unwrap();
-    let config = get_config(&raw_json);
-    match config {
-        Ok(cfg) => cfg,
-        Err(_) => {
-            fs::write(&full_path, INIT_CONFIG).unwrap();
-            get_config(&String::from(INIT_CONFIG)).unwrap()
-        }
-    }
-    // println!("config: {:?}", config);
+    let settings = ConfigLib::builder()
+        .add_source(config::File::with_name(&full_path))
+        .build()
+        .unwrap();
+
+    settings.try_deserialize::<Config>().unwrap()
 }

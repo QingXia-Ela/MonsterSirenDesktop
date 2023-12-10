@@ -1,11 +1,11 @@
 /// <reference types="vite/client" />
 
-import SirenStore from './store/SirenStore';
+import type { SirenStore } from '../types/SirenStore';
 
 declare global {
   declare module globalThis {
     const siren_config: Record<string, any>;
-    const siren_store: typeof SirenStore;
+    const siren_store: SirenStore;
     export { siren_config, siren_store };
   }
 }

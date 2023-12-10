@@ -37,6 +37,8 @@ fn init(app: &mut App) {
             .to_string(),
         String::from("settings.json"),
     );
+    let mut main_window = app.get_window("main").unwrap();
+    config::init_window_from_config(&mut main_window, &app_config);
     spawn_cdn_proxy(&app_config);
     spawn_api_proxy();
     spanw_file_server();
@@ -46,6 +48,7 @@ fn main() {
     // init_config
     let builder = tauri::Builder::default().setup(move |app| {
         let core_app = app.get_window("main").unwrap();
+        core_app.eval("window.siren_config = {}").unwrap();
         init(app);
         Ok(())
     });

@@ -20,7 +20,7 @@ const pathMap: Record<string, FunctionComponent<RouterCombineProps & any>> = {};
 const pathSet = new Set<string>();
 
 routes.forEach((route) => {
-  pathMap[route.path] = route.component;
+  if (route.type === 'path') pathMap[route.path] = route.component;
 });
 
 const SirenCustomView: FunctionComponent<SirenCustomViewProps> = () => {

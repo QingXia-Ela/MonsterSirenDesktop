@@ -31,11 +31,6 @@ atomList.forEach(([key, atom]) => {
   SettingsManager.addAtom(key, atom);
 });
 
-// init config namespace
-if (!window.siren_config) {
-  window.siren_config = {};
-}
-
 async function saveSettings() {
   await writeTextFile(
     SETTINGS_PATH,

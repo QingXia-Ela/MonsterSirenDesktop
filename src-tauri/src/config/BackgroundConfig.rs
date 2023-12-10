@@ -1,4 +1,3 @@
-#[warn(non_snake_case)]
 use serde::{Deserialize, Serialize};
 
 #[derive(Serialize, Deserialize, Debug)]

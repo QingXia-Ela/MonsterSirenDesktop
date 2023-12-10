@@ -3,15 +3,22 @@ import Tag from '@/components/Tag';
 import React, { FunctionComponent } from 'react';
 import { Progress } from 'tdesign-react';
 
-const ItemOperation = ({ id, downloading }: {
+const ItemOperation = ({
+  id,
+  downloading,
+}: {
   id: string;
   downloading?: boolean;
 }) => (
   <>
-    <i className={`text-[.5rem] iconfont ${downloading ? 'icon-24gl-pauseCircle' : 'icon-24gl-playCircle'}`}></i>
-    <i className="text-[.5rem] iconfont icon-24gl-trash2"></i>
+    <i
+      className={`text-[.5rem] iconfont ${
+        downloading ? 'icon-24gl-pauseCircle' : 'icon-24gl-playCircle'
+      }`}
+    ></i>
+    <i className='text-[.5rem] iconfont icon-24gl-trash2'></i>
   </>
-)
+);
 
 const SingleItem: React.FC<{
   name: string;
@@ -49,28 +56,30 @@ const SingleItem: React.FC<{
     <div className='w-[15%]'>
       {Array.isArray(tags) ? tags?.map((v, i) => <Tag key={i}>{v}</Tag>) : tags}
     </div>
-    <div className='flex-1 group-hover:opacity-100 opacity-0 transition-opacity duration-200
-    flex gap-1'>
+    <div
+      className='flex-1 group-hover:opacity-100 opacity-0 transition-opacity duration-200
+    flex gap-1'
+    >
       <ItemOperation downloading id={id} />
     </div>
   </a>
 );
 
-interface DownloadingListProps { }
+interface DownloadingListProps {}
 
 const DownloadingList: FunctionComponent<DownloadingListProps> = () => {
   return (
     <div className='w-full h-full flex flex-col'>
-      <div className='w-[98%] flex py-1 px-2 mb-1 rounded-sm 
+      <div
+        className='w-[98%] flex py-1 px-2 mb-1 rounded-sm 
     items-center transition-[background-color,opacity] font-[SourceHanSansCN-Bold]
-    duration-200 text-[.36rem] active:opacity-40 select-none box-border'>
+    duration-200 text-[.36rem] active:opacity-40 select-none box-border'
+      >
         <div className='w-[25%]'>歌曲名</div>
         <div className='w-[40%] flex gap-1 items-center'>
           <span className='mr-1'>下载状态</span>
         </div>
-        <div className='w-[15%]'>
-          音频来源
-        </div>
+        <div className='w-[15%]'>音频来源</div>
         <div className='flex-1'>更多操作</div>
       </div>
       <div className='flex-1'>

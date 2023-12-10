@@ -45,6 +45,14 @@
   box-shadow: 0 0 6px #fff;
 }
 
+.elementActive {
+  transform: scale(0.98);
+  opacity: 0.6;
+  transition:
+    transform 0.2s,
+    opacity 0.2s;
+}
+
 .text_nowrap {
   white-space: nowrap;
   text-overflow: ellipsis;

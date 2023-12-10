@@ -10,12 +10,14 @@ export interface BasicRouteItem {
  * 原生路由，一般用于跳转塞壬唱片内部路径
  */
 export interface VanillaRouteItem extends BasicRouteItem {
+  type: 'vanilla';
   name?: string;
   element: HTMLElement;
   addToNav: true;
 }
 
 export interface PathRouteItem extends BasicRouteItem {
+  type: 'path';
   /** 导航栏中文名字 */
   name?: string;
   /**
