@@ -43,7 +43,7 @@ const SingleItem: React.FC<{
   </a>
 );
 
-interface DownloadingListProps { }
+interface DownloadingListProps {}
 
 const DownloadedList: FunctionComponent<DownloadingListProps> = () => {
   const list = SirenStore.getState().player.list;
