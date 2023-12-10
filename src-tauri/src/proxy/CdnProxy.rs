@@ -2,8 +2,7 @@ use std::{
     borrow::BorrowMut,
     collections::{HashMap, HashSet},
     net::SocketAddrV4,
-    ops::Deref,
-    sync::{Arc, Mutex},
+    sync::Mutex,
     thread::{self, JoinHandle},
 };
 

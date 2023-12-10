@@ -1,6 +1,7 @@
 use serde::{Deserialize, Serialize};
 // use tauri::{Manager, Runtime};
 
+#[allow(non_snake_case)]
 #[derive(Debug, Serialize, Deserialize)]
 pub struct Config {
     pub enable: bool,

@@ -25,6 +25,7 @@ const atomList: Array<[string, WritableAtom<typeof DEFAULT_CONFIG>]> = [
   ['basic', atom(cfg.basic)],
   ['background', atom(cfg.background)],
   ['advancement', atom(cfg.advancement)],
+  ['download', atom(cfg.download)],
 ];
 
 atomList.forEach(([key, atom]) => {
