@@ -38,7 +38,7 @@ export const OptionList: Array<SingleOptionItemProps> = [
     iconClass: 'icon-24gl-download',
     title: '下载设置',
     value: OptionType.DownloadSettings,
-    rightComponent: DownloadSettings
+    rightComponent: DownloadSettings,
   },
   {
     iconClass: 'icon-tool',

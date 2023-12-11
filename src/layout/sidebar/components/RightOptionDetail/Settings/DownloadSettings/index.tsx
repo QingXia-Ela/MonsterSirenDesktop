@@ -1,26 +1,25 @@
-import $settingDownload, { changeDownloadPath } from "@/store/models/settings/download";
-import { useStore } from "@nanostores/react";
-import { FunctionComponent } from "react";
-import SubTitle from "../../components/SubTitle";
-import Button from "@/components/Button";
+import $settingDownload, {
+  changeDownloadPath,
+} from '@/store/models/settings/download';
+import { useStore } from '@nanostores/react';
+import { FunctionComponent } from 'react';
+import SubTitle from '../../components/SubTitle';
+import Button from '@/components/Button';
 import { open } from '@tauri-apps/api/dialog';
 
-interface DownloadSettingsProps {
-
-}
+interface DownloadSettingsProps {}
 
 const DownloadSettings: FunctionComponent<DownloadSettingsProps> = () => {
-
   const { path } = useStore($settingDownload);
 
   const handleSelectPath = async () => {
-    const p = await open({
+    const p = (await open({
       directory: true,
       multiple: false,
-    }) as string;
+    })) as string;
     if (!p) return;
     changeDownloadPath(p);
-  }
+  };
 
   return (
     <div className='w-full flex flex-col gap-1 text-[.32rem]'>
@@ -35,6 +34,6 @@ const DownloadSettings: FunctionComponent<DownloadSettingsProps> = () => {
       </Button>
     </div>
   );
-}
+};
 
 export default DownloadSettings;

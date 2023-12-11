@@ -8,7 +8,7 @@
   },
   "package": {
     "productName": "MonsterSirenDesktop",
-    "version": "0.0.0"
+    "version": "0.0.1"
   },
   "tauri": {
     "allowlist": {
@@ -45,20 +45,8 @@
         "icons/icon.ico"
       ]
     },
-    "security": {
-      "csp": "",
-      "dangerousRemoteDomainIpcAccess": [
-        {
-          "domain": "monster-siren.hypergryph.com",
-          "windows": [
-            "main"
-          ]
-        }
-      ]
-    },
     "windows": [
       {
-        "url": "http://localhost:8000",
         "label": "main",
         "fullscreen": false,
         "resizable": true,

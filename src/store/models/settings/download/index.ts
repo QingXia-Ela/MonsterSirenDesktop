@@ -12,10 +12,10 @@ if ($settingDownload.get().path === '') {
 
 export const changeDownloadPath = (path: string) => {
   $settingDownload.set({ ...$settingDownload.get(), path });
-}
+};
 
 export const changeDownloadLrc = (downloadLrc: boolean) => {
   $settingDownload.set({ ...$settingDownload.get(), downloadLrc });
-}
+};
 
 export default $settingDownload;

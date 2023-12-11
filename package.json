@@ -8,6 +8,7 @@
     "build": "vite build",
     "preview": "vite preview",
     "tauri": "tauri dev",
+    "tauri:build": "tauri build",
     "lint": "npx prettier ./src --write",
     "storybook": "set STORYBOOK=true&& storybook dev -p 6006",
     "build-storybook": "storybook build",
