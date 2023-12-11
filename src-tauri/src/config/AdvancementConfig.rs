@@ -6,7 +6,7 @@ use serde::{Deserialize, Serialize};
 pub struct Config {
     pub enable: bool,
     pub cdnProxyPort: u16,
-    pub apiProxyPort: u16,
+    pub api_proxyPort: u16,
     pub logStore: bool,
     pub allowContextMenu: bool,
 }

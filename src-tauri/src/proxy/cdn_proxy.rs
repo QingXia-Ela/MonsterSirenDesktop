@@ -23,14 +23,14 @@ struct cache_item(HeaderMap, Box<bytes::Bytes>);
 static mut REQUEST_CACHE: Lazy<Mutex<HashMap<String, cache_item>>> =
     Lazy::new(|| Mutex::new(HashMap::new()));
 
-pub struct CdnProxy {}
+pub struct cdn_proxy {}
 
-impl CdnProxy {
+impl cdn_proxy {
     /// Create a new cdn proxy server
     /// # Example
     /// ```
     /// thread::spawn(move || {
-    ///   let _ = CdnProxy::new(11451, 11452, vec![["content will be replace", "content will use"]]);
+    ///   let _ = cdn_proxy::new(11451, 11452, vec![["content will be replace", "content will use"]]);
     /// })
     /// ```
     #[tokio::main]
@@ -42,7 +42,7 @@ impl CdnProxy {
             let addr: SocketAddrV4 = format!("127.0.0.1:{}", port).parse().unwrap();
             warp::serve(proxy).run(addr).await;
         });
-        CdnProxy {}
+        cdn_proxy {}
     }
 }
 
@@ -137,20 +137,20 @@ fn change_body(body: String, port: u16, api_port: u16, filter_rules: FilterType)
 }
 
 #[derive(Debug, Eq, PartialEq, Hash)]
-pub enum CdnProxyRules {
+pub enum cdn_proxyRules {
     LogStoreChange,
     PreventAutoplay,
     ExposeStore,
     ExposeHistory,
 }
 
-pub fn get_basic_filter_rules(mut settings: Vec<CdnProxyRules>) -> FilterType {
+pub fn get_basic_filter_rules(mut settings: Vec<cdn_proxyRules>) -> FilterType {
     let mut rules = vec![];
     // default expose store
     settings.extend(vec![
-        CdnProxyRules::ExposeStore,
-        CdnProxyRules::ExposeHistory,
-        CdnProxyRules::LogStoreChange,
+        cdn_proxyRules::ExposeStore,
+        cdn_proxyRules::ExposeHistory,
+        cdn_proxyRules::LogStoreChange,
     ]);
     let settings = settings
         .into_iter()
@@ -160,17 +160,17 @@ pub fn get_basic_filter_rules(mut settings: Vec<CdnProxyRules>) -> FilterType {
 
     for v in settings {
         match v {
-            CdnProxyRules::ExposeStore => {
+            cdn_proxyRules::ExposeStore => {
                 rules.push(["this.store=e,", "this.store=e,window.siren_store=e,"])
             }
-            CdnProxyRules::LogStoreChange => rules.push([
+            cdn_proxyRules::LogStoreChange => rules.push([
                 "return function(n){if",
                 "return function(n){if(window.siren_config?.log_store)console.log(n);if",
             ]),
-            CdnProxyRules::PreventAutoplay => {
+            cdn_proxyRules::PreventAutoplay => {
                 rules.push(["i.initCtx()}i.play()};", "i.initCtx()}};"])
             }
-            CdnProxyRules::ExposeHistory => {
+            cdn_proxyRules::ExposeHistory => {
                 rules.push(["};return X", "};window.siren_router=X;return X"])
             }
         }
@@ -183,10 +183,10 @@ pub fn spawn_cdn_proxy(config: &crate::config::Config) -> JoinHandle<()> {
     let mut rules = vec![];
 
     if config.basic.closeAutoPlay {
-        rules.push(CdnProxyRules::PreventAutoplay)
+        rules.push(cdn_proxyRules::PreventAutoplay)
     }
 
     thread::spawn(|| {
-        CdnProxy::new(11451, 11452, get_basic_filter_rules(rules));
+        cdn_proxy::new(11451, 11452, get_basic_filter_rules(rules));
     })
 }

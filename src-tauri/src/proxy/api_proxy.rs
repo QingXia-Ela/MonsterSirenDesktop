@@ -16,9 +16,9 @@ use warp::{path::FullPath, reply::Response, Filter};
 const SIREN_WEBSITE: &str = "https://monster-siren.hypergryph.com";
 type FilterType = Vec<[&'static str; 2]>;
 
-pub struct ApiProxy;
+pub struct api_proxy;
 
-impl ApiProxy {
+impl api_proxy {
     /// Create a new api proxy server
     ///
     /// [api docs](https://github.com/QingXia-Ela/MonsterSirenApi/blob/main/docs/dev/%E6%8E%A5%E5%8F%A3%E4%B8%80%E8%A7%88.md)
@@ -26,7 +26,7 @@ impl ApiProxy {
     /// # Example
     /// ```
     /// thread::spawn(move || {
-    ///   let _ = ApiProxy::new(11452, 11451, vec![["content will be replace", "content will use"]]);
+    ///   let _ = api_proxy::new(11452, 11451, vec![["content will be replace", "content will use"]]);
     /// })
     /// `
     #[tokio::main]
@@ -38,7 +38,7 @@ impl ApiProxy {
             let addr: SocketAddrV4 = format!("127.0.0.1:{}", port).parse().unwrap();
             warp::serve(proxy).run(addr).await;
         });
-        ApiProxy {}
+        api_proxy {}
     }
 }
 
@@ -176,9 +176,9 @@ fn change_body(body: String, filter_rules: FilterType, port: u16, cdn_port: u16)
 }
 
 #[derive(Debug, Eq, PartialEq, Hash)]
-pub enum ApiProxyRules {}
+pub enum api_proxyRules {}
 
-pub fn get_basic_filter_rules(mut settings: Vec<ApiProxyRules>) -> FilterType {
+pub fn get_basic_filter_rules(mut settings: Vec<api_proxyRules>) -> FilterType {
     let mut rules = vec![];
     let settings = settings
         .into_iter()
@@ -197,6 +197,6 @@ pub fn get_basic_filter_rules(mut settings: Vec<ApiProxyRules>) -> FilterType {
 
 pub fn spawn_api_proxy() -> JoinHandle<()> {
     thread::spawn(|| {
-        ApiProxy::new(11452, 11451, vec![]);
+        api_proxy::new(11452, 11451, vec![]);
     })
 }

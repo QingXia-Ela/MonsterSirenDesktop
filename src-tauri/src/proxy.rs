@@ -1,4 +1,2 @@
-#[allow(non_snake_case)]
-pub mod ApiProxy;
-#[allow(non_snake_case)]
-pub mod CdnProxy;
+pub mod api_proxy;
+pub mod cdn_proxy;

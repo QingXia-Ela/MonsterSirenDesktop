@@ -8,7 +8,7 @@ mod config;
 mod proxy;
 mod server;
 
-use proxy::{ApiProxy::spawn_api_proxy, CdnProxy::spawn_cdn_proxy};
+use proxy::{api_proxy::spawn_api_proxy, cdn_proxy::spawn_cdn_proxy};
 use server::spanw_file_server;
 use tauri::*;
 
