@@ -11,7 +11,7 @@ import $settingAdvancement, {
 import Checkbox from '@/components/Checkbox';
 import HoverWhiteBg from '@/components/HoverWhiteBg';
 
-interface AdvancementSettingsProps { }
+interface AdvancementSettingsProps {}
 
 const AdvancementSettings: FunctionComponent<AdvancementSettingsProps> = () => {
   const { logStore, allowContextMenu } = useStore($settingAdvancement);
@@ -37,7 +37,11 @@ const AdvancementSettings: FunctionComponent<AdvancementSettingsProps> = () => {
       </StyledTooltip>
       <SubTitle>右键菜单</SubTitle>
       <HoverWhiteBg>
-        <Checkbox checked={allowContextMenu} onChange={changeAllowContextMenu} theme='config'>
+        <Checkbox
+          checked={allowContextMenu}
+          onChange={changeAllowContextMenu}
+          theme='config'
+        >
           允许按下鼠标右键弹出浏览器右键菜单
         </Checkbox>
       </HoverWhiteBg>

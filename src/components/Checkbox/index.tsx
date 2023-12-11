@@ -24,17 +24,19 @@ const CheckboxComponent: FunctionComponent<{
   children: React.ReactNode;
 }> = ({ checked, theme, children }) => (
   <div
-    className={`w-full flex items-center ${theme === 'config' ? 'flex-row-reverse justify-between' : ''
-      }`}
+    className={`w-full flex items-center ${
+      theme === 'config' ? 'flex-row-reverse justify-between' : ''
+    }`}
   >
     <div
       className={`ml-1
       ${Styles.checkbox__check}
       ${checked && Styles.selected}
-      ${Styles[
-        theme === 'config' ? 'checkboxTheme--config' : 'checkboxTheme--normal'
+      ${
+        Styles[
+          theme === 'config' ? 'checkboxTheme--config' : 'checkboxTheme--normal'
         ]
-        }`}
+      }`}
     ></div>
     <div className={Styles.checkbox__content}>{children}</div>
   </div>

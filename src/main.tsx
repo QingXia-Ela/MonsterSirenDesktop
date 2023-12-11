@@ -14,7 +14,11 @@ window.addEventListener('contextmenu', (e) => {
 
 // 生产环境禁用F12
 window.addEventListener('keydown', (e) => {
-  if (process.env.NODE_ENV === 'production' && e.key === 'F12' && !$settingAdvancement.get().allowContextMenu) {
+  if (
+    process.env.NODE_ENV === 'production' &&
+    e.key === 'F12' &&
+    !$settingAdvancement.get().allowContextMenu
+  ) {
     e.preventDefault();
   }
 });
