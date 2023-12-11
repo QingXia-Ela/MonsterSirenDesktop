@@ -5,6 +5,10 @@ import './styles.scss';
 import 'tdesign-react/es/style/index.css';
 import $settingAdvancement from './store/models/settings/advancement';
 
+if (!window.siren_config) {
+  window.siren_config = {};
+}
+
 // 禁用右键菜单
 window.addEventListener('contextmenu', (e) => {
   if (process.env.NODE_ENV === 'production') {

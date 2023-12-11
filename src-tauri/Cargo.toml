@@ -27,6 +27,7 @@ brotlic = "0.8.1"
 bytes = "1.4.0"
 once_cell = "1.18.0"
 config = { version = "0.13.4", features = ["json"] }
+uuid = { version = "1.6.1", features = ["v4"] }
 
 [features]
 # this feature is used for production builds or when `devPath` points to the filesystem

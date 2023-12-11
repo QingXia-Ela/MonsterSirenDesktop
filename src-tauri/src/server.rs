@@ -1,3 +1,5 @@
+mod download_server;
+
 use std::{
     collections::HashMap,
     fs,
