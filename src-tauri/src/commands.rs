@@ -9,3 +9,9 @@ pub fn open_devtools(win: tauri::Window) {
     // assert it because the method is exists but rc throw error said it not exists
     win.open_devtools();
 }
+
+#[tauri::command]
+pub fn hide_app(win: tauri::Window) {
+    // assert it because the method is exists but rc throw error said it not exists
+    let _ = win.hide();
+}

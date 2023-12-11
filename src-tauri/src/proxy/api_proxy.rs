@@ -75,7 +75,9 @@ async fn handle_request(
         header.insert(CONTENT_TYPE, "application/json".parse().unwrap());
         header.insert(ACCESS_CONTROL_ALLOW_ORIGIN, "*".parse().unwrap());
         return Ok(res);
-    } else if path.as_str() == "/album/self:1919810/detail" {
+    } else if path.as_str() == "/album/self:1919810/detail"
+        || path.as_str() == "/album/self:1919810/data"
+    {
         let mut res = Response::new(
             r#"{
             "code": 0,
@@ -95,6 +97,9 @@ async fn handle_request(
                             "μ's"
                         ]
                     }
+                ],
+                "artistes": [
+                    "μ's"
                 ]
             }
         }"#

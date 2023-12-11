@@ -9,6 +9,11 @@ if (!window.siren_config) {
   window.siren_config = {};
 }
 
+// action
+if ($settingAdvancement.get().logStore) {
+  window.siren_config.log_store = true;
+}
+
 // 禁用右键菜单
 window.addEventListener('contextmenu', (e) => {
   if (process.env.NODE_ENV === 'production') {

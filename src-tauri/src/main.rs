@@ -7,6 +7,7 @@ mod commands;
 mod config;
 mod proxy;
 mod server;
+mod system_tray_menu;
 
 use proxy::{api_proxy::spawn_api_proxy, cdn_proxy::spawn_cdn_proxy};
 use server::spanw_file_server;
@@ -42,8 +43,11 @@ fn main() {
         Ok(())
     });
     builder
+        .system_tray(system_tray_menu::get_app_menu())
+        .on_system_tray_event(system_tray_menu::system_tray_event_handler)
         .invoke_handler(generate_handler![commands::greet])
         .invoke_handler(generate_handler![commands::open_devtools])
+        .invoke_handler(generate_handler![commands::hide_app])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

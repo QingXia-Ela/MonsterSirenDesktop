@@ -20,7 +20,11 @@ export const CloseModeChooses: Array<{
   value: CONFIG_TYPE['basic']['closeMode'];
 }> = [
   {
-    title: '最小化到任务栏',
+    title: '隐藏到任务栏',
+    value: 'tray',
+  },
+  {
+    title: '最小化窗口',
     value: 'minimize',
   },
   {

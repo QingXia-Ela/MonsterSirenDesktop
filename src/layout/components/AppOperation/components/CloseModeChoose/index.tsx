@@ -8,7 +8,7 @@ import $settingBasic, {
 import { CONFIG_TYPE } from '@/store/models/settings/types';
 import { useStore } from '@nanostores/react';
 import { appWindow } from '@tauri-apps/api/window';
-import { FunctionComponent, useCallback, useEffect, useState } from 'react';
+import { FunctionComponent, useEffect, useState } from 'react';
 
 type OptionType = CONFIG_TYPE['basic']['closeMode'];
 
@@ -49,7 +49,7 @@ const CloseModeChoose: FunctionComponent<CloseModeChooseProps> = ({
   const { closeMode } = useStore($settingBasic);
   const [remember, setRemember] = useState(!!closeMode);
   const [type, setType] = useState<OptionType>(
-    closeMode?.length ? closeMode : 'minimize',
+    closeMode?.length ? closeMode : 'tray',
   );
 
   useEffect(() => {
@@ -60,6 +60,9 @@ const CloseModeChoose: FunctionComponent<CloseModeChooseProps> = ({
     switch (type) {
       case 'minimize':
         appWindow.minimize();
+        break;
+      case 'tray':
+        appWindow.hide();
         break;
       default:
         appWindow.close();

@@ -3,21 +3,31 @@ import { SirenStoreState } from '..';
 
 export interface SirenMusicType {
   music: {
-    keyword: string,
+    keyword: string;
     albumList: Array<{
       cid: string;
       name: string;
       coverUrl: string;
       artists: string[];
-    }>,
-    currentPage: number,
-    albumDetailVisible: boolean,
-    currentAlbumDetail: null,
-  }
+    }>;
+    currentPage: number;
+    albumDetailVisible: boolean;
+    currentAlbumDetail: null;
+  };
 }
 
 export interface musicGetAlbumList extends AnyAction {
   type: 'music/getAlbumList';
 }
 
-export type MusicActions = musicGetAlbumList
+export interface musicSetAlbumList extends AnyAction {
+  type: 'music/setAlbumList';
+  payload: SirenStoreState['music']['albumList'];
+}
+
+export interface musicSetCurrentPage extends AnyAction {
+  type: 'music/setCurrentPage';
+  payload: number;
+}
+
+export type MusicActions = musicGetAlbumList;
