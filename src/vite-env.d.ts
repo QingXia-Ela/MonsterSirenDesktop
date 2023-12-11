@@ -1,6 +1,6 @@
 /// <reference types="vite/client" />
 
-import type { SirenStore } from '../types/SirenStore';
+import type { SirenStore } from './types/SirenStore';
 
 declare global {
   declare module globalThis {

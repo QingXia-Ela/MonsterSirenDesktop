@@ -137,20 +137,22 @@ fn change_body(body: String, port: u16, api_port: u16, filter_rules: FilterType)
 }
 
 #[derive(Debug, Eq, PartialEq, Hash)]
-pub enum cdn_proxyRules {
+pub enum CdnProxyRules {
     LogStoreChange,
     PreventAutoplay,
     ExposeStore,
     ExposeHistory,
+    ExposeAudioContext,
 }
 
-pub fn get_basic_filter_rules(mut settings: Vec<cdn_proxyRules>) -> FilterType {
+pub fn get_basic_filter_rules(mut settings: Vec<CdnProxyRules>) -> FilterType {
     let mut rules = vec![];
     // default expose store
     settings.extend(vec![
-        cdn_proxyRules::ExposeStore,
-        cdn_proxyRules::ExposeHistory,
-        cdn_proxyRules::LogStoreChange,
+        CdnProxyRules::ExposeStore,
+        CdnProxyRules::ExposeHistory,
+        CdnProxyRules::ExposeAudioContext,
+        CdnProxyRules::LogStoreChange,
     ]);
     let settings = settings
         .into_iter()
@@ -160,19 +162,23 @@ pub fn get_basic_filter_rules(mut settings: Vec<cdn_proxyRules>) -> FilterType {
 
     for v in settings {
         match v {
-            cdn_proxyRules::ExposeStore => {
+            CdnProxyRules::ExposeStore => {
                 rules.push(["this.store=e,", "this.store=e,window.siren_store=e,"])
             }
-            cdn_proxyRules::LogStoreChange => rules.push([
+            CdnProxyRules::LogStoreChange => rules.push([
                 "return function(n){if",
                 "return function(n){if(window.siren_config?.log_store)console.log(n);if",
             ]),
-            cdn_proxyRules::PreventAutoplay => {
+            CdnProxyRules::PreventAutoplay => {
                 rules.push(["i.initCtx()}i.play()};", "i.initCtx()}};"])
             }
-            cdn_proxyRules::ExposeHistory => {
+            CdnProxyRules::ExposeHistory => {
                 rules.push(["};return X", "};window.siren_router=X;return X"])
             }
+            CdnProxyRules::ExposeAudioContext => rules.push([
+                "c.instance=void 0",
+                "c.instance=void 0;window.siren_audio_instance=c.getInstance()",
+            ]),
         }
     }
 
@@ -183,7 +189,7 @@ pub fn spawn_cdn_proxy(config: &crate::config::Config) -> JoinHandle<()> {
     let mut rules = vec![];
 
     if config.basic.closeAutoPlay {
-        rules.push(cdn_proxyRules::PreventAutoplay)
+        rules.push(CdnProxyRules::PreventAutoplay)
     }
 
     thread::spawn(|| {

@@ -1,8 +1,12 @@
 use tauri::{CustomMenuItem, SystemTrayMenu};
 use tauri::{Manager, SystemTray, SystemTrayEvent};
 
+fn get_main_window(app: &tauri::AppHandle) -> tauri::Window {
+    app.get_window("main").unwrap()
+}
+
 fn show_and_focus(app: &tauri::AppHandle) {
-    let win = app.get_window("main").unwrap();
+    let win = get_main_window(app);
     win.show().unwrap();
     win.set_focus().unwrap();
 }
@@ -18,6 +22,11 @@ pub fn system_tray_event_handler(app: &tauri::AppHandle, event: SystemTrayEvent)
             }
             "show" => {
                 show_and_focus(app);
+            }
+            "play_and_pause" => {
+                get_main_window(app)
+                    .emit("store:play_and_pause", ())
+                    .unwrap();
             }
             _ => (),
         },
