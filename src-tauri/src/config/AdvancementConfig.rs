@@ -8,6 +8,7 @@ pub struct Config {
     pub cdnProxyPort: u16,
     pub apiProxyPort: u16,
     pub logStore: bool,
+    pub allowContextMenu: bool,
 }
 
 pub fn init(main_window: &mut tauri::Window, config: &Config) {

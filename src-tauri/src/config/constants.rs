@@ -65,6 +65,7 @@ pub const INIT_CONFIG: &str = r#"{
     "enable": false,
     "cdnProxyPort": 0,
     "apiProxyPort": 0,
-    "logStore": false
+    "logStore": false,
+    "allowContextMenu": false
   }
 }"#;

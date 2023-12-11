@@ -9,4 +9,8 @@ export function changeLogStore(logStore: boolean) {
   $settingAdvancement.set({ ...$settingAdvancement.get(), logStore });
 }
 
+export function changeAllowContextMenu(allowContextMenu: boolean) {
+  $settingAdvancement.set({ ...$settingAdvancement.get(), allowContextMenu });
+}
+
 export default $settingAdvancement;

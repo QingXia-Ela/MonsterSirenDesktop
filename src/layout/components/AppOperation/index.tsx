@@ -15,7 +15,7 @@ const AppOperation: FunctionComponent<AppOperationProps> = ({
   open,
   setOpen,
 }) => {
-  const [min, setMin] = useState(true);
+  const [min, setMin] = useState(false);
   const [showModeDialog, setShowModeDialog] = useState(false);
 
   function changeWindowSize() {
@@ -58,9 +58,8 @@ const AppOperation: FunctionComponent<AppOperationProps> = ({
       {/* window maximize */}
       <Suspense>
         <a
-          className={`iconfont icon-24gl-${min ? 'minimize' : 'square'} ${
-            Styles.iconfont
-          }`}
+          className={`iconfont icon-24gl-${min ? 'minimize' : 'square'} ${Styles.iconfont
+            }`}
           onClick={changeWindowSize}
         ></a>
       </Suspense>

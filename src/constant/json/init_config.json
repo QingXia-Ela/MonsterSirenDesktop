@@ -65,6 +65,7 @@
     "enable": false,
     "cdnProxyPort": 0,
     "apiProxyPort": 0,
-    "logStore": false
+    "logStore": false,
+    "allowContextMenu": false
   }
 }
