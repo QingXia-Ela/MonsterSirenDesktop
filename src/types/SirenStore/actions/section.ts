@@ -6,6 +6,11 @@ export interface SirenSectionType {
   };
 }
 
+export interface sectionInitLayout extends AnyAction {
+  type: 'section/initLayout';
+  path: string;
+}
+
 /**
  * 页面首次进入时调用，且只调用一次
  */
@@ -33,4 +38,5 @@ export interface sectionPageEntered extends AnyAction {
 export type SectionActions =
   | sectionInitPage
   | sectionActivatePage
-  | sectionPageEntered;
+  | sectionPageEntered
+  | sectionInitLayout;

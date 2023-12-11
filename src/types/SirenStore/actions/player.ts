@@ -60,4 +60,8 @@ export interface playerSetIsPlaying extends AnyAction {
 export type PlayerActions =
   | playerGetPlayList
   | playerSetVolume
-  | playerSelectSong;
+  | playerSelectSong
+  | playerSetMode
+  | playerSetSongDetail
+  | playerSetCurrent
+  | playerSetIsPlaying;

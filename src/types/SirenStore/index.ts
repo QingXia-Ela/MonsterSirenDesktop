@@ -3,6 +3,8 @@ import { Actions } from './action';
 import { SirenSectionType } from './actions/section';
 import { SirenPlayerType } from './actions/player';
 import { SirenGlobalType } from './actions/global';
+import { SirenMusicType } from './actions/music';
+import { SirenMusicPlayType } from './actions/musicPlay';
 
 const initalProps = {
   router: {
@@ -132,7 +134,9 @@ const initalProps = {
 export type SirenStoreState = typeof initalProps &
   SirenGlobalType &
   SirenPlayerType &
-  SirenSectionType;
+  SirenSectionType &
+  SirenMusicType &
+  SirenMusicPlayType;
 
 interface SirenStoreCollect {
   getState: () => SirenStoreState;

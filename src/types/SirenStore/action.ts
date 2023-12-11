@@ -4,6 +4,8 @@ import { LogoActions } from './actions/logo';
 import { PlayerActions } from './actions/player';
 import { IndexActions } from './actions';
 import { UserActions } from './actions/user';
+import { MusicPlayActions } from './actions/musicPlay';
+import { MusicActions } from './actions/music';
 
 export interface globalGetFontset extends AnyAction {
   type: 'global/getFontSet';
@@ -15,4 +17,6 @@ export type Actions =
   | SectionActions
   | LogoActions
   | IndexActions
-  | UserActions;
+  | UserActions
+  | MusicPlayActions
+  | MusicActions;
