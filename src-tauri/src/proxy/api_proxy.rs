@@ -16,9 +16,9 @@ use warp::{path::FullPath, reply::Response, Filter};
 const SIREN_WEBSITE: &str = "https://monster-siren.hypergryph.com";
 type FilterType = Vec<[&'static str; 2]>;
 
-pub struct api_proxy;
+pub struct ApiProxy;
 
-impl api_proxy {
+impl ApiProxy {
     /// Create a new api proxy server
     ///
     /// [api docs](https://github.com/QingXia-Ela/MonsterSirenApi/blob/main/docs/dev/%E6%8E%A5%E5%8F%A3%E4%B8%80%E8%A7%88.md)
@@ -38,7 +38,7 @@ impl api_proxy {
             let addr: SocketAddrV4 = format!("127.0.0.1:{}", port).parse().unwrap();
             warp::serve(proxy).run(addr).await;
         });
-        api_proxy {}
+        ApiProxy {}
     }
 }
 
@@ -197,6 +197,6 @@ pub fn get_basic_filter_rules(mut settings: Vec<api_proxyRules>) -> FilterType {
 
 pub fn spawn_api_proxy() -> JoinHandle<()> {
     thread::spawn(|| {
-        api_proxy::new(11452, 11451, vec![]);
+        ApiProxy::new(11452, 11451, vec![]);
     })
 }

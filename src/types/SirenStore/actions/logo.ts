@@ -7,3 +7,5 @@ export interface logoShowLogo extends AnyAction {
 export interface logoHideLogo extends AnyAction {
   type: 'logo/hideLogo';
 }
+
+export type LogoActions = logoShowLogo | logoHideLogo;

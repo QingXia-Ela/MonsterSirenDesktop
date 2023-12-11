@@ -1,5 +1,11 @@
 import { AnyAction } from '@reduxjs/toolkit';
 
+export interface SirenSectionType {
+  section: {
+    pageStatus: Record<string, { active: boolean; initiated: boolean }>;
+  };
+}
+
 /**
  * 页面首次进入时调用，且只调用一次
  */
@@ -23,3 +29,8 @@ export interface sectionPageEntered extends AnyAction {
   type: 'section/pageEntered';
   path: string;
 }
+
+export type SectionActions =
+  | sectionInitPage
+  | sectionActivatePage
+  | sectionPageEntered;

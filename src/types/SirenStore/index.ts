@@ -1,5 +1,8 @@
 import type { Store } from '@reduxjs/toolkit';
 import { Actions } from './action';
+import { SirenSectionType } from './actions/section';
+import { SirenPlayerType } from './actions/player';
+import { SirenGlobalType } from './actions/global';
 
 const initalProps = {
   router: {
@@ -126,32 +129,7 @@ const initalProps = {
   },
 };
 
-interface SirenGlobalType {
-  variables: object;
-  background: object;
-  font: Record<string, Record<string, string>>;
-}
-
-interface SirenPlayerType {
-  player: {
-    list: Array<{
-      cid: string;
-      name: string;
-      albumCid: string;
-      artists: string[];
-    }>;
-    mode: 'list' | 'album' | 'loop' | 'random';
-    current: string | null;
-  };
-}
-
-interface SirenSectionType {
-  section: {
-    pageStatus: Record<string, { active: boolean; initiated: boolean }>;
-  };
-}
-
-type SirenStoreState = typeof initalProps &
+export type SirenStoreState = typeof initalProps &
   SirenGlobalType &
   SirenPlayerType &
   SirenSectionType;
