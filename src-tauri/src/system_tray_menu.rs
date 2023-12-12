@@ -1,9 +1,7 @@
+use crate::global_event::{audio_instance, store};
+use crate::utils::get_main_window;
 use tauri::{CustomMenuItem, SystemTrayMenu};
 use tauri::{Manager, SystemTray, SystemTrayEvent};
-
-fn get_main_window(app: &tauri::AppHandle) -> tauri::Window {
-    app.get_window("main").unwrap()
-}
 
 fn show_and_focus(app: &tauri::AppHandle) {
     let win = get_main_window(app);
@@ -24,9 +22,13 @@ pub fn system_tray_event_handler(app: &tauri::AppHandle, event: SystemTrayEvent)
                 show_and_focus(app);
             }
             "play_and_pause" => {
-                get_main_window(app)
-                    .emit("audio_instance:play_and_pause", ())
-                    .unwrap();
+                audio_instance::play_and_pause(app);
+            }
+            "next" => {
+                store::change_song(app, 1);
+            }
+            "prev" => {
+                store::change_song(app, -1);
             }
             _ => (),
         },
@@ -48,8 +50,8 @@ pub fn get_app_menu() -> SystemTray {
     tray_menu = tray_menu
         .add_item(play_and_pause)
         .add_native_item(tauri::SystemTrayMenuItem::Separator)
-        .add_item(next)
         .add_item(prev)
+        .add_item(next)
         .add_native_item(tauri::SystemTrayMenuItem::Separator)
         .add_item(show)
         .add_native_item(tauri::SystemTrayMenuItem::Separator)

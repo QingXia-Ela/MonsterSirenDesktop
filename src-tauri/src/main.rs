@@ -5,9 +5,11 @@
 )]
 mod commands;
 mod config;
+mod global_event;
 mod proxy;
 mod server;
 mod system_tray_menu;
+mod utils;
 
 use proxy::{api_proxy::spawn_api_proxy, cdn_proxy::spawn_cdn_proxy};
 use server::spanw_file_server;

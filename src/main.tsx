@@ -10,6 +10,7 @@ import './global_event';
 // optimize
 import './optimize';
 
+// init
 if (!window.siren_config) {
   window.siren_config = {};
 }
