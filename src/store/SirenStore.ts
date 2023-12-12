@@ -1,5 +1,5 @@
 import type { SirenStore } from '../types/SirenStore';
 
-const store = window.siren_store;
+const SirenStore = window.siren_store;
 
-export default store as SirenStore;
+export default SirenStore as SirenStore;

@@ -57,6 +57,16 @@ export interface playerSetIsPlaying extends AnyAction {
   isPlaying: boolean;
 }
 
+export interface playerChangeSong extends AnyAction {
+  type: 'player/changeSong';
+  /**
+   * -1: 上一首
+   *
+   * 1: 下一首
+   */
+  direction: number;
+}
+
 export type PlayerActions =
   | playerGetPlayList
   | playerSetVolume
@@ -64,4 +74,5 @@ export type PlayerActions =
   | playerSetMode
   | playerSetSongDetail
   | playerSetCurrent
-  | playerSetIsPlaying;
+  | playerSetIsPlaying
+  | playerChangeSong;

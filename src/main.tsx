@@ -7,6 +7,8 @@ import $settingAdvancement from './store/models/settings/advancement';
 
 // event listen
 import './global_event';
+// optimize
+import './optimize';
 
 if (!window.siren_config) {
   window.siren_config = {};
