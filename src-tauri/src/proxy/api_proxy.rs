@@ -23,7 +23,9 @@ pub struct ApiProxy;
 impl ApiProxy {
     /// Create a new api proxy server
     ///
-    /// [api docs](https://github.com/QingXia-Ela/MonsterSirenApi/blob/main/docs/dev/%E6%8E%A5%E5%8F%A3%E4%B8%80%E8%A7%88.md)
+    /// **Warning**: This is a low level api.
+    ///
+    /// [siren api docs](https://github.com/QingXia-Ela/MonsterSirenApi/blob/main/docs/dev/%E6%8E%A5%E5%8F%A3%E4%B8%80%E8%A7%88.md)
     ///
     /// # Example
     /// ```
@@ -51,96 +53,77 @@ async fn handle_request(
     _headers: HeaderMap,
     filter_rules: FilterType,
 ) -> Result<impl warp::Reply, warp::Rejection> {
-    let m = global_struct::music_injector::MusicInjector::new("self".to_string());
     let client = Client::new();
     let target_url = String::from(format!(
         "https://monster-siren.hypergryph.com/api{}",
         path.as_str()
     ));
     // test only
-    if path.as_str() == "/song/self:114514" {
-        let sh = m
-            .get_song("self:114514".to_string())
-            .await
-            .unwrap()
-            .to_reponse_json();
-        let mut res = Response::new(
-            format!(
-                r#"{{
-                "code": 0,
-                "msg": "",
-                "data": {}
-            }}"#,
-                sh
-            )
-            .into(),
-        );
-        let header = res.headers_mut();
-        header.insert(CONTENT_TYPE, "application/json".parse().unwrap());
-        header.insert(ACCESS_CONTROL_ALLOW_ORIGIN, "*".parse().unwrap());
-        return Ok(res);
-    } else if path.as_str() == "/song/self:114515" {
-        let mut res = Response::new(
-            r#"{
-            "code": 0,
-            "msg": "",
-            "data": {
-                "cid": "self:114515",
-                "name": "僕らのLIVE 君とのLIFE",
-                "albumCid": "self:1919810",
-                "sourceUrl": "http://127.0.0.1:8080/μ's - 僕らのLIVE 君とのLIFE.flac",
-                "artists": ["μ's", "LoveLive School Idol Project!"],
-                "lyricUrl": null
-            }
-        }"#
-            .into(),
-        );
-        let mut header = res.headers_mut();
-        header.insert(CONTENT_TYPE, "application/json".parse().unwrap());
-        header.insert(ACCESS_CONTROL_ALLOW_ORIGIN, "*".parse().unwrap());
-        return Ok(res);
-    } else if path.as_str() == "/album/self:1919810/detail"
-        || path.as_str() == "/album/self:1919810/data"
-    {
-        let mut res = Response::new(
-            r#"{
-            "code": 0,
-            "msg": "",
-            "data": {
-                "cid": "self:1919810",
-                "name": "Snow Halation",
-                "intro": "啊哈哈...",
-                "belong": "μ's",
-                "coverUrl": "https://p2.music.126.net/h3X24IkUDnSMCQM60L5n0g==/109951168958569548.jpg",
-                "coverDeUrl": "http://localhost:11451/siren/pic/20231204/808e8e61be79018befa887c44731d5aa.jpg",
-                "songs": [
-                    {
-                        "cid": "self:114514",
-                        "name": "Snow Halation",
-                        "artistes": [
-                            "μ's"
-                        ]
-                    },
-                    {
-                        "cid": "self:114515",
-                        "name": "僕らのLIVE 君とのLIFE",
-                        "artistes": [
-                            "μ's"
-                        ]
-                    }
-                ],
-                "artistes": [
-                    "μ's"
-                ]
-            }
-        }"#
-            .into(),
-        );
-        let mut header = res.headers_mut();
-        header.insert(CONTENT_TYPE, "application/json".parse().unwrap());
-        header.insert(ACCESS_CONTROL_ALLOW_ORIGIN, "*".parse().unwrap());
-        return Ok(res);
-    }
+    // if path.as_str() == "/song/self:114514" {
+    //     let m = global_struct::music_injector::MusicInjector::new("self".to_string());
+    //     let sh = m
+    //         .get_song("self:114514".to_string())
+    //         .await
+    //         .unwrap()
+    //         .to_reponse_json();
+    //     let mut res = Response::new(
+    //         format!(
+    //             r#"{{
+    //             "code": 0,
+    //             "msg": "",
+    //             "data": {}
+    //         }}"#,
+    //             sh
+    //         )
+    //         .into(),
+    //     );
+    //     let header = res.headers_mut();
+    //     header.insert(CONTENT_TYPE, "application/json".parse().unwrap());
+    //     header.insert(ACCESS_CONTROL_ALLOW_ORIGIN, "*".parse().unwrap());
+    //     return Ok(res);
+    // } else if path.as_str() == "/song/self:114515" {
+    //     let mut res = Response::new(
+    //         r#"{
+    //         "code": 0,
+    //         "msg": "",
+    //         "data": {
+    //             "cid": "self:114515",
+    //             "name": "僕らのLIVE 君とのLIFE",
+    //             "albumCid": "self:1919810",
+    //             "sourceUrl": "http://127.0.0.1:8080/μ's - 僕らのLIVE 君とのLIFE.flac",
+    //             "artists": ["μ's", "LoveLive School Idol Project!"],
+    //             "lyricUrl": null
+    //         }
+    //     }"#
+    //         .into(),
+    //     );
+    //     let mut header = res.headers_mut();
+    //     header.insert(CONTENT_TYPE, "application/json".parse().unwrap());
+    //     header.insert(ACCESS_CONTROL_ALLOW_ORIGIN, "*".parse().unwrap());
+    //     return Ok(res);
+    // } else if path.as_str() == "/album/self:1919810/detail"
+    //     || path.as_str() == "/album/self:1919810/data"
+    // {
+    //     let m = global_struct::music_injector::MusicInjector::new("self".to_string());
+    //     let mut res = Response::new(
+    //         format!(
+    //             r#"{{
+    //         "code": 0,
+    //         "msg": "",
+    //         "data": {}
+    //     }}"#,
+    //             m.get_album("self:1919810".to_string())
+    //                 .await
+    //                 .unwrap()
+    //                 .to_reponse_json()
+    //         )
+    //         .into(),
+    //     );
+    //     let mut header = res.headers_mut();
+    //     header.insert(CONTENT_TYPE, "application/json".parse().unwrap());
+    //     header.insert(ACCESS_CONTROL_ALLOW_ORIGIN, "*".parse().unwrap());
+    //     return Ok(res);
+    // }
 
     let mut request_builder = client.get(&target_url);
     request_builder = request_builder.header("referer", SIREN_WEBSITE);

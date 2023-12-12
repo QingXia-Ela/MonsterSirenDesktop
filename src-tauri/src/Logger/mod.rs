@@ -1,6 +1,5 @@
 use colored::*;
 use std::time;
-pub struct Logger;
 
 fn get_current_time() -> String {
     let current_time = time::SystemTime::now();

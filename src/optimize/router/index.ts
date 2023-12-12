@@ -1,6 +1,10 @@
 import once from 'lodash/once';
 import SirenStore from '@/store/SirenStore';
 
+// todo!: optimize to really lazy load
+// the album page show the img element with animate
+// which means when you change to the last page, all img element to trigger load, not really lazy load
+// we can listen SirenStore -> music -> current page change to make element lazy load
 const setImgLazy = once(function () {
   const imgs = document
     .querySelector('#layout')

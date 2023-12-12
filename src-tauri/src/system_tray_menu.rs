@@ -1,7 +1,7 @@
 use crate::global_event::{audio_instance, store};
 use crate::utils::get_main_window;
 use tauri::{CustomMenuItem, SystemTrayMenu};
-use tauri::{Manager, SystemTray, SystemTrayEvent};
+use tauri::{SystemTray, SystemTrayEvent};
 
 fn show_and_focus(app: &tauri::AppHandle) {
     let win = get_main_window(app);
@@ -58,5 +58,6 @@ pub fn get_app_menu() -> SystemTray {
         .add_item(quit);
 
     let tray = SystemTray::new().with_menu(tray_menu).with_id(id);
+
     tray
 }

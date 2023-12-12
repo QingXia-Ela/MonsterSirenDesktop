@@ -4,15 +4,17 @@
     windows_subsystem = "windows"
 )]
 #[allow(non_snake_case)]
-pub mod Logger;
+mod Logger;
 mod commands;
 mod config;
+mod global_enum;
 mod global_event;
 mod global_struct;
 mod proxy;
 mod server;
 mod system_tray_menu;
 mod utils;
+mod vanilla_injector;
 
 use proxy::{api_proxy::spawn_api_proxy, cdn_proxy::spawn_cdn_proxy};
 use server::spanw_file_server;

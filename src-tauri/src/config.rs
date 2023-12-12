@@ -1,5 +1,4 @@
-use config::{Config as ConfigLib, FileFormat, Format};
-use serde_json::Value;
+use config::Config as ConfigLib;
 #[warn(non_snake_case)]
 use std::fs;
 
