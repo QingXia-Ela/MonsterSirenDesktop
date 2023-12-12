@@ -6,6 +6,7 @@
 mod commands;
 mod config;
 mod global_event;
+mod global_struct;
 mod proxy;
 mod server;
 mod system_tray_menu;

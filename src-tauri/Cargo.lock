@@ -2070,6 +2070,7 @@ dependencies = [
 name = "monster-siren-desktop"
 version = "0.0.0"
 dependencies = [
+ "async-trait",
  "brotlic",
  "bytes 1.5.0",
  "colored",

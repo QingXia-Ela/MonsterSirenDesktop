@@ -13,6 +13,8 @@ use std::{borrow::BorrowMut, net::SocketAddrV4, thread};
 use std::{collections::HashSet, thread::JoinHandle};
 use warp::{path::FullPath, reply::Response, Filter};
 
+use crate::global_struct::{self, music_injector::MusicInject, siren::ToResponseJson};
+
 const SIREN_WEBSITE: &str = "https://monster-siren.hypergryph.com";
 type FilterType = Vec<[&'static str; 2]>;
 
@@ -49,6 +51,7 @@ async fn handle_request(
     _headers: HeaderMap,
     filter_rules: FilterType,
 ) -> Result<impl warp::Reply, warp::Rejection> {
+    let m = global_struct::music_injector::MusicInjector::new("self".to_string());
     let client = Client::new();
     let target_url = String::from(format!(
         "https://monster-siren.hypergryph.com/api{}",
@@ -56,17 +59,38 @@ async fn handle_request(
     ));
     // test only
     if path.as_str() == "/song/self:114514" {
+        let sh = m
+            .get_song("self:114514".to_string())
+            .await
+            .unwrap()
+            .to_reponse_json();
+        let mut res = Response::new(
+            format!(
+                r#"{{
+                "code": 0,
+                "msg": "",
+                "data": {}
+            }}"#,
+                sh
+            )
+            .into(),
+        );
+        let header = res.headers_mut();
+        header.insert(CONTENT_TYPE, "application/json".parse().unwrap());
+        header.insert(ACCESS_CONTROL_ALLOW_ORIGIN, "*".parse().unwrap());
+        return Ok(res);
+    } else if path.as_str() == "/song/self:114515" {
         let mut res = Response::new(
             r#"{
             "code": 0,
             "msg": "",
             "data": {
-                "cid": "self:114514",
-                "name": "Snow Halation",
+                "cid": "self:114515",
+                "name": "僕らのLIVE 君とのLIFE",
                 "albumCid": "self:1919810",
-                "sourceUrl": "http://127.0.0.1:8080/μ's - Snow halation.flac",
+                "sourceUrl": "http://127.0.0.1:8080/μ's - 僕らのLIVE 君とのLIFE.flac",
                 "artists": ["μ's", "LoveLive School Idol Project!"],
-                "lyricUrl": "http://127.0.0.1:8080/μ's - Snow halation.lrc"
+                "lyricUrl": null
             }
         }"#
             .into(),
@@ -93,6 +117,13 @@ async fn handle_request(
                     {
                         "cid": "self:114514",
                         "name": "Snow Halation",
+                        "artistes": [
+                            "μ's"
+                        ]
+                    },
+                    {
+                        "cid": "self:114515",
+                        "name": "僕らのLIVE 君とのLIFE",
                         "artistes": [
                             "μ's"
                         ]
