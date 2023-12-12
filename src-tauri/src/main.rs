@@ -3,6 +3,8 @@
     all(not(debug_assertions), target_os = "windows"),
     windows_subsystem = "windows"
 )]
+#[allow(non_snake_case)]
+pub mod Logger;
 mod commands;
 mod config;
 mod global_event;
@@ -43,6 +45,7 @@ fn main() {
         let core_app = app.get_window("main").unwrap();
         core_app.eval("window.siren_config = {}").unwrap();
         init(app);
+        Logger::info("App init finished");
         Ok(())
     });
     builder
