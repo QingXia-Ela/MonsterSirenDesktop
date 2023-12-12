@@ -45,9 +45,7 @@ fn main() {
     builder
         .system_tray(system_tray_menu::get_app_menu())
         .on_system_tray_event(system_tray_menu::system_tray_event_handler)
-        .invoke_handler(generate_handler![commands::greet])
-        .invoke_handler(generate_handler![commands::open_devtools])
-        .invoke_handler(generate_handler![commands::hide_app])
+        .invoke_handler(generate_handler![commands::open_devtools, commands::greet])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

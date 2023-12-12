@@ -25,7 +25,7 @@ pub fn system_tray_event_handler(app: &tauri::AppHandle, event: SystemTrayEvent)
             }
             "play_and_pause" => {
                 get_main_window(app)
-                    .emit("store:play_and_pause", ())
+                    .emit("audio_instance:play_and_pause", ())
                     .unwrap();
             }
             _ => (),

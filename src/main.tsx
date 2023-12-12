@@ -5,6 +5,9 @@ import './styles.scss';
 import 'tdesign-react/es/style/index.css';
 import $settingAdvancement from './store/models/settings/advancement';
 
+// event listen
+import './global_event';
+
 if (!window.siren_config) {
   window.siren_config = {};
 }
