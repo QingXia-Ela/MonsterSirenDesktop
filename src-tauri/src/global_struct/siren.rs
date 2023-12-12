@@ -62,6 +62,8 @@ pub struct SirenBriefAlbum {
     pub artistes: Vec<String>,
 }
 
+impl ToResponseJson for SirenBriefAlbum {}
+
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct SirenAlbum {
     pub cid: String,
@@ -73,6 +75,8 @@ pub struct SirenAlbum {
     pub artistes: Vec<String>,
     pub songs: Vec<SirenBriefSong>,
 }
+
+impl ToResponseJson for SirenAlbum {}
 
 // impl detail to brief
 impl From<SirenAlbum> for SirenBriefAlbum {
