@@ -126,13 +126,18 @@ impl MusicInject for SirenInjector {
             // let res = hyper::body::to_bytes(*albums_json);
             let res: ResponseMsg<Vec<SirenBriefAlbum>> =
                 serde_json::from_str(&res.as_str()).unwrap();
-            res.data
-        } else {
-            vec![]
+            return res.data;
         }
+        vec![]
     }
 
     async fn get_songs(&self) -> Vec<SirenBriefSong> {
+        let res = self.request_and_get_response(&SONGS_URL.to_string()).await;
+        if let Ok(res) = res {
+            let res: ResponseMsg<Vec<SirenBriefSong>> =
+                serde_json::from_str(&res.as_str()).unwrap();
+            return res.data;
+        }
         vec![]
     }
 

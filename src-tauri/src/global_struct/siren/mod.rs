@@ -36,6 +36,7 @@ pub trait ToResponseJson {
 pub struct SirenBriefSong {
     pub cid: String,
     pub name: String,
+    #[serde(rename = "albumCid")]
     pub album_cid: String,
     pub artists: Vec<String>,
 }
@@ -87,6 +88,42 @@ pub struct SirenAlbum {
 }
 
 impl ToResponseJson for SirenAlbum {}
+
+/// this struct is provide for vanilla api, usually you should't use this struct
+#[derive(Clone, Debug, Serialize, Deserialize)]
+pub struct SirenBriefSongWithoutAlbumCid {
+    pub cid: String,
+    pub name: String,
+    pub artists: Vec<String>,
+}
+
+/// this struct is provide for vanilla api, usually you should't use this struct
+#[derive(Clone, Debug, Serialize, Deserialize)]
+pub struct SirenAlbumData {
+    pub cid: String,
+    pub name: String,
+    pub intro: String,
+    pub belong: String,
+    #[serde(rename = "coverUrl")]
+    pub cover_url: String,
+    #[serde(rename = "coverDeUrl")]
+    pub cover_de_url: String,
+    pub artistes: Vec<String>,
+}
+
+/// this struct is provide for vanilla api, usually you should't use this struct
+#[derive(Clone, Debug, Serialize, Deserialize)]
+pub struct SirenAlbumDetail {
+    pub cid: String,
+    pub name: String,
+    pub intro: String,
+    pub belong: String,
+    #[serde(rename = "coverUrl")]
+    pub cover_url: String,
+    #[serde(rename = "coverDeUrl")]
+    pub cover_de_url: String,
+    pub songs: Vec<SirenBriefSongWithoutAlbumCid>,
+}
 
 // impl detail to brief
 impl From<SirenAlbum> for SirenBriefAlbum {
