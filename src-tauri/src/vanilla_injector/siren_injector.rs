@@ -4,9 +4,7 @@ use crate::{
     constants::SIREN_WEBSITE,
     global_struct::{
         music_injector::{MusicInject, MusicInjector},
-        siren::{
-            response_msg::ResponseMsg, SirenAlbum, SirenBriefAlbum, SirenBriefSong, SirenSong,
-        },
+        siren::{response_msg::ResponseMsg, Album, BriefAlbum, BriefSong, Song},
     },
     utils::decode_brotli,
 };
@@ -119,33 +117,31 @@ impl SirenInjector {
 
 #[async_trait]
 impl MusicInject for SirenInjector {
-    async fn get_albums(&self) -> Vec<SirenBriefAlbum> {
+    async fn get_albums(&self) -> Vec<BriefAlbum> {
         let res = self.request_and_get_response(&ALBUMS_URL.to_string()).await;
         if let Ok(res) = res {
             // let albums_json = res.body();
             // let res = hyper::body::to_bytes(*albums_json);
-            let res: ResponseMsg<Vec<SirenBriefAlbum>> =
-                serde_json::from_str(&res.as_str()).unwrap();
+            let res: ResponseMsg<Vec<BriefAlbum>> = serde_json::from_str(&res.as_str()).unwrap();
             return res.data;
         }
         vec![]
     }
 
-    async fn get_songs(&self) -> Vec<SirenBriefSong> {
+    async fn get_songs(&self) -> Vec<BriefSong> {
         let res = self.request_and_get_response(&SONGS_URL.to_string()).await;
         if let Ok(res) = res {
-            let res: ResponseMsg<Vec<SirenBriefSong>> =
-                serde_json::from_str(&res.as_str()).unwrap();
+            let res: ResponseMsg<Vec<BriefSong>> = serde_json::from_str(&res.as_str()).unwrap();
             return res.data;
         }
         vec![]
     }
 
-    async fn get_song(&self, cid: String) -> Result<SirenSong, ()> {
+    async fn get_song(&self, cid: String) -> Result<Song, ()> {
         Err(())
     }
 
-    async fn get_album(&self, cid: String) -> Result<SirenAlbum, ()> {
+    async fn get_album(&self, cid: String) -> Result<Album, ()> {
         Err(())
     }
 }

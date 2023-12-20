@@ -2,11 +2,11 @@ use async_trait::async_trait;
 
 use crate::global_struct::{
     music_injector::{MusicInject, MusicInjector},
-    siren::{SirenAlbum, SirenBriefAlbum, SirenBriefSong, SirenSong},
+    siren::{Album, BriefAlbum, BriefSong, Song},
 };
 
-fn get_sh() -> SirenSong {
-    SirenSong {
+fn get_sh() -> Song {
+    Song {
         cid: "self:114514".to_string(),
         name: "Snow Halation".to_string(),
         album_cid: "self:1919810".to_string(),
@@ -21,8 +21,8 @@ fn get_sh() -> SirenSong {
     }
 }
 
-fn get_bk() -> SirenSong {
-    SirenSong {
+fn get_bk() -> Song {
+    Song {
         cid: "self:114515".to_string(),
         name: "僕らのLIVE 君とのLIFE".to_string(),
         album_cid: "self:1919810".to_string(),
@@ -36,9 +36,7 @@ fn get_bk() -> SirenSong {
         mv_cover_url: None,
     }
 }
-struct TemplateInjector {
-
-}
+struct TemplateInjector {}
 
 impl TemplateInjector {
     fn new() -> Self {
@@ -48,23 +46,23 @@ impl TemplateInjector {
 
 #[async_trait]
 impl MusicInject for TemplateInjector {
-    async fn get_albums(&self) -> Vec<SirenBriefAlbum> {
+    async fn get_albums(&self) -> Vec<BriefAlbum> {
         vec![]
     }
 
-    async fn get_songs(&self) -> Vec<SirenBriefSong> {
+    async fn get_songs(&self) -> Vec<BriefSong> {
         vec![]
     }
 
-    async fn get_song(&self, cid: String) -> Result<SirenSong, ()> {
+    async fn get_song(&self, cid: String) -> Result<Song, ()> {
         Ok(match cid.as_str() {
             "self:114514" => get_sh(),
             _ => get_bk(),
         })
     }
 
-    async fn get_album(&self, _cid: String) -> Result<SirenAlbum, ()> {
-        Ok(SirenAlbum {
+    async fn get_album(&self, _cid: String) -> Result<Album, ()> {
+        Ok(Album {
             cid: "self:1919810".to_string(),
             name: "Snow Halation".to_string(),
             intro: "首张嵌入式专辑测试数据".to_string(),

@@ -33,7 +33,7 @@ pub trait ToResponseJson {
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
-pub struct SirenBriefSong {
+pub struct BriefSong {
     pub cid: String,
     pub name: String,
     #[serde(rename = "albumCid")]
@@ -41,10 +41,10 @@ pub struct SirenBriefSong {
     pub artists: Vec<String>,
 }
 
-impl ToResponseJson for SirenBriefSong {}
+impl ToResponseJson for BriefSong {}
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
-pub struct SirenSong {
+pub struct Song {
     pub cid: String,
     pub name: String,
     #[serde(rename = "albumCid")]
@@ -60,10 +60,10 @@ pub struct SirenSong {
     pub artists: Vec<String>,
 }
 
-impl ToResponseJson for SirenSong {}
+impl ToResponseJson for Song {}
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
-pub struct SirenBriefAlbum {
+pub struct BriefAlbum {
     pub cid: String,
     pub name: String,
     #[serde(rename = "coverUrl")]
@@ -71,10 +71,10 @@ pub struct SirenBriefAlbum {
     pub artistes: Vec<String>,
 }
 
-impl ToResponseJson for SirenBriefAlbum {}
+impl ToResponseJson for BriefAlbum {}
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
-pub struct SirenAlbum {
+pub struct Album {
     pub cid: String,
     pub name: String,
     pub intro: String,
@@ -84,10 +84,10 @@ pub struct SirenAlbum {
     #[serde(rename = "coverDeUrl")]
     pub cover_de_url: String,
     pub artistes: Vec<String>,
-    pub songs: Vec<SirenBriefSong>,
+    pub songs: Vec<BriefSong>,
 }
 
-impl ToResponseJson for SirenAlbum {}
+impl ToResponseJson for Album {}
 
 /// this struct is provide for vanilla api, usually you should't use this struct
 #[derive(Clone, Debug, Serialize, Deserialize)]
@@ -126,9 +126,9 @@ pub struct SirenAlbumDetail {
 }
 
 // impl detail to brief
-impl From<SirenAlbum> for SirenBriefAlbum {
-    fn from(siren_album: SirenAlbum) -> Self {
-        SirenBriefAlbum {
+impl From<Album> for BriefAlbum {
+    fn from(siren_album: Album) -> Self {
+        BriefAlbum {
             cid: siren_album.cid,
             name: siren_album.name,
             cover_url: siren_album.cover_url,
@@ -137,9 +137,9 @@ impl From<SirenAlbum> for SirenBriefAlbum {
     }
 }
 
-impl From<SirenSong> for SirenBriefSong {
-    fn from(siren_song: SirenSong) -> Self {
-        SirenBriefSong {
+impl From<Song> for BriefSong {
+    fn from(siren_song: Song) -> Self {
+        BriefSong {
             cid: siren_song.cid,
             name: siren_song.name,
             album_cid: siren_song.album_cid,
