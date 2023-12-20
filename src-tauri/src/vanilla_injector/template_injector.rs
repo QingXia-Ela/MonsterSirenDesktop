@@ -36,7 +36,9 @@ fn get_bk() -> SirenSong {
         mv_cover_url: None,
     }
 }
-struct TemplateInjector {}
+struct TemplateInjector {
+
+}
 
 impl TemplateInjector {
     fn new() -> Self {
