@@ -97,6 +97,17 @@ pub struct SirenBriefSongWithoutAlbumCid {
     pub artists: Vec<String>,
 }
 
+impl From<SirenBriefSongWithoutAlbumCid> for BriefSong {
+    fn from(siren_song: SirenBriefSongWithoutAlbumCid) -> Self {
+        BriefSong {
+            cid: siren_song.cid,
+            name: siren_song.name,
+            album_cid: "".to_string(),
+            artists: siren_song.artists,
+        }
+    }
+}
+
 /// this struct is provide for vanilla api, usually you should't use this struct
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct SirenAlbumData {

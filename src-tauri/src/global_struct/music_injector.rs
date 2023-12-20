@@ -14,6 +14,7 @@ pub trait MusicInject {
 }
 
 pub struct MusicInjector {
+    /// injector request namespace, will use as only key in request
     pub namespace: String,
     pub request_interceptor: Box<dyn MusicInject>,
 }
@@ -26,7 +27,6 @@ impl MusicInjector {
         }
     }
 
-    #[allow(dead_code)]
     pub fn get_namespace(&self) -> &String {
         &self.namespace
     }

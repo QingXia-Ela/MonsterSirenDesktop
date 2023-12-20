@@ -4,7 +4,7 @@ use crate::{
     constants::SIREN_WEBSITE,
     global_struct::{
         music_injector::{MusicInject, MusicInjector},
-        siren::{response_msg::ResponseMsg, Album, BriefAlbum, BriefSong, Song},
+        siren::{response_msg::ResponseMsg, Album, BriefAlbum, BriefSong, SirenAlbumDetail, Song},
     },
     utils::decode_brotli,
 };
@@ -138,11 +138,30 @@ impl MusicInject for SirenInjector {
     }
 
     async fn get_song(&self, cid: String) -> Result<Song, ()> {
-        Err(())
+        let res = self
+            .request_and_get_response(&format!("{}/api/song/{}", SIREN_WEBSITE, cid))
+            .await?;
+
+        let res: ResponseMsg<Song> = serde_json::from_str(&res.as_str()).unwrap();
+        Ok(res.data)
     }
 
     async fn get_album(&self, cid: String) -> Result<Album, ()> {
-        Err(())
+        let res = self
+            .request_and_get_response(&format!("{}/api/album/{}/detail", SIREN_WEBSITE, cid))
+            .await?;
+        let res: ResponseMsg<SirenAlbumDetail> = serde_json::from_str(&res.as_str()).unwrap();
+        let res = res.data;
+        Ok(Album {
+            artistes: vec!["塞壬唱片-MSR".to_string()],
+            cid: res.cid,
+            name: res.name,
+            intro: res.intro,
+            belong: res.belong,
+            cover_url: res.cover_url,
+            cover_de_url: res.cover_de_url,
+            songs: res.songs.into_iter().map(|s| s.into()).collect(),
+        })
     }
 }
 
