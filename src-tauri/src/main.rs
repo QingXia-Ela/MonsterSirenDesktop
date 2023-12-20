@@ -7,6 +7,7 @@
 mod Logger;
 mod commands;
 mod config;
+pub mod constants;
 mod global_enum;
 mod global_event;
 mod global_struct;
