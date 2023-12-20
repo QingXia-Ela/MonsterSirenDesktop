@@ -1,14 +1,18 @@
+use std::borrow::BorrowMut;
+
 use crate::{
     constants::SIREN_WEBSITE,
     global_struct::{
         music_injector::{MusicInject, MusicInjector},
-        siren::{SirenAlbum, SirenBriefAlbum, SirenBriefSong, SirenSong},
+        siren::{
+            response_msg::ResponseMsg, SirenAlbum, SirenBriefAlbum, SirenBriefSong, SirenSong,
+        },
     },
     utils::decode_brotli,
 };
 use async_trait::async_trait;
 use reqwest::{
-    header::{HeaderMap, CONTENT_ENCODING},
+    header::{HeaderMap, *},
     Client,
 };
 use warp::reply::Response;
@@ -44,8 +48,14 @@ impl SirenInjector {
         }
     }
 
-    fn add_default_header(request_builder: reqwest::RequestBuilder) -> reqwest::RequestBuilder {
+    fn add_default_request_header(
+        request_builder: reqwest::RequestBuilder,
+    ) -> reqwest::RequestBuilder {
         request_builder.header("referer", SIREN_WEBSITE)
+    }
+
+    fn add_default_response_header(response: Response) -> Response {
+        todo!();
     }
 
     fn get_request_builder(
@@ -55,14 +65,17 @@ impl SirenInjector {
     ) -> reqwest::RequestBuilder {
         let mut r = self.client.get(url);
         if add_default_header {
-            r = SirenInjector::add_default_header(r);
+            r = SirenInjector::add_default_request_header(r);
         }
         r
     }
 
+    fn get_response(body: String) -> Response {
+        todo!();
+    }
+
     async fn request_and_get_response(&self, url: &String) -> Result<String, ()> {
-        let mut request_builder = self.client.get(url);
-        request_builder = request_builder.header("referer", SIREN_WEBSITE);
+        let request_builder = self.get_request_builder(url, true);
 
         let response_json = request_builder.send().await.unwrap();
         let response = Response::new("".into());
@@ -88,6 +101,18 @@ impl SirenInjector {
         // todo!: sync cdn / api port with custom config
         res_str = change_body(res_str, vec![], 11452, 11451);
 
+        // let res_header_map = response.headers_mut();
+        // for (k, v) in header_map.borrow_mut().into_iter() {
+        //     res_header_map.insert(k.clone(), v.clone());
+        // }
+        // res_header_map.remove(CONTENT_ENCODING);
+
+        // // avoid content-length are not actual length
+        // res_header_map.insert(CONTENT_LENGTH, res_str.len().into());
+        // res_header_map.insert(ACCESS_CONTROL_ALLOW_ORIGIN, "*".parse().unwrap());
+
+        // response = Response::new(res_str.into());
+
         Ok(res_str)
     }
 }
@@ -95,7 +120,16 @@ impl SirenInjector {
 #[async_trait]
 impl MusicInject for SirenInjector {
     async fn get_albums(&self) -> Vec<SirenBriefAlbum> {
-        vec![]
+        let res = self.request_and_get_response(&ALBUMS_URL.to_string()).await;
+        if let Ok(res) = res {
+            // let albums_json = res.body();
+            // let res = hyper::body::to_bytes(*albums_json);
+            let res: ResponseMsg<Vec<SirenBriefAlbum>> =
+                serde_json::from_str(&res.as_str()).unwrap();
+            res.data
+        } else {
+            vec![]
+        }
     }
 
     async fn get_songs(&self) -> Vec<SirenBriefSong> {

@@ -1,3 +1,5 @@
+pub mod response_msg;
+
 use serde::{Deserialize, Serialize};
 
 /// parse the underline k_c to kC
@@ -44,10 +46,15 @@ impl ToResponseJson for SirenBriefSong {}
 pub struct SirenSong {
     pub cid: String,
     pub name: String,
+    #[serde(rename = "albumCid")]
     pub album_cid: String,
+    #[serde(rename = "sourceUrl")]
     pub source_url: String,
+    #[serde(rename = "lyricUrl")]
     pub lyric_url: Option<String>,
+    #[serde(rename = "mvUrl")]
     pub mv_url: Option<String>,
+    #[serde(rename = "mvCoverUrl")]
     pub mv_cover_url: Option<String>,
     pub artists: Vec<String>,
 }
@@ -58,6 +65,7 @@ impl ToResponseJson for SirenSong {}
 pub struct SirenBriefAlbum {
     pub cid: String,
     pub name: String,
+    #[serde(rename = "coverUrl")]
     pub cover_url: String,
     pub artistes: Vec<String>,
 }
@@ -70,7 +78,9 @@ pub struct SirenAlbum {
     pub name: String,
     pub intro: String,
     pub belong: String,
+    #[serde(rename = "coverUrl")]
     pub cover_url: String,
+    #[serde(rename = "coverDeUrl")]
     pub cover_de_url: String,
     pub artistes: Vec<String>,
     pub songs: Vec<SirenBriefSong>,
