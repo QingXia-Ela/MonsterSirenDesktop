@@ -11,13 +11,21 @@ use reqwest::{
     },
     Client,
 };
-use std::{borrow::BorrowMut, collections::HashMap, net::SocketAddrV4, thread};
+use serde::{Deserialize, Serialize};
+use std::{borrow::BorrowMut, collections::HashMap, fmt::Debug, net::SocketAddrV4, thread};
 use std::{collections::HashSet, thread::JoinHandle};
-use warp::{path::FullPath, reply::Response, Filter};
+use warp::{
+    path::FullPath,
+    reply::{Reply, Response},
+    Filter,
+};
 
 use crate::{
     error::PluginRequestError,
-    global_struct::music_injector::MusicInjector,
+    global_struct::{
+        music_injector::MusicInjector,
+        siren::{response_msg::ResponseMsg, Song},
+    },
     vanilla_injector::siren_injector::{self},
 };
 
@@ -67,11 +75,20 @@ impl ApiProxy {
     }
 }
 
-fn parse_plugin_request_error_2_warp_rejection() {}
+fn parse_plugin_request_error_2_warp_rejection(err: PluginRequestError) -> warp::Rejection {
+    warp::reject::custom(err)
+}
+
+fn get_response_from_string(s: String) -> Response {
+    Response::new("".into())
+    // Re
+}
 
 /// Handle api request and use plugin to modify response.
 ///
-/// If no path match, request will be handled by vanilla api `https://monster-siren.hypergryph.com/api/{your_path}`
+/// If no path match, request will be handled by vanilla api:
+///
+/// `https://monster-siren.hypergryph.com/api/{your_path}`
 async fn handle_request_with_plugin(
     port: u16,
     cdn_port: u16,
@@ -86,7 +103,21 @@ async fn handle_request_with_plugin(
         let namesp = &caps["namespace"];
         let id = &caps["id"];
         let res = injector.request_interceptor.get_song(id.to_string()).await;
-        // return res;
+        match res {
+            Ok(r) => {
+                let res = ResponseMsg::<Song> {
+                    code: 0,
+                    msg: "".to_string(),
+                    data: r,
+                };
+                return Ok(get_response_from_string(
+                    serde_json::to_string(&res).unwrap(),
+                ));
+            }
+            Err(e) => {
+                return Err(parse_plugin_request_error_2_warp_rejection(e.into()));
+            }
+        };
     }
     // album
     else if let Some(caps) = ALBUM_REGEX.captures(p) {
@@ -102,7 +133,13 @@ async fn handle_request_with_plugin(
         "/albums" => {
             todo!()
         }
-        _ => handle_request(port, cdn_port, path, headers, filter_rules).await,
+        _ => {
+            let res = handle_request(port, cdn_port, path, headers, filter_rules).await;
+            match res {
+                Ok(r) => Ok(r.into_response()),
+                Err(e) => Err(e),
+            }
+        }
     }
 }
 
