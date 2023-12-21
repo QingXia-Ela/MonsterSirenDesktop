@@ -1,5 +1,6 @@
 use super::siren::{Album, BriefAlbum, BriefSong, Song};
 use async_trait::async_trait;
+use warp::reject::Rejection;
 
 /// Music Inject trait
 /// Use it to create a music injector
@@ -9,8 +10,8 @@ use async_trait::async_trait;
 pub trait MusicInject {
     async fn get_albums(&self) -> Vec<BriefAlbum>;
     async fn get_songs(&self) -> Vec<BriefSong>;
-    async fn get_song(&self, id: String) -> Result<Song, ()>;
-    async fn get_album(&self, id: String) -> Result<Album, ()>;
+    async fn get_song(&self, id: String) -> Result<Song, reqwest::Error>;
+    async fn get_album(&self, id: String) -> Result<Album, reqwest::Error>;
 }
 
 pub struct MusicInjector {

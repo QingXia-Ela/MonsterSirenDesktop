@@ -1,5 +1,3 @@
-use std::borrow::BorrowMut;
-
 use crate::{
     constants::SIREN_WEBSITE,
     global_struct::{
@@ -13,7 +11,7 @@ use reqwest::{
     header::{HeaderMap, *},
     Client,
 };
-use warp::reply::Response;
+use warp::{reject::Rejection, reply::Response};
 type FilterType = Vec<[&'static str; 2]>;
 
 const ALBUMS_URL: &str = "https://monster-siren.com/api/albums";
@@ -72,10 +70,10 @@ impl SirenInjector {
         todo!();
     }
 
-    async fn request_and_get_response(&self, url: &String) -> Result<String, ()> {
+    async fn request_and_get_response(&self, url: &String) -> Result<String, reqwest::Error> {
         let request_builder = self.get_request_builder(url, true);
 
-        let response_json = request_builder.send().await.unwrap();
+        let response_json = request_builder.send().await?;
         let response = Response::new("".into());
 
         let mut header_map = HeaderMap::new();
@@ -88,13 +86,12 @@ impl SirenInjector {
             Some(v) => match v.to_str() {
                 Ok("br") => {
                     let decoded =
-                        decode_brotli(&response_json.bytes().await.unwrap().to_vec().as_slice())
-                            .unwrap();
+                        decode_brotli(&response_json.bytes().await?.to_vec().as_slice()).unwrap();
                     res_str = String::from_utf8(decoded).unwrap();
                 }
-                _ => res_str = response_json.text().await.unwrap(),
+                _ => res_str = response_json.text().await?,
             },
-            _ => res_str = response_json.text().await.unwrap(),
+            _ => res_str = response_json.text().await?,
         };
         // todo!: sync cdn / api port with custom config
         res_str = change_body(res_str, vec![], 11452, 11451);
@@ -117,6 +114,8 @@ impl SirenInjector {
 
 #[async_trait]
 impl MusicInject for SirenInjector {
+    /// Get albums, if it has error, it will return empty arr
+    // todo!: throw err instead return empty arr
     async fn get_albums(&self) -> Vec<BriefAlbum> {
         let res = self.request_and_get_response(&ALBUMS_URL.to_string()).await;
         if let Ok(res) = res {
@@ -137,7 +136,7 @@ impl MusicInject for SirenInjector {
         vec![]
     }
 
-    async fn get_song(&self, cid: String) -> Result<Song, ()> {
+    async fn get_song(&self, cid: String) -> Result<Song, reqwest::Error> {
         let res = self
             .request_and_get_response(&format!("{}/api/song/{}", SIREN_WEBSITE, cid))
             .await?;
@@ -146,7 +145,7 @@ impl MusicInject for SirenInjector {
         Ok(res.data)
     }
 
-    async fn get_album(&self, cid: String) -> Result<Album, ()> {
+    async fn get_album(&self, cid: String) -> Result<Album, reqwest::Error> {
         let res = self
             .request_and_get_response(&format!("{}/api/album/{}/detail", SIREN_WEBSITE, cid))
             .await?;

@@ -3,19 +3,33 @@ use brotlic::{
     BrotliDecoder,
 };
 use futures::executor::block_on;
+use lazy_static::lazy_static;
+use regex::Regex;
 use reqwest::{
     header::{
         HeaderMap, ACCESS_CONTROL_ALLOW_ORIGIN, CONTENT_ENCODING, CONTENT_LENGTH, CONTENT_TYPE,
     },
     Client,
 };
-use std::{borrow::BorrowMut, net::SocketAddrV4, thread};
+use std::{borrow::BorrowMut, collections::HashMap, net::SocketAddrV4, thread};
 use std::{collections::HashSet, thread::JoinHandle};
 use warp::{path::FullPath, reply::Response, Filter};
 
-use crate::global_struct::{self, music_injector::MusicInject, siren::ToResponseJson};
+use crate::{
+    error::PluginRequestError,
+    global_struct::music_injector::MusicInjector,
+    vanilla_injector::siren_injector::{self},
+};
 
 const SIREN_WEBSITE: &str = "https://monster-siren.hypergryph.com";
+lazy_static! {
+    /// capture path like `/song/{{namespace}:}{id}`
+    /// vanilla path doesn't have namespace like: `/song/{id}`
+    static ref SONG_REGEX: Regex = Regex::new(r"/song/(?P<namespace>\w+):(?P<id>\d+)").unwrap();
+    /// capture path like `/song/{{namespace}:}{id}/detail` or `/song/{{namespace}:}{id}/data`
+    /// two path will call method `get_album`
+    static ref ALBUM_REGEX: Regex = Regex::new(r"/album/(?P<namespace>\w+):(?P<id>\d+)").unwrap();
+}
 type FilterType = Vec<[&'static str; 2]>;
 
 pub struct ApiProxy;
@@ -35,14 +49,60 @@ impl ApiProxy {
     /// `
     #[tokio::main]
     pub async fn new(port: u16, cdn_port: u16, filter_rules: FilterType) -> Self {
+        let s = vec![siren_injector::get_injector()];
+        let mut injector_map: HashMap<String, MusicInjector> = HashMap::new();
+        // run only once
+        for m in s.into_iter() {
+            injector_map.insert(m.namespace.clone(), m);
+        }
         let proxy = warp::path::full()
             .and(warp::header::headers_cloned())
+            // todo!: move to handle with plugin
             .and_then(move |p, r| handle_request(port, cdn_port, p, r, filter_rules.clone()));
         block_on(async {
             let addr: SocketAddrV4 = format!("127.0.0.1:{}", port).parse().unwrap();
             warp::serve(proxy).run(addr).await;
         });
         ApiProxy {}
+    }
+}
+
+fn parse_plugin_request_error_2_warp_rejection() {}
+
+/// Handle api request and use plugin to modify response.
+///
+/// If no path match, request will be handled by vanilla api `https://monster-siren.hypergryph.com/api/{your_path}`
+async fn handle_request_with_plugin(
+    port: u16,
+    cdn_port: u16,
+    path: FullPath,
+    headers: HeaderMap,
+    filter_rules: FilterType,
+    injector: &MusicInjector,
+) -> Result<impl warp::Reply, warp::Rejection> {
+    let p = path.as_str();
+    // song
+    if let Some(caps) = SONG_REGEX.captures(p) {
+        let namesp = &caps["namespace"];
+        let id = &caps["id"];
+        let res = injector.request_interceptor.get_song(id.to_string()).await;
+        // return res;
+    }
+    // album
+    else if let Some(caps) = ALBUM_REGEX.captures(p) {
+        let namesp = &caps["namespace"];
+        let id = &caps["id"];
+        let res = injector.request_interceptor.get_album(id.to_string()).await;
+    }
+    // api without namespace
+    match p {
+        "/songs" => {
+            todo!()
+        }
+        "/albums" => {
+            todo!()
+        }
+        _ => handle_request(port, cdn_port, path, headers, filter_rules).await,
     }
 }
 
@@ -129,9 +189,9 @@ fn change_body(body: String, filter_rules: FilterType, port: u16, cdn_port: u16)
 }
 
 #[derive(Debug, Eq, PartialEq, Hash)]
-pub enum api_proxyRules {}
+pub enum ApiProxyRules {}
 
-pub fn get_basic_filter_rules(mut settings: Vec<api_proxyRules>) -> FilterType {
+pub fn get_basic_filter_rules(mut settings: Vec<ApiProxyRules>) -> FilterType {
     let mut rules = vec![];
     let settings = settings
         .into_iter()

@@ -1,4 +1,10 @@
+/**
+ * Note: this file is a template
+ *
+ * And template shouldn't appear in production.
+ */
 use async_trait::async_trait;
+use warp::reject::Rejection;
 
 use crate::global_struct::{
     music_injector::{MusicInject, MusicInjector},
@@ -54,14 +60,14 @@ impl MusicInject for TemplateInjector {
         vec![]
     }
 
-    async fn get_song(&self, cid: String) -> Result<Song, ()> {
+    async fn get_song(&self, cid: String) -> Result<Song, reqwest::Error> {
         Ok(match cid.as_str() {
             "self:114514" => get_sh(),
             _ => get_bk(),
         })
     }
 
-    async fn get_album(&self, _cid: String) -> Result<Album, ()> {
+    async fn get_album(&self, _cid: String) -> Result<Album, reqwest::Error> {
         Ok(Album {
             cid: "self:1919810".to_string(),
             name: "Snow Halation".to_string(),

@@ -3,11 +3,13 @@
     all(not(debug_assertions), target_os = "windows"),
     windows_subsystem = "windows"
 )]
+extern crate lazy_static;
 #[allow(non_snake_case)]
 mod Logger;
 mod commands;
 mod config;
 pub mod constants;
+mod error;
 mod global_enum;
 mod global_event;
 mod global_struct;
