@@ -5,3 +5,9 @@ pub struct ResponseMsg<T> {
     pub msg: String,
     pub data: T,
 }
+
+impl<T> ResponseMsg<T> {
+    pub fn new(code: u32, msg: String, data: T) -> Self {
+        Self { code, msg, data }
+    }
+}

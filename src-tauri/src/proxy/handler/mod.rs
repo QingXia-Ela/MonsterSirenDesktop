@@ -3,7 +3,7 @@ use crate::{
     error::PluginRequestError,
     global_struct::{
         music_injector::MusicInjector,
-        siren::{response_msg::ResponseMsg, Album, Song},
+        siren::{response_msg::ResponseMsg, Album, BriefAlbum, BriefSong, Song},
     },
     utils::decode_brotli,
 };
@@ -37,6 +37,33 @@ fn parse_plugin_request_error_2_warp_rejection(err: PluginRequestError) -> warp:
 fn get_response_from_string(s: String) -> Response {
     Response::new("".into())
     // Re
+}
+
+/// Get all songs from injector, and return json string
+async fn get_songs_from_injector_map(injector_map: &HashMap<String, MusicInjector>) -> String {
+    let mut data: Vec<BriefSong> = vec![];
+    for injector in injector_map.values() {
+        for s in injector.request_interceptor.get_songs().await {
+            data.push(s);
+        }
+    }
+    serde_json::to_string(&ResponseMsg::<Vec<BriefSong>>::new(0, "".to_string(), data)).unwrap()
+}
+
+/// Get all albums from injector, and return json string
+async fn get_albums_from_injector_map(injector_map: &HashMap<String, MusicInjector>) -> String {
+    let mut data: Vec<BriefAlbum> = vec![];
+    for injector in injector_map.values() {
+        for s in injector.request_interceptor.get_albums().await {
+            data.push(s);
+        }
+    }
+    serde_json::to_string(&ResponseMsg::<Vec<BriefAlbum>>::new(
+        0,
+        "".to_string(),
+        data,
+    ))
+    .unwrap()
 }
 
 /// Handle api request and use plugin to modify response.
@@ -101,12 +128,12 @@ pub async fn handle_request_with_plugin(
     }
     // api without namespace
     match p {
-        "/songs" => {
-            todo!()
-        }
-        "/albums" => {
-            todo!()
-        }
+        "/songs" => Ok(get_songs_from_injector_map(injector_map)
+            .await
+            .into_response()),
+        "/albums" => Ok(get_albums_from_injector_map(injector_map)
+            .await
+            .into_response()),
         _ => {
             let res = handle_request(port, cdn_port, path, headers, filter_rules).await;
             match res {
