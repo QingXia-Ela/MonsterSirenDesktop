@@ -2077,6 +2077,7 @@ dependencies = [
  "config",
  "env_logger",
  "futures",
+ "indexmap 2.1.0",
  "lazy_static",
  "once_cell",
  "regex",

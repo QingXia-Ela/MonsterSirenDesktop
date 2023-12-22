@@ -1,9 +1,9 @@
-use crate::proxy::handler::handle_request;
 use crate::vanilla_injector::template_injector;
 use futures::executor::block_on;
+use indexmap::IndexMap;
 use std::sync::Arc;
-use std::{collections::HashMap, fmt::Debug, net::SocketAddrV4, thread};
 use std::{collections::HashSet, thread::JoinHandle};
+use std::{fmt::Debug, net::SocketAddrV4, thread};
 use warp::Filter;
 
 use crate::{
@@ -12,8 +12,6 @@ use crate::{
 };
 
 use super::handler::handle_request_with_plugin;
-
-const SIREN_WEBSITE: &str = "https://monster-siren.hypergryph.com";
 
 type FilterType = Vec<[&'static str; 2]>;
 
@@ -38,7 +36,7 @@ impl ApiProxy {
             template_injector::get_injector(),
             siren_injector::get_injector(),
         ];
-        let mut injector_map: HashMap<String, MusicInjector> = HashMap::new();
+        let mut injector_map: IndexMap<String, MusicInjector> = IndexMap::new();
         // run only once
         for m in s.into_iter() {
             injector_map.insert(m.namespace.clone(), m);

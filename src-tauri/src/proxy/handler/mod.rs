@@ -8,6 +8,7 @@ use crate::{
     global_utils::decode_brotli,
     Logger,
 };
+use indexmap::IndexMap;
 use lazy_static::lazy_static;
 use regex::Regex;
 use reqwest::{
@@ -51,7 +52,7 @@ fn get_response_from_string(s: String) -> Response {
 
 /// Get all songs from injector, and return json string
 async fn get_songs_from_injector_map(
-    injector_map: Arc<HashMap<String, MusicInjector>>,
+    injector_map: Arc<IndexMap<String, MusicInjector>>,
 ) -> Response {
     let mut data: Vec<BriefSong> = vec![];
     for injector in injector_map.values() {
@@ -67,7 +68,7 @@ async fn get_songs_from_injector_map(
 
 /// Get all albums from injector, and return json string
 async fn get_albums_from_injector_map(
-    injector_map: Arc<HashMap<String, MusicInjector>>,
+    injector_map: Arc<IndexMap<String, MusicInjector>>,
 ) -> Response {
     let mut data: Vec<BriefAlbum> = vec![];
     for injector in injector_map.values() {
@@ -95,7 +96,7 @@ pub async fn handle_request_with_plugin(
     path: FullPath,
     headers: HeaderMap,
     filter_rules: FilterType,
-    injector_map: Arc<HashMap<String, MusicInjector>>,
+    injector_map: Arc<IndexMap<String, MusicInjector>>,
 ) -> Result<impl warp::Reply, warp::Rejection> {
     let p = path.as_str();
     Logger::info(format!("request path: {}", p).as_str());
