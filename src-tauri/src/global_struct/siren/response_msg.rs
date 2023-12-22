@@ -11,3 +11,15 @@ impl<T> ResponseMsg<T> {
         Self { code, msg, data }
     }
 }
+
+#[derive(serde::Serialize, serde::Deserialize)]
+pub struct SongsReponse<T> {
+    list: Vec<T>,
+    autoplay: Option<bool>,
+}
+
+impl<T> SongsReponse<T> {
+    pub fn new(list: Vec<T>, autoplay: Option<bool>) -> Self {
+        Self { list, autoplay }
+    }
+}

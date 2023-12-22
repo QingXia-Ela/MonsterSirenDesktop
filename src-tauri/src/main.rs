@@ -58,7 +58,8 @@ fn main() {
         .on_system_tray_event(system_tray_menu::system_tray_event_handler)
         .invoke_handler(generate_handler![
             tauri_commands::open_devtools,
-            tauri_commands::greet
+            tauri_commands::greet,
+            tauri_commands::change_tray_tooltip
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

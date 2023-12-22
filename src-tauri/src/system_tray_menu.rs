@@ -57,7 +57,10 @@ pub fn get_app_menu() -> SystemTray {
         .add_native_item(tauri::SystemTrayMenuItem::Separator)
         .add_item(quit);
 
-    let tray = SystemTray::new().with_menu(tray_menu).with_id(id);
+    let tray = SystemTray::new()
+        .with_menu(tray_menu)
+        .with_id(id)
+        .with_tooltip("Monster Siren Desktop App(alpha)");
 
     tray
 }

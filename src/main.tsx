@@ -5,15 +5,12 @@ import './styles.scss';
 import 'tdesign-react/es/style/index.css';
 import $settingAdvancement from './store/models/settings/advancement';
 
+// init
+import './init'
 // event listen
 import './global_event';
 // optimize
 import './optimize';
-
-// init
-if (!window.siren_config) {
-  window.siren_config = {};
-}
 
 // action
 if ($settingAdvancement.get().logStore) {

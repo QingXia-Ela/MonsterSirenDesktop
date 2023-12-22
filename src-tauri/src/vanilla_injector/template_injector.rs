@@ -4,6 +4,7 @@
  * And template shouldn't appear in production.
  */
 use async_trait::async_trait;
+use warp::reject::Rejection;
 
 use crate::global_struct::{
     music_injector::{MusicInject, MusicInjector},
@@ -62,17 +63,13 @@ impl MusicInject for TemplateInjector {
     }
 
     async fn get_songs(&self) -> Vec<BriefSong> {
-        vec![BriefSong {
-            cid: "template:114514".to_string(),
-            name: "Snow Halation".to_string(),
-            album_cid: "template:1919810".to_string(),
-            artists: vec!["μ's".to_string()],
-        }]
+        vec![get_sh().into(), get_bk().into()]
     }
 
     async fn get_song(&self, cid: String) -> Result<Song, reqwest::Error> {
         Ok(match cid.as_str() {
-            _ => get_sh(),
+            "114514" => get_sh(),
+            _ => get_bk(),
         })
     }
 
@@ -91,7 +88,7 @@ impl MusicInject for TemplateInjector {
                 "μ's".to_string(),
                 "LoveLive School Idol Project!".to_string(),
             ],
-            songs: vec![get_sh().into()],
+            songs: vec![get_sh().into(), get_bk().into()],
         })
     }
 }

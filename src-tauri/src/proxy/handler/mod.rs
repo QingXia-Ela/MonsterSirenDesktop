@@ -3,7 +3,10 @@ use crate::{
     error::PluginRequestError,
     global_struct::{
         music_injector::MusicInjector,
-        siren::{response_msg::ResponseMsg, Album, BriefAlbum, BriefSong, Song},
+        siren::{
+            response_msg::{ResponseMsg, SongsReponse},
+            Album, BriefAlbum, BriefSong, Song,
+        },
     },
     global_utils::decode_brotli,
     Logger,
@@ -60,9 +63,14 @@ async fn get_songs_from_injector_map(
             data.push(s);
         }
     }
+    let data = SongsReponse::new(data, None);
     // call unwrap because we ensure data is not empty
-    let s = serde_json::to_string(&ResponseMsg::<Vec<BriefSong>>::new(0, "".to_string(), data))
-        .unwrap();
+    let s = serde_json::to_string(&ResponseMsg::<SongsReponse<BriefSong>>::new(
+        0,
+        "".to_string(),
+        data,
+    ))
+    .unwrap();
     get_response_from_string(s)
 }
 
