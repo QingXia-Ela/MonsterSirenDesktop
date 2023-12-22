@@ -6,17 +6,17 @@
 extern crate lazy_static;
 #[allow(non_snake_case)]
 mod Logger;
-mod commands;
 mod config;
 pub mod constants;
 mod error;
 mod global_enum;
 mod global_event;
 mod global_struct;
+mod global_utils;
 mod proxy;
 mod server;
 mod system_tray_menu;
-mod utils;
+mod tauri_commands;
 mod vanilla_injector;
 
 use proxy::{api_proxy::spawn_api_proxy, cdn_proxy::spawn_cdn_proxy};
@@ -56,7 +56,10 @@ fn main() {
     builder
         .system_tray(system_tray_menu::get_app_menu())
         .on_system_tray_event(system_tray_menu::system_tray_event_handler)
-        .invoke_handler(generate_handler![commands::open_devtools, commands::greet])
+        .invoke_handler(generate_handler![
+            tauri_commands::open_devtools,
+            tauri_commands::greet
+        ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }

@@ -1,5 +1,5 @@
 use crate::global_event::{audio_instance, store};
-use crate::utils::get_main_window;
+use crate::global_utils::get_main_window;
 use tauri::{CustomMenuItem, SystemTrayMenu};
 use tauri::{SystemTray, SystemTrayEvent};
 

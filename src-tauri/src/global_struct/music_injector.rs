@@ -1,13 +1,13 @@
 use super::siren::{Album, BriefAlbum, BriefSong, Song};
 use async_trait::async_trait;
-use warp::reject::Rejection;
 
 /// Music Inject trait
 /// Use it to create a music injector
 /// impl this trait should add `#[async_trait]` annotation
+/// We impl `Send + Sync` because now it can use safe in async because we don't modify it in runtime, only call the methods.
 /// todo!: finish all api
 #[async_trait]
-pub trait MusicInject {
+pub trait MusicInject: Send + Sync {
     async fn get_albums(&self) -> Vec<BriefAlbum>;
     async fn get_songs(&self) -> Vec<BriefSong>;
     async fn get_song(&self, id: String) -> Result<Song, reqwest::Error>;

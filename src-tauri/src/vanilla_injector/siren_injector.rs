@@ -4,7 +4,7 @@ use crate::{
         music_injector::{MusicInject, MusicInjector},
         siren::{response_msg::ResponseMsg, Album, BriefAlbum, BriefSong, SirenAlbumDetail, Song},
     },
-    utils::decode_brotli,
+    global_utils::decode_brotli,
 };
 use async_trait::async_trait;
 use reqwest::{

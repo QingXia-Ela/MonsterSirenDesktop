@@ -1,5 +1,7 @@
 use crate::proxy::handler::handle_request;
+use crate::vanilla_injector::template_injector;
 use futures::executor::block_on;
+use std::sync::Arc;
 use std::{collections::HashMap, fmt::Debug, net::SocketAddrV4, thread};
 use std::{collections::HashSet, thread::JoinHandle};
 use warp::Filter;
@@ -8,6 +10,8 @@ use crate::{
     global_struct::music_injector::MusicInjector,
     vanilla_injector::siren_injector::{self},
 };
+
+use super::handler::handle_request_with_plugin;
 
 const SIREN_WEBSITE: &str = "https://monster-siren.hypergryph.com";
 
@@ -30,16 +34,30 @@ impl ApiProxy {
     /// `
     #[tokio::main]
     pub async fn new(port: u16, cdn_port: u16, filter_rules: FilterType) -> Self {
-        let s = vec![siren_injector::get_injector()];
+        let s = vec![
+            siren_injector::get_injector(),
+            template_injector::get_injector(),
+        ];
         let mut injector_map: HashMap<String, MusicInjector> = HashMap::new();
         // run only once
         for m in s.into_iter() {
             injector_map.insert(m.namespace.clone(), m);
         }
+
+        let arc_map = Arc::new(injector_map);
         let proxy = warp::path::full()
             .and(warp::header::headers_cloned())
             // todo!: move to handle with plugin
-            .and_then(move |p, r| handle_request(port, cdn_port, p, r, filter_rules.clone()));
+            .and_then(move |p, r| {
+                handle_request_with_plugin(
+                    port,
+                    cdn_port,
+                    p,
+                    r,
+                    filter_rules.clone(),
+                    arc_map.clone(),
+                )
+            });
         block_on(async {
             let addr: SocketAddrV4 = format!("127.0.0.1:{}", port).parse().unwrap();
             warp::serve(proxy).run(addr).await;

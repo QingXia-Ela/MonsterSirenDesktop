@@ -5,7 +5,7 @@ use crate::{
         music_injector::MusicInjector,
         siren::{response_msg::ResponseMsg, Album, BriefAlbum, BriefSong, Song},
     },
-    utils::decode_brotli,
+    global_utils::decode_brotli,
 };
 use lazy_static::lazy_static;
 use regex::Regex;
@@ -13,7 +13,7 @@ use reqwest::{
     header::{HeaderMap, *},
     Client,
 };
-use std::{borrow::BorrowMut, collections::HashMap};
+use std::{borrow::BorrowMut, collections::HashMap, sync::Arc};
 use warp::{
     filters::path::FullPath,
     reply::{Reply, Response},
@@ -40,7 +40,7 @@ fn get_response_from_string(s: String) -> Response {
 }
 
 /// Get all songs from injector, and return json string
-async fn get_songs_from_injector_map(injector_map: &HashMap<String, MusicInjector>) -> String {
+async fn get_songs_from_injector_map(injector_map: Arc<HashMap<String, MusicInjector>>) -> String {
     let mut data: Vec<BriefSong> = vec![];
     for injector in injector_map.values() {
         for s in injector.request_interceptor.get_songs().await {
@@ -51,7 +51,7 @@ async fn get_songs_from_injector_map(injector_map: &HashMap<String, MusicInjecto
 }
 
 /// Get all albums from injector, and return json string
-async fn get_albums_from_injector_map(injector_map: &HashMap<String, MusicInjector>) -> String {
+async fn get_albums_from_injector_map(injector_map: Arc<HashMap<String, MusicInjector>>) -> String {
     let mut data: Vec<BriefAlbum> = vec![];
     for injector in injector_map.values() {
         for s in injector.request_interceptor.get_albums().await {
@@ -77,7 +77,7 @@ pub async fn handle_request_with_plugin(
     path: FullPath,
     headers: HeaderMap,
     filter_rules: FilterType,
-    injector_map: &HashMap<String, MusicInjector>,
+    injector_map: Arc<HashMap<String, MusicInjector>>,
 ) -> Result<impl warp::Reply, warp::Rejection> {
     let p = path.as_str();
     // song

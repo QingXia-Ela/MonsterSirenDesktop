@@ -1,4 +1,4 @@
-use crate::utils::get_main_window;
+use crate::global_utils::get_main_window;
 
 pub fn play_and_pause(app: &tauri::AppHandle) {
     get_main_window(app)
