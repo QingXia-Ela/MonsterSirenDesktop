@@ -176,6 +176,7 @@ pub fn get_injector() -> MusicInjector {
     MusicInjector::new(
         "".to_string(),
         String::from("塞壬唱片"),
+        String::from("#fff"),
         Box::new(SirenInjector::new()),
     )
 }

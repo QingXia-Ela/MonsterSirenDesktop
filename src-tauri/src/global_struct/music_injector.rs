@@ -10,7 +10,9 @@ use async_trait::async_trait;
 pub trait MusicInject: Send + Sync {
     async fn get_albums(&self) -> Vec<BriefAlbum>;
     async fn get_songs(&self) -> Vec<BriefSong>;
+    /// Id will remove namespace
     async fn get_song(&self, id: String) -> Result<Song, reqwest::Error>;
+    /// Id will remove namespace
     async fn get_album(&self, id: String) -> Result<Album, reqwest::Error>;
 }
 
@@ -19,6 +21,14 @@ pub struct MusicInjector {
     pub namespace: String,
     /// cn namespace, will use at the place where need cn translate.
     pub cn_namespace: String,
+    /// a theme color, provide to frontend.
+    ///
+    /// For example:
+    ///
+    /// `"#ff0000"` or `"rgb(255,0,0)"`
+    ///
+    /// it will use in css directly
+    pub color: String,
     pub request_interceptor: Box<dyn MusicInject>,
 }
 
@@ -26,11 +36,13 @@ impl MusicInjector {
     pub fn new(
         namespace: String,
         cn_namespace: String,
+        color: String,
         request_interceptor: Box<dyn MusicInject>,
     ) -> Self {
         Self {
             namespace,
             cn_namespace,
+            color,
             request_interceptor,
         }
     }

@@ -20,7 +20,7 @@ fn get_sh() -> Song {
             "μ's".to_string(),
             "LoveLive School Idol Project!".to_string(),
         ],
-        lyric_url: None,
+        lyric_url: Some("http://127.0.0.1:8080/μ's - Snow Halation.lrc".to_string()),
         mv_url: None,
         mv_cover_url: None,
     }
@@ -96,6 +96,7 @@ pub fn get_injector() -> MusicInjector {
     MusicInjector {
         namespace: "template".to_string(),
         cn_namespace: "模板".to_string(),
+        color: "#000000".to_string(),
         request_interceptor: Box::new(TemplateInjector::new()),
     }
 }
