@@ -173,5 +173,9 @@ impl MusicInject for SirenInjector {
 }
 
 pub fn get_injector() -> MusicInjector {
-    MusicInjector::new("".to_string(), Box::new(SirenInjector::new()))
+    MusicInjector::new(
+        "".to_string(),
+        String::from("塞壬唱片"),
+        Box::new(SirenInjector::new()),
+    )
 }

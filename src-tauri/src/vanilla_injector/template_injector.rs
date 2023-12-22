@@ -4,7 +4,6 @@
  * And template shouldn't appear in production.
  */
 use async_trait::async_trait;
-use warp::reject::Rejection;
 
 use crate::global_struct::{
     music_injector::{MusicInject, MusicInjector},
@@ -96,6 +95,7 @@ impl MusicInject for TemplateInjector {
 pub fn get_injector() -> MusicInjector {
     MusicInjector {
         namespace: "template".to_string(),
+        cn_namespace: "模板".to_string(),
         request_interceptor: Box::new(TemplateInjector::new()),
     }
 }

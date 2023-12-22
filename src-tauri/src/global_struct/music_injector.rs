@@ -17,13 +17,20 @@ pub trait MusicInject: Send + Sync {
 pub struct MusicInjector {
     /// injector request namespace, will use as only key in request
     pub namespace: String,
+    /// cn namespace, will use at the place where need cn translate.
+    pub cn_namespace: String,
     pub request_interceptor: Box<dyn MusicInject>,
 }
 
 impl MusicInjector {
-    pub fn new(namespace: String, request_interceptor: Box<dyn MusicInject>) -> Self {
+    pub fn new(
+        namespace: String,
+        cn_namespace: String,
+        request_interceptor: Box<dyn MusicInject>,
+    ) -> Self {
         Self {
             namespace,
+            cn_namespace,
             request_interceptor,
         }
     }
