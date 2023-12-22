@@ -4,7 +4,6 @@
  * And template shouldn't appear in production.
  */
 use async_trait::async_trait;
-use warp::reject::Rejection;
 
 use crate::global_struct::{
     music_injector::{MusicInject, MusicInjector},
@@ -13,9 +12,9 @@ use crate::global_struct::{
 
 fn get_sh() -> Song {
     Song {
-        cid: "self:114514".to_string(),
+        cid: "template:114514".to_string(),
         name: "Snow Halation".to_string(),
-        album_cid: "self:1919810".to_string(),
+        album_cid: "template:1919810".to_string(),
         source_url: "http://127.0.0.1:8080/μ's - Snow Halation.flac".to_string(),
         artists: vec![
             "μ's".to_string(),
@@ -29,9 +28,9 @@ fn get_sh() -> Song {
 
 fn get_bk() -> Song {
     Song {
-        cid: "self:114515".to_string(),
+        cid: "template:114515".to_string(),
         name: "僕らのLIVE 君とのLIFE".to_string(),
-        album_cid: "self:1919810".to_string(),
+        album_cid: "template:1919810".to_string(),
         source_url: "http://127.0.0.1:8080/μ's - 僕らのLIVE 君とのLIFE.flac".to_string(),
         artists: vec![
             "μ's".to_string(),
@@ -53,23 +52,33 @@ impl TemplateInjector {
 #[async_trait]
 impl MusicInject for TemplateInjector {
     async fn get_albums(&self) -> Vec<BriefAlbum> {
-        vec![]
+        vec![BriefAlbum {
+            cid: "template:1919810".to_string(),
+            name: "Snow Halation".to_string(),
+            cover_url: "https://p1.music.126.net/h3X24IkUDnSMCQM60L5n0g==/109951168958569548.jpg"
+                .to_string(),
+            artistes: vec!["μ's".to_string()],
+        }]
     }
 
     async fn get_songs(&self) -> Vec<BriefSong> {
-        vec![]
+        vec![BriefSong {
+            cid: "template:114514".to_string(),
+            name: "Snow Halation".to_string(),
+            album_cid: "template:1919810".to_string(),
+            artists: vec!["μ's".to_string()],
+        }]
     }
 
     async fn get_song(&self, cid: String) -> Result<Song, reqwest::Error> {
         Ok(match cid.as_str() {
-            "self:114514" => get_sh(),
-            _ => get_bk(),
+            _ => get_sh(),
         })
     }
 
     async fn get_album(&self, _cid: String) -> Result<Album, reqwest::Error> {
         Ok(Album {
-            cid: "self:1919810".to_string(),
+            cid: "template:1919810".to_string(),
             name: "Snow Halation".to_string(),
             intro: "首张嵌入式专辑测试数据".to_string(),
             belong: "μ's".to_string(),
@@ -82,7 +91,7 @@ impl MusicInject for TemplateInjector {
                 "μ's".to_string(),
                 "LoveLive School Idol Project!".to_string(),
             ],
-            songs: vec![get_sh().into(), get_bk().into()],
+            songs: vec![get_sh().into()],
         })
     }
 }

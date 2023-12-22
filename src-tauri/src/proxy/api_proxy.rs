@@ -35,8 +35,8 @@ impl ApiProxy {
     #[tokio::main]
     pub async fn new(port: u16, cdn_port: u16, filter_rules: FilterType) -> Self {
         let s = vec![
-            siren_injector::get_injector(),
             template_injector::get_injector(),
+            siren_injector::get_injector(),
         ];
         let mut injector_map: HashMap<String, MusicInjector> = HashMap::new();
         // run only once

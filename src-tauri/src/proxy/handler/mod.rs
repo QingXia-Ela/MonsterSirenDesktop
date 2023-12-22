@@ -6,6 +6,7 @@ use crate::{
         siren::{response_msg::ResponseMsg, Album, BriefAlbum, BriefSong, Song},
     },
     global_utils::decode_brotli,
+    Logger,
 };
 use lazy_static::lazy_static;
 use regex::Regex;
@@ -34,36 +35,53 @@ fn parse_plugin_request_error_2_warp_rejection(err: PluginRequestError) -> warp:
     warp::reject::custom(err)
 }
 
+/// Get response from string
+///
+/// Add `Content-Length: {string len}`, `Content-Type: application/json` and `Access-Control-Allow-Origin: *`
 fn get_response_from_string(s: String) -> Response {
-    Response::new("".into())
-    // Re
+    let len = s.len() as u64;
+    let mut response = Response::new(s.into());
+    let res_header_map = response.headers_mut();
+    res_header_map.insert(CONTENT_LENGTH, len.into());
+    res_header_map.insert(ACCESS_CONTROL_ALLOW_ORIGIN, "*".parse().unwrap());
+    res_header_map.insert(CONTENT_TYPE, "application/json".parse().unwrap());
+
+    response
 }
 
 /// Get all songs from injector, and return json string
-async fn get_songs_from_injector_map(injector_map: Arc<HashMap<String, MusicInjector>>) -> String {
+async fn get_songs_from_injector_map(
+    injector_map: Arc<HashMap<String, MusicInjector>>,
+) -> Response {
     let mut data: Vec<BriefSong> = vec![];
     for injector in injector_map.values() {
         for s in injector.request_interceptor.get_songs().await {
             data.push(s);
         }
     }
-    serde_json::to_string(&ResponseMsg::<Vec<BriefSong>>::new(0, "".to_string(), data)).unwrap()
+    // call unwrap because we ensure data is not empty
+    let s = serde_json::to_string(&ResponseMsg::<Vec<BriefSong>>::new(0, "".to_string(), data))
+        .unwrap();
+    get_response_from_string(s)
 }
 
 /// Get all albums from injector, and return json string
-async fn get_albums_from_injector_map(injector_map: Arc<HashMap<String, MusicInjector>>) -> String {
+async fn get_albums_from_injector_map(
+    injector_map: Arc<HashMap<String, MusicInjector>>,
+) -> Response {
     let mut data: Vec<BriefAlbum> = vec![];
     for injector in injector_map.values() {
         for s in injector.request_interceptor.get_albums().await {
             data.push(s);
         }
     }
-    serde_json::to_string(&ResponseMsg::<Vec<BriefAlbum>>::new(
+    let s = serde_json::to_string(&ResponseMsg::<Vec<BriefAlbum>>::new(
         0,
         "".to_string(),
         data,
     ))
-    .unwrap()
+    .unwrap();
+    get_response_from_string(s)
 }
 
 /// Handle api request and use plugin to modify response.
@@ -80,6 +98,7 @@ pub async fn handle_request_with_plugin(
     injector_map: Arc<HashMap<String, MusicInjector>>,
 ) -> Result<impl warp::Reply, warp::Rejection> {
     let p = path.as_str();
+    Logger::info(format!("request path: {}", p).as_str());
     // song
     if let Some(caps) = SONG_REGEX.captures(p) {
         let namesp = &caps["namespace"];

@@ -11,6 +11,7 @@ use reqwest::{
     header::{HeaderMap, *},
     Client,
 };
+use serde::{Deserialize, Serialize};
 use warp::{reject::Rejection, reply::Response};
 type FilterType = Vec<[&'static str; 2]>;
 
@@ -31,6 +32,12 @@ fn change_body(body: String, filter_rules: FilterType, port: u16, cdn_port: u16)
         basic = basic.replace(find, replace);
     }
     basic
+}
+
+#[derive(Serialize, Deserialize)]
+struct SongsReponse<T> {
+    list: Vec<T>,
+    autoplay: Option<bool>,
 }
 
 struct SirenInjector {
@@ -130,8 +137,9 @@ impl MusicInject for SirenInjector {
     async fn get_songs(&self) -> Vec<BriefSong> {
         let res = self.request_and_get_response(&SONGS_URL.to_string()).await;
         if let Ok(res) = res {
-            let res: ResponseMsg<Vec<BriefSong>> = serde_json::from_str(&res.as_str()).unwrap();
-            return res.data;
+            let res: ResponseMsg<SongsReponse<BriefSong>> =
+                serde_json::from_str(&res.as_str()).unwrap();
+            return res.data.list;
         }
         vec![]
     }
