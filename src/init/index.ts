@@ -1,5 +1,5 @@
-import './vanilla/SongsUpdate'
-import './vanilla/SystemTrayTooltipChange'
+import './vanilla/SongsUpdate';
+import './vanilla/SystemTrayTooltipChange';
 
 // init
 if (!window.siren_config) {

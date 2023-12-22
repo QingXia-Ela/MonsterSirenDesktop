@@ -6,7 +6,7 @@ import 'tdesign-react/es/style/index.css';
 import $settingAdvancement from './store/models/settings/advancement';
 
 // init
-import './init'
+import './init';
 // event listen
 import './global_event';
 // optimize
