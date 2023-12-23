@@ -6,6 +6,7 @@
 extern crate lazy_static;
 #[allow(non_snake_case)]
 mod Logger;
+mod client_env;
 mod client_path;
 mod config;
 pub mod constants;
