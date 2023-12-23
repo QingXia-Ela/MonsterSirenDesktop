@@ -6,6 +6,7 @@
 extern crate lazy_static;
 #[allow(non_snake_case)]
 mod Logger;
+mod client_path;
 mod config;
 pub mod constants;
 mod error;
@@ -18,6 +19,8 @@ mod server;
 mod system_tray_menu;
 mod tauri_commands;
 mod vanilla_injector;
+
+use std::fs;
 
 use proxy::{api_proxy::spawn_api_proxy, cdn_proxy::spawn_cdn_proxy};
 use server::spanw_file_server;
