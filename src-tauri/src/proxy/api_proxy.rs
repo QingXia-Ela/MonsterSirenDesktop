@@ -15,7 +15,12 @@ use super::handler::handle_request_with_plugin;
 
 type FilterType = Vec<[&'static str; 2]>;
 
-pub struct ApiProxy;
+pub struct ApiProxy {
+    port: u16,
+    cdn_port: u16,
+    filter_rules: FilterType,
+    injector: Arc<IndexMap<String, MusicInjector>>,
+}
 
 impl ApiProxy {
     /// Create a new api proxy server
@@ -43,24 +48,38 @@ impl ApiProxy {
         }
 
         let arc_map = Arc::new(injector_map);
+        let cloned_map = arc_map.clone();
+
+        ApiProxy {
+            port,
+            cdn_port,
+            filter_rules,
+            injector: cloned_map,
+        }
+    }
+
+    /// Run the api proxy server
+    ///
+    /// **Warning**: This method will block the current thread and consume itself.
+    #[tokio::main]
+    pub async fn run(self) {
         let proxy = warp::path::full()
             .and(warp::header::headers_cloned())
             // todo!: move to handle with plugin
             .and_then(move |p, r| {
                 handle_request_with_plugin(
-                    port,
-                    cdn_port,
+                    self.port,
+                    self.cdn_port,
                     p,
                     r,
-                    filter_rules.clone(),
-                    arc_map.clone(),
+                    self.filter_rules.clone(),
+                    self.injector.clone(),
                 )
             });
         block_on(async {
-            let addr: SocketAddrV4 = format!("127.0.0.1:{}", port).parse().unwrap();
+            let addr: SocketAddrV4 = format!("127.0.0.1:{}", self.port).parse().unwrap();
             warp::serve(proxy).run(addr).await;
         });
-        ApiProxy {}
     }
 }
 
@@ -86,6 +105,7 @@ pub fn get_basic_filter_rules(mut settings: Vec<ApiProxyRules>) -> FilterType {
 
 pub fn spawn_api_proxy() -> JoinHandle<()> {
     thread::spawn(|| {
-        ApiProxy::new(11452, 11451, vec![]);
+        let p = ApiProxy::new(11452, 11451, vec![]);
+        p.run();
     })
 }

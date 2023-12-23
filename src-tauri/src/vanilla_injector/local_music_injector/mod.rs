@@ -4,6 +4,9 @@ use crate::global_struct::{
 };
 use async_trait::async_trait;
 
+/// Injector for local music.
+///
+/// Download is not provide and it control by frontend.
 struct LocalMusicInjector {}
 
 impl LocalMusicInjector {
@@ -14,7 +17,7 @@ impl LocalMusicInjector {
 
 #[async_trait]
 impl MusicInject for LocalMusicInjector {
-    /// This get albums will return select scan music folders, or nothing, it control by user config.
+    // This get albums will return select scan music folders, or nothing, it control by user config.
     async fn get_albums(&self) -> Vec<BriefAlbum> {
         todo!()
     }
