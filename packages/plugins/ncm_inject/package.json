@@ -6,6 +6,7 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.cjs",
     "build": "node build.js"
   },
   "keywords": [],
@@ -14,5 +15,8 @@
   "dependencies": {
     "NeteaseCloudMusicApi": "^4.14.0",
     "esbuild": "^0.19.0"
+  },
+  "devDependencies": {
+    "@deno/shim-deno": "^0.17.0"
   }
 }

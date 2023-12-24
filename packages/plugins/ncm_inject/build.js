@@ -1,7 +1,7 @@
 import * as esbuild from 'esbuild'
 
 await esbuild.build({
-  entryPoints: ['./index.js'],
+  entryPoints: ['./index.cjs'],
   outfile: './dist/bundle.cjs',
   bundle: true,
   platform: 'node',

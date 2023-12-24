@@ -204,6 +204,10 @@ importers:
       esbuild:
         specifier: ^0.19.0
         version: registry.npmmirror.com/esbuild@0.19.0
+    devDependencies:
+      '@deno/shim-deno':
+        specifier: ^0.17.0
+        version: registry.npmmirror.com/@deno/shim-deno@0.17.0
 
 packages:
 
@@ -4607,6 +4611,21 @@ packages:
     requiresBuild: true
     dev: true
     optional: true
+
+  registry.npmmirror.com/@deno/shim-deno-test@0.5.0:
+    resolution: {integrity: sha512-4nMhecpGlPi0cSzT67L+Tm+GOJqvuk8gqHBziqcUQOarnuIax1z96/gJHCSIz2Z0zhxE6Rzwb3IZXPtFh51j+w==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@deno/shim-deno-test/-/shim-deno-test-0.5.0.tgz}
+    name: '@deno/shim-deno-test'
+    version: 0.5.0
+    dev: true
+
+  registry.npmmirror.com/@deno/shim-deno@0.17.0:
+    resolution: {integrity: sha512-+FzsP65eehAgTQdzt1izLEV17ePCZqHxDQqRDbpRc1yJVYtDI2MvbRq5DvOj90uRt6zKn9qtWpEueDqG1QORhQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@deno/shim-deno/-/shim-deno-0.17.0.tgz}
+    name: '@deno/shim-deno'
+    version: 0.17.0
+    dependencies:
+      '@deno/shim-deno-test': registry.npmmirror.com/@deno/shim-deno-test@0.5.0
+      which: registry.npmmirror.com/which@4.0.0
+    dev: true
 
   registry.npmmirror.com/@discoveryjs/json-ext@0.5.7:
     resolution: {integrity: sha512-dBVuXR082gk3jsFp7Rd/JI4kytwGHecnCoTtXFb7DB6CNHp4rg5k1bhg0nWdLGLnOV71lmDzGQaLMy8iPLY0pw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@discoveryjs/json-ext/-/json-ext-0.5.7.tgz}
@@ -12184,6 +12203,13 @@ packages:
     version: 2.0.0
     dev: true
 
+  registry.npmmirror.com/isexe@3.1.1:
+    resolution: {integrity: sha512-LpB/54B+/2J5hqQ7imZHfdU31OlgQqx7ZicVlkm9kzg9/w8GKLEcFfJl/t7DCEDueOyBAD6zCCwTO6Fzs0NoEQ==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/isexe/-/isexe-3.1.1.tgz}
+    name: isexe
+    version: 3.1.1
+    engines: {node: '>=16'}
+    dev: true
+
   registry.npmmirror.com/isobject@2.1.0:
     resolution: {integrity: sha512-+OUdGJlgjOBZDfxnDjYYG6zp487z0JGNQq3cYQYg5f5hKR+syHMsaztzGeml/4kGG55CSpKSpWTY+jYGgsHLgA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/isobject/-/isobject-2.1.0.tgz}
     name: isobject
@@ -16552,6 +16578,16 @@ packages:
     hasBin: true
     dependencies:
       isexe: registry.npmmirror.com/isexe@2.0.0
+    dev: true
+
+  registry.npmmirror.com/which@4.0.0:
+    resolution: {integrity: sha512-GlaYyEb07DPxYCKhKzplCWBJtvxZcZMrL+4UkrTSJHHPyZU4mYYTv3qaOe77H7EODLSSopAUFAc6W8U4yqvscg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/which/-/which-4.0.0.tgz}
+    name: which
+    version: 4.0.0
+    engines: {node: ^16.13.0 || >=18.0.0}
+    hasBin: true
+    dependencies:
+      isexe: registry.npmmirror.com/isexe@3.1.1
     dev: true
 
   registry.npmmirror.com/wordwrap@1.0.0:
