@@ -43,9 +43,9 @@ fn init(app: &mut App) {
     );
     let mut main_window = app.get_window("main").unwrap();
     config::init_window_from_config(&mut main_window, &app_config);
-    spawn_cdn_proxy(&app_config);
-    spawn_api_proxy();
     spanw_file_server();
+    spawn_cdn_proxy(&app_config);
+    spawn_api_proxy(app);
 }
 
 fn main() {

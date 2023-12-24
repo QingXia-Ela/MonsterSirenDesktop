@@ -1,9 +1,9 @@
-use std::collections::HashMap;
 use crate::global_struct::{
     music_injector::{MusicInject, MusicInjector},
     siren::{Album, BriefAlbum, BriefSong, Song},
 };
 use async_trait::async_trait;
+use std::collections::HashMap;
 
 /// Injector for local music.
 ///
@@ -12,13 +12,13 @@ use async_trait::async_trait;
 /// Use music file path as song's id. (Most easy way to generate id :)
 struct LocalMusicInjector {
     /// Local music file index
-    index: HashMap<String, Vec<String>>
+    index: HashMap<String, Vec<String>>,
 }
 
 impl LocalMusicInjector {
     pub fn new() -> Self {
         Self {
-            index: HashMap::new()
+            index: HashMap::new(),
         }
     }
 
@@ -51,12 +51,14 @@ pub fn get_injector() -> MusicInjector {
     let mut local_inject = Box::new(LocalMusicInjector::new());
     local_inject.update();
 
-    let music_inject = MusicInjector::new(
-            "local".to_string(),
-             String::from("本地音乐"),
-             String::from("gray"),
-             Box::new(local_inject)
+    let mut music_inject = MusicInjector::new(
+        "local".to_string(),
+        String::from("本地音乐"),
+        String::from("gray"),
+        local_inject,
     );
+
+    music_inject.on_init(|app| {});
 
     music_inject
 }

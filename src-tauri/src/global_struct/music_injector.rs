@@ -31,7 +31,7 @@ pub struct MusicInjector {
     /// it will use in css directly
     pub color: String,
     pub request_interceptor: Box<dyn MusicInject>,
-    pub init_fn: Option<dyn FnOnce(&mut App)>
+    pub init_fn: Option<Box<dyn Fn(tauri::AppHandle) + Send + Sync>>,
 }
 
 impl MusicInjector {
@@ -46,7 +46,7 @@ impl MusicInjector {
             cn_namespace,
             color,
             request_interceptor,
-            init_fn: None
+            init_fn: None,
         }
     }
 
@@ -61,9 +61,9 @@ impl MusicInjector {
     /// This hook only apply one function.
     pub fn on_init<T>(&mut self, func: T) -> &Self
     where
-        T: FnOnce(&mut App)
+        T: Fn(tauri::AppHandle) + Send + Sync + 'static,
     {
-        self.init_fn = func;
+        self.init_fn = Some(Box::new(func));
         self
     }
 }

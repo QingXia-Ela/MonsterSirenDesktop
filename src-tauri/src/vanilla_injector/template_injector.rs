@@ -93,10 +93,10 @@ impl MusicInject for TemplateInjector {
 }
 
 pub fn get_injector() -> MusicInjector {
-    MusicInjector {
-        namespace: "template".to_string(),
-        cn_namespace: "模板".to_string(),
-        color: "#000000".to_string(),
-        request_interceptor: Box::new(TemplateInjector::new()),
-    }
+    MusicInjector::new(
+        "template".to_string(),
+        "模板".to_string(),
+        "#000000".to_string(),
+        Box::new(TemplateInjector::new()),
+    )
 }

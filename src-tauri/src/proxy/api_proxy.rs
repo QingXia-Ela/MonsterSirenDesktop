@@ -4,6 +4,7 @@ use indexmap::IndexMap;
 use std::sync::Arc;
 use std::{collections::HashSet, thread::JoinHandle};
 use std::{fmt::Debug, net::SocketAddrV4, thread};
+use tauri::App;
 use warp::Filter;
 
 use crate::{
@@ -36,7 +37,12 @@ impl ApiProxy {
     /// })
     /// `
     #[tokio::main]
-    pub async fn new(port: u16, cdn_port: u16, filter_rules: FilterType) -> Self {
+    pub async fn new(
+        port: u16,
+        cdn_port: u16,
+        filter_rules: FilterType,
+        app: tauri::AppHandle,
+    ) -> Self {
         let s = vec![
             template_injector::get_injector(),
             siren_injector::get_injector(),
@@ -44,6 +50,9 @@ impl ApiProxy {
         let mut injector_map: IndexMap<String, MusicInjector> = IndexMap::new();
         // run only once
         for m in s.into_iter() {
+            if let Some(f) = &m.init_fn {
+                f(app.clone());
+            }
             injector_map.insert(m.namespace.clone(), m);
         }
 
@@ -103,9 +112,10 @@ pub fn get_basic_filter_rules(mut settings: Vec<ApiProxyRules>) -> FilterType {
     rules
 }
 
-pub fn spawn_api_proxy() -> JoinHandle<()> {
-    thread::spawn(|| {
-        let p = ApiProxy::new(11452, 11451, vec![]);
+pub fn spawn_api_proxy(app: &mut App) -> JoinHandle<()> {
+    let handle_clone = app.handle().clone();
+    thread::spawn(move || {
+        let p = ApiProxy::new(11452, 11451, vec![], handle_clone);
         p.run();
     })
 }
