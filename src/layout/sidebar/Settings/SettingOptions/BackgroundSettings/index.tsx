@@ -13,7 +13,7 @@ import Button from '@/components/Button';
 import OptionMargin from '../../components/OptionMargin';
 import PageStyleChange from './components/PageStyleChange';
 
-interface BackgroundSettingsProps { }
+interface BackgroundSettingsProps {}
 
 function getEncodedUrl(url: string) {
   return encodeURI(`http://localhost:11453/?path=${url}`);

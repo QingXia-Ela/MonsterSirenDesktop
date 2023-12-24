@@ -7,7 +7,7 @@ import SubTitle from '../../components/SubTitle';
 import Button from '@/components/Button';
 import { open } from '@tauri-apps/api/dialog';
 
-interface DownloadSettingsProps { }
+interface DownloadSettingsProps {}
 
 const DownloadSettings: FunctionComponent<DownloadSettingsProps> = () => {
   const { path } = useStore($settingDownload);

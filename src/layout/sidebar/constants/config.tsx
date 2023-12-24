@@ -1,8 +1,9 @@
 import { FunctionComponent } from 'react';
-import BasicSettings from '../Settings/BasicSettings';
-import BackgroundSettings from '../Settings/BackgroundSettings';
-import AdvancementSettings from '../Settings/AdvancementSettings';
-import DownloadSettings from '../Settings/DownloadSettings';
+import BasicSettings from '../Settings/SettingOptions/BasicSettings';
+import BackgroundSettings from '../Settings/SettingOptions/BackgroundSettings';
+import AdvancementSettings from '../Settings/SettingOptions/AdvancementSettings';
+import DownloadSettings from '../Settings/SettingOptions/DownloadSettings';
+import AboutSettings from '../Settings/SettingOptions/AboutSettings';
 
 export enum OptionType {
   BasicSettings,
@@ -53,6 +54,6 @@ export const OptionList: Array<SingleOptionItemProps> = [
     title: '关于',
     position: 'bottom',
     value: OptionType.About,
-    rightComponent: () => <div>关于</div>,
+    rightComponent: AboutSettings,
   },
 ];

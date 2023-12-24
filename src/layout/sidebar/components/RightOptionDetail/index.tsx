@@ -1,6 +1,6 @@
 import { FunctionComponent, PropsWithChildren } from 'react';
 import { OptionType, SingleOptionItemProps } from '../../constants/config';
-import SingleFullSettingsLayout from './components/Layout/SingleFullSettingsLayout';
+import SingleFullSettingsLayout from '../../Settings/components/Layout/SingleFullSettingsLayout';
 
 interface RightOptionDetailProps extends PropsWithChildren {
   value: OptionType;

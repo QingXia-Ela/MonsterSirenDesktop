@@ -7,6 +7,7 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
+    "start": "tauri dev",
     "tauri": "tauri dev",
     "tauri:build": "tauri build",
     "lint": "npx prettier ./src --write",
