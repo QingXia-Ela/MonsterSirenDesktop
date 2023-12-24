@@ -1,6 +1,6 @@
 import Button from '@/components/Button';
 import { FunctionComponent } from 'react';
-import SubTitle from '../components/SubTitle';
+import SubTitle from '../../components/SubTitle';
 import StyledTooltip from '@/components/mui/Tooltip';
 import { invoke } from '@tauri-apps/api';
 import { useStore } from '@nanostores/react';

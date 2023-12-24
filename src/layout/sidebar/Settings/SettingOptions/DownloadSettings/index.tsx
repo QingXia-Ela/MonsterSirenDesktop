@@ -3,7 +3,7 @@ import $settingDownload, {
 } from '@/store/models/settings/download';
 import { useStore } from '@nanostores/react';
 import { FunctionComponent } from 'react';
-import SubTitle from '../components/SubTitle';
+import SubTitle from '../../components/SubTitle';
 import Button from '@/components/Button';
 import { open } from '@tauri-apps/api/dialog';
 

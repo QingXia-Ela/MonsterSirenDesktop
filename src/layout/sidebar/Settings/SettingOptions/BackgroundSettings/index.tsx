@@ -1,5 +1,5 @@
 import { FunctionComponent, useEffect, useState } from 'react';
-import SubTitle from '../components/SubTitle';
+import SubTitle from '../../components/SubTitle';
 import { open } from '@tauri-apps/api/dialog';
 import { useStore } from '@nanostores/react';
 import $settingBackground, {
@@ -10,7 +10,7 @@ import HoverWhiteBg from '@/components/HoverWhiteBg';
 import Checkbox from '@/components/Checkbox';
 import DisabledMark from '@/components/DisabledMark';
 import Button from '@/components/Button';
-import OptionMargin from '../components/OptionMargin';
+import OptionMargin from '../../components/OptionMargin';
 import PageStyleChange from './components/PageStyleChange';
 
 interface BackgroundSettingsProps { }
