@@ -8,10 +8,10 @@ import { useStore } from '@nanostores/react';
 import Checkbox from '@/components/Checkbox';
 import StyledTooltip from '@/components/mui/Tooltip';
 import HoverWhiteBg from '@/components/HoverWhiteBg';
-import SubTitle from '../../components/SubTitle';
+import SubTitle from '../components/SubTitle';
 import Select from '@/components/Select';
 
-interface BasicSettingsProps {}
+interface BasicSettingsProps { }
 
 const SELECT_OPTIONS = CloseModeChooses.map(({ title, value }) => ({
   value,

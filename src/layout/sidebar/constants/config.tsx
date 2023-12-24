@@ -1,8 +1,8 @@
 import { FunctionComponent } from 'react';
-import BasicSettings from '../components/RightOptionDetail/Settings/BasicSettings';
-import BackgroundSettings from '../components/RightOptionDetail/Settings/BackgroundSettings';
-import AdvancementSettings from '../components/RightOptionDetail/Settings/AdvancementSettings';
-import DownloadSettings from '../components/RightOptionDetail/Settings/DownloadSettings';
+import BasicSettings from '../Settings/BasicSettings';
+import BackgroundSettings from '../Settings/BackgroundSettings';
+import AdvancementSettings from '../Settings/AdvancementSettings';
+import DownloadSettings from '../Settings/DownloadSettings';
 
 export enum OptionType {
   BasicSettings,

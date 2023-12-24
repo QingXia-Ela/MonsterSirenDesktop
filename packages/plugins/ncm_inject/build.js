@@ -1,5 +1,6 @@
 import * as esbuild from 'esbuild'
 
+// bundle node
 await esbuild.build({
   entryPoints: ['./index.cjs'],
   outfile: './dist/bundle.cjs',
@@ -12,3 +13,5 @@ await esbuild.build({
   },
   minify: true
 })
+
+// bundle browser
