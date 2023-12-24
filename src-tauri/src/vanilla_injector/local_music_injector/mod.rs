@@ -1,3 +1,4 @@
+use std::collections::HashMap;
 use crate::global_struct::{
     music_injector::{MusicInject, MusicInjector},
     siren::{Album, BriefAlbum, BriefSong, Song},
@@ -7,12 +8,22 @@ use async_trait::async_trait;
 /// Injector for local music.
 ///
 /// Download is not provide and it control by frontend.
-struct LocalMusicInjector {}
+///
+/// Use music file path as song's id. (Most easy way to generate id :)
+struct LocalMusicInjector {
+    /// Local music file index
+    index: HashMap<String, Vec<String>>
+}
 
 impl LocalMusicInjector {
     pub fn new() -> Self {
-        Self {}
+        Self {
+            index: HashMap::new()
+        }
     }
+
+    // update song and folder info
+    pub fn update(&mut self) {}
 }
 
 #[async_trait]
@@ -22,9 +33,9 @@ impl MusicInject for LocalMusicInjector {
         todo!()
     }
 
-    // This get songs will return select scan music files.
+    // This get songs will return empty array
     async fn get_songs(&self) -> Vec<BriefSong> {
-        todo!()
+        vec![]
     }
 
     async fn get_song(&self, cid: String) -> Result<Song, reqwest::Error> {
@@ -37,10 +48,15 @@ impl MusicInject for LocalMusicInjector {
 }
 
 pub fn get_injector() -> MusicInjector {
-    MusicInjector {
-        namespace: "local".to_string(),
-        cn_namespace: String::from("本地音乐"),
-        color: String::from("gray"),
-        request_interceptor: Box::new(LocalMusicInjector::new()),
-    }
+    let mut local_inject = Box::new(LocalMusicInjector::new());
+    local_inject.update();
+
+    let music_inject = MusicInjector::new(
+            "local".to_string(),
+             String::from("本地音乐"),
+             String::from("gray"),
+             Box::new(local_inject)
+    );
+
+    music_inject
 }

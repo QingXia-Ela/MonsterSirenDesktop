@@ -1,5 +1,6 @@
 use super::siren::{Album, BriefAlbum, BriefSong, Song};
 use async_trait::async_trait;
+use tauri::App;
 
 /// Music Inject trait
 /// Use it to create a music injector
@@ -30,6 +31,7 @@ pub struct MusicInjector {
     /// it will use in css directly
     pub color: String,
     pub request_interceptor: Box<dyn MusicInject>,
+    pub init_fn: Option<dyn FnOnce(&mut App)>
 }
 
 impl MusicInjector {
@@ -44,10 +46,24 @@ impl MusicInjector {
             cn_namespace,
             color,
             request_interceptor,
+            init_fn: None
         }
     }
 
     pub fn get_namespace(&self) -> &String {
         &self.namespace
+    }
+
+    /// The app init hook.
+    ///
+    /// Call when app start running.
+    ///
+    /// This hook only apply one function.
+    pub fn on_init<T>(&mut self, func: T) -> &Self
+    where
+        T: FnOnce(&mut App)
+    {
+        self.init_fn = func;
+        self
     }
 }
