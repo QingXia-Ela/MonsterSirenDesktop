@@ -1,5 +1,8 @@
+use std::sync::Arc;
+
 use super::siren::{Album, BriefAlbum, BriefSong, Song};
 use async_trait::async_trait;
+use futures::lock::Mutex;
 use tauri::App;
 
 /// Music Inject trait

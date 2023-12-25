@@ -3,7 +3,31 @@ use crate::global_struct::{
     siren::{Album, BriefAlbum, BriefSong, Song},
 };
 use async_trait::async_trait;
-use std::collections::HashMap;
+use futures::lock::Mutex;
+use std::{borrow::BorrowMut, collections::HashMap, sync::Arc};
+
+type IndexDataType = Arc<Mutex<HashMap<String, Vec<String>>>>;
+
+/// This manager is use to modify data only.
+struct LocalMusicManager {
+    /// Index need to sync with Injector
+    index: IndexDataType,
+}
+
+impl LocalMusicManager {
+    pub fn new(index: IndexDataType) -> Self {
+        LocalMusicManager { index }
+    }
+
+    // update song and folder info
+    pub fn update(&mut self) {
+        //     test
+        self.index
+            .try_lock()
+            .unwrap()
+            .insert(String::from("test"), vec![]);
+    }
+}
 
 /// Injector for local music.
 ///
@@ -12,18 +36,13 @@ use std::collections::HashMap;
 /// Use music file path as song's id. (Most easy way to generate id :)
 struct LocalMusicInjector {
     /// Local music file index
-    index: HashMap<String, Vec<String>>,
+    index: IndexDataType,
 }
 
 impl LocalMusicInjector {
-    pub fn new() -> Self {
-        Self {
-            index: HashMap::new(),
-        }
+    pub fn new(index: Arc<Mutex<HashMap<String, Vec<String>>>>) -> Self {
+        Self { index }
     }
-
-    // update song and folder info
-    pub fn update(&mut self) {}
 }
 
 #[async_trait]
@@ -33,7 +52,7 @@ impl MusicInject for LocalMusicInjector {
         todo!()
     }
 
-    // This get songs will return empty array
+    // This get songs will return empty array because we don't know how many song it provide.
     async fn get_songs(&self) -> Vec<BriefSong> {
         vec![]
     }
@@ -48,8 +67,8 @@ impl MusicInject for LocalMusicInjector {
 }
 
 pub fn get_injector() -> MusicInjector {
-    let mut local_inject = Box::new(LocalMusicInjector::new());
-    local_inject.update();
+    let index_data: IndexDataType = Arc::new(Mutex::new(HashMap::new()));
+    let local_inject = Box::new(LocalMusicInjector::new(Arc::clone(&index_data)));
 
     let mut music_inject = MusicInjector::new(
         "local".to_string(),
@@ -58,7 +77,12 @@ pub fn get_injector() -> MusicInjector {
         local_inject,
     );
 
-    music_inject.on_init(|app| {});
+    music_inject.on_init(move |app| {
+        let mut manager = LocalMusicManager::new(Arc::clone(&index_data));
+        manager.update();
+
+        // add some event listener
+    });
 
     music_inject
 }

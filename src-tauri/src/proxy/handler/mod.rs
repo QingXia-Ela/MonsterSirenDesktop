@@ -59,6 +59,7 @@ async fn get_songs_from_injector_map(
 ) -> Response {
     let mut data: Vec<BriefSong> = vec![];
     for injector in injector_map.values() {
+        // todo!: match lock
         for s in injector.request_interceptor.get_songs().await {
             data.push(s);
         }
@@ -80,6 +81,7 @@ async fn get_albums_from_injector_map(
 ) -> Response {
     let mut data: Vec<BriefAlbum> = vec![];
     for injector in injector_map.values() {
+        // todo!: match lock
         for s in injector.request_interceptor.get_albums().await {
             data.push(s);
         }
@@ -113,6 +115,7 @@ pub async fn handle_request_with_plugin(
         let namesp = &caps["namespace"];
         let id = &caps["id"];
         if let Some(injector) = injector_map.get(namesp) {
+            // todo!: match lock
             let res = injector.request_interceptor.get_song(id.to_string()).await;
             match res {
                 Ok(r) => {
@@ -136,6 +139,7 @@ pub async fn handle_request_with_plugin(
         let namesp = &caps["namespace"];
         let id = &caps["id"];
         if let Some(injector) = injector_map.get(namesp) {
+            // todo!: match lock
             let res = injector.request_interceptor.get_album(id.to_string()).await;
             match res {
                 Ok(r) => {
