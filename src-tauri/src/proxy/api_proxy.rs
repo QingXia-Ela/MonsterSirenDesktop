@@ -48,7 +48,7 @@ impl ApiProxy {
             siren_injector::get_injector(),
         ];
         let mut injector_map: IndexMap<String, MusicInjector> = IndexMap::new();
-        // run only once
+        // init fn run only once
         for m in s.into_iter() {
             if let Some(f) = &m.init_fn {
                 f(app.clone());
