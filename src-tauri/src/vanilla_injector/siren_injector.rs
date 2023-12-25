@@ -1,5 +1,6 @@
 use crate::{
     constants::SIREN_WEBSITE,
+    error::PluginRequestError,
     global_struct::{
         music_injector::{MusicInject, MusicInjector},
         siren::{response_msg::ResponseMsg, Album, BriefAlbum, BriefSong, SirenAlbumDetail, Song},
@@ -144,7 +145,7 @@ impl MusicInject for SirenInjector {
         vec![]
     }
 
-    async fn get_song(&self, cid: String) -> Result<Song, reqwest::Error> {
+    async fn get_song(&self, cid: String) -> Result<Song, PluginRequestError> {
         let res = self
             .request_and_get_response(&format!("{}/api/song/{}", SIREN_WEBSITE, cid))
             .await?;
@@ -153,7 +154,7 @@ impl MusicInject for SirenInjector {
         Ok(res.data)
     }
 
-    async fn get_album(&self, cid: String) -> Result<Album, reqwest::Error> {
+    async fn get_album(&self, cid: String) -> Result<Album, PluginRequestError> {
         let res = self
             .request_and_get_response(&format!("{}/api/album/{}/detail", SIREN_WEBSITE, cid))
             .await?;

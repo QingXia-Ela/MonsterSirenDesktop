@@ -5,9 +5,12 @@
  */
 use async_trait::async_trait;
 
-use crate::global_struct::{
-    music_injector::{MusicInject, MusicInjector},
-    siren::{Album, BriefAlbum, BriefSong, Song},
+use crate::{
+    error::PluginRequestError,
+    global_struct::{
+        music_injector::{MusicInject, MusicInjector},
+        siren::{Album, BriefAlbum, BriefSong, Song},
+    },
 };
 
 fn get_sh() -> Song {
@@ -65,14 +68,14 @@ impl MusicInject for TemplateInjector {
         vec![get_sh().into(), get_bk().into()]
     }
 
-    async fn get_song(&self, cid: String) -> Result<Song, reqwest::Error> {
+    async fn get_song(&self, cid: String) -> Result<Song, PluginRequestError> {
         Ok(match cid.as_str() {
             "114514" => get_sh(),
             _ => get_bk(),
         })
     }
 
-    async fn get_album(&self, _cid: String) -> Result<Album, reqwest::Error> {
+    async fn get_album(&self, _cid: String) -> Result<Album, PluginRequestError> {
         Ok(Album {
             cid: "template:1919810".to_string(),
             name: "Snow Halation".to_string(),

@@ -1,8 +1,11 @@
-use crate::global_struct::{
-    music_injector::{MusicInject, MusicInjector},
-    siren::{Album, BriefAlbum, BriefSong, Song},
-};
 use crate::global_utils::get_main_window;
+use crate::{
+    error::PluginRequestError,
+    global_struct::{
+        music_injector::{MusicInject, MusicInjector},
+        siren::{Album, BriefAlbum, BriefSong, Song},
+    },
+};
 use async_trait::async_trait;
 use futures::lock::Mutex;
 use indexmap::IndexMap;
@@ -174,8 +177,17 @@ impl LocalMusicInjector {
 impl MusicInject for LocalMusicInjector {
     // This get albums will return select scan music folders, or nothing, it control by user config.
     async fn get_albums(&self) -> Vec<BriefAlbum> {
-        // self.index.lock().await
-        todo!()
+        let mut res = vec![];
+        for path in self.index.lock().await.keys() {
+            res.push(BriefAlbum {
+                cid: path.clone(),
+                name: path.clone(),
+                // todo!: add default cover path
+                cover_url: String::new(),
+                artistes: vec![],
+            })
+        }
+        res
     }
 
     // This get songs will return empty array because we don't know how many song it provide.
@@ -184,12 +196,25 @@ impl MusicInject for LocalMusicInjector {
         vec![]
     }
 
-    async fn get_song(&self, cid: String) -> Result<Song, reqwest::Error> {
+    async fn get_song(&self, cid: String) -> Result<Song, PluginRequestError> {
         todo!()
     }
 
-    async fn get_album(&self, cid: String) -> Result<Album, reqwest::Error> {
-        todo!()
+    async fn get_album(&self, cid: String) -> Result<Album, PluginRequestError> {
+        match self.index.lock().await.get(&cid) {
+            Some(v) => Ok(Album {
+                name: format!("本地音乐:{}", cid),
+                intro: format!("本地音乐，路径:{}", cid),
+                belong: String::new(),
+                // todo!: add default cover path
+                cover_url: String::new(),
+                cover_de_url: String::new(),
+                artistes: vec![],
+                songs: vec![],
+                cid,
+            }),
+            None => Err(PluginRequestError::new("Album not found".into())),
+        }
     }
 }
 
