@@ -10,7 +10,7 @@ use std::{
 
 use futures::executor::block_on;
 use reqwest::{
-    header::{HeaderValue, CONTENT_TYPE},
+    header::{HeaderValue, ACCESS_CONTROL_ALLOW_ORIGIN, CONTENT_TYPE},
     StatusCode,
 };
 use warp::{filters::path::FullPath, Filter};
@@ -50,6 +50,10 @@ async fn handle_request(
     response.headers_mut().insert(
         CONTENT_TYPE,
         HeaderValue::from_str("application/json").unwrap(),
+    );
+    response.headers_mut().insert(
+        ACCESS_CONTROL_ALLOW_ORIGIN,
+        HeaderValue::from_str("*").unwrap(),
     );
 
     if let Some(p) = query.get("path") {

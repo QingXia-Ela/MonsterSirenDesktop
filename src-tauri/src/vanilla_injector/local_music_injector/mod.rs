@@ -1,3 +1,4 @@
+use crate::constants::AUDIO_SUFFIX;
 use crate::global_utils::{get_main_window, is_audio_suffix};
 use crate::{
     error::PluginRequestError,
@@ -7,6 +8,7 @@ use crate::{
     },
 };
 use async_trait::async_trait;
+use futures::executor::block_on;
 use futures::lock::Mutex;
 use futures::FutureExt;
 use indexmap::IndexMap;
@@ -58,7 +60,7 @@ impl LocalMusicManager {
     // update song and folder info to config file.
     // todo!: control it can return error
     pub async fn update(&mut self) {
-        todo!("rescan and update index");
+        // todo!("rescan and update index");
         // let res = res.;
         tokio_fs::write(
             &self.folder_record_path,
@@ -94,9 +96,9 @@ impl LocalMusicManager {
                     if path.is_file() && is_audio_suffix(path.to_str()) {
                         let metadata = path.metadata().unwrap();
                         v.push(BriefSong {
-                            album_cid: folder.clone(),
+                            album_cid: folder.clone().to_string(),
                             // provide full file path for file_server read directly
-                            cid: format!("{}", path.to_str().unwrap()),
+                            cid: format!("{:x}", md5::compute(path.clone().to_str().unwrap())),
                             name: path.file_name().unwrap().to_str().unwrap().to_string(),
                             artists: vec![],
                             size: Some(metadata.file_size()),
@@ -180,6 +182,22 @@ impl LocalMusicInjector {
     }
 }
 
+fn add_namespace_for_song(mut song: BriefSong) -> BriefSong {
+    song.name = remove_audio_file_suffix(song.name);
+    song.cid = format!("local:{}", song.cid);
+    song.album_cid = format!("local:{}", song.album_cid);
+    song
+}
+
+fn remove_audio_file_suffix(mut name: String) -> String {
+    AUDIO_SUFFIX.iter().for_each(|suffix| {
+        if name.ends_with(suffix) {
+            name = name[0..name.len() - suffix.len()].to_string();
+        }
+    });
+    name
+}
+
 #[async_trait]
 impl MusicInject for LocalMusicInjector {
     // This get albums will return select scan music folders, or nothing, it control by user config.
@@ -187,10 +205,10 @@ impl MusicInject for LocalMusicInjector {
         let mut res = vec![];
         for path in self.index.lock().await.keys() {
             res.push(BriefAlbum {
-                cid: path.clone(),
+                cid: format!("local:{}", path),
                 name: path.clone(),
                 // todo!: add default cover path
-                cover_url: String::new(),
+                cover_url: String::from("/UAlbum.jpg"),
                 artistes: vec![],
             })
         }
@@ -206,44 +224,49 @@ impl MusicInject for LocalMusicInjector {
     // Use full path as song cid.
     // Spend O(n) time to search.
     async fn get_song(&self, cid: String) -> Result<Song, PluginRequestError> {
-        for folder in self.index.lock().await.keys() {
-            if cid.starts_with(folder) {
-                for song in self.index.lock().await.get(folder).unwrap() {
-                    if cid == song.cid {
-                        return Ok(Song {
-                            cid,
-                            name: song.name.clone(),
-                            album_cid: song.album_cid.clone(),
-                            // file server read
-                            // todo!: make server port can custom
-                            source_url: format!("http://localhost:11453?path={}", song.cid),
-                            lyric_url: None,
-                            mv_url: None,
-                            mv_cover_url: None,
-                            artists: vec![],
-                            size: song.size,
-                            create_time: song.create_time,
-                        });
-                    }
+        for (path, folder) in self.index.lock().await.iter() {
+            for song in folder {
+                if cid == song.cid {
+                    return Ok(Song {
+                        name: remove_audio_file_suffix(song.name.clone()),
+                        album_cid: format!("local:{}", path),
+                        // file server read
+                        // todo!: make server port can custom
+                        source_url: format!(
+                            "http://localhost:11453?path={}{}",
+                            path,
+                            song.name.clone()
+                        ),
+                        lyric_url: None,
+                        mv_url: Some(String::new()),
+                        mv_cover_url: Some(String::new()),
+                        artists: vec![],
+                        size: song.size,
+                        create_time: song.create_time,
+                        cid,
+                    });
                 }
             }
         }
-        todo!()
+        Err(PluginRequestError::new("Song not found".into()))
     }
 
-    async fn get_album(&self, cid: String) -> Result<Album, PluginRequestError> {
+    async fn get_album(&self, mut cid: String) -> Result<Album, PluginRequestError> {
+        // parse path from `/` to `\\`, don't ask me why I do this, because http request path will change `\\` to `/` 🧐
+        cid = cid.replace("/", "\\");
         match self.index.lock().await.get(&cid) {
             Some(v) => {
+                let songs = v.clone().into_iter().map(add_namespace_for_song).collect();
                 return Ok(Album {
+                    cid: format!("local:{}", cid),
                     name: format!("本地音乐:{}", cid),
-                    intro: format!("路径:{}", cid),
+                    intro: format!("本地音乐: {}", cid),
                     belong: String::new(),
                     // todo!: add default cover path
-                    cover_url: String::new(),
+                    cover_url: String::from("/UAlbum.jpg"),
                     cover_de_url: String::new(),
                     artistes: vec![],
-                    songs: vec![],
-                    cid,
+                    songs,
                 });
             }
             None => Err(PluginRequestError::new("Album not found".into())),

@@ -13,6 +13,10 @@ fn get_current_time() -> String {
     format!("{:02}:{:02}:{:02}", hours, minutes, seconds)
 }
 
+pub fn debug(msg: &str) {
+    println!("{} {} {}", get_current_time(), "[backend]".blue(), msg)
+}
+
 pub fn info(msg: &str) {
     println!(
         "{} {} {}",

@@ -15,15 +15,18 @@ use crate::{
 
 fn get_sh() -> Song {
     Song {
-        cid: "template:114514".to_string(),
+        cid: "template:114514.flac".to_string(),
         name: "Snow Halation".to_string(),
         album_cid: "template:1919810".to_string(),
-        source_url: "http://127.0.0.1:8080/μ's - Snow Halation.flac".to_string(),
+        source_url: "http://127.0.0.1:11453?path=E:\\Animenzzz\\μ's - Snow Halation.flac"
+            .to_string(),
         artists: vec![
             "μ's".to_string(),
             "LoveLive School Idol Project!".to_string(),
         ],
-        lyric_url: Some("http://127.0.0.1:8080/μ's - Snow Halation.lrc".to_string()),
+        lyric_url: Some(
+            "http://127.0.0.1:11453?path=E:\\Animenzzz\\μ's - Snow Halation.lrc".to_string(),
+        ),
         mv_url: None,
         mv_cover_url: None,
         create_time: None,
@@ -36,7 +39,8 @@ fn get_bk() -> Song {
         cid: "template:114515".to_string(),
         name: "僕らのLIVE 君とのLIFE".to_string(),
         album_cid: "template:1919810".to_string(),
-        source_url: "http://127.0.0.1:8080/μ's - 僕らのLIVE 君とのLIFE.flac".to_string(),
+        source_url: "http://127.0.0.1:11453?path=E:\\Animenzzz\\μ's - 僕らのLIVE 君とのLIFE.flac"
+            .to_string(),
         artists: vec![
             "μ's".to_string(),
             "LoveLive School Idol Project!".to_string(),

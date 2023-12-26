@@ -29,10 +29,10 @@ type FilterType = Vec<[&'static str; 2]>;
 lazy_static! {
   /// capture path like `/song/{{namespace}:}{id}`
   /// vanilla path doesn't have namespace like: `/song/{id}`
-  static ref SONG_REGEX: Regex = Regex::new(r"/song/(?P<namespace>\w+):(?P<id>\d+)").unwrap();
-  /// capture path like `/song/{{namespace}:}{id}/detail` or `/song/{{namespace}:}{id}/data`
+  static ref SONG_REGEX: Regex = Regex::new(r"/song/(?P<namespace>\w+):(?P<id>.+)").unwrap();
+  /// capture path like `/album/{{namespace}:}{id}/detail` or `/song/{{namespace}:}{id}/data`
   /// two path will call method `get_album`
-  static ref ALBUM_REGEX: Regex = Regex::new(r"/album/(?P<namespace>\w+):(?P<id>\d+)").unwrap();
+  static ref ALBUM_REGEX: Regex = Regex::new(r"/album/(?P<namespace>\w+):(?P<id>.+)/.+").unwrap();
 }
 
 fn parse_plugin_request_error_2_warp_rejection(err: PluginRequestError) -> warp::Rejection {
@@ -112,6 +112,8 @@ pub async fn handle_request_with_plugin(
     Logger::info(format!("request path: {}", p).as_str());
     // song
     if let Some(caps) = SONG_REGEX.captures(p) {
+        Logger::debug("song request capture");
+
         let namesp = &caps["namespace"];
         let id = &caps["id"];
         if let Some(injector) = injector_map.get(namesp) {
@@ -136,6 +138,8 @@ pub async fn handle_request_with_plugin(
     }
     // album
     else if let Some(caps) = ALBUM_REGEX.captures(p) {
+        Logger::debug("album request capture");
+
         let namesp = &caps["namespace"];
         let id = &caps["id"];
         if let Some(injector) = injector_map.get(namesp) {
@@ -158,6 +162,7 @@ pub async fn handle_request_with_plugin(
             };
         }
     }
+    Logger::debug("no match, request will be handled by vanilla api");
     // api without namespace
     match p {
         "/songs" => Ok(get_songs_from_injector_map(injector_map)

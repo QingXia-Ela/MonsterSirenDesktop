@@ -1,4 +1,4 @@
-use crate::vanilla_injector::template_injector;
+use crate::vanilla_injector::{local_music_injector, template_injector};
 use futures::executor::block_on;
 use indexmap::IndexMap;
 use std::sync::Arc;
@@ -44,6 +44,7 @@ impl ApiProxy {
         app: tauri::AppHandle,
     ) -> Self {
         let s = vec![
+            local_music_injector::get_injector(),
             template_injector::get_injector(),
             siren_injector::get_injector(),
         ];

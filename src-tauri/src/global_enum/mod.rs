@@ -21,7 +21,7 @@ pub enum SirenApiPath {
     ///
     /// See [Docs](https://github.com/QingXia-Ela/MonsterSirenApi/blob/main/docs/dev/接口一览.md#所有专辑列表)
     Albums,
-    /// Get album detail by id
+    /// Get album data by id
     ///
     /// `/album/{id}/data`
     ///
