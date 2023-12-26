@@ -23,6 +23,9 @@ dist-ssr
 *.sln
 *.sw?
 
+# playground
+/playground
+
 # font
 src/assets/fonts/**/*.*
 !src/assets/fonts/**/iconfont.css

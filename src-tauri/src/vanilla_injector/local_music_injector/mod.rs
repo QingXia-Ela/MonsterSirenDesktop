@@ -1,4 +1,4 @@
-use crate::global_utils::get_main_window;
+use crate::global_utils::{get_main_window, is_audio_suffix};
 use crate::{
     error::PluginRequestError,
     global_struct::{
@@ -8,19 +8,22 @@ use crate::{
 };
 use async_trait::async_trait;
 use futures::lock::Mutex;
+use futures::FutureExt;
 use indexmap::IndexMap;
 use inject_event::InjectEvent::*;
+use std::os::windows::fs::MetadataExt;
 use std::{fs, sync::Arc};
 use tokio::fs as tokio_fs;
 
 mod inject_event;
 
-type IndexDataType = Arc<Mutex<IndexMap<String, Vec<String>>>>;
+type IndexDataType = Arc<Mutex<IndexMap<String, Vec<BriefSong>>>>;
 
 #[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
 struct SingleFolderDataType {
     path: String,
-    songs: Vec<String>,
+    // todo!: change it to audio file metadata
+    songs: Vec<BriefSong>,
 }
 
 /// This manager is use to modify data only.
@@ -55,6 +58,8 @@ impl LocalMusicManager {
     // update song and folder info to config file.
     // todo!: control it can return error
     pub async fn update(&mut self) {
+        todo!("rescan and update index");
+        // let res = res.;
         tokio_fs::write(
             &self.folder_record_path,
             serde_json::to_string(&self.get_index_vec()).unwrap(),
@@ -77,24 +82,26 @@ impl LocalMusicManager {
     }
 
     pub async fn add_folder(&mut self, mut folder: String) {
-        // prevent folder path without `/` lead the each file path is wrong
-        if !folder.ends_with("/") {
-            folder.push_str("/");
+        // prevent folder path without `\\` lead the each file path is wrong
+        if !folder.ends_with("\\") {
+            folder.push_str("\\");
         }
         match tokio_fs::read_dir(&folder).await {
             Ok(mut dir) => {
                 let mut v = vec![];
                 while let Ok(Some(entry)) = dir.next_entry().await {
                     let path = entry.path();
-                    if path.is_file() {
-                        v.push(
-                            path.to_str()
-                                .unwrap()
-                                .split('/')
-                                .last()
-                                .unwrap()
-                                .to_string(),
-                        );
+                    if path.is_file() && is_audio_suffix(path.to_str()) {
+                        let metadata = path.metadata().unwrap();
+                        v.push(BriefSong {
+                            album_cid: folder.clone(),
+                            // provide full file path for file_server read directly
+                            cid: format!("{}", path.to_str().unwrap()),
+                            name: path.file_name().unwrap().to_str().unwrap().to_string(),
+                            artists: vec![],
+                            size: Some(metadata.file_size()),
+                            create_time: Some(metadata.creation_time()),
+                        })
                     }
                 }
                 self.index.lock().await.insert(folder, v);
@@ -105,9 +112,9 @@ impl LocalMusicManager {
     }
 
     pub async fn remove_folder(&mut self, mut folder: String) {
-        // prevent folder path without `/` lead the each file path is wrong
-        if !folder.ends_with("/") {
-            folder.push_str("/");
+        // prevent folder path without `\\` lead the each file path is wrong
+        if !folder.ends_with("\\") {
+            folder.push_str("\\");
         }
         self.index.lock().await.remove(&folder);
         self.update().await
@@ -196,23 +203,49 @@ impl MusicInject for LocalMusicInjector {
         vec![]
     }
 
+    // Use full path as song cid.
+    // Spend O(n) time to search.
     async fn get_song(&self, cid: String) -> Result<Song, PluginRequestError> {
+        for folder in self.index.lock().await.keys() {
+            if cid.starts_with(folder) {
+                for song in self.index.lock().await.get(folder).unwrap() {
+                    if cid == song.cid {
+                        return Ok(Song {
+                            cid,
+                            name: song.name.clone(),
+                            album_cid: song.album_cid.clone(),
+                            // file server read
+                            // todo!: make server port can custom
+                            source_url: format!("http://localhost:11453?path={}", song.cid),
+                            lyric_url: None,
+                            mv_url: None,
+                            mv_cover_url: None,
+                            artists: vec![],
+                            size: song.size,
+                            create_time: song.create_time,
+                        });
+                    }
+                }
+            }
+        }
         todo!()
     }
 
     async fn get_album(&self, cid: String) -> Result<Album, PluginRequestError> {
         match self.index.lock().await.get(&cid) {
-            Some(v) => Ok(Album {
-                name: format!("本地音乐:{}", cid),
-                intro: format!("本地音乐，路径:{}", cid),
-                belong: String::new(),
-                // todo!: add default cover path
-                cover_url: String::new(),
-                cover_de_url: String::new(),
-                artistes: vec![],
-                songs: vec![],
-                cid,
-            }),
+            Some(v) => {
+                return Ok(Album {
+                    name: format!("本地音乐:{}", cid),
+                    intro: format!("路径:{}", cid),
+                    belong: String::new(),
+                    // todo!: add default cover path
+                    cover_url: String::new(),
+                    cover_de_url: String::new(),
+                    artistes: vec![],
+                    songs: vec![],
+                    cid,
+                });
+            }
             None => Err(PluginRequestError::new("Album not found".into())),
         }
     }
@@ -245,7 +278,10 @@ pub fn get_injector() -> MusicInjector {
             .to_str()
             .unwrap()
             .to_string();
-        let mut manager = LocalMusicManager::new(Arc::clone(&index_data), data_path);
+        let mut manager = LocalMusicManager::new(
+            Arc::clone(&index_data),
+            format!("{}\\local_music_inject_list.json", data_path),
+        );
 
         let main_window = get_main_window(&app);
     });

@@ -14,7 +14,11 @@ use tauri::App;
 /// todo!: finish all api
 #[async_trait]
 pub trait MusicInject: Send + Sync {
+    /// Show on playlist page.
     async fn get_albums(&self) -> Vec<BriefAlbum>;
+    /// Show on vanilla siren page. **Usually return a empty array.**
+    ///
+    /// Sometimes maybe it return too many songs which will lead page performance be worst.
     async fn get_songs(&self) -> Vec<BriefSong>;
     /// Id will remove namespace
     async fn get_song(&self, id: String) -> Result<Song, PluginRequestError>;

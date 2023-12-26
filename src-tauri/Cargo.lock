@@ -2071,6 +2071,7 @@ dependencies = [
  "indexmap 2.1.0",
  "lazy_static",
  "libloading 0.8.1",
+ "mime_guess",
  "once_cell",
  "regex",
  "reqwest",

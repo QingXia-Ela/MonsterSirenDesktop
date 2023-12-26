@@ -56,9 +56,11 @@ async fn handle_request(
         match read_file(p) {
             Ok(v) => {
                 *response.body_mut() = v.into();
-                response
-                    .headers_mut()
-                    .insert(CONTENT_TYPE, HeaderValue::from_str("image/png").unwrap());
+                let mime = mime_guess::from_path(p).first_or_octet_stream();
+                response.headers_mut().insert(
+                    CONTENT_TYPE,
+                    HeaderValue::from_str(mime.essence_str()).unwrap(),
+                );
             }
             Err(res) => {
                 *response.status_mut() = StatusCode::INTERNAL_SERVER_ERROR;

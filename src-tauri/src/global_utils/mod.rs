@@ -1,9 +1,11 @@
 // use brotlic::decode::{DecodeError, DecodeResult};
 use tauri::Manager;
 
+use crate::constants::AUDIO_SUFFIX;
+
 pub fn decode_brotli(body: &[u8]) -> Result<Vec<u8>, ()> {
     // let mut decompressor = DecompressorReader::new([u8; 1024]);
-    todo!()
+    todo!("use other brotli decoder");
     // let mut decoder = BrotliDecoder::new();
     // let mut res = [0; 114514];
     // let res: Result<DecodeResult, brotlic::decode::DecodeError> =
@@ -16,4 +18,20 @@ pub fn decode_brotli(body: &[u8]) -> Result<Vec<u8>, ()> {
 
 pub fn get_main_window(app: &tauri::AppHandle) -> tauri::Window {
     app.get_window("main").unwrap()
+}
+
+pub fn is_audio_suffix(path: Option<&str>) -> bool {
+    match path {
+        Some(path) => AUDIO_SUFFIX.iter().any(|suffix| path.ends_with(suffix)),
+        None => false,
+    }
+}
+
+#[cfg(test)]
+mod global_utils_test {
+    use super::*;
+    #[test]
+    pub fn audio_suffix_judge() {
+        assert!(is_audio_suffix(Some("test.mp3")));
+    }
 }

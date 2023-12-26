@@ -26,6 +26,8 @@ fn get_sh() -> Song {
         lyric_url: Some("http://127.0.0.1:8080/μ's - Snow Halation.lrc".to_string()),
         mv_url: None,
         mv_cover_url: None,
+        create_time: None,
+        size: None,
     }
 }
 
@@ -42,6 +44,8 @@ fn get_bk() -> Song {
         lyric_url: None,
         mv_url: None,
         mv_cover_url: None,
+        create_time: None,
+        size: None,
     }
 }
 struct TemplateInjector {}

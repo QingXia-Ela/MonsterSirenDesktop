@@ -39,10 +39,14 @@ pub struct BriefSong {
     #[serde(rename = "albumCid")]
     pub album_cid: String,
     pub artists: Vec<String>,
+    pub size: Option<u64>,
+    #[serde(rename = "createTime")]
+    pub create_time: Option<u64>,
 }
 
 impl ToResponseJson for BriefSong {}
 
+// todo!: impl simply new object
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct Song {
     pub cid: String,
@@ -58,6 +62,9 @@ pub struct Song {
     #[serde(rename = "mvCoverUrl")]
     pub mv_cover_url: Option<String>,
     pub artists: Vec<String>,
+    pub size: Option<u64>,
+    #[serde(rename = "createTime")]
+    pub create_time: Option<u64>,
 }
 
 impl ToResponseJson for Song {}
@@ -104,6 +111,8 @@ impl From<SirenBriefSongWithoutAlbumCid> for BriefSong {
             name: siren_song.name,
             album_cid: "".to_string(),
             artists: siren_song.artists,
+            size: None,
+            create_time: None,
         }
     }
 }
@@ -155,6 +164,8 @@ impl From<Song> for BriefSong {
             name: siren_song.name,
             album_cid: siren_song.album_cid,
             artists: siren_song.artists,
+            size: siren_song.size,
+            create_time: siren_song.create_time,
         }
     }
 }
