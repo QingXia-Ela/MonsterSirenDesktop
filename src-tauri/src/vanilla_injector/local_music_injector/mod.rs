@@ -84,6 +84,8 @@ impl LocalMusicManager {
     }
 
     pub async fn add_folder(&mut self, mut folder: String) {
+        // parse path from `/` to `\\`, don't ask me why I do this, because http request path will change `\\` to `/` 🧐
+        folder = folder.replace("/", "\\");
         // prevent folder path without `\\` lead the each file path is wrong
         if !folder.ends_with("\\") {
             folder.push_str("\\");
@@ -98,7 +100,7 @@ impl LocalMusicManager {
                         v.push(BriefSong {
                             album_cid: folder.clone().to_string(),
                             // provide full file path for file_server read directly
-                            cid: format!("{:x}", md5::compute(path.clone().to_str().unwrap())),
+                            cid: sha256::digest(path.clone().to_str().unwrap()).to_string(),
                             name: path.file_name().unwrap().to_str().unwrap().to_string(),
                             artists: vec![],
                             size: Some(metadata.file_size()),
@@ -114,6 +116,8 @@ impl LocalMusicManager {
     }
 
     pub async fn remove_folder(&mut self, mut folder: String) {
+        // parse path from `/` to `\\`, don't ask me why I do this, because http request path will change `\\` to `/` 🧐
+        folder = folder.replace("/", "\\");
         // prevent folder path without `\\` lead the each file path is wrong
         if !folder.ends_with("\\") {
             folder.push_str("\\");

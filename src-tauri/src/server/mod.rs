@@ -1,4 +1,5 @@
 mod download_server;
+pub mod file_server;
 
 use std::{
     collections::HashMap,

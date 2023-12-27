@@ -34,6 +34,7 @@ indexmap = "2.1.0"
 libloading = "0.8.1"
 mime_guess = "2.0.4"
 md5 = "0.7.0"
+sha256 = "1.4.0"
 
 [features]
 # this feature is used for production builds or when `devPath` points to the filesystem
