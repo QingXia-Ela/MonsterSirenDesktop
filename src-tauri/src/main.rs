@@ -22,7 +22,7 @@ mod tauri_commands;
 mod vanilla_injector;
 
 use proxy::{api_proxy::spawn_api_proxy, cdn_proxy::spawn_cdn_proxy};
-use server::spanw_file_server;
+use server::file_server::spawn_file_server;
 use tauri::*;
 
 /// invoke on setup hook
@@ -41,7 +41,7 @@ fn init(app: &mut App) {
     );
     let mut main_window = app.get_window("main").unwrap();
     config::init_window_from_config(&mut main_window, &app_config);
-    spanw_file_server();
+    spawn_file_server(11453, None);
     spawn_cdn_proxy(&app_config);
     spawn_api_proxy(app);
 }

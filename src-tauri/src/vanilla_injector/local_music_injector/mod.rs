@@ -13,6 +13,7 @@ use futures::lock::Mutex;
 use futures::FutureExt;
 use indexmap::IndexMap;
 use inject_event::InjectEvent::*;
+use percent_encoding::{utf8_percent_encode, NON_ALPHANUMERIC};
 use std::os::windows::fs::MetadataExt;
 use std::{fs, sync::Arc};
 use tokio::fs as tokio_fs;
@@ -237,9 +238,12 @@ impl MusicInject for LocalMusicInjector {
                         // file server read
                         // todo!: make server port can custom
                         source_url: format!(
-                            "http://localhost:11453?path={}{}",
-                            path,
-                            song.name.clone()
+                            "http://localhost:11453?path={}",
+                            utf8_percent_encode(
+                                format!("{}{}", path, song.name.clone()).as_str(),
+                                NON_ALPHANUMERIC
+                            ) // path,
+                              // song.name.clone()
                         ),
                         lyric_url: None,
                         mv_url: Some(String::new()),
@@ -309,6 +313,8 @@ pub fn get_injector() -> MusicInjector {
             Arc::clone(&index_data),
             format!("{}\\local_music_inject_list.json", data_path),
         );
+
+        block_on(async move { manager.add_folder("E:/Animenzzz/".to_string()).await });
 
         let main_window = get_main_window(&app);
     });

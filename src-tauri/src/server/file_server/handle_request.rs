@@ -4,7 +4,8 @@ use futures::lock::Mutex;
 use lazy_static::lazy_static;
 use reqwest::{
     header::{
-        HeaderValue, ACCESS_CONTROL_ALLOW_ORIGIN, CONTENT_LENGTH, CONTENT_RANGE, CONTENT_TYPE,
+        HeaderValue, ACCEPT_RANGES, ACCESS_CONTROL_ALLOW_ORIGIN, CONTENT_LENGTH, CONTENT_RANGE,
+        CONTENT_TYPE,
     },
     StatusCode,
 };
@@ -84,10 +85,14 @@ pub async fn handle_request(
                 // todo!: optimize this shit
                 // let expression cannot use continue
                 if let Some(range) = range_value {
-                    if let Some((start, end)) = deserialize_range_string(range) {
-                        if end != 0 || end <= file_size - 1 {
+                    if let Some((start, mut end)) = deserialize_range_string(range) {
+                        if end == 0 {
+                            end = file_size;
+                        }
+                        if end > 0 && end <= file_size {
                             // 206 Partial Content
-                            let content_range = format!("bytes {}-{}/{}", start, end, file_size);
+                            let content_range =
+                                format!("bytes {}-{}/{}", start, end - 1, file_size);
                             let mut res = get_ok_response(
                                 v[start as usize..=(end - 1) as usize].to_vec(),
                                 end - start,
@@ -96,6 +101,8 @@ pub async fn handle_request(
                             *res.status_mut() = StatusCode::PARTIAL_CONTENT;
                             res.headers_mut()
                                 .insert(CONTENT_RANGE, content_range.parse().unwrap());
+                            res.headers_mut()
+                                .insert(ACCEPT_RANGES, "bytes".parse().unwrap());
 
                             return Ok(res);
                         } else {

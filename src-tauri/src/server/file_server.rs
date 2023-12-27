@@ -1,9 +1,13 @@
 mod handle_request;
 pub mod utils;
-use futures::executor::block_on;
-use futures::lock::Mutex;
+use futures::{executor::block_on, lock::Mutex};
 use handle_request::handle_request;
-use std::{collections::HashMap, net::SocketAddrV4, sync::Arc};
+use std::{
+    collections::HashMap,
+    net::SocketAddrV4,
+    sync::Arc,
+    thread::{self, JoinHandle},
+};
 use warp::Filter;
 
 pub struct FileServer {
@@ -27,6 +31,7 @@ impl FileServer {
         }
     }
 
+    #[tokio::main]
     pub async fn listen(&self) {
         let alias_clone = Arc::clone(&self.path_alias);
         let proxy = warp::path::full()
@@ -53,12 +58,19 @@ impl FileServer {
     }
 }
 
+pub fn spawn_file_server(port: u16, init_alias: Option<HashMap<String, String>>) -> JoinHandle<()> {
+    thread::spawn(move || {
+        let server = FileServer::new(port, init_alias);
+        server.listen()
+    })
+}
+
 #[cfg(test)]
 mod server_test {
     use super::*;
+    // note: this test will not end unless you stop it manually.
     #[tokio::test]
     pub async fn test_insert_alias() {
-        let s = FileServer::new(11453, None);
-        s.listen().await
+        let _ = spawn_file_server(11453, None).join();
     }
 }
