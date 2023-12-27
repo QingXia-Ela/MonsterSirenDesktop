@@ -228,6 +228,7 @@ impl MusicInject for LocalMusicInjector {
 
     // Use full path as song cid.
     // Spend O(n) time to search.
+    // todo!: optimize it. this method is often to use.
     async fn get_song(&self, cid: String) -> Result<Song, PluginRequestError> {
         for (path, folder) in self.index.lock().await.iter() {
             for song in folder {
@@ -236,14 +237,13 @@ impl MusicInject for LocalMusicInjector {
                         name: remove_audio_file_suffix(song.name.clone()),
                         album_cid: format!("local:{}", path),
                         // file server read
-                        // todo!: make server port can custom
+                        // todo!: make server port can custom; decrease format time
                         source_url: format!(
                             "http://localhost:11453?path={}",
                             utf8_percent_encode(
                                 format!("{}{}", path, song.name.clone()).as_str(),
                                 NON_ALPHANUMERIC
-                            ) // path,
-                              // song.name.clone()
+                            )
                         ),
                         lyric_url: None,
                         mv_url: Some(String::new()),

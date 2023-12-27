@@ -11,7 +11,7 @@ import $settingAdvancement, {
 import Checkbox from '@/components/Checkbox';
 import HoverWhiteBg from '@/components/HoverWhiteBg';
 
-interface AdvancementSettingsProps {}
+interface AdvancementSettingsProps { }
 
 const AdvancementSettings: FunctionComponent<AdvancementSettingsProps> = () => {
   const { logStore, allowContextMenu } = useStore($settingAdvancement);
@@ -28,7 +28,7 @@ const AdvancementSettings: FunctionComponent<AdvancementSettingsProps> = () => {
         </Button>
       </StyledTooltip>
       <SubTitle>全局状态管理</SubTitle>
-      <StyledTooltip title='塞壬唱片使用 DvaJs 作为状态管理框架，启用此项后会在控制台打印执行的action'>
+      <StyledTooltip title='塞壬唱片使用 DvaJs 作为状态管理框架，启用此项后会在控制台打印执行的action，注意：启用后可能会导致页面性能下降！'>
         <HoverWhiteBg>
           <Checkbox checked={logStore} onChange={changeLogStore} theme='config'>
             监听塞壬唱片原生Store状态变化
