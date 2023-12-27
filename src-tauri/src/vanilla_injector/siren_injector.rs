@@ -104,18 +104,6 @@ impl SirenInjector {
         // todo!: sync cdn / api port with custom config
         res_str = change_body(res_str, vec![], 11452, 11451);
 
-        // let res_header_map = response.headers_mut();
-        // for (k, v) in header_map.borrow_mut().into_iter() {
-        //     res_header_map.insert(k.clone(), v.clone());
-        // }
-        // res_header_map.remove(CONTENT_ENCODING);
-
-        // // avoid content-length are not actual length
-        // res_header_map.insert(CONTENT_LENGTH, res_str.len().into());
-        // res_header_map.insert(ACCESS_CONTROL_ALLOW_ORIGIN, "*".parse().unwrap());
-
-        // response = Response::new(res_str.into());
-
         Ok(res_str)
     }
 }
