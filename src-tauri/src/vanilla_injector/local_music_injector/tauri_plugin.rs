@@ -1,23 +1,27 @@
+use crate::global_event::frontend_notify::*;
+
 use super::LocalMusicManager;
 use tauri::{AppHandle, Manager, Runtime, State};
 
 #[tauri::command]
 async fn add_folder<R: Runtime>(
-    _app: AppHandle<R>,
+    app: AppHandle<R>,
     manager: State<'_, LocalMusicManager>,
     path: String,
 ) -> Result<(), String> {
-    manager.add_folder(path).await;
+    manager.add_folder(&path).await;
+    notify_success(&app, format!("成功添加文件夹：{}", path));
     Ok(())
 }
 
 #[tauri::command]
 async fn remove_folder<R: Runtime>(
-    _app: AppHandle<R>,
+    app: AppHandle<R>,
     manager: State<'_, LocalMusicManager>,
     path: String,
 ) -> Result<(), String> {
-    manager.remove_folder(path).await;
+    manager.remove_folder(&path).await;
+    notify_success(&app, format!("成功移除文件夹：{}", path));
     Ok(())
 }
 

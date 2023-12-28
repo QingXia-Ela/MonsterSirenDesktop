@@ -90,9 +90,9 @@ impl LocalMusicManager {
     }
 
     // todo!: return error type.
-    pub async fn add_folder(&self, mut folder: String) {
+    pub async fn add_folder(&self, folder: &String) {
         // parse path from `/` to `\\`, don't ask me why I do this, because http request path will change `\\` to `/` 🧐
-        folder = folder.replace("/", "\\");
+        let mut folder = folder.replace("/", "\\");
         // prevent folder path without `\\` lead the each file path is wrong
         if !folder.ends_with("\\") {
             folder.push_str("\\");
@@ -122,9 +122,9 @@ impl LocalMusicManager {
         self.update().await
     }
 
-    pub async fn remove_folder(&self, mut folder: String) {
+    pub async fn remove_folder(&self, folder: &String) {
         // parse path from `/` to `\\`, don't ask me why I do this, because http request path will change `\\` to `/` 🧐
-        folder = folder.replace("/", "\\");
+        let mut folder = folder.replace("/", "\\");
         // prevent folder path without `\\` lead the each file path is wrong
         if !folder.ends_with("\\") {
             folder.push_str("\\");
@@ -155,7 +155,7 @@ mod manager_test {
             Arc::new(Mutex::new(IndexMap::new())),
             String::from("./tests/injector/local/add_folder/config_add.json"),
         );
-        m.add_folder(String::from("./tests/injector/local/add_folder/"))
+        m.add_folder(&String::from("./tests/injector/local/add_folder/"))
             .await;
         assert_eq!(m.index.lock().await.len(), 1);
     }
@@ -168,9 +168,9 @@ mod manager_test {
             String::from("./tests/injector/local/add_folder/config_remove.json"),
         );
 
-        m.add_folder(String::from("./tests/injector/local/add_folder/"))
+        m.add_folder(&String::from("./tests/injector/local/add_folder/"))
             .await;
-        m.remove_folder(String::from("./tests/injector/local/add_folder/"))
+        m.remove_folder(&String::from("./tests/injector/local/add_folder/"))
             .await;
 
         assert_eq!(m.index.lock().await.len(), 0);

@@ -21,13 +21,15 @@
     left: -4px;
     height: 0.1rem;
     width: calc(100% + 0.1rem);
-    background-image: linear-gradient(90deg,
-        #aeb3be 0,
-        #aeb3be 0.1rem,
-        transparent 0,
-        transparent calc(100% - 0.1rem),
-        #aeb3be calc(100% - 0.1rem),
-        #aeb3be);
+    background-image: linear-gradient(
+      90deg,
+      #aeb3be 0,
+      #aeb3be 0.1rem,
+      transparent 0,
+      transparent calc(100% - 0.1rem),
+      #aeb3be calc(100% - 0.1rem),
+      #aeb3be
+    );
   }
 
   &::before {
@@ -46,7 +48,6 @@
 }
 
 .button_decorate {
-
   &::before,
   &::after {
     content: '';
@@ -66,13 +67,15 @@
     left: -3px;
     height: 0.1rem;
     width: calc(100% + 0.1rem);
-    background-image: linear-gradient(90deg,
-        #aeb3be 0,
-        #aeb3be 0.1rem,
-        transparent 0,
-        transparent calc(100% - 0.1rem),
-        #aeb3be calc(100% - 0.1rem),
-        #aeb3be);
+    background-image: linear-gradient(
+      90deg,
+      #aeb3be 0,
+      #aeb3be 0.1rem,
+      transparent 0,
+      transparent calc(100% - 0.1rem),
+      #aeb3be calc(100% - 0.1rem),
+      #aeb3be
+    );
   }
 
   &::before {

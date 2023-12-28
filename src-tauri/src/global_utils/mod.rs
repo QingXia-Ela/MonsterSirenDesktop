@@ -1,5 +1,5 @@
 // use brotlic::decode::{DecodeError, DecodeResult};
-use tauri::Manager;
+use tauri::{Manager, Runtime};
 
 use crate::constants::AUDIO_SUFFIX;
 
@@ -16,7 +16,7 @@ pub fn decode_brotli(body: &[u8]) -> Result<Vec<u8>, ()> {
     // }
 }
 
-pub fn get_main_window(app: &tauri::AppHandle) -> tauri::Window {
+pub fn get_main_window<R: Runtime>(app: &tauri::AppHandle<R>) -> tauri::Window<R> {
     app.get_window("main").unwrap()
 }
 

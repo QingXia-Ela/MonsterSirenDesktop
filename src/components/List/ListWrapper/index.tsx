@@ -1,7 +1,7 @@
 import { FunctionComponent, HTMLAttributes } from 'react';
-import Styles from './index.module.scss'
+import Styles from './index.module.scss';
 
-interface ListWrapperProps extends HTMLAttributes<HTMLUListElement> { }
+interface ListWrapperProps extends HTMLAttributes<HTMLUListElement> {}
 
 const ListWrapper: FunctionComponent<ListWrapperProps> = ({
   children,
@@ -9,10 +9,7 @@ const ListWrapper: FunctionComponent<ListWrapperProps> = ({
   ...props
 }) => {
   return (
-    <ul
-      className={`${className} ${Styles.list_wrapper} shadow-lg`}
-      {...props}
-    >
+    <ul className={`${className} ${Styles.list_wrapper} shadow-lg`} {...props}>
       {children}
     </ul>
   );

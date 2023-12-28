@@ -24,7 +24,7 @@ function SideBar({ open, setOpen }: SideBarProps) {
     setOpen(false);
     layout.style.filter = '';
     layout.style.pointerEvents = '';
-    saveSettings().then(() => { });
+    saveSettings().then(() => {});
   };
 
   if (open) {
