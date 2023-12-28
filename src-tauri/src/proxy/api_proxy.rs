@@ -4,7 +4,7 @@ use indexmap::IndexMap;
 use std::sync::Arc;
 use std::{collections::HashSet, thread::JoinHandle};
 use std::{fmt::Debug, net::SocketAddrV4, thread};
-use tauri::App;
+use tauri::{App, Manager};
 use warp::Filter;
 
 use crate::{
@@ -52,7 +52,7 @@ impl ApiProxy {
         // init fn run only once
         for m in s.into_iter() {
             if let Some(f) = &m.init_fn {
-                f(app.clone());
+                f(app.app_handle());
             }
             injector_map.insert(m.namespace.clone(), m);
         }

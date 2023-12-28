@@ -47,7 +47,7 @@ export const OptionList: Array<SingleOptionItemProps> = [
     iconClass: 'icon-24gl-folder2',
     title: '本地音乐',
     value: OptionType.LocalSettings,
-    rightComponent: LocalMusicSettings
+    rightComponent: LocalMusicSettings,
   },
   {
     iconClass: 'icon-tool',

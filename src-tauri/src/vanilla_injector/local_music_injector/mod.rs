@@ -8,17 +8,18 @@ use crate::{
     },
 };
 use async_trait::async_trait;
-use futures::executor::block_on;
 use futures::lock::Mutex;
-use futures::FutureExt;
 use indexmap::IndexMap;
 use inject_event::InjectEvent::*;
 use percent_encoding::{utf8_percent_encode, NON_ALPHANUMERIC};
 use std::os::windows::fs::MetadataExt;
 use std::{fs, sync::Arc};
+use tauri::plugin::{Builder, TauriPlugin};
+use tauri::Manager;
 use tokio::fs as tokio_fs;
 
 mod inject_event;
+mod tauri_plugin;
 
 type IndexDataType = Arc<Mutex<IndexMap<String, Vec<BriefSong>>>>;
 
@@ -30,7 +31,8 @@ struct SingleFolderDataType {
 }
 
 /// This manager is use to modify data only.
-struct LocalMusicManager {
+#[derive(Default)]
+pub struct LocalMusicManager {
     /// Index need to sync with Injector
     index: IndexDataType,
     folder_record_path: String,
@@ -60,7 +62,7 @@ impl LocalMusicManager {
 
     // update song and folder info to config file.
     // todo!: control it can return error
-    pub async fn update(&mut self) {
+    pub async fn update(&self) {
         // todo!("rescan and update index");
         // let res = res.;
         tokio_fs::write(
@@ -84,7 +86,8 @@ impl LocalMusicManager {
             .collect()
     }
 
-    pub async fn add_folder(&mut self, mut folder: String) {
+    // todo!: return error type.
+    pub async fn add_folder(&self, mut folder: String) {
         // parse path from `/` to `\\`, don't ask me why I do this, because http request path will change `\\` to `/` 🧐
         folder = folder.replace("/", "\\");
         // prevent folder path without `\\` lead the each file path is wrong
@@ -111,12 +114,12 @@ impl LocalMusicManager {
                 }
                 self.index.lock().await.insert(folder, v);
             }
-            Err(_) => return,
+            Err(e) => return,
         }
         self.update().await
     }
 
-    pub async fn remove_folder(&mut self, mut folder: String) {
+    pub async fn remove_folder(&self, mut folder: String) {
         // parse path from `/` to `\\`, don't ask me why I do this, because http request path will change `\\` to `/` 🧐
         folder = folder.replace("/", "\\");
         // prevent folder path without `\\` lead the each file path is wrong
@@ -127,7 +130,7 @@ impl LocalMusicManager {
         self.update().await
     }
 
-    pub async fn swap(&mut self, i1: usize, i2: usize) {
+    pub async fn swap(&self, i1: usize, i2: usize) {
         self.index.lock().await.swap_indices(i1, i2);
         self.update().await
     }
@@ -145,7 +148,7 @@ mod manager_test {
     #[tokio::test]
     async fn add_folder_test() {
         init_file().await;
-        let mut m = LocalMusicManager::new(
+        let m = LocalMusicManager::new(
             Arc::new(Mutex::new(IndexMap::new())),
             String::from("./tests/injector/local/add_folder/config_add.json"),
         );
@@ -157,7 +160,7 @@ mod manager_test {
     #[tokio::test]
     async fn remove_folder_test() {
         init_file().await;
-        let mut m = LocalMusicManager::new(
+        let m = LocalMusicManager::new(
             Arc::new(Mutex::new(IndexMap::new())),
             String::from("./tests/injector/local/add_folder/config_remove.json"),
         );
@@ -303,14 +306,6 @@ impl MusicInject for LocalMusicInjector {
     }
 }
 
-fn emit_reload(app: tauri::AppHandle) {
-    let _ = get_main_window(&app).emit(
-        serde_json::to_string(&Reload).unwrap().trim_matches('"'),
-        (),
-    );
-    // .unwrap();
-}
-
 pub fn get_injector() -> MusicInjector {
     let index_data: IndexDataType = Arc::new(Mutex::new(IndexMap::new()));
     let local_inject = Box::new(LocalMusicInjector::new(Arc::clone(&index_data)));
@@ -323,6 +318,7 @@ pub fn get_injector() -> MusicInjector {
     );
 
     music_inject.on_init(move |app| {
+        // app.plu
         let data_path = app
             .path_resolver()
             .app_data_dir()
@@ -330,14 +326,12 @@ pub fn get_injector() -> MusicInjector {
             .to_str()
             .unwrap()
             .to_string();
-        let mut manager = LocalMusicManager::new(
+        let manager = LocalMusicManager::new(
             Arc::clone(&index_data),
             format!("{}\\local_music_inject_list.json", data_path),
         );
 
-        block_on(async move { manager.add_folder("E:/Animenzzz/".to_string()).await });
-
-        let main_window = get_main_window(&app);
+        let _ = app.plugin(tauri_plugin::init(manager));
     });
 
     music_inject

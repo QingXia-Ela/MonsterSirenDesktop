@@ -7,23 +7,27 @@ export interface basicConfig {
 export interface backgroundConfig {
   enable?: boolean;
   url?: string;
-  backgroundOptions?: Array<{ pageName: string, opacity: number, blur: number }>;
+  backgroundOptions?: Array<{
+    pageName: string;
+    opacity: number;
+    blur: number;
+  }>;
 }
 
 export interface localMusicConfig {
   enable?: boolean;
-  paths?: string[]
+  paths?: string[];
 }
 
 export interface downloadConfig {
   path?: string;
-  downloadLrc?: boolean,
+  downloadLrc?: boolean;
   parseFileType?: string;
 }
 
-export interface outputDeviceConfig { }
+export interface outputDeviceConfig {}
 
-export interface desktopLrcConfig { }
+export interface desktopLrcConfig {}
 
 export interface advancementConfig {
   enable?: boolean;
@@ -34,14 +38,13 @@ export interface advancementConfig {
 }
 
 interface AppConfig {
-  basic: basicConfig
-  background: backgroundConfig
-  localMusic: localMusicConfig
-  download: downloadConfig
-  outputDevice: outputDeviceConfig
-  desktopLrc: desktopLrcConfig
-  advancement: advancementConfig
+  basic: basicConfig;
+  background: backgroundConfig;
+  localMusic: localMusicConfig;
+  download: downloadConfig;
+  outputDevice: outputDeviceConfig;
+  desktopLrc: desktopLrcConfig;
+  advancement: advancementConfig;
 }
 
-
-export default AppConfig
+export default AppConfig;
