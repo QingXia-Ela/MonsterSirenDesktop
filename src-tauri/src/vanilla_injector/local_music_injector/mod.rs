@@ -24,7 +24,7 @@ mod tauri_plugin;
 type IndexDataType = Arc<Mutex<IndexMap<String, Vec<BriefSong>>>>;
 
 #[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
-struct SingleFolderDataType {
+pub struct SingleFolderDataType {
     path: String,
     // todo!: change it to audio file metadata
     songs: Vec<BriefSong>,
@@ -67,17 +67,20 @@ impl LocalMusicManager {
         // let res = res.;
         tokio_fs::write(
             &self.folder_record_path,
-            serde_json::to_string(&self.get_index_vec()).unwrap(),
+            serde_json::to_string(&self.get_index_vec().await).unwrap(),
         )
         .await
         .unwrap();
-        //     test
     }
 
-    pub fn get_index_vec(&self) -> Vec<SingleFolderDataType> {
+    pub async fn get_folders(&self) -> Vec<String> {
+        self.index.lock().await.keys().cloned().collect()
+    }
+
+    pub async fn get_index_vec(&self) -> Vec<SingleFolderDataType> {
         self.index
-            .try_lock()
-            .unwrap()
+            .lock()
+            .await
             .iter()
             .map(|(k, v)| SingleFolderDataType {
                 path: k.to_string(),

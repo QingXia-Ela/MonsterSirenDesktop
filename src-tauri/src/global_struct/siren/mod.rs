@@ -96,7 +96,7 @@ pub struct Album {
 
 impl ToResponseJson for Album {}
 
-/// this struct is provide for vanilla api, usually you should't use this struct
+/// This struct is provide for vanilla api, usually you should't use this struct
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct SirenBriefSongWithoutAlbumCid {
     pub cid: String,
@@ -117,7 +117,7 @@ impl From<SirenBriefSongWithoutAlbumCid> for BriefSong {
     }
 }
 
-/// this struct is provide for vanilla api, usually you should't use this struct
+/// This struct is provide for vanilla api, usually you should't use this struct
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct SirenAlbumData {
     pub cid: String,
@@ -131,7 +131,7 @@ pub struct SirenAlbumData {
     pub artistes: Vec<String>,
 }
 
-/// this struct is provide for vanilla api, usually you should't use this struct
+/// This struct is provide for vanilla api, usually you should't use this struct
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct SirenAlbumDetail {
     pub cid: String,

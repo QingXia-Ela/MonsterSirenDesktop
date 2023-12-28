@@ -35,14 +35,8 @@ impl ApiProxy {
     /// thread::spawn(move || {
     ///   let _ = api_proxy::new(11452, 11451, vec![["content will be replace", "content will use"]]);
     /// })
-    /// `
-    #[tokio::main]
-    pub async fn new(
-        port: u16,
-        cdn_port: u16,
-        filter_rules: FilterType,
-        app: tauri::AppHandle,
-    ) -> Self {
+    /// ```
+    pub fn new(port: u16, cdn_port: u16, filter_rules: FilterType, app: tauri::AppHandle) -> Self {
         let s = vec![
             local_music_injector::get_injector(),
             template_injector::get_injector(),
@@ -93,26 +87,11 @@ impl ApiProxy {
     }
 }
 
-#[derive(Debug, Eq, PartialEq, Hash)]
-pub enum ApiProxyRules {}
-
-pub fn get_basic_filter_rules(mut settings: Vec<ApiProxyRules>) -> FilterType {
-    let mut rules = vec![];
-    let settings = settings
-        .into_iter()
-        .collect::<HashSet<_>>()
-        .into_iter()
-        .collect::<Vec<_>>();
-
-    for v in settings {
-        match v {
-            _ => (),
-        }
-    }
-
-    rules
-}
-
+/// Spawn api proxy with a new thread.
+///
+/// Current time doesn't need to support high concurrency, so just create a new thread.
+///
+/// Inner method use tokio runtime.
 pub fn spawn_api_proxy(app: &mut App) -> JoinHandle<()> {
     let handle_clone = app.handle().clone();
     thread::spawn(move || {
