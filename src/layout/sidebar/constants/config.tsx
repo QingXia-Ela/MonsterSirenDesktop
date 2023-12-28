@@ -4,12 +4,14 @@ import BackgroundSettings from '../Settings/SettingOptions/BackgroundSettings';
 import AdvancementSettings from '../Settings/SettingOptions/AdvancementSettings';
 import DownloadSettings from '../Settings/SettingOptions/DownloadSettings';
 import AboutSettings from '../Settings/SettingOptions/AboutSettings';
+import LocalMusicSettings from '../Settings/SettingOptions/LocalMusicSettings';
 
 export enum OptionType {
   BasicSettings,
   BackgroundSettings,
   AdvancementSettings,
   DownloadSettings,
+  LocalSettings,
   About,
 }
 
@@ -42,13 +44,18 @@ export const OptionList: Array<SingleOptionItemProps> = [
     rightComponent: DownloadSettings,
   },
   {
+    iconClass: 'icon-24gl-folder2',
+    title: '本地音乐',
+    value: OptionType.LocalSettings,
+    rightComponent: LocalMusicSettings
+  },
+  {
     iconClass: 'icon-tool',
     title: '高级设置',
     position: 'bottom',
     value: OptionType.AdvancementSettings,
     rightComponent: AdvancementSettings,
   },
-
   {
     iconClass: 'icon-24gl-infoCircle',
     title: '关于',

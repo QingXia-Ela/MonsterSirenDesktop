@@ -162,16 +162,22 @@ pub async fn handle_request_with_plugin(
             };
         }
     }
-    Logger::debug("no match, request will be handled by vanilla api");
     // api without namespace
     match p {
-        "/songs" => Ok(get_songs_from_injector_map(injector_map)
-            .await
-            .into_response()),
-        "/albums" => Ok(get_albums_from_injector_map(injector_map)
-            .await
-            .into_response()),
+        "/songs" => {
+            Logger::debug("match global api /songs, result will modify by plugins");
+            Ok(get_songs_from_injector_map(injector_map)
+                .await
+                .into_response())
+        }
+        "/albums" => {
+            Logger::debug("match global api /albums, result will modify by plugins");
+            Ok(get_albums_from_injector_map(injector_map)
+                .await
+                .into_response())
+        }
         _ => {
+            Logger::debug("no match, request will be handled by vanilla api");
             let res = handle_request(port, cdn_port, path, headers, filter_rules).await;
             match res {
                 Ok(r) => Ok(r.into_response()),
@@ -181,6 +187,7 @@ pub async fn handle_request_with_plugin(
     }
 }
 
+// todo!: optimize it.
 pub async fn handle_request(
     port: u16,
     cdn_port: u16,
