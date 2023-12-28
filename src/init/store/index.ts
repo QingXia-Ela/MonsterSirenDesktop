@@ -1,1 +1,1 @@
-import './ChangeSongListWhenPlayAlbum'
+import './ChangeSongListWhenPlayAlbum';

@@ -77,7 +77,7 @@ export interface playerSetPlayList extends AnyAction {
       albumCid: string;
       artists: string[];
     }>;
-  }
+  };
 }
 
 export type PlayerActions =

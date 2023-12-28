@@ -227,17 +227,24 @@ impl MusicInject for LocalMusicInjector {
     }
 
     // Use full path as song cid.
-    // Spend O(n) time to search.
+    // Spend O(n) time to search. n is the number of song.
     // todo!: optimize it. this method is often to use.
     async fn get_song(&self, cid: String) -> Result<Song, PluginRequestError> {
         for (path, folder) in self.index.lock().await.iter() {
             for song in folder {
                 if cid == song.cid {
+                    let lrc_path = format!(
+                        "{}{}.lrc",
+                        path,
+                        remove_audio_file_suffix(song.name.clone())
+                    );
+                    let lrc = tokio_fs::metadata(lrc_path.clone()).await;
+                    // todo!:  decrease format time.
                     return Ok(Song {
                         name: remove_audio_file_suffix(song.name.clone()),
                         album_cid: format!("local:{}", path),
                         // file server read
-                        // todo!: make server port can custom; decrease format time
+                        // todo!: make server port can custom;
                         source_url: format!(
                             "http://localhost:11453?path={}",
                             utf8_percent_encode(
@@ -245,7 +252,21 @@ impl MusicInject for LocalMusicInjector {
                                 NON_ALPHANUMERIC
                             )
                         ),
-                        lyric_url: None,
+                        // todo!: make server port can custom;
+                        lyric_url: match lrc {
+                            Ok(lrc) => {
+                                if lrc.is_file() {
+                                    println!("lrc path: {}", lrc_path);
+                                    Some(format!(
+                                        "http://localhost:11453?path={}",
+                                        utf8_percent_encode(lrc_path.as_str(), NON_ALPHANUMERIC)
+                                    ))
+                                } else {
+                                    None
+                                }
+                            }
+                            Err(_) => None,
+                        },
                         mv_url: Some(String::new()),
                         mv_cover_url: Some(String::new()),
                         artists: vec![],
