@@ -11,7 +11,7 @@ import $settingAdvancement, {
 import Checkbox from '@/components/Checkbox';
 import HoverWhiteBg from '@/components/HoverWhiteBg';
 
-interface AdvancementSettingsProps { }
+interface AdvancementSettingsProps {}
 
 const AdvancementSettings: FunctionComponent<AdvancementSettingsProps> = () => {
   const { logStore, allowContextMenu } = useStore($settingAdvancement);

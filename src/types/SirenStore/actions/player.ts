@@ -67,6 +67,19 @@ export interface playerChangeSong extends AnyAction {
   direction: number;
 }
 
+export interface playerSetPlayList extends AnyAction {
+  type: 'player/setPlayList';
+  data: {
+    autoplay: boolean | null;
+    list: Array<{
+      cid: string;
+      name: string;
+      albumCid: string;
+      artists: string[];
+    }>;
+  }
+}
+
 export type PlayerActions =
   | playerGetPlayList
   | playerSetVolume
@@ -75,4 +88,5 @@ export type PlayerActions =
   | playerSetSongDetail
   | playerSetCurrent
   | playerSetIsPlaying
+  | playerSetPlayList
   | playerChangeSong;

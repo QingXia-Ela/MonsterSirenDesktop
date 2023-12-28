@@ -1,4 +1,5 @@
 import './vanilla/SongsUpdate';
+import './store'
 import './vanilla/SystemTrayTooltipChange';
 
 // init
