@@ -13,11 +13,11 @@ const ListItem: FunctionComponent<ListItemProps> = ({
   return (
     <li
       className={`${className} w-full px-2 py-1 flex justify-between items-center
-      transition-[background-color] bg-opacity-0 hover:bg-opacity-5 bg-white`}
+      transition-[background-color] bg-opacity-0 hover:bg-opacity-[.12] bg-white`}
       {...props}
     >
       <div className='flex-1'>{children}</div>
-      <div className='h-full'>{action}</div>
+      {action && <div className='h-full'>{action}</div>}
     </li>
   );
 };

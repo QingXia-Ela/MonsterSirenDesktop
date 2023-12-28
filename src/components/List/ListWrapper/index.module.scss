@@ -1,0 +1,33 @@
+.list_wrapper {
+  position: relative;
+  display: flex;
+  color: #cacdd4;
+  width: 100%;
+  flex-direction: column;
+  padding-left: 0;
+  font-family: 'SourceHanSansCN-Bold', 'Microsoft Yahei', sans-serif;
+
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    left: -4px;
+    height: 0.14rem;
+    width: calc(100% + 0.1rem);
+    background-image: linear-gradient(90deg,
+        #aeb3be 0,
+        #aeb3be 0.14rem,
+        transparent 0,
+        transparent calc(100% - 0.14rem),
+        #aeb3be calc(100% - 0.14rem),
+        #aeb3be);
+  }
+
+  &::before {
+    top: -4px;
+  }
+
+  &::after {
+    bottom: -4px;
+  }
+}
