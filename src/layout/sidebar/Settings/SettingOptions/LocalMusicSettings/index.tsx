@@ -7,7 +7,7 @@ import { invoke } from '@tauri-apps/api';
 import { open } from '@tauri-apps/api/dialog';
 import Dialog from '@/components/Dialog';
 
-interface LocalMusicSettingsProps { }
+interface LocalMusicSettingsProps {}
 
 const GET_FOLDERS = 'plugin:local|get_folders';
 const ADD_FOLDER = 'plugin:local|add_folder';

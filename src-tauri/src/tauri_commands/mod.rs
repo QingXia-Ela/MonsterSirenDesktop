@@ -16,7 +16,7 @@ pub fn open_devtools(window: tauri::Window) {
 pub fn change_tray_tooltip(app: tauri::AppHandle, tooltip: &str) -> Result<(), String> {
     match app.tray_handle_by_id("basic-tray") {
         Some(tray) => {
-            if let Err(e) = tray.set_tooltip(tooltip) {
+            if let Err(e) = tray.set_tooltip(tooltip.trim()) {
                 return Err(e.to_string());
             }
         }
