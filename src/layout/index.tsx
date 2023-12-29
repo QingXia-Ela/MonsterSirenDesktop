@@ -10,6 +10,7 @@ import Styles from './index.module.scss';
 import SideBar from './sidebar';
 import PlayList from './playlist';
 import AppOperation from './components/AppOperation';
+import GlobalNotifyComponent from '@/global_event/frontend_notify/component';
 
 interface InjectLayoutProps extends PropsWithChildren {}
 
@@ -34,6 +35,7 @@ const InjectLayout: FunctionComponent<InjectLayoutProps> = ({ children }) => {
       </div>
       <PlayList />
       {children}
+      <GlobalNotifyComponent />
     </>
   );
 };

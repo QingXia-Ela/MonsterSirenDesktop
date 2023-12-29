@@ -1,6 +1,11 @@
 .snackbar__alert {
-  font-size: 0.4rem !important;
+  min-width: 8rem;
+  font-size: 0.28rem !important;
   color: #fff !important;
+  padding-top: 0.2rem !important;
+  padding-bottom: 0.2rem !important;
+  padding-left: 0.4rem !important;
+  padding-right: 0.4rem !important;
   background-color: rgb(15, 15, 15) !important;
   background-image: url(@/assets/images/bg_modal.png);
   background-position: right;
@@ -11,7 +16,13 @@
     display: flex;
     justify-content: space-between;
     font-weight: 700;
-    font-size: 0.46rem;
+    font-size: 0.34rem;
     font-family: 'SourceHanSansCN-Bold', 'Microsoft Yahei', sans-serif;
+    margin-bottom: 0.3rem;
+  }
+
+  .icon {
+    font-size: 0.56rem;
+    padding-top: 0.1rem;
   }
 }

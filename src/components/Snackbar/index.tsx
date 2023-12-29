@@ -19,8 +19,14 @@ const Snackbar: FunctionComponent<SnackbarProps> = ({
   ...props
 }) => {
   return (
-    <MuiSnackbar {...props}>
+    <MuiSnackbar
+      anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+      {...props}
+    >
       <Alert
+        classes={{
+          icon: Styles.icon,
+        }}
         className={Styles.snackbar__alert}
         severity={severity}
         action={action}

@@ -11,7 +11,7 @@ use async_trait::async_trait;
 use futures::lock::Mutex;
 use indexmap::IndexMap;
 use inject_event::InjectEvent::*;
-use percent_encoding::{utf8_percent_encode, NON_ALPHANUMERIC};
+use percent_encoding::{percent_decode, utf8_percent_encode, NON_ALPHANUMERIC};
 use std::os::windows::fs::MetadataExt;
 use std::{fs, sync::Arc};
 use tauri::plugin::{Builder, TauriPlugin};
@@ -288,7 +288,10 @@ impl MusicInject for LocalMusicInjector {
 
     async fn get_album(&self, mut cid: String) -> Result<Album, PluginRequestError> {
         // parse path from `/` to `\\`, don't ask me why I do this, because http request path will change `\\` to `/` 🧐
-        cid = cid.replace("/", "\\");
+        cid = percent_decode(cid.replace("/", "\\").as_bytes())
+            .decode_utf8()
+            .unwrap()
+            .to_string();
         match self.index.lock().await.get(&cid) {
             Some(v) => {
                 let songs = v.clone().into_iter().map(add_namespace_for_song).collect();

@@ -5,3 +5,4 @@
  */
 import './audio_instance';
 import './store';
+import './frontend_notify';
