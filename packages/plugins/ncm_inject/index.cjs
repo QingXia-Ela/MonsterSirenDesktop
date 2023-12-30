@@ -2,6 +2,8 @@ const { Deno } = require('@deno/shim-deno')
 const fs = require('fs')
 const path = require('path')
 const tmpPath = require('os').tmpdir()
+const request = require('NeteaseCloudMusicApi/util/request')
+const { cookieToJson } = require('NeteaseCloudMusicApi/util/index')
 
 const parseRoute = (/** @type {string} */ fileName) => `/${fileName.replace(/\.js$/i, '').replace(/_/g, '/')}`
 // module import
@@ -14,6 +16,25 @@ const collect = {
   "playlist_track_all": require("NeteaseCloudMusicApi/module/playlist_track_all"),
   /** 歌曲详情 */
   "song_detail": require("NeteaseCloudMusicApi/module/song_detail"),
+  /** 游客token注册 */
+  "register_anonimous": require("NeteaseCloudMusicApi/module/register_anonimous"),
+}
+
+async function generateConfig() {
+  try {
+    const res = await collect.register_anonimous({ cookie: {} }, request)
+    const cookie = res.body.cookie ?? {}
+    if (cookie) {
+      const cookieObj = cookieToJson(cookie)
+      fs.writeFileSync(
+        path.resolve(tmpPath, 'anonymous_token'),
+        cookieObj.MUSIC_A,
+        'utf-8',
+      )
+    }
+  } catch (error) {
+    console.log(error)
+  }
 }
 
 /**
@@ -31,7 +52,7 @@ async function start() {
     fs.writeFileSync(path.resolve(tmpPath, 'anonymous_token'), '', 'utf-8')
   }
   // 启动时更新anonymous_token
-  const generateConfig = require('NeteaseCloudMusicApi/generateConfig')
+  // const generateConfig = require('NeteaseCloudMusicApi/generateConfig')
   await generateConfig()
   require('NeteaseCloudMusicApi/server').serveNcmApi({
     checkVersion: true,

@@ -36,6 +36,6 @@ export interface musicPlaySetAlbumDetail extends AnyAction {
 }
 
 export type MusicPlayActions =
-  musicPlayGetAlbumDetail |
-  musicPlayToAlbum |
-  musicPlaySetAlbumDetail;
+  | musicPlayGetAlbumDetail
+  | musicPlayToAlbum
+  | musicPlaySetAlbumDetail;

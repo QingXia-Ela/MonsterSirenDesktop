@@ -1,2 +1,2 @@
 import './ChangeSongListWhenPlayAlbum';
-import './ChangeAlbumImgWhenChangeSong'
+import './ChangeAlbumImgWhenChangeSong';

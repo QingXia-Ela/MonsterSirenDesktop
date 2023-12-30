@@ -1,4 +1,5 @@
 // todo!: album cid optimize or change it to sha256 calc value
+// todo!: optimize it.
 use crate::constants::AUDIO_SUFFIX;
 use crate::global_utils::{get_main_window, is_audio_suffix};
 use crate::{
@@ -260,7 +261,6 @@ impl MusicInject for LocalMusicInjector {
                         lyric_url: match lrc {
                             Ok(lrc) => {
                                 if lrc.is_file() {
-                                    println!("lrc path: {}", lrc_path);
                                     Some(format!(
                                         "http://localhost:11453?path={}",
                                         utf8_percent_encode(lrc_path.as_str(), NON_ALPHANUMERIC)
@@ -276,6 +276,7 @@ impl MusicInject for LocalMusicInjector {
                         artists: vec![],
                         size: song.size,
                         create_time: song.create_time,
+                        // todo!: finish it in future. Now local injector still cannot read img from audio metadata.
                         song_cover_url: None,
                         cid,
                     });
