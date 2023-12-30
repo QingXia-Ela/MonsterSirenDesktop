@@ -6,8 +6,8 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.cjs",
-    "build": "node build.js"
+    "start": "node src-node/index.cjs",
+    "build": "node bin/build.js"
   },
   "keywords": [],
   "author": "",

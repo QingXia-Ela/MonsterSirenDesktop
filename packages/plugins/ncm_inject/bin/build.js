@@ -7,7 +7,7 @@ const logger = vite.createLogger("info", {
 
 // bundle node
 await esbuild.build({
-  entryPoints: ['./index.cjs'],
+  entryPoints: ['./src-node/index.cjs'],
   outfile: './dist/bundle.cjs',
   bundle: true,
   platform: 'node',
