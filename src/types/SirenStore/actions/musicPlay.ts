@@ -25,4 +25,17 @@ export interface musicPlaySetCurrent extends AnyAction {
   data: SirenStoreState['musicPlay']['albumDetail'];
 }
 
-export type MusicPlayActions = musicPlayGetAlbumDetail;
+export interface musicPlayToAlbum extends AnyAction {
+  type: 'musicPlay/toAlbum';
+  cid: string;
+}
+
+export interface musicPlaySetAlbumDetail extends AnyAction {
+  type: 'musicPlay/setAlbumDetail';
+  data: SirenStoreState['musicPlay']['albumDetail'];
+}
+
+export type MusicPlayActions =
+  musicPlayGetAlbumDetail |
+  musicPlayToAlbum |
+  musicPlaySetAlbumDetail;

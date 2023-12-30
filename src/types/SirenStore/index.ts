@@ -113,7 +113,7 @@ const initalProps = {
       name: '',
       intro: '',
       belong: '',
-      coverUrl: null,
+      coverUrl: '',
       coverDeUrl: null,
       songs: [],
     },

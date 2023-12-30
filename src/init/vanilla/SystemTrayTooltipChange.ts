@@ -9,8 +9,9 @@ SirenStore.subscribe(() => {
   if (current.cid !== currentSongId) {
     currentSongId = current.cid;
     invoke('change_tray_tooltip', {
-      tooltip: `正在播放: ${current.name}${current.artists.length && ` - ${current.artists.join(' / ')}`
-        }`,
+      tooltip: `正在播放: ${current.name}${
+        current.artists.length && ` - ${current.artists.join(' / ')}`
+      }`,
     });
   }
 });

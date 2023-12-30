@@ -1,3 +1,4 @@
+// todo!: album cid optimize or change it to sha256 calc value
 use crate::constants::AUDIO_SUFFIX;
 use crate::global_utils::{get_main_window, is_audio_suffix};
 use crate::{
@@ -10,12 +11,9 @@ use crate::{
 use async_trait::async_trait;
 use futures::lock::Mutex;
 use indexmap::IndexMap;
-use inject_event::InjectEvent::*;
 use percent_encoding::{percent_decode, utf8_percent_encode, NON_ALPHANUMERIC};
 use std::os::windows::fs::MetadataExt;
 use std::{fs, sync::Arc};
-use tauri::plugin::{Builder, TauriPlugin};
-use tauri::Manager;
 use tokio::fs as tokio_fs;
 
 mod inject_event;
@@ -216,10 +214,10 @@ impl MusicInject for LocalMusicInjector {
         let mut res = vec![];
         for path in self.index.lock().await.keys() {
             res.push(BriefAlbum {
-                cid: format!("local:{}", path),
+                cid: format!("local:{}", path.replace('\\', ":")),
                 name: path.clone(),
                 // todo!: add default cover path
-                cover_url: String::from("/UAlbum.jpg"),
+                cover_url: String::from("/siren.png"),
                 artistes: vec![],
             })
         }
@@ -278,6 +276,7 @@ impl MusicInject for LocalMusicInjector {
                         artists: vec![],
                         size: song.size,
                         create_time: song.create_time,
+                        song_cover_url: None,
                         cid,
                     });
                 }
@@ -291,18 +290,21 @@ impl MusicInject for LocalMusicInjector {
         cid = percent_decode(cid.replace("/", "\\").as_bytes())
             .decode_utf8()
             .unwrap()
-            .to_string();
+            .to_string()
+            .replace(':', "\\")
+            .replace("\\\\", ":\\");
         match self.index.lock().await.get(&cid) {
             Some(v) => {
                 let songs = v.clone().into_iter().map(add_namespace_for_song).collect();
                 return Ok(Album {
-                    cid: format!("local:{}", cid),
+                    // cid shouldn't include `\\`, which will lead music page error when switch album and show album img
+                    cid: format!("local:{}", cid.replace("\\", ":")),
                     name: format!("本地音乐:{}", cid),
                     intro: format!("本地音乐: {}", cid),
-                    belong: String::new(),
+                    belong: String::from("local"),
                     // todo!: add default cover path
-                    cover_url: String::from("/UAlbum.jpg"),
-                    cover_de_url: String::new(),
+                    cover_url: String::from("/siren.png"),
+                    cover_de_url: String::from("/siren.png"),
                     artistes: vec![],
                     songs,
                 });

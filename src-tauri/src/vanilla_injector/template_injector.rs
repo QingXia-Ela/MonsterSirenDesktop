@@ -30,6 +30,7 @@ fn get_sh() -> Song {
         mv_url: None,
         mv_cover_url: None,
         create_time: None,
+        song_cover_url: None,
         size: None,
     }
 }
@@ -49,6 +50,7 @@ fn get_bk() -> Song {
         mv_url: None,
         mv_cover_url: None,
         create_time: None,
+        song_cover_url: None,
         size: None,
     }
 }

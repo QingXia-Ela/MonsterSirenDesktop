@@ -62,9 +62,14 @@ pub struct Song {
     #[serde(rename = "mvCoverUrl")]
     pub mv_cover_url: Option<String>,
     pub artists: Vec<String>,
+    /// Note: This field is not in the vanilla siren api, it only provide for application
     pub size: Option<u64>,
     #[serde(rename = "createTime")]
+    /// Note: This field is not in the vanilla siren api, it only provide for application
     pub create_time: Option<u64>,
+    #[serde(rename = "songCoverUrl")]
+    /// Note: This field is not in the vanilla siren api, it only provide for application
+    pub song_cover_url: Option<String>,
 }
 
 impl ToResponseJson for Song {}

@@ -19,6 +19,7 @@ export interface SirenPlayerType {
       sourceUrl: string | null;
       name: string;
       artists: string[];
+      songCoverUrl: string | null;
     };
   };
 }

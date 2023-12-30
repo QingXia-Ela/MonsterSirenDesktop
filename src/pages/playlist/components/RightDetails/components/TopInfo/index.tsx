@@ -17,7 +17,7 @@ const EmptyListInfo = {
 };
 
 const RightDetailsTopInfo: FunctionComponent<RightDetailsTopInfoProps> = ({
-  ImgPath = '/UAlbum.jpg',
+  ImgPath = '/siren.png',
   ListInfo = EmptyListInfo,
 }) => {
   return (
