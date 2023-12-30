@@ -1,6 +1,5 @@
 use crate::{
     constants::SIREN_WEBSITE,
-    error::PluginRequestError,
     global_struct::{
         music_injector::MusicInjector,
         siren::{
@@ -9,6 +8,7 @@ use crate::{
         },
     },
     global_utils::decode_brotli,
+    plugin_error::PluginRequestError,
     Logger,
 };
 use indexmap::IndexMap;

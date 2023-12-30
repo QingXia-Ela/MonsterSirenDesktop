@@ -6,11 +6,11 @@
 use async_trait::async_trait;
 
 use crate::{
-    error::PluginRequestError,
     global_struct::{
         music_injector::{MusicInject, MusicInjector},
         siren::{Album, BriefAlbum, BriefSong, Song},
     },
+    plugin_error::PluginRequestError,
 };
 
 fn get_sh() -> Song {

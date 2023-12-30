@@ -3,11 +3,11 @@
 use crate::constants::AUDIO_SUFFIX;
 use crate::global_utils::{get_main_window, is_audio_suffix};
 use crate::{
-    error::PluginRequestError,
     global_struct::{
         music_injector::{MusicInject, MusicInjector},
         siren::{Album, BriefAlbum, BriefSong, Song},
     },
+    plugin_error::PluginRequestError,
 };
 use async_trait::async_trait;
 use futures::lock::Mutex;

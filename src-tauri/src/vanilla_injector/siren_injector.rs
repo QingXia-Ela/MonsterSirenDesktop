@@ -1,11 +1,11 @@
 use crate::{
     constants::SIREN_WEBSITE,
-    error::PluginRequestError,
     global_struct::{
         music_injector::{MusicInject, MusicInjector},
         siren::{response_msg::ResponseMsg, Album, BriefAlbum, BriefSong, SirenAlbumDetail, Song},
     },
     global_utils::decode_brotli,
+    plugin_error::PluginRequestError,
 };
 use async_trait::async_trait;
 use reqwest::{

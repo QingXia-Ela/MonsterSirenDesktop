@@ -1,6 +1,6 @@
 use std::sync::Arc;
 
-use crate::error::PluginRequestError;
+use crate::plugin_error::PluginRequestError;
 
 use super::siren::{Album, BriefAlbum, BriefSong, Song};
 use async_trait::async_trait;

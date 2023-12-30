@@ -8,6 +8,7 @@ edition = "2021"
 [dependencies]
 tauri = "1.5.4"
 tokio = { version = "1", features = ["full"] }
+monster-siren-desktop = { path = "../../../../src-tauri" }
 
 # Compile to a dll lib
 [lib]
