@@ -52,7 +52,6 @@ async function start() {
     fs.writeFileSync(path.resolve(tmpPath, 'anonymous_token'), '', 'utf-8')
   }
   // 启动时更新anonymous_token
-  // const generateConfig = require('NeteaseCloudMusicApi/generateConfig')
   await generateConfig()
   require('NeteaseCloudMusicApi/server').serveNcmApi({
     checkVersion: true,
