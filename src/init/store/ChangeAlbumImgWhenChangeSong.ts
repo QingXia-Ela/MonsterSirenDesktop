@@ -8,7 +8,7 @@
 
 import SirenStore from '@/store/SirenStore';
 
-let currentSongCoverImg: string;
+let currentSongCoverImg: string | null = null;
 
 SirenStore.subscribe(() => {
   const {
@@ -20,12 +20,12 @@ SirenStore.subscribe(() => {
     },
   } = SirenStore.getState();
   if (currentSongCoverImg !== songCoverUrl) {
-    currentSongCoverImg = songCoverUrl ?? coverUrl;
+    currentSongCoverImg = songCoverUrl;
     SirenStore.dispatch({
       type: 'musicPlay/setAlbumDetail',
       data: {
         ...SirenStore.getState().musicPlay.albumDetail,
-        coverUrl: currentSongCoverImg,
+        coverUrl: currentSongCoverImg || coverUrl,
       },
     });
   }
