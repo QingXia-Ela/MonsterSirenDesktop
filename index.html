@@ -5,6 +5,12 @@
   injectApp.classList.add("inject_app_class_namespace")
   document.body.appendChild(injectApp);
 
+  const injectSidebar = document.createElement("div");
+  injectSidebar.id = "inject-sidebar";
+  injectSidebar.classList.add("inject_sidebar_class_namespace")
+
+  document.body.appendChild(injectSidebar);
+
   // 未联网处理
   // 需要屏蔽 api 请求、在线音乐获取
   if (!navigator.onLine) {

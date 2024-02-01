@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import getSirenCtx from '@/hooks/getSirenCtx';
 import Styles from './index.module.css';
 import { Portal } from '@mui/material';
-import SirenStore from '@/store/SirenStore';
 import SidebarLeftOptionList from './components/LeftOptionList';
 import { OptionList } from './constants/config';
 import RightOptionDetail from './components/RightOptionDetail';
@@ -24,7 +23,7 @@ function SideBar({ open, setOpen }: SideBarProps) {
     setOpen(false);
     layout.style.filter = '';
     layout.style.pointerEvents = '';
-    saveSettings().then(() => {});
+    saveSettings().then(() => { });
   };
 
   if (open) {

@@ -11,7 +11,8 @@
   transition: filter 0.5s;
 }
 
-#inject-app {
+#inject-app,
+#inject-sidebar {
   @font-face {
     font-family: 'SourceHanSansCN-Bold';
     src: url(@/assets/fonts/SourceHanSansCN-Bold.otf);
@@ -21,11 +22,14 @@
   position: fixed;
   top: 0;
   left: 0;
-  font-family: 'SourceHanSansCN-Bold', 'Microsoft Yahei', sans-serif;
+  font-family: 'SourceHanSansCN-Bold',
+  'Microsoft Yahei',
+  sans-serif;
 }
 
 // make css level lower
-.inject_app_class_namespace * {
+.inject_app_class_namespace *,
+.inject_sidebar_class_namespace * {
   box-sizing: border-box;
 }
 
@@ -60,6 +64,7 @@
 }
 
 .scrollbar__hidden {
+
   /* webkit */
   &::-webkit-scrollbar {
     width: 0;

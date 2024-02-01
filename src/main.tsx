@@ -11,10 +11,11 @@ import './init';
 import './global_event';
 // optimize
 import './optimize';
+import SidebarWrapper from './layout/sidebar/wrapper';
 
 // action
 if ($settingAdvancement.get().logStore) {
-  window.siren_config.log_store = true;
+  window.siren_config.logStore = true;
 }
 
 // 禁用右键菜单
@@ -42,3 +43,11 @@ ReactDOM.createRoot(
     <App />
   </React.StrictMode>,
 );
+
+ReactDOM.createRoot(
+  document.getElementById('inject-sidebar') as HTMLElement,
+).render(
+  <React.StrictMode>
+    <SidebarWrapper />
+  </React.StrictMode>,
+)
