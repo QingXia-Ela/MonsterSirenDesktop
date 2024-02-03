@@ -27,7 +27,7 @@ const SingleItem: FunctionComponent<SingleItemProps> = ({
 }) => {
   return (
     <div className={Styles.single_item}>
-      <div className='w-[30%] text_nowrap pr-1' title={name}>
+      <div className='w-[40%] text_nowrap pr-1' title={name}>
         <FlowText>{name}</FlowText>
       </div>
       <div className='w-[18%] text_nowrap pr-1'>{author}</div>

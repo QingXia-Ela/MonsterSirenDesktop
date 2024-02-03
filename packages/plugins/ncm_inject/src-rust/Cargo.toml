@@ -6,9 +6,8 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-tauri = "1.5.4"
+deno_runtime = { version = "0.135.0" }
 tokio = { version = "1", features = ["full"] }
-monster-siren-desktop = { path = "../../../../src-tauri" }
 
 # Compile to a dll lib
 [lib]

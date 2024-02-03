@@ -50,4 +50,4 @@ ReactDOM.createRoot(
   <React.StrictMode>
     <SidebarWrapper />
   </React.StrictMode>,
-)
+);

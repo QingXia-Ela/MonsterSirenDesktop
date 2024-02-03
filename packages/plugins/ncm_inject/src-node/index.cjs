@@ -2,7 +2,6 @@ const { Deno } = require('@deno/shim-deno')
 const fs = require('fs')
 const path = require('path')
 const tmpPath = require('os').tmpdir()
-const request = require('NeteaseCloudMusicApi/util/request')
 const { cookieToJson } = require('NeteaseCloudMusicApi/util/index')
 
 const parseRoute = (/** @type {string} */ fileName) => `/${fileName.replace(/\.js$/i, '').replace(/_/g, '/')}`
@@ -21,6 +20,7 @@ const collect = {
 }
 
 async function generateConfig() {
+  const request = require('NeteaseCloudMusicApi/util/request')
   try {
     const res = await collect.register_anonimous({ cookie: {} }, request)
     const cookie = res.body.cookie ?? {}

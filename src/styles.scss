@@ -22,9 +22,7 @@
   position: fixed;
   top: 0;
   left: 0;
-  font-family: 'SourceHanSansCN-Bold',
-  'Microsoft Yahei',
-  sans-serif;
+  font-family: 'SourceHanSansCN-Bold', 'Microsoft Yahei', sans-serif;
 }
 
 // make css level lower
@@ -64,7 +62,6 @@
 }
 
 .scrollbar__hidden {
-
   /* webkit */
   &::-webkit-scrollbar {
     width: 0;

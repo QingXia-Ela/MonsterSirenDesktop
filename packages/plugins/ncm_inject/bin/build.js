@@ -11,8 +11,9 @@ await esbuild.build({
   outfile: './dist-node/bundle.cjs',
   bundle: true,
   platform: 'node',
-  target: 'node14',
-  format: 'cjs',
+  target: 'esnext',
+  format: "cjs",
+  inject: ['./src-node/shim.js'],
   define: {
     'process.env.NODE_ENV': '"production"'
   },

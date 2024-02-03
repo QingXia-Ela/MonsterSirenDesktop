@@ -1,5 +1,4 @@
-use deno_core::JsRuntime;
-use deno_core::RuntimeOptions;
+use deno_runtime::*;
 use std::ffi::c_void;
 
 #[no_mangle]
