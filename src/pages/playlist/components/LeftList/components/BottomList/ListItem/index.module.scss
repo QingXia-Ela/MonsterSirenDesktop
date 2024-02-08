@@ -2,7 +2,7 @@
   justify-content: start;
   width: 100%;
   contain-intrinsic-height: 3.75rem;
-  padding: 0.14rem 0.3rem;
+  padding: 0.14rem;
   user-select: none;
   box-sizing: border-box;
 
@@ -23,8 +23,8 @@
 }
 
 .item_description {
-  width: calc(100% - 0.2rem);
-  padding: 0 0.3rem;
+  width: calc(100% - 0.45rem) !important;
+  padding: 0 0.3rem 0 0.15rem;
   box-sizing: border-box;
 
   .title {
@@ -43,7 +43,10 @@
 }
 
 .img {
-  width: 0.5rem;
-  height: 0.5rem;
-  font-size: 0.54rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 0.8rem;
+  height: 0.8rem;
+  font-size: 0.6rem !important;
 }

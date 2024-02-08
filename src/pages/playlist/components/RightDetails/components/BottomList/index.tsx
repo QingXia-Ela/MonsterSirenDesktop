@@ -4,7 +4,7 @@ import { FunctionComponent } from 'react';
 import SingleItem from './SingleItem';
 import SirenStore from '@/store/SirenStore';
 
-interface RightDetailsBottomListProps { }
+interface RightDetailsBottomListProps {}
 
 const RightDetailsBottomList: FunctionComponent<
   RightDetailsBottomListProps

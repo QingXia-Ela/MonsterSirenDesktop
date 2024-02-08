@@ -10,6 +10,9 @@ interface ListLeftBottomDetailsProps {
     namespace: string;
     data: BottomListType;
   }>;
+  /**
+   * Active id format like this: `namespace/id`
+   */
   activeId?: string;
   ScrollbarDegNum?: number;
   onClickItem?: (id: string) => void;
@@ -24,7 +27,7 @@ const ListLeftBottomDetails: FunctionComponent<ListLeftBottomDetailsProps> = ({
   const ListDataNodes = useMemo(() => {
     return ListData.map(({ data, title, namespace: n }) => (
       <div key={n} className='w-full'>
-        <span className='mb-[.08rem] text-[.26rem] block'>{title}</span>
+        <span className='mb-[.1rem] mt-[.2rem] text-[.3rem] block'>{title}</span>
         {data.map((v) => (
           <ListLeftBottomDetailItem
             item={v}
