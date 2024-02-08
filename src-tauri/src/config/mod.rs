@@ -33,8 +33,13 @@ pub fn init_window_from_config(window: &mut tauri::Window, config: &Config) {
 }
 
 /// Initialize and get the config file
+/// `path` is `%app_data_dir%\\config`, and limit the scope of config to be only in `config` dir
 pub fn init_config(path: String, filename: String) -> Config {
     let full_path = format!("{}\\{}", path, filename);
+    // fix: app data dir doesn't exist
+    // 管他还在不在，先试着创建先，假如创建和后续的写入失败就提示一下用户说会使用默认配置，或者后续可以考虑用注册表注册配置
+    // todo!: 这里创建了 app 的根目录，可能需要移植到外面
+    let _ = fs::create_dir(format!("{}\\{}", path, "../"));
 
     // if path of file doesn't exist just create it
     if fs::metadata(&path).is_err() || fs::metadata(&full_path).is_err() {
