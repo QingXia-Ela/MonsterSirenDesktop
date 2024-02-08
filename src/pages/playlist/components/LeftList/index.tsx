@@ -2,36 +2,38 @@ import { FunctionComponent, useState } from 'react';
 import ListLeftBottomDetails from './components/BottomList';
 import SirenStore from '@/store/SirenStore';
 
-interface LeftListProps { }
+interface LeftListProps {}
 
-const namespaceReg = /(\w+):.+/
+const namespaceReg = /(\w+):.+/;
 
 const namespaceTranslateMap: Record<string, string> = {
-  "local": "本地音乐",
-  "template": "模板",
-  "siren": "塞壬唱片官方专辑",
-}
+  local: '本地音乐',
+  template: '模板',
+  siren: '塞壬唱片官方专辑',
+};
 
-function parseAlbumListToBottomList(list: {
-  cid: string
-  name: string
-  coverUrl: string
-  artists: string[]
-}[]) {
-  const map: Record<string, any> = {}
+function parseAlbumListToBottomList(
+  list: {
+    cid: string;
+    name: string;
+    coverUrl: string;
+    artists: string[];
+  }[],
+) {
+  const map: Record<string, any> = {};
 
   for (let i = 0; i < list.length; i++) {
     const element = list[i];
     // custom playlist
     if (namespaceReg.test(element.cid)) {
-      const [_, namespace] = namespaceReg.exec(element.cid)!
+      const [_, namespace] = namespaceReg.exec(element.cid)!;
 
       if (!map[namespace]) {
         map[namespace] = {
           title: namespaceTranslateMap[namespace] || namespace,
           namespace,
           data: [],
-        }
+        };
       }
 
       map[namespace].data.push({
@@ -40,7 +42,7 @@ function parseAlbumListToBottomList(list: {
         id: element.cid,
         title: element.name,
         subTitle: element.artists?.join(','),
-      })
+      });
     }
     // official playlist
     // todo!: add classify mod
@@ -51,7 +53,7 @@ function parseAlbumListToBottomList(list: {
           title: '塞壬唱片官方专辑',
           namespace: 'siren',
           data: [],
-        }
+        };
       }
 
       map['siren'].data.push({
@@ -60,25 +62,24 @@ function parseAlbumListToBottomList(list: {
         id: element.cid,
         title: element.name,
         subTitle: element.artists?.join(','),
-      })
+      });
     }
   }
 
-  return Object.values(map)
+  return Object.values(map);
 }
 
 const LeftList: FunctionComponent<LeftListProps> = () => {
   const [activeId, setActiveId] = useState('test/3');
 
-  const playerList = parseAlbumListToBottomList(SirenStore.getState().music.albumList)
+  const playerList = parseAlbumListToBottomList(
+    SirenStore.getState().music.albumList,
+  );
 
   return (
     <div className='w-20 flex flex-col'>
       <div className='text-[.6em] font-bold'>播放列表</div>
-      <ListLeftBottomDetails
-        activeId={activeId}
-        ListData={playerList}
-      />
+      <ListLeftBottomDetails activeId={activeId} ListData={playerList} />
     </div>
   );
 };

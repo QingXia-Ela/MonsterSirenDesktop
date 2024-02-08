@@ -27,7 +27,9 @@ const ListLeftBottomDetails: FunctionComponent<ListLeftBottomDetailsProps> = ({
   const ListDataNodes = useMemo(() => {
     return ListData.map(({ data, title, namespace: n }) => (
       <div key={n} className='w-full'>
-        <span className='mb-[.1rem] mt-[.2rem] text-[.3rem] block'>{title}</span>
+        <span className='mb-[.1rem] mt-[.2rem] text-[.3rem] block'>
+          {title}
+        </span>
         {data.map((v) => (
           <ListLeftBottomDetailItem
             item={v}

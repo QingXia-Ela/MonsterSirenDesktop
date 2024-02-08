@@ -64,9 +64,7 @@ const ListLeftBottomDetailItem: FunctionComponent<
       SmallScaleNum={0.97}
     >
       {getInnerContent(item)}
-      <div
-        className={`${Styles.item_description}`}
-      >
+      <div className={`${Styles.item_description}`}>
         <div className={`${Styles.title} text_nowrap`} title={item.title}>
           <FlowText>{item.title}</FlowText>
         </div>
