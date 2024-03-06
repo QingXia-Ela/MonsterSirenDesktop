@@ -2,7 +2,8 @@
   "basic": {
     "closeAutoPlay": true,
     "volume": 20,
-    "closeMode": ""
+    "closeMode": "",
+    "showSirenMusicListMode": "collect"
   },
   "background": {
     "enable": false,

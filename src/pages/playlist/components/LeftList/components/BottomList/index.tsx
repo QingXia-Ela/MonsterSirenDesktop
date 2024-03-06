@@ -24,22 +24,6 @@ const ListLeftBottomDetails: FunctionComponent<ListLeftBottomDetailsProps> = ({
   ScrollbarDegNum,
 }) => {
   const [namespace, id] = activeId?.split('/') || [];
-  const ListDataNodes = useMemo(() => {
-    return ListData.map(({ data, title, namespace: n }) => (
-      <div key={n} className='w-full'>
-        <span className='mb-[.1rem] mt-[.2rem] text-[.3rem] block'>
-          {title}
-        </span>
-        {data.map((v) => (
-          <ListLeftBottomDetailItem
-            item={v}
-            key={v.id}
-            active={namespace === n && id === v.id}
-          />
-        ))}
-      </div>
-    ));
-  }, [ListData]);
 
   return (
     <div className={Styles.list}>
@@ -49,17 +33,23 @@ const ListLeftBottomDetails: FunctionComponent<ListLeftBottomDetailsProps> = ({
           ScrollbarDegNum={ScrollbarDegNum}
         >
           {/* 待优化伪列表 */}
-          {ListDataNodes}
+          {ListData.map(({ data, title, namespace: n }) => (
+            <div key={n} className='w-full'>
+              <span className='mb-[.1rem] mt-[.2rem] text-[.3rem] block'>
+                {title}
+              </span>
+              {data.map((v) => (
+                <ListLeftBottomDetailItem
+                  item={v}
+                  key={v.id}
+                  active={namespace === n && id === v.id}
+                />
+              ))}
+            </div>
+          ))}
         </WhiteZebraScrollbars>
       ) : (
         <div className={Styles.empty}>
-          <i
-            className='iconfont icon-empty'
-            style={{
-              marginBottom: '1.2500rem',
-              fontSize: '3.7500rem',
-            }}
-          ></i>
           <div className={Styles.text}>啥都没有找到捏~(￣▽￣)~*</div>
         </div>
       )}

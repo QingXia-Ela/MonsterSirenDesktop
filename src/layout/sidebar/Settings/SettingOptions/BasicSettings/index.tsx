@@ -11,7 +11,7 @@ import HoverWhiteBg from '@/components/HoverWhiteBg';
 import SubTitle from '../../components/SubTitle';
 import Select from '@/components/Select';
 
-interface BasicSettingsProps {}
+interface BasicSettingsProps { }
 
 const SELECT_OPTIONS = CloseModeChooses.map(({ title, value }) => ({
   value,
@@ -35,6 +35,15 @@ const BasicSettings: FunctionComponent<BasicSettingsProps> = () => {
           </Checkbox>
         </HoverWhiteBg>
       </StyledTooltip>
+      <SubTitle>播放列表</SubTitle>
+      <Select
+        // TODO!: optimize it to auto generate, don't know why it can't auto generate when value is ""
+        placeholder='每次关闭时询问'
+        value={closeMode}
+        height='2.5rem'
+        options={SELECT_OPTIONS}
+        onChange={(v) => changeCloseMode(v)}
+      />
       <SubTitle>关闭行为调整</SubTitle>
       <Select
         // TODO!: optimize it to auto generate, don't know why it can't auto generate when value is ""

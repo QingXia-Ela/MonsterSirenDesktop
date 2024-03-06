@@ -11,14 +11,14 @@ import $settingAdvancement, {
 import Checkbox from '@/components/Checkbox';
 import HoverWhiteBg from '@/components/HoverWhiteBg';
 
-interface AdvancementSettingsProps {}
+interface AdvancementSettingsProps { }
 
 const AdvancementSettings: FunctionComponent<AdvancementSettingsProps> = () => {
   const { logStore, allowContextMenu } = useStore($settingAdvancement);
   return (
     <div className='w-full flex flex-col gap-1'>
       <SubTitle>开发者工具</SubTitle>
-      <StyledTooltip title='启动浏览器控制台'>
+      <StyledTooltip title='启动浏览器控制台（非常占用系统，不建议随便开启）'>
         <Button
           decorate
           className='w-full'

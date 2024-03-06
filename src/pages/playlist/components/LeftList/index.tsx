@@ -1,11 +1,12 @@
-import { FunctionComponent, useState } from 'react';
+import { FunctionComponent, useEffect, useState } from 'react';
 import ListLeftBottomDetails from './components/BottomList';
 import SirenStore from '@/store/SirenStore';
 
-interface LeftListProps {}
+interface LeftListProps { }
 
 const namespaceReg = /(\w+):.+/;
 
+// todo!: 增加插件转译
 const namespaceTranslateMap: Record<string, string> = {
   local: '本地音乐',
   template: '模板',
@@ -71,6 +72,9 @@ function parseAlbumListToBottomList(
 
 const LeftList: FunctionComponent<LeftListProps> = () => {
   const [activeId, setActiveId] = useState('test/3');
+
+  // get album list if list doesn't exist
+  // this process will also trigger on vanilla page change to `music`
 
   const playerList = parseAlbumListToBottomList(
     SirenStore.getState().music.albumList,

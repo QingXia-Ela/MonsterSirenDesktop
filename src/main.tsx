@@ -12,6 +12,7 @@ import './global_event';
 // optimize
 import './optimize';
 import SidebarWrapper from './layout/sidebar/wrapper';
+import SirenStore from './store/SirenStore';
 
 // action
 if ($settingAdvancement.get().logStore) {
@@ -35,6 +36,11 @@ window.addEventListener('keydown', (e) => {
     e.preventDefault();
   }
 });
+
+// 获取专辑列表
+SirenStore.dispatch({
+  type: "music/getAlbumList"
+})
 
 ReactDOM.createRoot(
   document.getElementById('inject-app') as HTMLElement,

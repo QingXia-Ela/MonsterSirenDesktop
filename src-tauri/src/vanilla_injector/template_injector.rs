@@ -15,7 +15,7 @@ use crate::{
 
 fn get_sh() -> Song {
     Song {
-        cid: "template:114514.flac".to_string(),
+        cid: "template:114514".to_string(),
         name: "Snow Halation".to_string(),
         album_cid: "template:1919810".to_string(),
         source_url: "http://127.0.0.1:11453?path=E:\\Animenzzz\\μ's - Snow Halation.flac"
