@@ -39,8 +39,8 @@ window.addEventListener('keydown', (e) => {
 
 // 获取专辑列表
 SirenStore.dispatch({
-  type: "music/getAlbumList"
-})
+  type: 'music/getAlbumList',
+});
 
 ReactDOM.createRoot(
   document.getElementById('inject-app') as HTMLElement,

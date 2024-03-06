@@ -6,15 +6,14 @@ import SirenStore from '@/store/SirenStore';
 import { useStore } from '@nanostores/react';
 import $PlayListState, { updateAlbumList } from '@/store/pages/playlist';
 
-interface RightDetailsBottomListProps { }
+interface RightDetailsBottomListProps {}
 
 const RightDetailsBottomList: FunctionComponent<
   RightDetailsBottomListProps
 > = () => {
   const list = SirenStore.getState().player.list;
 
-  const state = useStore($PlayListState)
-
+  const state = useStore($PlayListState);
 
   return (
     <Scrollbar

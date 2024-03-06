@@ -25,7 +25,7 @@ async function getListData(id: string) {
 }
 
 async function getAlbumListData() {
-  return await (await getAlbums()).json() as AlbumBriefData[];
+  return (await (await getAlbums()).json()) as AlbumBriefData[];
 }
 
 const albumIdReg = /(\w+):(.+)/;

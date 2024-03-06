@@ -4,11 +4,11 @@ export interface basicConfig {
   closeMode?: 'minimize' | 'close' | 'tray' | '';
   /**
    * 音乐列表显示模式
-   * 
+   *
    * - hide: 隐藏
    * - show: 显示
    * - collect: 将所有歌曲打平为一个音乐列表
-   * 
+   *
    * @default "collect"
    */
   showSirenMusicListMode?: 'hide' | 'show' | 'collect' | '';
@@ -35,9 +35,9 @@ export interface downloadConfig {
   parseFileType?: string;
 }
 
-export interface outputDeviceConfig { }
+export interface outputDeviceConfig {}
 
-export interface desktopLrcConfig { }
+export interface desktopLrcConfig {}
 
 export interface advancementConfig {
   enable?: boolean;

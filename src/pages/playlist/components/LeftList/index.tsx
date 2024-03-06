@@ -2,7 +2,7 @@ import { FunctionComponent, useEffect, useState } from 'react';
 import ListLeftBottomDetails from './components/BottomList';
 import SirenStore from '@/store/SirenStore';
 
-interface LeftListProps { }
+interface LeftListProps {}
 
 const namespaceReg = /(\w+):.+/;
 

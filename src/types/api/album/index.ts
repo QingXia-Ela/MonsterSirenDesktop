@@ -12,4 +12,7 @@ export interface AlbumData {
   }>;
 }
 
-export type AlbumBriefData = Omit<AlbumData, 'songs' | 'coverDeUrl' | 'intro' | 'belong'>
+export type AlbumBriefData = Omit<
+  AlbumData,
+  'songs' | 'coverDeUrl' | 'intro' | 'belong'
+>;

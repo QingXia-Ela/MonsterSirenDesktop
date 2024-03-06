@@ -19,22 +19,22 @@ export const CloseModeChooses: Array<{
   title: string;
   value: Exclude<CONFIG_TYPE['basic']['closeMode'], undefined>;
 }> = [
-    {
-      title: '隐藏到任务栏',
-      value: 'tray',
-    },
-    {
-      title: '最小化窗口',
-      value: 'minimize',
-    },
-    {
-      title: '直接退出',
-      value: 'close',
-    },
-    {
-      title: '每次关闭时询问',
-      value: '',
-    },
-  ];
+  {
+    title: '隐藏到任务栏',
+    value: 'tray',
+  },
+  {
+    title: '最小化窗口',
+    value: 'minimize',
+  },
+  {
+    title: '直接退出',
+    value: 'close',
+  },
+  {
+    title: '每次关闭时询问',
+    value: '',
+  },
+];
 
 export default $settingBasic;
