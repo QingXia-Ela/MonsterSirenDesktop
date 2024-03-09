@@ -39,6 +39,12 @@ pub struct MusicInjector {
     ///
     /// it will use in css directly
     pub color: String,
+    /// a js string running on frontend
+    ///
+    /// The js should be a module and export a default init function.
+    ///
+    /// Please read the documation for more infomation and learn the rules that need to know.
+    pub frontend_js: Option<String>,
     pub request_interceptor: Box<dyn MusicInject>,
     pub init_fn: Option<Box<dyn Fn(tauri::AppHandle) + Send + Sync>>,
 }
@@ -48,12 +54,14 @@ impl MusicInjector {
         namespace: String,
         cn_namespace: String,
         color: String,
+        frontend_js: Option<String>,
         request_interceptor: Box<dyn MusicInject>,
     ) -> Self {
         Self {
             namespace,
             cn_namespace,
             color,
+            frontend_js,
             request_interceptor,
             init_fn: None,
         }

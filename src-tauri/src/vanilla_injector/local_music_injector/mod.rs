@@ -323,6 +323,7 @@ pub fn get_injector() -> MusicInjector {
         "local".to_string(),
         String::from("本地音乐"),
         String::from("gray"),
+        None,
         local_inject,
     );
 

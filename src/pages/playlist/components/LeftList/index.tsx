@@ -1,8 +1,10 @@
 import { FunctionComponent, useEffect, useState } from 'react';
 import ListLeftBottomDetails from './components/BottomList';
 import SirenStore from '@/store/SirenStore';
+import useSirenStore from '@/hooks/useSirenStore';
+import { SirenStoreState } from '@/types/SirenStore';
 
-interface LeftListProps {}
+interface LeftListProps { }
 
 const namespaceReg = /(\w+):.+/;
 
@@ -70,8 +72,14 @@ function parseAlbumListToBottomList(
   return Object.values(map);
 }
 
+function filterStore(store: SirenStoreState) {
+  return store.musicPlay.albumDetail.cid
+}
+
 const LeftList: FunctionComponent<LeftListProps> = () => {
-  const [activeId, setActiveId] = useState('test/3');
+  const activeId = useSirenStore(filterStore)
+
+  console.log(activeId);
 
   // get album list if list doesn't exist
   // this process will also trigger on vanilla page change to `music`

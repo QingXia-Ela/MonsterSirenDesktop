@@ -11,7 +11,7 @@ interface ListLeftBottomDetailsProps {
     data: BottomListType;
   }>;
   /**
-   * Active id format like this: `namespace/id`
+   * Active id format like this: `namespace:id`
    */
   activeId?: string;
   ScrollbarDegNum?: number;
@@ -23,8 +23,6 @@ const ListLeftBottomDetails: FunctionComponent<ListLeftBottomDetailsProps> = ({
   activeId,
   ScrollbarDegNum,
 }) => {
-  const [namespace, id] = activeId?.split('/') || [];
-
   return (
     <div className={Styles.list}>
       {ListData.length ? (
@@ -42,7 +40,7 @@ const ListLeftBottomDetails: FunctionComponent<ListLeftBottomDetailsProps> = ({
                 <ListLeftBottomDetailItem
                   item={v}
                   key={v.id}
-                  active={namespace === n && id === v.id}
+                  active={activeId === v.id}
                 />
               ))}
             </div>

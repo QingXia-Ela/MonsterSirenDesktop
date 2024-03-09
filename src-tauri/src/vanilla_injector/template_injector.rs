@@ -110,6 +110,7 @@ pub fn get_injector() -> MusicInjector {
         "template".to_string(),
         "模板".to_string(),
         "#000000".to_string(),
+        None,
         Box::new(TemplateInjector::new()),
     )
 }
