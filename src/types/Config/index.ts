@@ -3,7 +3,7 @@ export interface basicConfig {
   volume?: number;
   closeMode?: 'minimize' | 'close' | 'tray' | '';
   /**
-   * 音乐列表显示模式
+   * 塞壬唱片音乐列表显示模式
    *
    * - hide: 隐藏
    * - show: 显示
@@ -35,9 +35,9 @@ export interface downloadConfig {
   parseFileType?: string;
 }
 
-export interface outputDeviceConfig {}
+export interface outputDeviceConfig { }
 
-export interface desktopLrcConfig {}
+export interface desktopLrcConfig { }
 
 export interface advancementConfig {
   enable?: boolean;

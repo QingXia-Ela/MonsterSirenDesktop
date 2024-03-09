@@ -1,4 +1,4 @@
-import { FunctionComponent, useMemo } from 'react';
+import { FunctionComponent, useMemo, useRef } from 'react';
 import Styles from './index.module.scss';
 import WhiteZebraScrollbars from '@/components/Scrollbar';
 import { BottomListType } from '../constant';
@@ -22,9 +22,25 @@ const ListLeftBottomDetails: FunctionComponent<ListLeftBottomDetailsProps> = ({
   ListData,
   activeId,
   ScrollbarDegNum,
+  onClickItem
 }) => {
+  const rootDom = useRef<HTMLDivElement | null>()
+
+  const onClick = (e: React.MouseEvent) => {
+    let t: HTMLElement | null = e.target as HTMLElement
+
+    while (t && t != rootDom.current) {
+      const albumId = t.getAttribute("data-id")
+      if (albumId) {
+        onClickItem?.(albumId)
+        return
+      }
+      t = t.parentElement
+    }
+  }
+
   return (
-    <div className={Styles.list}>
+    <div className={Styles.list} onClick={onClick} ref={(v) => rootDom.current = v}>
       {ListData.length ? (
         <WhiteZebraScrollbars
           marginBarHeightLimit={3.1}
@@ -40,6 +56,7 @@ const ListLeftBottomDetails: FunctionComponent<ListLeftBottomDetailsProps> = ({
                 <ListLeftBottomDetailItem
                   item={v}
                   key={v.id}
+                  data-id={v.id}
                   active={activeId === v.id}
                 />
               ))}

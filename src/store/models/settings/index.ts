@@ -35,7 +35,7 @@ atomList.forEach(([key, atom]) => {
 async function saveSettings() {
   await writeTextFile(
     SETTINGS_PATH,
-    JSON.stringify(SettingsManager.getCombinedState()),
+    JSON.stringify(SettingsManager.getCombinedState(), null, 2),
     { dir: BaseDirectory.AppData },
   );
 }

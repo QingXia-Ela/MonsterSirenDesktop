@@ -1,19 +1,14 @@
-import BasicList from '@/components/List/BasicList';
 import Scrollbar from '@/components/Scrollbar';
 import { FunctionComponent } from 'react';
 import SingleItem from './SingleItem';
-import SirenStore from '@/store/SirenStore';
-import { useStore } from '@nanostores/react';
-import $PlayListState, { updateAlbumList } from '@/store/pages/playlist';
+import useSirenStore from '@/hooks/useSirenStore';
 
-interface RightDetailsBottomListProps {}
+interface RightDetailsBottomListProps { }
 
 const RightDetailsBottomList: FunctionComponent<
   RightDetailsBottomListProps
 > = () => {
-  const list = SirenStore.getState().player.list;
-
-  const state = useStore($PlayListState);
+  const list = useSirenStore((s) => s.player.list);
 
   return (
     <Scrollbar

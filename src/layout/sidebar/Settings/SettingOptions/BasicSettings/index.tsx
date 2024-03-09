@@ -1,8 +1,10 @@
 import { FunctionComponent } from 'react';
 import $settingBasic, {
   CloseModeChooses,
+  PlaylistModeChooses,
   changeAutoPlay,
   changeCloseMode,
+  changeShowListMode,
 } from '@/store/models/settings/basic';
 import { useStore } from '@nanostores/react';
 import Checkbox from '@/components/Checkbox';
@@ -11,9 +13,14 @@ import HoverWhiteBg from '@/components/HoverWhiteBg';
 import SubTitle from '../../components/SubTitle';
 import Select from '@/components/Select';
 
-interface BasicSettingsProps {}
+interface BasicSettingsProps { }
 
 const SELECT_OPTIONS = CloseModeChooses.map(({ title, value }) => ({
+  value,
+  label: title,
+}));
+
+const PLAYLIST_OPTIONS = PlaylistModeChooses.map(({ title, value }) => ({
   value,
   label: title,
 }));
@@ -35,16 +42,18 @@ const BasicSettings: FunctionComponent<BasicSettingsProps> = () => {
           </Checkbox>
         </HoverWhiteBg>
       </StyledTooltip>
-      <SubTitle>播放列表</SubTitle>
+      <StyledTooltip title='在播放列表页面中由于塞壬唱片的专辑数量过多，导致侧边专辑列表长度过长，影响体验，可以通过本设置进行修改'>
+        <SubTitle className='my-1'>塞壬唱片播放列表信息细节</SubTitle>
+      </StyledTooltip>
       <Select
         // TODO!: optimize it to auto generate, don't know why it can't auto generate when value is ""
-        placeholder='每次关闭时询问'
+        placeholder='将所有专辑打平为一个音乐列表'
         value={closeMode}
         height='2.5rem'
-        options={SELECT_OPTIONS}
-        onChange={(v) => changeCloseMode(v)}
+        options={PLAYLIST_OPTIONS}
+        onChange={(v) => changeShowListMode(v)}
       />
-      <SubTitle>关闭行为调整</SubTitle>
+      <SubTitle className='my-1'>关闭行为调整</SubTitle>
       <Select
         // TODO!: optimize it to auto generate, don't know why it can't auto generate when value is ""
         placeholder='每次关闭时询问'

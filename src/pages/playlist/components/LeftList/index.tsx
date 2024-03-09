@@ -3,6 +3,7 @@ import ListLeftBottomDetails from './components/BottomList';
 import SirenStore from '@/store/SirenStore';
 import useSirenStore from '@/hooks/useSirenStore';
 import { SirenStoreState } from '@/types/SirenStore';
+import { setCurrentListId } from '@/store/pages/playlist';
 
 interface LeftListProps { }
 
@@ -48,7 +49,7 @@ function parseAlbumListToBottomList(
       });
     }
     // official playlist
-    // todo!: add classify mod
+    // todo!: 增加隐藏塞壬唱片音乐处理
     // 第一种分类方法是展示所有专辑列表，第二种是将所有歌曲收录进当前列表
     else if (!isNaN(parseInt(element.cid))) {
       if (!map['siren']) {
@@ -59,6 +60,9 @@ function parseAlbumListToBottomList(
         };
       }
 
+      // todo!: 打平列表模式
+
+      // 全部展示模式
       map['siren'].data.push({
         type: 'img',
         src: element.coverUrl,
@@ -73,25 +77,33 @@ function parseAlbumListToBottomList(
 }
 
 function filterStore(store: SirenStoreState) {
-  return store.musicPlay.albumDetail.cid
+  return store.musicPlay.albumDetail.cid;
 }
 
 const LeftList: FunctionComponent<LeftListProps> = () => {
-  const activeId = useSirenStore(filterStore)
-
-  console.log(activeId);
+  const activeId = useSirenStore(filterStore);
 
   // get album list if list doesn't exist
   // this process will also trigger on vanilla page change to `music`
 
-  const playerList = parseAlbumListToBottomList(
-    SirenStore.getState().music.albumList,
-  );
+  // const playerList = parseAlbumListToBottomList(
+  //   SirenStore.getState().music.albumList,
+  // );
+  const playerList = parseAlbumListToBottomList(useSirenStore((s) => s.music.albumList))
+
+  const onSelect = (cid: string) => {
+    // 原生 store 不适用，会有原生页面副作用
+    // SirenStore.dispatch({
+    //   type: "musicPlay/getAlbumDetail",
+    //   cid
+    // })
+    // todo!: use $PlayListState to change the playlist
+  }
 
   return (
     <div className='w-20 flex flex-col'>
       <div className='text-[.6em] font-bold'>播放列表</div>
-      <ListLeftBottomDetails activeId={activeId} ListData={playerList} />
+      <ListLeftBottomDetails activeId={activeId} onClickItem={onSelect} ListData={playerList} />
     </div>
   );
 };
