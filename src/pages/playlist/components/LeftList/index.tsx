@@ -8,7 +8,7 @@ import { useStore } from '@nanostores/react';
 import $settingBasic from '@/store/models/settings/basic';
 import { basicConfig } from '@/types/Config';
 
-interface LeftListProps { }
+interface LeftListProps {}
 
 const namespaceReg = /(\w+):.+/;
 
@@ -26,7 +26,7 @@ function parseAlbumListToBottomList(
     coverUrl: string;
     artists: string[];
   }[],
-  sirenListMode: basicConfig['showSirenMusicListMode']
+  sirenListMode: basicConfig['showSirenMusicListMode'],
 ) {
   const map: Record<string, any> = {};
 
@@ -101,7 +101,7 @@ const LeftList: FunctionComponent<LeftListProps> = () => {
   // );
   const playerList = parseAlbumListToBottomList(
     useSirenStore((s) => s.music.albumList),
-    $settingBasic.get().showSirenMusicListMode
+    $settingBasic.get().showSirenMusicListMode,
   );
 
   const onSelect = (cid: string) => {

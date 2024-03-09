@@ -5,7 +5,7 @@ import { useStore } from '@nanostores/react';
 import $PlayListState from '@/store/pages/playlist';
 import EmptyTips from '../EmptyTips';
 
-interface RightDetailsBottomListProps { }
+interface RightDetailsBottomListProps {}
 
 const RightDetailsBottomList: FunctionComponent<
   RightDetailsBottomListProps

@@ -6,13 +6,16 @@ import RightDetailsBottomList from './components/BottomList';
 import { useStore } from '@nanostores/react';
 import $PlayListState from '@/store/pages/playlist';
 
-interface RightDetailsProps { }
+interface RightDetailsProps {}
 
 const RightDetails: FunctionComponent<RightDetailsProps> = () => {
-  const { currentAlbumInfo: info } = useStore($PlayListState)
+  const { currentAlbumInfo: info } = useStore($PlayListState);
   return (
     <div className='flex-1 pl-2 flex flex-col'>
-      <RightDetailsTopInfo ListInfo={info} ImgPath={info.coverUrl ?? '/siren.png'} />
+      <RightDetailsTopInfo
+        ListInfo={info}
+        ImgPath={info.coverUrl ?? '/siren.png'}
+      />
       <RightDetailsMiddleSplit />
       <div className='flex-1'>
         <RightDetailsBottomList />

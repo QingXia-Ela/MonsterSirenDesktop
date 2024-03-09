@@ -15,6 +15,7 @@ mod global_event;
 mod global_struct;
 mod global_utils;
 mod plugin_error;
+mod plugin_manager;
 mod proxy;
 mod server;
 mod system_tray_menu;
@@ -40,6 +41,8 @@ fn init(app: &mut App) {
         String::from("settings.json"),
     );
     let mut main_window = app.get_window("main").unwrap();
+
+    let plugin_manager = plugin_manager::PluginManager::new(app.handle());
     config::init_window_from_config(&mut main_window, &app_config);
     spawn_file_server(11453, None);
     spawn_cdn_proxy(&app_config);

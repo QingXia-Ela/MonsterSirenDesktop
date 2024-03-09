@@ -9,9 +9,7 @@ import { SirenStoreState } from '@/types/SirenStore';
 import SirenStore from '@/store/SirenStore';
 
 const {
-  musicPlay: {
-    albumDetail,
-  },
+  musicPlay: { albumDetail },
 } = SirenStore.getState();
 
 const $PlayListState = atom<{

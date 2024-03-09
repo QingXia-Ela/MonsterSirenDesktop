@@ -39,11 +39,11 @@ async-trait = "0.1.74"
 regex = "1.10.2"
 lazy_static = "1.4.0"
 indexmap = "2.1.0"
-libloading = "0.8.1"
 mime_guess = "2.0.4"
 md5 = "0.7.0"
 sha256 = "1.4.0"
 percent-encoding = "2.3.1"
+libloading = "0.8.3"
 
 [features]
 # this feature is used for production builds or when `devPath` points to the filesystem
