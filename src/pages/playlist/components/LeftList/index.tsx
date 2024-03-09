@@ -3,7 +3,8 @@ import ListLeftBottomDetails from './components/BottomList';
 import SirenStore from '@/store/SirenStore';
 import useSirenStore from '@/hooks/useSirenStore';
 import { SirenStoreState } from '@/types/SirenStore';
-import { setCurrentListId } from '@/store/pages/playlist';
+import $PlayListState, { setCurrentAlbumId } from '@/store/pages/playlist';
+import { useStore } from '@nanostores/react';
 
 interface LeftListProps { }
 
@@ -81,7 +82,9 @@ function filterStore(store: SirenStoreState) {
 }
 
 const LeftList: FunctionComponent<LeftListProps> = () => {
-  const activeId = useSirenStore(filterStore);
+  const {
+    currentAlbumId: activeId,
+  } = useStore($PlayListState);
 
   // get album list if list doesn't exist
   // this process will also trigger on vanilla page change to `music`
@@ -89,7 +92,9 @@ const LeftList: FunctionComponent<LeftListProps> = () => {
   // const playerList = parseAlbumListToBottomList(
   //   SirenStore.getState().music.albumList,
   // );
-  const playerList = parseAlbumListToBottomList(useSirenStore((s) => s.music.albumList))
+  const playerList = parseAlbumListToBottomList(
+    useSirenStore((s) => s.music.albumList),
+  );
 
   const onSelect = (cid: string) => {
     // 原生 store 不适用，会有原生页面副作用
@@ -98,12 +103,17 @@ const LeftList: FunctionComponent<LeftListProps> = () => {
     //   cid
     // })
     // todo!: use $PlayListState to change the playlist
-  }
+    setCurrentAlbumId(cid)
+  };
 
   return (
     <div className='w-20 flex flex-col'>
       <div className='text-[.6em] font-bold'>播放列表</div>
-      <ListLeftBottomDetails activeId={activeId} onClickItem={onSelect} ListData={playerList} />
+      <ListLeftBottomDetails
+        activeId={activeId}
+        onClickItem={onSelect}
+        ListData={playerList}
+      />
     </div>
   );
 };

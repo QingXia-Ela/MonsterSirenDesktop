@@ -2,26 +2,41 @@
  * This store use to control page state like right detail list
  */
 
-import { getAlbumData, getAlbums } from '@/api/modules/album';
+import { getAlbumDetail, getAlbums } from '@/api/modules/album';
 import { atom } from 'nanostores';
-import { AlbumBriefData, AlbumData } from '@/types/api/album';
+import { AlbumBriefData, AlbumData, AlbumDetail } from '@/types/api/album';
+import { SirenStoreState } from '@/types/SirenStore';
+import SirenStore from '@/store/SirenStore';
+
+const { musicPlay: { albumDetail: { cid } } } = SirenStore.getState()
 
 const $PlayListState = atom<{
-  currentListId: string;
+  currentAlbumId: string;
   loading: boolean;
-  currentListData: Array<unknown>;
+  currentAlbumInfo: Partial<AlbumData>
+  currentAlbumData: SirenStoreState['player']['list'];
   fetchedAlbumList: boolean;
-  albumList: AlbumData['songs'];
+  albumList: AlbumDetail['songs'];
 }>({
-  currentListId: '',
+  currentAlbumId: cid,
   loading: false,
-  currentListData: [],
+  currentAlbumInfo: {},
+  currentAlbumData: [],
   fetchedAlbumList: false,
   albumList: [],
 });
 
+/**
+ * 获取当前专辑的信息（不包含歌曲）
+ * 
+ * @param id 专辑 id
+ */
+async function getAlbumData(id: string) {
+  return (await (await getAlbumDetail(id)).json()).data as AlbumData;
+}
+
 async function getListData(id: string) {
-  return (await (await getAlbumData(id)).json()) as AlbumData;
+  return (await (await getAlbumDetail(id)).json());
 }
 
 async function getAlbumListData() {
@@ -51,18 +66,26 @@ export async function updateAlbumList() {
   // });
 }
 
-export async function setCurrentListId(id: string) {
+export async function setCurrentAlbumId(id: string) {
   $PlayListState.set({
     ...$PlayListState.get(),
-    currentListId: id,
+    currentAlbumId: id,
     loading: true,
   });
 
-  const res = await getListData(id);
+  // todo!: add type declare
+  const [
+    { data: res },
+    info
+  ] = await Promise.all([
+    getListData(id),
+    getAlbumData(id)
+  ]);
 
   $PlayListState.set({
     ...$PlayListState.get(),
-    currentListData: res.songs,
+    currentAlbumData: res.songs,
+    currentAlbumInfo: info,
     loading: false,
   });
 }

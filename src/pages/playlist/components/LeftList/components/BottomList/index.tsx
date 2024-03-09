@@ -22,25 +22,29 @@ const ListLeftBottomDetails: FunctionComponent<ListLeftBottomDetailsProps> = ({
   ListData,
   activeId,
   ScrollbarDegNum,
-  onClickItem
+  onClickItem,
 }) => {
-  const rootDom = useRef<HTMLDivElement | null>()
+  const rootDom = useRef<HTMLDivElement | null>();
 
   const onClick = (e: React.MouseEvent) => {
-    let t: HTMLElement | null = e.target as HTMLElement
+    let t: HTMLElement | null = e.target as HTMLElement;
 
     while (t && t != rootDom.current) {
-      const albumId = t.getAttribute("data-id")
+      const albumId = t.getAttribute('data-id');
       if (albumId) {
-        onClickItem?.(albumId)
-        return
+        onClickItem?.(albumId);
+        return;
       }
-      t = t.parentElement
+      t = t.parentElement;
     }
-  }
+  };
 
   return (
-    <div className={Styles.list} onClick={onClick} ref={(v) => rootDom.current = v}>
+    <div
+      className={Styles.list}
+      onClick={onClick}
+      ref={(v) => (rootDom.current = v)}
+    >
       {ListData.length ? (
         <WhiteZebraScrollbars
           marginBarHeightLimit={3.1}

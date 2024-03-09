@@ -35,9 +35,9 @@ export interface downloadConfig {
   parseFileType?: string;
 }
 
-export interface outputDeviceConfig { }
+export interface outputDeviceConfig {}
 
-export interface desktopLrcConfig { }
+export interface desktopLrcConfig {}
 
 export interface advancementConfig {
   enable?: boolean;

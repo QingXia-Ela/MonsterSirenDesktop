@@ -96,6 +96,7 @@ pub struct Album {
     #[serde(rename = "coverDeUrl")]
     pub cover_de_url: String,
     pub artistes: Vec<String>,
+    // todo!: upgrade `BriefSong` to `Song` for application
     pub songs: Vec<BriefSong>,
 }
 

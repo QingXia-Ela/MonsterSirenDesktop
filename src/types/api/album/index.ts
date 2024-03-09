@@ -1,4 +1,4 @@
-export interface AlbumData {
+export interface AlbumDetail {
   cid: string;
   name: string;
   intro: string;
@@ -12,7 +12,11 @@ export interface AlbumData {
   }>;
 }
 
+export type AlbumData = Omit<AlbumDetail, 'songs'> & {
+  artistes: string[]
+}
+
 export type AlbumBriefData = Omit<
-  AlbumData,
+  AlbumDetail,
   'songs' | 'coverDeUrl' | 'intro' | 'belong'
 >;
