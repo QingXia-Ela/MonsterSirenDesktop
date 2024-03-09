@@ -13,8 +13,8 @@ export interface AlbumDetail {
 }
 
 export type AlbumData = Omit<AlbumDetail, 'songs'> & {
-  artistes: string[]
-}
+  artistes: string[];
+};
 
 export type AlbumBriefData = Omit<
   AlbumDetail,

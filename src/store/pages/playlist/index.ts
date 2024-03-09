@@ -8,19 +8,24 @@ import { AlbumBriefData, AlbumData, AlbumDetail } from '@/types/api/album';
 import { SirenStoreState } from '@/types/SirenStore';
 import SirenStore from '@/store/SirenStore';
 
-const { musicPlay: { albumDetail: { cid } } } = SirenStore.getState()
+const {
+  musicPlay: {
+    albumDetail,
+  },
+} = SirenStore.getState();
 
 const $PlayListState = atom<{
   currentAlbumId: string;
   loading: boolean;
-  currentAlbumInfo: Partial<AlbumData>
+  currentAlbumInfo: AlbumData;
   currentAlbumData: SirenStoreState['player']['list'];
   fetchedAlbumList: boolean;
   albumList: AlbumDetail['songs'];
 }>({
-  currentAlbumId: cid,
+  currentAlbumId: albumDetail.cid,
   loading: false,
-  currentAlbumInfo: {},
+  // todo!: remove artistes and change to correct type
+  currentAlbumInfo: { ...albumDetail, artistes: [] },
   currentAlbumData: [],
   fetchedAlbumList: false,
   albumList: [],
@@ -28,7 +33,7 @@ const $PlayListState = atom<{
 
 /**
  * 获取当前专辑的信息（不包含歌曲）
- * 
+ *
  * @param id 专辑 id
  */
 async function getAlbumData(id: string) {
@@ -36,7 +41,7 @@ async function getAlbumData(id: string) {
 }
 
 async function getListData(id: string) {
-  return (await (await getAlbumDetail(id)).json());
+  return await (await getAlbumDetail(id)).json();
 }
 
 async function getAlbumListData() {
@@ -74,12 +79,9 @@ export async function setCurrentAlbumId(id: string) {
   });
 
   // todo!: add type declare
-  const [
-    { data: res },
-    info
-  ] = await Promise.all([
+  const [{ data: res }, info] = await Promise.all([
     getListData(id),
-    getAlbumData(id)
+    getAlbumData(id),
   ]);
 
   $PlayListState.set({

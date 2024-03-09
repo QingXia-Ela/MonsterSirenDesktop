@@ -12,6 +12,6 @@
 
     该插件的 `get_songs` 方法将永远返回空数组
 
-打包通过 esbuild 实现，dist-node 文件夹下放置 node 打包结果，dist-browser 文件夹下放置设置渲染 dom 打包结果
+打包通过 esbuild 实现，dist-node 文件夹下放置 node 打包结果，dist-browser 文件夹下放置 react 编译代码
 
 最后结果则是进行 rust dll 打包，放入 dist 下

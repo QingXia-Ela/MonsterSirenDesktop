@@ -238,6 +238,11 @@ pub async fn handle_request(
     // avoid content-length are not actual length
     res_header_map.insert(CONTENT_LENGTH, res_str.len().into());
     res_header_map.insert(ACCESS_CONTROL_ALLOW_ORIGIN, "*".parse().unwrap());
+    // add cache
+    res_header_map.insert(
+        CACHE_CONTROL,
+        format!("public, max-age={}", 15000).parse().unwrap(),
+    );
 
     Ok(response)
 }

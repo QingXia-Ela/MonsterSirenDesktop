@@ -3,16 +3,28 @@ import SilverBorderButton from '@/components/SilverBorderButton';
 import { FunctionComponent, memo, useState } from 'react';
 import Styles from './index.module.scss';
 import NavSearch from '@/components/Input';
+import { useStore } from '@nanostores/react';
+import $PlayListState from '@/store/pages/playlist';
+import SirenStore from '@/store/SirenStore';
 
-interface RightDetailsMiddleSplitProps {}
+interface RightDetailsMiddleSplitProps { }
 
 const RightDetailsMiddleSplit: FunctionComponent<
   RightDetailsMiddleSplitProps
 > = () => {
   const [searchValue, setSearchValue] = useState('');
+  const store = useStore($PlayListState)
+
+  const play = () => {
+    SirenStore.dispatch({
+      type: "musicPlay/toAlbum",
+      cid: store.currentAlbumInfo.cid!
+    })
+  }
   return (
     <div className={Styles.middle_control}>
-      <SilverBorderButton className={Styles.button}>
+      <SilverBorderButton className={Styles.button} onClick={play}>
+        {/* todo!: move these static node to another component */}
         <i className={Styles.icon}>
           <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 -5 28 35'>
             <line
@@ -62,6 +74,7 @@ const RightDetailsMiddleSplit: FunctionComponent<
       <div className={Styles.divider}>
         <RowZebraDivider />
       </div>
+      {/* todo!: finish search */}
       <NavSearch
         value={searchValue}
         onChange={(e) => setSearchValue(e.target.value)}

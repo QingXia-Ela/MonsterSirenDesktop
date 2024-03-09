@@ -1,4 +1,3 @@
-const { Deno } = require('@deno/shim-deno')
 const fs = require('fs')
 const path = require('path')
 const tmpPath = require('os').tmpdir()

@@ -5,6 +5,8 @@ import useSirenStore from '@/hooks/useSirenStore';
 import { SirenStoreState } from '@/types/SirenStore';
 import $PlayListState, { setCurrentAlbumId } from '@/store/pages/playlist';
 import { useStore } from '@nanostores/react';
+import $settingBasic from '@/store/models/settings/basic';
+import { basicConfig } from '@/types/Config';
 
 interface LeftListProps { }
 
@@ -24,6 +26,7 @@ function parseAlbumListToBottomList(
     coverUrl: string;
     artists: string[];
   }[],
+  sirenListMode: basicConfig['showSirenMusicListMode']
 ) {
   const map: Record<string, any> = {};
 
@@ -53,7 +56,7 @@ function parseAlbumListToBottomList(
     // todo!: 增加隐藏塞壬唱片音乐处理
     // 第一种分类方法是展示所有专辑列表，第二种是将所有歌曲收录进当前列表
     else if (!isNaN(parseInt(element.cid))) {
-      if (!map['siren']) {
+      if (sirenListMode !== 'hide' && !map['siren']) {
         map['siren'] = {
           title: '塞壬唱片官方专辑',
           namespace: 'siren',
@@ -61,16 +64,22 @@ function parseAlbumListToBottomList(
         };
       }
 
-      // todo!: 打平列表模式
+      switch (sirenListMode) {
+        // 全部展示模式
+        case 'show':
+          map['siren'].data.push({
+            type: 'img',
+            src: element.coverUrl,
+            id: element.cid,
+            title: element.name,
+            subTitle: element.artists?.join(','),
+          });
+          break;
 
-      // 全部展示模式
-      map['siren'].data.push({
-        type: 'img',
-        src: element.coverUrl,
-        id: element.cid,
-        title: element.name,
-        subTitle: element.artists?.join(','),
-      });
+        // todo!: 打平模式，需要做额外设计，需要有一个特殊 id 可以获取所有的歌曲
+        case 'collect':
+          break;
+      }
     }
   }
 
@@ -82,9 +91,7 @@ function filterStore(store: SirenStoreState) {
 }
 
 const LeftList: FunctionComponent<LeftListProps> = () => {
-  const {
-    currentAlbumId: activeId,
-  } = useStore($PlayListState);
+  const { currentAlbumId: activeId } = useStore($PlayListState);
 
   // get album list if list doesn't exist
   // this process will also trigger on vanilla page change to `music`
@@ -94,6 +101,7 @@ const LeftList: FunctionComponent<LeftListProps> = () => {
   // );
   const playerList = parseAlbumListToBottomList(
     useSirenStore((s) => s.music.albumList),
+    $settingBasic.get().showSirenMusicListMode
   );
 
   const onSelect = (cid: string) => {
@@ -102,8 +110,7 @@ const LeftList: FunctionComponent<LeftListProps> = () => {
     //   type: "musicPlay/getAlbumDetail",
     //   cid
     // })
-    // todo!: use $PlayListState to change the playlist
-    setCurrentAlbumId(cid)
+    setCurrentAlbumId(cid);
   };
 
   return (

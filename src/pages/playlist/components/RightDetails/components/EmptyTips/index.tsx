@@ -1,7 +1,7 @@
 import SirenLogo from '@/icons/tsx/SirenLogo';
 import { FunctionComponent } from 'react';
 
-interface EmptyTipsProps { }
+interface EmptyTipsProps {}
 
 const EmptyTips: FunctionComponent<EmptyTipsProps> = () => {
   return (
