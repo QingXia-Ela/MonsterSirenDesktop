@@ -6,7 +6,9 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+async-trait = "0.1.77"
 monster-siren-desktop = { path = "../../../../src-tauri" }
+tauri = { version = "1.4", features = ["api-all", "window-all"] }
 
 # Compile to a dll lib
 [lib]

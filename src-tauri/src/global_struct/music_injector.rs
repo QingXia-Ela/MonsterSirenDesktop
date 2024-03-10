@@ -26,6 +26,7 @@ pub trait MusicInject: Send + Sync {
     async fn get_album(&self, id: String) -> Result<Album, PluginRequestError>;
 }
 
+#[repr(C)]
 pub struct MusicInjector {
     /// injector request namespace, will use as only key in request
     pub namespace: String,
