@@ -29,7 +29,7 @@ use tauri::*;
 /// invoke on setup hook
 ///
 /// stupid tauri app `app_data_dir` call fail!
-fn init(app: &mut App) {
+fn init(app: tauri::AppHandle) {
     let app_config = config::init_config(
         app.path_resolver()
             .app_data_dir()
@@ -42,11 +42,12 @@ fn init(app: &mut App) {
     );
     let mut main_window = app.get_window("main").unwrap();
 
-    let plugin_manager = plugin_manager::PluginManager::new(app.handle());
+    let mut plugin_manager = plugin_manager::PluginManager::new(app.app_handle());
+    // let _ = plugin_manager.start();
     config::init_window_from_config(&mut main_window, &app_config);
     spawn_file_server(11453, None);
     spawn_cdn_proxy(&app_config);
-    spawn_api_proxy(app);
+    spawn_api_proxy(app.app_handle(), vec![]);
 }
 
 fn main() {
@@ -54,7 +55,7 @@ fn main() {
     let builder = tauri::Builder::default().setup(move |app| {
         let core_app = app.get_window("main").unwrap();
         core_app.eval("window.siren_config = {}").unwrap();
-        init(app);
+        init(app.handle());
         Logger::info("App init finished");
         Ok(())
     });

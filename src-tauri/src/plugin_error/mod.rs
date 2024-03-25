@@ -20,4 +20,23 @@ impl From<reqwest::Error> for PluginRequestError {
     }
 }
 
+#[derive(Debug)]
+pub struct PluginError {
+    message: String,
+}
+
+impl PluginError {
+    pub fn new(message: String) -> Self {
+        PluginError { message }
+    }
+}
+
+impl From<std::io::Error> for PluginError {
+    fn from(value: std::io::Error) -> Self {
+        PluginError {
+            message: value.to_string(),
+        }
+    }
+}
+
 impl warp::reject::Reject for PluginRequestError {}

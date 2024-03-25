@@ -1,4 +1,4 @@
-use monster_siren_desktop::global_struct::music_injector::MusicInjector;
+use std::ffi::c_void;
 mod injector;
 
 pub static NODE_JS_BUNDLE: &str = include_str!("../../dist-node/bundle.cjs");
@@ -18,8 +18,11 @@ pub extern "C" fn get_node_js_bundle() -> *const i8 {
 }
 
 #[no_mangle]
-pub extern "C" fn init() -> MusicInjector {
+pub extern "C" fn init() -> *mut c_void {
     // println!("Hello from ncm_inject!");
     // injector::get_ncm_injector()
-    injector::ncm_injector::get_ncm_injector()
+    let injector = injector::ncm_injector::get_ncm_injector();
+    let boxed_injector = Box::new(injector);
+
+    Box::into_raw(boxed_injector) as *mut c_void
 }

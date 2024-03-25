@@ -13,7 +13,6 @@ await esbuild.build({
   platform: 'node',
   target: 'esnext',
   format: "cjs",
-  inject: ['./src-node/shim.js'],
   define: {
     'process.env.NODE_ENV': '"production"'
   },

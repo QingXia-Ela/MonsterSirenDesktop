@@ -36,19 +36,28 @@ impl ApiProxy {
     ///   let _ = api_proxy::new(11452, 11451, vec![["content will be replace", "content will use"]]);
     /// })
     /// ```
-    pub fn new(port: u16, cdn_port: u16, filter_rules: FilterType, app: tauri::AppHandle) -> Self {
-        let s = vec![
-            local_music_injector::get_injector(),
+    pub fn new(
+        port: u16,
+        cdn_port: u16,
+        filter_rules: FilterType,
+        app: tauri::AppHandle,
+        injectors: Vec<MusicInjector>,
+    ) -> Self {
+        // basic injector
+        let mut s = vec![
             template_injector::get_injector(),
             siren_injector::get_injector(),
+            local_music_injector::get_injector(),
         ];
+        injectors.into_iter().for_each(|i| s.push(i));
+
         let mut injector_map: IndexMap<String, MusicInjector> = IndexMap::new();
         // init fn run only once
         for m in s.into_iter() {
             if let Some(f) = &m.init_fn {
                 f(app.app_handle());
             }
-            injector_map.insert(m.namespace.clone(), m);
+            injector_map.insert(m.get_namespace(), m);
         }
 
         let arc_map = Arc::new(injector_map);
@@ -92,10 +101,10 @@ impl ApiProxy {
 /// Current time doesn't need to support high concurrency, so just create a new thread.
 ///
 /// Inner method use tokio runtime.
-pub fn spawn_api_proxy(app: &mut App) -> JoinHandle<()> {
-    let handle_clone = app.handle().clone();
+pub fn spawn_api_proxy(app: tauri::AppHandle, injectors: Vec<MusicInjector>) -> JoinHandle<()> {
+    let handle_clone = app;
     thread::spawn(move || {
-        let p = ApiProxy::new(11452, 11451, vec![], handle_clone);
+        let p = ApiProxy::new(11452, 11451, vec![], handle_clone, injectors);
         p.run();
     })
 }

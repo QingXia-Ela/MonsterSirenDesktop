@@ -2,12 +2,11 @@
   "name": "ncm_inject",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node src-node/index.cjs",
-    "build": "node bin/build.js"
+    "build": "node bin/build.js && cd src-rust && cargo build"
   },
   "keywords": [],
   "author": "",

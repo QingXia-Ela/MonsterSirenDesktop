@@ -8,8 +8,8 @@ edition = "2021"
 [dependencies]
 async-trait = "0.1.77"
 monster-siren-desktop = { path = "../../../../src-tauri" }
-tauri = { version = "1.4", features = ["api-all", "window-all"] }
 
 # Compile to a dll lib
 [lib]
-crate-type = ["dylib"]
+# cdylib has smaller size
+crate-type = ["cdylib"]

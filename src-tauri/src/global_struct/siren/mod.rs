@@ -33,6 +33,7 @@ pub trait ToResponseJson {
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
+#[repr(C)]
 pub struct BriefSong {
     pub cid: String,
     pub name: String,
@@ -48,6 +49,7 @@ impl ToResponseJson for BriefSong {}
 
 // todo!: impl simply new object
 #[derive(Clone, Debug, Serialize, Deserialize)]
+#[repr(C)]
 pub struct Song {
     pub cid: String,
     pub name: String,
@@ -75,6 +77,7 @@ pub struct Song {
 impl ToResponseJson for Song {}
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
+#[repr(C)]
 pub struct BriefAlbum {
     pub cid: String,
     pub name: String,
@@ -86,6 +89,7 @@ pub struct BriefAlbum {
 impl ToResponseJson for BriefAlbum {}
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
+#[repr(C)]
 pub struct Album {
     pub cid: String,
     pub name: String,
@@ -104,6 +108,7 @@ impl ToResponseJson for Album {}
 
 /// This struct is provide for vanilla api, usually you should't use this struct
 #[derive(Clone, Debug, Serialize, Deserialize)]
+#[repr(C)]
 pub struct SirenBriefSongWithoutAlbumCid {
     pub cid: String,
     pub name: String,
@@ -125,6 +130,7 @@ impl From<SirenBriefSongWithoutAlbumCid> for BriefSong {
 
 /// This struct is provide for vanilla api, usually you should't use this struct
 #[derive(Clone, Debug, Serialize, Deserialize)]
+#[repr(C)]
 pub struct SirenAlbumData {
     pub cid: String,
     pub name: String,
@@ -139,6 +145,7 @@ pub struct SirenAlbumData {
 
 /// This struct is provide for vanilla api, usually you should't use this struct
 #[derive(Clone, Debug, Serialize, Deserialize)]
+#[repr(C)]
 pub struct SirenAlbumDetail {
     pub cid: String,
     pub name: String,

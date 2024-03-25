@@ -1,17 +1,19 @@
-use std::sync::Arc;
-
-use crate::plugin_error::PluginRequestError;
+use std::fmt::Debug;
 
 use super::siren::{Album, BriefAlbum, BriefSong, Song};
+use crate::plugin_error::PluginRequestError;
 use async_trait::async_trait;
-use futures::lock::Mutex;
-use tauri::App;
 
 /// Music Inject trait
 /// Use it to create a music injector
 /// impl this trait should add `#[async_trait]` annotation
 /// We impl `Send + Sync` because now it can use safe in async because we don't modify it in runtime, only call the methods.
-/// todo!: finish all api
+///
+/// **注意**：由于早期架构问题，你的 injector 在使用时会被拷贝多份，所以当你需要共享一些全局变量如登录凭据时，你可能需要使用 `lazy_static!` 库来辅助你控制全局变量的生命周期
+///
+/// 或者对于你实现了 MusicInject 特征的结构体传入一个 `Arc<Mutex<T>>` 的全局唯一引用来在多个注入之间共享相同数据，同时要注意死锁问题
+///
+// todo!: finish all api
 #[async_trait]
 pub trait MusicInject: Send + Sync {
     /// Show on playlist page.
@@ -50,6 +52,17 @@ pub struct MusicInjector {
     pub init_fn: Option<Box<dyn Fn(tauri::AppHandle) + Send + Sync>>,
 }
 
+impl Debug for MusicInjector {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        f.debug_struct("MusicInjector")
+            .field("namespace", &self.namespace)
+            .field("cn_namespace", &self.cn_namespace)
+            .field("color", &self.color)
+            .field("frontend_js", &self.frontend_js)
+            .finish()
+    }
+}
+
 impl MusicInjector {
     pub fn new(
         namespace: String,
@@ -68,8 +81,8 @@ impl MusicInjector {
         }
     }
 
-    pub fn get_namespace(&self) -> &String {
-        &self.namespace
+    pub fn get_namespace(&self) -> String {
+        self.namespace.clone()
     }
 
     /// The app init hook.

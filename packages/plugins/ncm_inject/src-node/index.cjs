@@ -53,6 +53,8 @@ async function start() {
   // 启动时更新anonymous_token
   await generateConfig()
   require('NeteaseCloudMusicApi/server').serveNcmApi({
+    // todo!: 支持外部自定义端口
+    port: 53753,
     checkVersion: true,
     moduleDefs: parseCollect(collect),
   })
