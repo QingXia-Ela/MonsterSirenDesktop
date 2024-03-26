@@ -93,6 +93,17 @@ impl PluginManager {
         };
 
         if let Ok(injector) = plugin_injector {
+            // // can run because request_interceptor doesn't move?
+            let test = &injector.request_interceptor;
+
+            tokio::runtime::Builder::new_current_thread()
+                .enable_all()
+                .build()
+                .unwrap()
+                .block_on(async {
+                    println!("{:?}", test.get_songs().await);
+                });
+
             let mut instance = plugin_instance::PluginInstance::new(
                 lib,
                 self.app.clone(),
@@ -100,16 +111,6 @@ impl PluginManager {
                 node.clone(),
                 frontend.clone(),
             );
-            // // test only
-            // let new_injector = unsafe { instance.get_injector().unwrap() };
-
-            // tokio::runtime::Builder::new_current_thread()
-            //     .enable_all()
-            //     .build()
-            //     .unwrap()
-            //     .block_on(async {
-            //         println!("{:?}", new_injector.request_interceptor.get_songs().await);
-            //     });
 
             let namespace = instance.injector.get_namespace().clone();
 
