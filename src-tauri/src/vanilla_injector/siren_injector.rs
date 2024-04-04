@@ -2,7 +2,10 @@ use crate::{
     constants::SIREN_WEBSITE,
     global_struct::{
         music_injector::{MusicInject, MusicInjector},
-        siren::{response_msg::ResponseMsg, Album, BriefAlbum, BriefSong, SirenAlbumDetail, Song},
+        siren::{
+            response_msg::ResponseMsg, Album, BriefAlbum, BriefSong, SirenAlbumDetail,
+            SirenBriefAlbum, Song,
+        },
     },
     global_utils::decode_brotli,
     plugin_error::PluginRequestError,
@@ -117,8 +120,9 @@ impl MusicInject for SirenInjector {
         if let Ok(res) = res {
             // let albums_json = res.body();
             // let res = hyper::body::to_bytes(*albums_json);
-            let res: ResponseMsg<Vec<BriefAlbum>> = serde_json::from_str(&res.as_str()).unwrap();
-            return res.data;
+            let res: ResponseMsg<Vec<SirenBriefAlbum>> =
+                serde_json::from_str(&res.as_str()).unwrap();
+            return res.data.into_iter().map(|a| a.into()).collect();
         }
         vec![]
     }

@@ -4,6 +4,7 @@
 
 import { getAlbumDetail, getAlbums } from '@/api/modules/album';
 import { atom } from 'nanostores';
+// todo!: 迁移至 `@monster-siren-desktop/types` 包下
 import { AlbumBriefData, AlbumData, AlbumDetail } from '@/types/api/album';
 import { SirenStoreState } from '@/types/SirenStore';
 import SirenStore from '@/store/SirenStore';

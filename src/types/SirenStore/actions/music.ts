@@ -6,6 +6,7 @@ export interface SirenMusicType {
     keyword: string;
     albumList: Array<{
       cid: string;
+      cnNamespace: string;
       name: string;
       coverUrl: string;
       artists: string[];

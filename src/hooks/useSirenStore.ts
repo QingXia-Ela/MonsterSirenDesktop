@@ -10,7 +10,7 @@ SirenStore.subscribe(() => {
   setStoreCall.forEach((v) => v(state));
 });
 
-// todo!: 没有处理热重载的情况，集合仍然会调用之前可能不需要的 setStore 函数，导致内存占用
+// todo!: 没有处理热重载的情况，集合仍然会调用之前可能不需要的 setStore 函数
 export default function useSirenStore<T = any>(
   fn: (state: SirenStoreState) => T,
 ): T {

@@ -1,5 +1,6 @@
 export interface AlbumDetail {
   cid: string;
+  cnNamespace?: string;
   name: string;
   intro: string;
   belong: string;

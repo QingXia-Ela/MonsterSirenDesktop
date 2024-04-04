@@ -141,6 +141,30 @@ impl From<SirenBriefSongWithoutAlbumCid> for BriefSong {
 #[derive(Clone, Debug, Serialize, Deserialize, TS)]
 #[ts(export)]
 #[repr(C)]
+pub struct SirenBriefAlbum {
+    pub cid: String,
+    pub name: String,
+    #[serde(rename = "coverUrl")]
+    pub cover_url: String,
+    pub artistes: Vec<String>,
+}
+
+impl From<SirenBriefAlbum> for BriefAlbum {
+    fn from(siren_album: SirenBriefAlbum) -> Self {
+        BriefAlbum {
+            cid: siren_album.cid,
+            cn_namespace: "塞壬唱片音乐集".to_string(),
+            name: siren_album.name,
+            cover_url: siren_album.cover_url,
+            artistes: siren_album.artistes,
+        }
+    }
+}
+
+/// This struct is provide for vanilla api, usually you should't use this struct
+#[derive(Clone, Debug, Serialize, Deserialize, TS)]
+#[ts(export)]
+#[repr(C)]
 pub struct SirenAlbumData {
     pub cid: String,
     pub name: String,

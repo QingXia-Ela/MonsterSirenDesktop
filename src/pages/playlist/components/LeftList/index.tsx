@@ -8,20 +8,14 @@ import { useStore } from '@nanostores/react';
 import $settingBasic from '@/store/models/settings/basic';
 import { basicConfig } from '@/types/Config';
 
-interface LeftListProps {}
+interface LeftListProps { }
 
 const namespaceReg = /(\w+):.+/;
-
-// todo!: 增加插件转译
-const namespaceTranslateMap: Record<string, string> = {
-  local: '本地音乐',
-  template: '模板',
-  siren: '塞壬唱片官方专辑',
-};
 
 function parseAlbumListToBottomList(
   list: {
     cid: string;
+    cnNamespace?: string;
     name: string;
     coverUrl: string;
     artists: string[];
@@ -38,7 +32,7 @@ function parseAlbumListToBottomList(
 
       if (!map[namespace]) {
         map[namespace] = {
-          title: namespaceTranslateMap[namespace] || namespace,
+          title: element.cnNamespace || namespace,
           namespace,
           data: [],
         };

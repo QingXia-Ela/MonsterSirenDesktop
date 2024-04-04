@@ -61,6 +61,7 @@ impl MusicInject for NCMInjector {
     async fn get_albums(&self) -> Vec<BriefAlbum> {
         vec![BriefAlbum {
             cid: "ncm:1919810".to_string(),
+            cn_namespace: "网易云音乐".to_string(),
             name: "Snow Halation".to_string(),
             cover_url: "https://p1.music.126.net/h3X24IkUDnSMCQM60L5n0g==/109951168958569548.jpg"
                 .to_string(),
@@ -82,6 +83,7 @@ impl MusicInject for NCMInjector {
     async fn get_album(&self, _cid: String) -> Result<Album, PluginRequestError> {
         Ok(Album {
             cid: "ncm:1919810".to_string(),
+            cn_namespace: "网易云音乐".to_string(),
             name: "Snow Halation".to_string(),
             intro: "首张嵌入式专辑测试数据".to_string(),
             belong: "μ's".to_string(),
