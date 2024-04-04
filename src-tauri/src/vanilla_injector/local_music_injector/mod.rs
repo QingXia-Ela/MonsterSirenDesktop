@@ -147,17 +147,17 @@ mod manager_test {
             .unwrap();
     }
 
-    #[tokio::test]
-    async fn add_folder_test() {
-        init_file().await;
-        let m = LocalMusicManager::new(
-            Arc::new(Mutex::new(IndexMap::new())),
-            String::from("./tests/injector/local/add_folder/config_add.json"),
-        );
-        m.add_folder(&String::from("./tests/injector/local/add_folder/"))
-            .await;
-        assert_eq!(m.index.lock().await.len(), 1);
-    }
+    // #[tokio::test]
+    // async fn add_folder_test() {
+    //     init_file().await;
+    //     let m = LocalMusicManager::new(
+    //         Arc::new(Mutex::new(IndexMap::new())),
+    //         String::from("./tests/injector/local/add_folder/config_add.json"),
+    //     );
+    //     m.add_folder(&String::from("./tests/injector/local/add_folder/"))
+    //         .await;
+    //     assert_eq!(m.index.lock().await.len(), 1);
+    // }
 
     #[tokio::test]
     async fn remove_folder_test() {

@@ -7,13 +7,15 @@ use async_trait::async_trait;
 /// Music Inject trait
 /// Use it to create a music injector
 /// impl this trait should add `#[async_trait]` annotation
-/// We impl `Send + Sync` because now it can use safe in async because we don't modify it in runtime, only call the methods.
 ///
 /// **注意**：由于早期架构问题，你的 injector 在使用时会被拷贝多份，所以当你需要共享一些全局变量如登录凭据时，你可能需要使用 `lazy_static!` 库来辅助你控制全局变量的生命周期
+///
+/// 你的数据需要使用 async_lock 以防止死锁或数据竞争
 ///
 /// 或者对于你实现了 MusicInject 特征的结构体传入一个 `Arc<Mutex<T>>` 的全局唯一引用来在多个注入之间共享相同数据，同时要注意死锁问题
 ///
 // todo!: finish all api
+// todo!: 取消 injector 的拷贝行为，全局仅仅引用一份
 #[async_trait]
 pub trait MusicInject: Send + Sync {
     /// Show on playlist page.

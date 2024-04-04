@@ -14,6 +14,9 @@ importers:
       '@emotion/styled':
         specifier: ^11.11.0
         version: 11.11.0(@emotion/react@11.11.1)(@types/react@18.2.15)(react@18.2.0)
+      '@monster-siren-desktop/types':
+        specifier: workspace:^
+        version: link:packages/types
       '@mui/icons-material':
         specifier: ^5.14.13
         version: registry.npmmirror.com/@mui/icons-material@5.14.13(@mui/material@5.14.5)(@types/react@18.2.15)(react@18.2.0)
@@ -231,6 +234,8 @@ importers:
       vite:
         specifier: ^4.4.4
         version: registry.npmmirror.com/vite@4.4.4(@types/node@20.4.5)(sass@1.69.1)
+
+  packages/types: {}
 
 packages:
 

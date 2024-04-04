@@ -10,6 +10,7 @@
     "start": "tauri dev",
     "tauri": "tauri dev",
     "tauri:build": "tauri build",
+    "build:types": "cd src-tauri && cargo test && cd ../bin && node move_types.cjs",
     "lint": "npx prettier ./src --write",
     "storybook": "set STORYBOOK=true&& storybook dev -p 6006",
     "build-storybook": "storybook build",
@@ -18,6 +19,7 @@
   "dependencies": {
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
+    "@monster-siren-desktop/types": "workspace:^",
     "@mui/icons-material": "^5.14.13",
     "@mui/material": "^5.14.5",
     "@mui/styled-engine-sc": "^5.12.0",

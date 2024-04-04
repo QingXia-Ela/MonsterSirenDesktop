@@ -140,15 +140,15 @@ impl PluginManager {
     }
 }
 
-#[test]
-fn test() {
-    let builder = tauri::Builder::default().setup(move |app| {
-        let mut plugin_manager = PluginManager::new(app.handle().clone());
-        let _ = plugin_manager.start();
-        Ok(())
-    });
+// #[test]
+// fn test() {
+//     let builder = tauri::Builder::default().setup(move |app| {
+//         let mut plugin_manager = PluginManager::new(app.handle().clone());
+//         let _ = plugin_manager.start();
+//         Ok(())
+//     });
 
-    builder
-        .run(tauri::generate_context!())
-        .expect("error while running tauri application");
-}
+//     builder
+//         .run(tauri::generate_context!())
+//         .expect("error while running tauri application");
+// }

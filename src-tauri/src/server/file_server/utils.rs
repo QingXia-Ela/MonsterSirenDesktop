@@ -5,7 +5,7 @@ pub fn generate_raw_msg(code: u16, msg: &str) -> String {
 /// Deserialize range string.
 ///
 /// If end is 0, it means to the end of the file.
-pub fn deserialize_range_string(mut header_range: String) -> Option<(u64, u64)> {
+pub fn deserialize_range_string(header_range: String) -> Option<(u64, u64)> {
     let range = header_range.split('=').collect::<Vec<&str>>();
     if range.len() == 2 {
         let range_type = range.get(0).unwrap();

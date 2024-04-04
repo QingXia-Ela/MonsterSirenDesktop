@@ -1,2 +1,5 @@
 inject.js
 inject.css
+
+# ts-rs bindings
+bindings

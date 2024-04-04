@@ -71,6 +71,6 @@ mod server_test {
     // note: this test will not end unless you stop it manually.
     #[tokio::test]
     pub async fn test_insert_alias() {
-        let _ = spawn_file_server(11453, None).join();
+        // let _ = spawn_file_server(11453, None).join();
     }
 }

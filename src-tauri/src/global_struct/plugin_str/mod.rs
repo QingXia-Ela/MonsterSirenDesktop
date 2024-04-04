@@ -1,5 +1,3 @@
-type Test = unsafe extern "C" fn() -> PluginStr;
-
 // ffi-save str
 #[repr(C)]
 #[derive(Debug, Clone, Copy)]

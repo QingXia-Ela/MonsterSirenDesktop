@@ -1,0 +1,9 @@
+{
+  "name": "@monster-siren-desktop/types",
+  "version": "1.0.0",
+  "description": "存放一些 tauri 与 web 公用声明文件",
+  "scripts": {},
+  "keywords": [],
+  "author": "",
+  "license": "MIT"
+}
