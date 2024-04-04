@@ -151,6 +151,7 @@ impl MusicInject for SirenInjector {
         Ok(Album {
             artistes: vec!["塞壬唱片-MSR".to_string()],
             cid: res.cid,
+            cn_namespace: String::from("塞壬唱片音乐集"),
             name: res.name,
             intro: res.intro,
             belong: res.belong,

@@ -68,6 +68,7 @@ impl MusicInject for TemplateInjector {
         vec![BriefAlbum {
             cid: "template:1919810".to_string(),
             name: "Snow Halation".to_string(),
+            cn_namespace: "模板测试".to_string(),
             cover_url: "https://p1.music.126.net/h3X24IkUDnSMCQM60L5n0g==/109951168958569548.jpg"
                 .to_string(),
             artistes: vec!["μ's".to_string()],
@@ -89,6 +90,7 @@ impl MusicInject for TemplateInjector {
         Ok(Album {
             cid: "template:1919810".to_string(),
             name: "Snow Halation".to_string(),
+            cn_namespace: "模板测试".to_string(),
             intro: "首张嵌入式专辑测试数据".to_string(),
             belong: "μ's".to_string(),
             cover_url: "https://p2.music.126.net/h3X24IkUDnSMCQM60L5n0g==/109951168958569548.jpg"

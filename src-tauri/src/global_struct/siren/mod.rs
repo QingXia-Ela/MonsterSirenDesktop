@@ -80,6 +80,8 @@ impl ToResponseJson for Song {}
 #[repr(C)]
 pub struct BriefAlbum {
     pub cid: String,
+    #[serde(rename = "cnNamespace")]
+    pub cn_namespace: String,
     pub name: String,
     #[serde(rename = "coverUrl")]
     pub cover_url: String,
@@ -93,6 +95,8 @@ impl ToResponseJson for BriefAlbum {}
 pub struct Album {
     pub cid: String,
     pub name: String,
+    #[serde(rename = "cnNamespace")]
+    pub cn_namespace: String,
     pub intro: String,
     pub belong: String,
     #[serde(rename = "coverUrl")]
@@ -163,6 +167,7 @@ impl From<Album> for BriefAlbum {
     fn from(siren_album: Album) -> Self {
         BriefAlbum {
             cid: siren_album.cid,
+            cn_namespace: siren_album.cn_namespace,
             name: siren_album.name,
             cover_url: siren_album.cover_url,
             artistes: siren_album.artistes,

@@ -2,10 +2,11 @@ use libloading::Library;
 
 use super::plugin_utils::*;
 use crate::{global_struct::music_injector::MusicInjector, plugin_error::PluginError, Logger};
-use std::{fmt::Debug, io::Write};
+use std::{fmt::Debug, io::Write, os::windows::process::CommandExt};
 
 pub fn get_node_process() -> Result<std::process::Child, std::io::Error> {
     let child = std::process::Command::new("node")
+        .creation_flags(0x08000000)
         .stdin(std::process::Stdio::piped())
         .spawn()?;
 
@@ -51,6 +52,7 @@ impl PluginInstance {
     pub fn new(
         plugin_lib: Library,
         app: tauri::AppHandle,
+        // todo!: 修改为 Arc 跨线程
         injector: MusicInjector,
         node_js_string: String,
         frontend_js_string: String,
@@ -67,7 +69,19 @@ impl PluginInstance {
 
     pub fn start(&mut self) -> Result<(), std::io::Error> {
         if self.node_js_string.len() > 10 && is_support_node().is_ok() {
-            let res = call_node_js_bundle(self.app.clone(), &self.node_js_string)?;
+            let mut res = call_node_js_bundle(self.app.clone(), &self.node_js_string)?;
+
+            // Assuming `call_node_js_bundle` already writes the JS string to stdin, flush it.
+            res.stdin
+                .as_mut()
+                .ok_or(std::io::Error::new(
+                    std::io::ErrorKind::BrokenPipe,
+                    "Failed to get stdin",
+                ))?
+                .flush()?;
+
+            // Dropping the stdin to signal Node.js that there are no more data to read.
+            drop(res.stdin.take()); // This will close the stdin stream.
 
             self.node_js_process = Some(res);
         }

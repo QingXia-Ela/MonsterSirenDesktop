@@ -217,6 +217,7 @@ impl MusicInject for LocalMusicInjector {
             res.push(BriefAlbum {
                 cid: format!("local:{}", path.replace('\\', ":")),
                 name: path.clone(),
+                cn_namespace: String::from("本地音乐"),
                 // todo!: add default cover path
                 cover_url: String::from("/siren.png"),
                 artistes: vec![],
@@ -300,6 +301,7 @@ impl MusicInject for LocalMusicInjector {
                 return Ok(Album {
                     // cid shouldn't include `\\`, which will lead music page error when switch album and show album img
                     cid: format!("local:{}", cid.replace("\\", ":")),
+                    cn_namespace: String::from("本地音乐"),
                     name: format!("本地音乐:{}", cid),
                     intro: format!("本地音乐: {}", cid),
                     belong: String::from("local"),

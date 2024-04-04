@@ -30,33 +30,6 @@ impl PluginManager {
             Err(_) => false,
         };
 
-        // load plugin
-        // unsafe {
-        //     let lib = libloading::Library::new("./plugins/ncm_inject.dll")
-        //         .expect("load ncm_inject failed");
-
-        //     let frontend_js: libloading::Symbol<unsafe extern "C" fn() -> *const i8> =
-        //         lib.get(b"get_frontend_js\0").unwrap();
-
-        //     let node_js_bundle: libloading::Symbol<unsafe extern "C" fn() -> *const i8> =
-        //         lib.get(b"get_node_js_bundle\0").unwrap();
-
-        //     let frontend = std::ffi::CStr::from_ptr(frontend_js()).to_str().unwrap();
-        //     let node_script = std::ffi::CStr::from_ptr(node_js_bundle()).to_str().unwrap();
-
-        //     // 创建一个Command来运行node
-        //     let mut child = std::process::Command::new("node")
-        //         .stdin(std::process::Stdio::piped())
-        //         .spawn()
-        //         .expect("Failed to spawn Node.js process");
-
-        //     // 获取标准输入句柄并写入Rust变量中的脚本内容
-        //     if let Some(ref mut stdin) = child.stdin {
-        //         stdin
-        //             .write_all(node_script.as_bytes())
-        //             .expect("Failed to write to Node.js stdin");
-        //     }
-        // }
         Self {
             support_node,
             app,
@@ -93,17 +66,6 @@ impl PluginManager {
         };
 
         if let Ok(injector) = plugin_injector {
-            // // can run because request_interceptor doesn't move?
-            let test = &injector.request_interceptor;
-
-            tokio::runtime::Builder::new_current_thread()
-                .enable_all()
-                .build()
-                .unwrap()
-                .block_on(async {
-                    println!("{:?}", test.get_songs().await);
-                });
-
             let mut instance = plugin_instance::PluginInstance::new(
                 lib,
                 self.app.clone(),
@@ -154,9 +116,9 @@ impl PluginManager {
     pub fn load_all_plugin() {}
 
     pub fn get_all_injector(&self) -> Vec<MusicInjector> {
-        let res = vec![];
+        let mut res = vec![];
         for (_, plugin) in &self.plugin_map {
-            // res.push(plugin);
+            res.push(unsafe { plugin.get_injector() }.unwrap());
             // plugin.inj
         }
         res

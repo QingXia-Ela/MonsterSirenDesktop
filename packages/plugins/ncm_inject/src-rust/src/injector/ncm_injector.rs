@@ -52,7 +52,6 @@ struct NCMInjector {}
 
 impl NCMInjector {
     fn new() -> Self {
-        println!("NCMInjector::new()");
         Self {}
     }
 }

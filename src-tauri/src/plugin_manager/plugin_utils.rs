@@ -1,4 +1,4 @@
-use std::os::raw::c_void;
+use std::os::{raw::c_void, windows::process::CommandExt};
 
 use libloading::Library;
 
@@ -16,6 +16,7 @@ pub fn is_support_node() -> Result<(), std::io::Error> {
 
     let success = cmd
         .arg("-v")
+        .creation_flags(0x08000000)
         .stdout(std::process::Stdio::piped())
         .stderr(std::process::Stdio::piped())
         .spawn()?
@@ -58,9 +59,6 @@ pub unsafe fn get_js_string(lib: &Library, symbol: &str) -> Result<String, Plugi
 
 unsafe fn parse_pointer_to_injector(injector_pointer: *mut c_void) -> Box<MusicInjector> {
     let injector = Box::from_raw(injector_pointer as *mut MusicInjector);
-    // very dangerous
-    // todo!: optimize it
-    println!("injector: {:?}", injector);
     injector
 }
 
