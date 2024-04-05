@@ -44,7 +44,7 @@ const initalProps = {
     ],
     autoplay: null,
     mode: 'list',
-    current: null,
+    // current: null,
     volume: 50,
     isPlaying: false,
     isMute: false,

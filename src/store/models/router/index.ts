@@ -24,8 +24,8 @@ SirenStore.subscribe(() => {
     // the store `section/activePage` couldn't work correctly.
     // need to call manually to recover page animate.
     // todo!: 增加自定义页面路径判断
-    if (currentPath === "/playlist") {
-      setRouterPath(path)
+    if (currentPath === '/playlist') {
+      setRouterPath(path);
     }
     $customRouter.set({ ...$customRouter.get(), path });
   }

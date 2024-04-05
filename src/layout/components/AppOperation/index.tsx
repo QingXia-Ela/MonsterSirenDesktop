@@ -5,6 +5,7 @@ import { isTauri } from '@/hooks/getPlatform';
 import CloseModeChoose from './components/CloseModeChoose';
 import $settingBasic from '@/store/models/settings/basic';
 import navigate from '@/router/utils/navigate';
+import SirenStore from '@/store/SirenStore';
 
 interface AppOperationProps {
   open: boolean;
@@ -39,11 +40,19 @@ const AppOperation: FunctionComponent<AppOperationProps> = ({
     }
   }
 
+  function gotoCurrentMusicPage() {
+    const cur = SirenStore.getState().player.current
+    if (cur) {
+      navigate(`/music/${cur}`)
+    }
+  }
+
   return (
     <div className='flex gap-[.65rem]'>
       <a
-        className={`iconfont icon-24gl-download ${Styles.iconfont}`}
-        onClick={() => navigate('/download')}
+        className={`iconfont icon-24gl-play ${Styles.iconfont}`}
+        onClick={gotoCurrentMusicPage}
+        title="播放详情"
       ></a>
       {/* settings */}
       <a
@@ -58,9 +67,8 @@ const AppOperation: FunctionComponent<AppOperationProps> = ({
       {/* window maximize */}
       <Suspense>
         <a
-          className={`iconfont icon-24gl-${min ? 'minimize' : 'square'} ${
-            Styles.iconfont
-          }`}
+          className={`iconfont icon-24gl-${min ? 'minimize' : 'square'} ${Styles.iconfont
+            }`}
           onClick={changeWindowSize}
         ></a>
       </Suspense>

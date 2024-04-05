@@ -9,7 +9,7 @@ import {
 import SilverBorder, { SilverBorderMethods } from './border';
 import Styles from './index.module.scss';
 
-interface SilverBorderButtonProps { }
+interface SilverBorderButtonProps {}
 
 const SilverBorderButton: FunctionComponent<
   React.DetailedHTMLProps<
