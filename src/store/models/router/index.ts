@@ -15,12 +15,18 @@ const activedPathSet = new Set();
 let path = '';
 // listen path change
 SirenStore.subscribe(() => {
-  // setPageEntered($customRouter.get().pageEntered)
-  // if ()
-  // SirenStore.getState().section
-  const currentPath = SirenRouter.location.pathname;
-  if (path !== currentPath) {
+  // get real location instead store inner path
+  const currentPath = window.location.pathname;
+
+  if (currentPath && path !== currentPath) {
     path = currentPath;
+    // when user click return on music player page, and return to custom page.
+    // the store `section/activePage` couldn't work correctly.
+    // need to call manually to recover page animate.
+    // todo!: 增加自定义页面路径判断
+    if (currentPath === "/playlist") {
+      setRouterPath(path)
+    }
     $customRouter.set({ ...$customRouter.get(), path });
   }
 });

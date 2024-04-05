@@ -34,6 +34,8 @@ function pushState(path: string, duration = 0) {
   SirenRouter.push(path);
   can_route = false;
   setTimeout(() => {
+    console.log(`dispatch`, { type: 'section/pageEntered', path });
+
     SirenStore.dispatch({ type: 'section/pageEntered', path });
     can_route = true;
   }, duration);

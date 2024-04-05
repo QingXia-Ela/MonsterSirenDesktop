@@ -8,7 +8,7 @@ import { useStore } from '@nanostores/react';
 import $settingBasic from '@/store/models/settings/basic';
 import { basicConfig } from '@/types/Config';
 
-interface LeftListProps { }
+interface LeftListProps {}
 
 const namespaceReg = /(\w+):.+/;
 
