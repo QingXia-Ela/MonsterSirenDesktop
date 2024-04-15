@@ -22,6 +22,6 @@ const unlisten = SirenStore.subscribe(() => {
   if (init) {
     setImgLazy?.();
     unlisten();
-    setImgLazy = null
+    setImgLazy = null;
   }
 });
