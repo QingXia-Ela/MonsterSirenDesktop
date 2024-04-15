@@ -41,9 +41,9 @@ const AppOperation: FunctionComponent<AppOperationProps> = ({
   }
 
   function gotoCurrentMusicPage() {
-    const cur = SirenStore.getState().player.current
+    const cur = SirenStore.getState().player.current;
     if (cur) {
-      navigate(`/music/${cur}`)
+      navigate(`/music/${cur}`);
     }
   }
 
@@ -52,7 +52,7 @@ const AppOperation: FunctionComponent<AppOperationProps> = ({
       <a
         className={`iconfont icon-24gl-play ${Styles.iconfont}`}
         onClick={gotoCurrentMusicPage}
-        title="播放详情"
+        title='播放详情'
       ></a>
       {/* settings */}
       <a
@@ -67,8 +67,9 @@ const AppOperation: FunctionComponent<AppOperationProps> = ({
       {/* window maximize */}
       <Suspense>
         <a
-          className={`iconfont icon-24gl-${min ? 'minimize' : 'square'} ${Styles.iconfont
-            }`}
+          className={`iconfont icon-24gl-${min ? 'minimize' : 'square'} ${
+            Styles.iconfont
+          }`}
           onClick={changeWindowSize}
         ></a>
       </Suspense>

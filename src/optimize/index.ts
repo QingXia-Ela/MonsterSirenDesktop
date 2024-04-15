@@ -5,3 +5,4 @@
  */
 import './router';
 import './index/index';
+import './music/[cid]'
