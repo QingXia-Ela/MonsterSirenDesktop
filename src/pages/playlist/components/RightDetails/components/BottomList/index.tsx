@@ -1,19 +1,31 @@
 import Scrollbar from '@/components/Scrollbar';
-import { FunctionComponent } from 'react';
+import { FunctionComponent, createRef, useRef, useState } from 'react';
 import SingleItem from './SingleItem';
 import { useStore } from '@nanostores/react';
 import $PlayListState from '@/store/pages/playlist';
 import EmptyTips from '../EmptyTips';
-import {
+import PopupState, {
   usePopupState,
-  bindTrigger,
   bindMenu,
-  bindContextMenu
+  bindContextMenu,
 } from 'material-ui-popup-state/hooks';
 import BlackMenu from '@/components/ContextMenu/BlackMenu';
 
 interface RightDetailsBottomListProps {
   ContextMenu?: (...args: any) => JSX.Element;
+}
+
+function findItemId(e: React.MouseEvent<HTMLElement>) {
+  let current: HTMLElement | null = e.target as HTMLElement;
+
+  while (current) {
+    // sync with SingleItem
+    if (current.getAttribute('data-item-id')) {
+      return current.getAttribute('data-item-id');
+    }
+    current = current.parentElement;
+  }
+  return null;
 }
 
 const RightDetailsBottomList: FunctionComponent<
@@ -26,11 +38,28 @@ const RightDetailsBottomList: FunctionComponent<
     variant: 'popover',
     popupId: 'playlistRightDetailSongList',
   });
+  const ctxData = bindContextMenu(popupState);
+
+  const [event, setEvent] = useState<{
+    e: React.MouseEvent<HTMLElement>;
+    // todo!: change cid to full song info
+    cid: string;
+  } | null>(null);
+
+  // todo!: optimize this, it will trigger when ctx menu close
+  const onContextMenu = (e: React.MouseEvent<HTMLElement>) => {
+    const cid = findItemId(e);
+    if (cid) {
+      setEvent({ e, cid });
+      ctxData.onContextMenu(e);
+    }
+  };
 
   return list.length ? (
     <>
       <Scrollbar
-        {...bindContextMenu(popupState)}
+        {...ctxData}
+        onContextMenu={onContextMenu}
         marginBarHeightLimit={1.2}
         VirtuosoOptions={{
           className: 'scrollbar__hidden',
@@ -38,6 +67,7 @@ const RightDetailsBottomList: FunctionComponent<
             totalCount: list.length,
             itemContent: (idx) => (
               <SingleItem
+                data-item-id={list[idx].cid}
                 key={idx}
                 name={list[idx].name}
                 author={list[idx].artists?.join(',')}
@@ -54,8 +84,8 @@ const RightDetailsBottomList: FunctionComponent<
           },
         }}
       />
-      {
-        ContextMenu && <BlackMenu
+      {ContextMenu && (
+        <BlackMenu
           anchorOrigin={{
             vertical: 'bottom',
             horizontal: 'left',
@@ -66,9 +96,9 @@ const RightDetailsBottomList: FunctionComponent<
           }}
           {...bindMenu(popupState)}
         >
-          <ContextMenu popupState={popupState} />
+          <ContextMenu popupState={popupState} event={event} />
         </BlackMenu>
-      }
+      )}
     </>
   ) : (
     <EmptyTips />

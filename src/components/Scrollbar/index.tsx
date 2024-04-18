@@ -12,7 +12,7 @@ import VirtuosoWrapper, {
 import throttle from 'lodash/throttle';
 import { appWindow } from '@tauri-apps/api/window';
 
-interface ScrollbarProps {
+interface ScrollbarProps extends React.HTMLAttributes<HTMLDivElement> {
   /** 以 rem 作为单位 */
   marginBarHeightLimit?: number;
   /** 最小 0 */
@@ -118,7 +118,7 @@ const Scrollbar: FunctionComponent<PropsWithChildren<ScrollbarProps>> = ({
   );
 
   return (
-    <div className={Styles.white_scroll_wrapper} {...props}>
+    <div {...props} className={Styles.white_scroll_wrapper}>
       <OuterThumb
         marginBarHeightLimit={marginBarHeightLimit}
         className={Styles['white_zebra_scrollbar_thumb-vertical']}

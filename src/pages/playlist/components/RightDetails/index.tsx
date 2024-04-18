@@ -1,4 +1,4 @@
-import { FunctionComponent } from 'react';
+import React, { FunctionComponent } from 'react';
 import RightDetailsTopInfo from './components/TopInfo';
 import RightDetailsMiddleSplit from './components/MiddleSplit';
 import RightDetailsBottomList from './components/BottomList';
@@ -8,38 +8,59 @@ import { usePopupState } from 'material-ui-popup-state/hooks';
 import BlackMenuItem from '@/components/ContextMenu/BlackMenu/BlackMenuItem';
 import Divider from '@mui/material/Divider';
 
-interface RightDetailsProps { }
+interface RightDetailsProps {}
 
-const MyDivider: FunctionComponent<{ children?: string }> = ({ children = "" }) => <Divider
-  sx={{
-    borderColor: "#ffffff88",
-    width: "80%",
-    margin: "0.1250rem auto",
-    fontSize: "0.1875rem",
-    "&::before, &::after": {
-      borderColor: "#ffffff88",
-    }
-  }}>{children}</Divider>
+// function find
 
+const MyDivider: FunctionComponent<{ children?: string }> = ({
+  children = '',
+}) => (
+  <Divider
+    sx={{
+      borderColor: '#ffffff88',
+      width: '80%',
+      margin: '0.1250rem auto',
+      fontSize: '0.1875rem',
+      '&::before, &::after': {
+        borderColor: '#ffffff88',
+      },
+    }}
+  >
+    {children}
+  </Divider>
+);
+
+/**
+ * Note: this component will refresh when ctx open.
+ *
+ * Just use params and operation.
+ * @returns
+ */
 function CtxMenu({
-  popupState
+  popupState,
+  event,
 }: {
-  popupState: ReturnType<typeof usePopupState>
+  popupState: ReturnType<typeof usePopupState>;
+  event: { e: React.MouseEvent<HTMLElement>; cid: string };
 }) {
+  console.log(event.cid);
+
   const handleClose = () => popupState.close();
-  return <>
-    <BlackMenuItem onClick={handleClose}>播放</BlackMenuItem>
-    <BlackMenuItem onClick={handleClose}>下一首播放</BlackMenuItem>
-    <BlackMenuItem onClick={handleClose}>添加到播放列表</BlackMenuItem>
-    <MyDivider />
-    <BlackMenuItem onClick={handleClose}>显示专辑</BlackMenuItem>
-    <BlackMenuItem onClick={handleClose}>删除</BlackMenuItem>
-    <MyDivider />
-    <BlackMenuItem onClick={handleClose}>显示信息</BlackMenuItem>
-    <BlackMenuItem onClick={handleClose}>编辑信息</BlackMenuItem>
-    <MyDivider />
-    <BlackMenuItem onClick={handleClose}>下载歌曲</BlackMenuItem>
-  </>
+  return (
+    <>
+      <BlackMenuItem onClick={handleClose}>播放</BlackMenuItem>
+      <BlackMenuItem onClick={handleClose}>下一首播放</BlackMenuItem>
+      <BlackMenuItem onClick={handleClose}>添加到播放列表</BlackMenuItem>
+      <MyDivider />
+      <BlackMenuItem onClick={handleClose}>显示专辑</BlackMenuItem>
+      <BlackMenuItem onClick={handleClose}>删除</BlackMenuItem>
+      <MyDivider />
+      <BlackMenuItem onClick={handleClose}>显示信息</BlackMenuItem>
+      <BlackMenuItem onClick={handleClose}>编辑信息</BlackMenuItem>
+      <MyDivider />
+      <BlackMenuItem onClick={handleClose}>下载歌曲</BlackMenuItem>
+    </>
+  );
 }
 
 const RightDetails: FunctionComponent<RightDetailsProps> = () => {
