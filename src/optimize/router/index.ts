@@ -1,4 +1,3 @@
-import once from 'lodash/once';
 import SirenStore from '@/store/SirenStore';
 
 // todo!: optimize to really lazy load

@@ -90,9 +90,8 @@ const LeftList: FunctionComponent<LeftListProps> = () => {
   // get album list if list doesn't exist
   // this process will also trigger on vanilla page change to `music`
 
-  // const playerList = parseAlbumListToBottomList(
-  //   SirenStore.getState().music.albumList,
-  // );
+  // todo!: change player list fetch by tauri event, not network transform
+  // network transform is slow if some inject is slow, the network needs to wait all inject finish
   const playerList = parseAlbumListToBottomList(
     useSirenStore((s) => s.music.albumList),
     $settingBasic.get().showSirenMusicListMode,

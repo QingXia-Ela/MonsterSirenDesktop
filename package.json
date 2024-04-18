@@ -40,6 +40,7 @@
     "sass": "^1.69.1",
     "styled-components": "^6.0.7",
     "swr": "^2.2.4",
+    "material-ui-popup-state": "^5.1.0",
     "tdesign-react": "^1.2.6"
   },
   "devDependencies": {

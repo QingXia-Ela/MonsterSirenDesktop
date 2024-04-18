@@ -45,6 +45,7 @@ const Scrollbar: FunctionComponent<PropsWithChildren<ScrollbarProps>> = ({
   ScrollbarDegNum,
   VirtuosoOptions,
   ScrollbarProps,
+  ...props
 }) => {
   const [fillHeight, setFillHeight] = React.useState(0);
   const ScrollInstance = React.createRef<Scrollbars>();
@@ -117,7 +118,7 @@ const Scrollbar: FunctionComponent<PropsWithChildren<ScrollbarProps>> = ({
   );
 
   return (
-    <div className={Styles.white_scroll_wrapper}>
+    <div className={Styles.white_scroll_wrapper} {...props}>
       <OuterThumb
         marginBarHeightLimit={marginBarHeightLimit}
         className={Styles['white_zebra_scrollbar_thumb-vertical']}
