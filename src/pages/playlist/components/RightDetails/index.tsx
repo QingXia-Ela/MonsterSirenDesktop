@@ -7,6 +7,8 @@ import $PlayListState from '@/store/pages/playlist';
 import { usePopupState } from 'material-ui-popup-state/hooks';
 import BlackMenuItem from '@/components/ContextMenu/BlackMenu/BlackMenuItem';
 import Divider from '@mui/material/Divider';
+import SirenStore from '@/store/SirenStore';
+import navigate from '@/router/utils/navigate';
 
 interface RightDetailsProps {}
 
@@ -46,17 +48,28 @@ function CtxMenu({
   console.log(event.cid);
 
   const handleClose = () => popupState.close();
+
+  // this method will also change album.
+  const play = () => {
+    SirenStore.dispatch({
+      type: 'player/selectSong',
+      cid: event.cid,
+    });
+    // navigate will help to init route, it can make jump correctly.
+    navigate(`/music/${event.cid}`);
+    handleClose();
+  };
   return (
     <>
-      <BlackMenuItem onClick={handleClose}>播放</BlackMenuItem>
-      <BlackMenuItem onClick={handleClose}>下一首播放</BlackMenuItem>
-      <BlackMenuItem onClick={handleClose}>添加到播放列表</BlackMenuItem>
-      <MyDivider />
-      <BlackMenuItem onClick={handleClose}>显示专辑</BlackMenuItem>
-      <BlackMenuItem onClick={handleClose}>删除</BlackMenuItem>
-      <MyDivider />
+      <BlackMenuItem onClick={play}>播放</BlackMenuItem>
+      {/* <BlackMenuItem onClick={handleClose}>下一首播放</BlackMenuItem> */}
+      {/* <BlackMenuItem onClick={handleClose}>添加到播放列表</BlackMenuItem> */}
+      {/* <MyDivider /> */}
+      {/* <BlackMenuItem onClick={handleClose}>显示专辑</BlackMenuItem> */}
+      {/* <BlackMenuItem onClick={handleClose}>删除</BlackMenuItem> */}
+      {/* <MyDivider />
       <BlackMenuItem onClick={handleClose}>显示信息</BlackMenuItem>
-      <BlackMenuItem onClick={handleClose}>编辑信息</BlackMenuItem>
+      <BlackMenuItem onClick={handleClose}>编辑信息</BlackMenuItem> */}
       <MyDivider />
       <BlackMenuItem onClick={handleClose}>下载歌曲</BlackMenuItem>
     </>

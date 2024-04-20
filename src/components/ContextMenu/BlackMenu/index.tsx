@@ -4,7 +4,7 @@ import Menu, { MenuProps } from '@mui/material/Menu';
 export default styled(({ ...p }: MenuProps) => <Menu {...p} />)(() => ({
   '.MuiPaper-root': {
     color: 'white',
-    minWidth: '2.2rem',
+    minWidth: '2.5rem',
     backgroundColor: '#000',
     boxShadow: '0 0 10px black',
     backgroundImage:

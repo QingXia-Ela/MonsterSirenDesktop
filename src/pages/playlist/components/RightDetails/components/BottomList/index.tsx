@@ -4,7 +4,7 @@ import SingleItem from './SingleItem';
 import { useStore } from '@nanostores/react';
 import $PlayListState from '@/store/pages/playlist';
 import EmptyTips from '../EmptyTips';
-import PopupState, {
+import {
   usePopupState,
   bindMenu,
   bindContextMenu,
@@ -48,6 +48,7 @@ const RightDetailsBottomList: FunctionComponent<
 
   // todo!: optimize this, it will trigger when ctx menu close
   const onContextMenu = (e: React.MouseEvent<HTMLElement>) => {
+    // cid 现在附着在 data-item-id
     const cid = findItemId(e);
     if (cid) {
       setEvent({ e, cid });

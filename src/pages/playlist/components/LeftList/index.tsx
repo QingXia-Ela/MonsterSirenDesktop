@@ -1,12 +1,11 @@
-import { FunctionComponent, useEffect, useState } from 'react';
+import { FunctionComponent } from 'react';
 import ListLeftBottomDetails from './components/BottomList';
-import SirenStore from '@/store/SirenStore';
 import useSirenStore from '@/hooks/useSirenStore';
-import { SirenStoreState } from '@/types/SirenStore';
 import $PlayListState, { setCurrentAlbumId } from '@/store/pages/playlist';
 import { useStore } from '@nanostores/react';
 import $settingBasic from '@/store/models/settings/basic';
 import { basicConfig } from '@/types/Config';
+import $DummyPlaylist from '@/store/models/dummyPlaylist';
 
 interface LeftListProps {}
 
@@ -80,12 +79,10 @@ function parseAlbumListToBottomList(
   return Object.values(map);
 }
 
-function filterStore(store: SirenStoreState) {
-  return store.musicPlay.albumDetail.cid;
-}
-
 const LeftList: FunctionComponent<LeftListProps> = () => {
   const { currentAlbumId: activeId } = useStore($PlayListState);
+  // const dummyPlayListInfo = useStore($DummyPlaylist)
+  const albumList = useSirenStore((s) => s.music.albumList);
 
   // get album list if list doesn't exist
   // this process will also trigger on vanilla page change to `music`
@@ -93,16 +90,15 @@ const LeftList: FunctionComponent<LeftListProps> = () => {
   // todo!: change player list fetch by tauri event, not network transform
   // network transform is slow if some inject is slow, the network needs to wait all inject finish
   const playerList = parseAlbumListToBottomList(
-    useSirenStore((s) => s.music.albumList),
+    [
+      // dummyPlayListInfo.metadata,
+      ...albumList,
+    ],
     $settingBasic.get().showSirenMusicListMode,
   );
 
   const onSelect = (cid: string) => {
     // 原生 store 不适用，会有原生页面副作用
-    // SirenStore.dispatch({
-    //   type: "musicPlay/getAlbumDetail",
-    //   cid
-    // })
     setCurrentAlbumId(cid);
   };
 
