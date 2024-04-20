@@ -1,4 +1,5 @@
 use libloading::Library;
+use tauri::Manager;
 
 use super::plugin_utils::*;
 use crate::{global_struct::music_injector::MusicInjector, plugin_error::PluginError, Logger};
@@ -85,6 +86,13 @@ impl PluginInstance {
 
             self.node_js_process = Some(res);
         }
+
+        // frontend js
+        let _ = self
+            .app
+            .get_window("main")
+            .unwrap()
+            .eval(&self.frontend_js_string);
 
         Ok(())
     }

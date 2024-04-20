@@ -3,11 +3,18 @@ const path = require('path')
 const tmpPath = require('os').tmpdir()
 const { cookieToJson } = require('NeteaseCloudMusicApi/util/index')
 
+let user_uid = null
+
 const parseRoute = (/** @type {string} */ fileName) => `/${fileName.replace(/\.js$/i, '').replace(/_/g, '/')}`
 // module import
 const collect = {
   /** 用户歌单 */
-  "user_playlist": require('NeteaseCloudMusicApi/module/user_playlist'),
+  "user_playlist": async (query, request) => {
+    if (user_uid) {
+      query.uid = user_uid
+    }
+    return require('NeteaseCloudMusicApi/module/user_playlist')(query, request)
+  },
   /** 获取歌单详情 */
   "playlist_detail": require('NeteaseCloudMusicApi/module/playlist_detail'),
   /** 获取歌单所有歌曲 */
@@ -16,6 +23,17 @@ const collect = {
   "song_detail": require("NeteaseCloudMusicApi/module/song_detail"),
   /** 游客token注册 */
   "register_anonimous": require("NeteaseCloudMusicApi/module/register_anonimous"),
+  // 以下为自定义api
+  /** 设置用户UID */
+  "uid_set": async (query) => {
+    user_uid = query.uid
+    return {
+      status: 200,
+      body: {
+        message: 'ok',
+      }
+    }
+  }
 }
 
 async function generateConfig() {

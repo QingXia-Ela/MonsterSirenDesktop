@@ -22,6 +22,7 @@ pub struct PluginManager {
     pub plugin_map: HashMap<String, plugin_instance::PluginInstance>,
 }
 
+// todo!: add plugin kill on drop
 impl PluginManager {
     pub fn new(app: tauri::AppHandle) -> Self {
         // detect node
