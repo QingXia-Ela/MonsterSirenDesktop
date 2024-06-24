@@ -12,7 +12,7 @@ export const addLocalFolder = (path: string) => {
   const oldPaths = $settingLocalMusic.get().paths || [];
   $settingLocalMusic.set({
     ...$settingLocalMusic.get(),
-    paths: [...oldPaths, path],
+    paths: Array.from(new Set([...oldPaths, path])),
   });
 };
 

@@ -10,7 +10,7 @@ import Divider from '@mui/material/Divider';
 import SirenStore from '@/store/SirenStore';
 import navigate from '@/router/utils/navigate';
 
-interface RightDetailsProps {}
+interface RightDetailsProps { }
 
 // function find
 
@@ -45,8 +45,6 @@ function CtxMenu({
   popupState: ReturnType<typeof usePopupState>;
   event: { e: React.MouseEvent<HTMLElement>; cid: string };
 }) {
-  console.log(event.cid);
-
   const handleClose = () => popupState.close();
 
   // this method will also change album.

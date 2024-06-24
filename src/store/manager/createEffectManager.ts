@@ -1,9 +1,12 @@
-type EventName = 'change' | 'created';
+type EventName = 'change' | 'created' | 'atomAdd';
 import type { WritableAtom } from 'nanostores';
+
 
 export default function createEffectManager(data: any) {
   const atomMap = new Map<string, WritableAtom<any>>();
-  const eventMap: Record<EventName, Array<() => void>> = {};
+  const eventMap: Record<EventName | string, Array<(...args: any[]) => any>> = {
+    atomAdd: [],
+  };
 
   /**
    * @param key the key that use from data, will be used as the init value
@@ -15,6 +18,10 @@ export default function createEffectManager(data: any) {
     }
 
     atomMap.set(key, atom);
+
+    eventMap['atomAdd']?.forEach((f) => {
+      f(key, atom.get());
+    });
 
     atom.listen((v) => {
       eventMap['change']?.forEach((f) => {
@@ -29,11 +36,11 @@ export default function createEffectManager(data: any) {
    * @param {EventName} eventName - The name of the event to listen for.
    * @param {Function} callback - The callback function to be executed when the event is triggered.
    */
-  function on(eventName: EventName, callback) {
+  function on(eventName: EventName, callback: (...args: any[]) => any) {
     if (!eventMap[eventName]) {
       eventMap[eventName] = [];
     }
-    eventMap[eventName] = callback;
+    eventMap[eventName].push(callback);
   }
 
   /**
@@ -42,7 +49,7 @@ export default function createEffectManager(data: any) {
    * @return {Object} The combined state object.
    */
   function getCombinedState() {
-    const state = {};
+    const state: Record<string, any> = {};
     atomMap.forEach((atom, key) => {
       state[key] = atom.get();
     });
@@ -59,7 +66,7 @@ export default function createEffectManager(data: any) {
     return atomMap.get(key);
   }
 
-  requestAnimationFrame(() => {
+  setTimeout(() => {
     eventMap['created']?.forEach((f) => {
       f();
     });

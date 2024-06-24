@@ -6,8 +6,9 @@ import Button from '@/components/Button';
 import { invoke } from '@tauri-apps/api';
 import { open } from '@tauri-apps/api/dialog';
 import Dialog from '@/components/Dialog';
+import { addLocalFolder, removeLocalFolder } from '@/store/models/settings/localMusic';
 
-interface LocalMusicSettingsProps {}
+interface LocalMusicSettingsProps { }
 
 const GET_FOLDERS = 'plugin:local|get_folders';
 const ADD_FOLDER = 'plugin:local|add_folder';
@@ -38,6 +39,7 @@ const LocalMusicSettings: FunctionComponent<LocalMusicSettingsProps> = () => {
     await invoke(ADD_FOLDER, {
       path,
     });
+    addLocalFolder(path as string);
     // todo!: refresh vanilla albumlist for music page.
     updateList();
   };
@@ -46,6 +48,7 @@ const LocalMusicSettings: FunctionComponent<LocalMusicSettingsProps> = () => {
     await invoke(REMOVE_FOLDER, {
       path,
     });
+    removeLocalFolder(path);
     updateList();
     setDialogOpen(false);
   };

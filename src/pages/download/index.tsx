@@ -1,8 +1,8 @@
 /**
  * @deprecated - 后端写下载模块有点麻烦，先暂时不用这个页面
- * 
+ *
  * 本页需要达成功能：
- * 
+ *
  * - 前后端下载事件同步
  */
 import { FunctionComponent, useEffect, useState } from 'react';
@@ -13,7 +13,7 @@ import DownloadLeftControl, {
 } from './components/LeftControl';
 import DownloadRightDetails from './components/RightDetails';
 
-interface DownloadProps extends RouterCombineProps { }
+interface DownloadProps extends RouterCombineProps {}
 
 const Download: FunctionComponent<DownloadProps> = ({ active, ...props }) => {
   // first active always show

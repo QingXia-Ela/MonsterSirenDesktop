@@ -142,23 +142,33 @@ impl MusicInject for SirenInjector {
             .request_and_get_response(&format!("{}/api/song/{}", SIREN_WEBSITE, cid))
             .await?;
 
+        // todo!: modify album_cid to `siren:all`
+
         let res: ResponseMsg<Song> = serde_json::from_str(&res.as_str()).unwrap();
         Ok(res.data)
     }
 
     async fn get_album(&self, cid: String) -> Result<Album, PluginRequestError> {
-        // todo!: add speical cid `all` for all songs
         if cid == "all" {
             return Ok(Album {
                 artistes: vec!["塞壬唱片-MSR".to_string()],
-                cid: String::from("all"),
+                cid: String::from("siren:all"),
                 cn_namespace: String::from("塞壬唱片音乐集"),
                 name: String::from("塞壬唱片音乐集"),
                 intro: String::from("该播放列表包含所有的塞壬唱片音乐"),
                 belong: String::from("siren"),
                 cover_url: String::from("/siren.png"),
                 cover_de_url: String::from("/siren.png"),
-                songs: self.get_songs().await,
+                songs: self
+                    .get_songs()
+                    .await
+                    .into_iter()
+                    .map(|mut s| {
+                        // todo!: add cid prefix `siren:` to lead frontend request to this injector, so that can modify response and redirect to `siren:all` playlist
+                        s.album_cid = String::from("siren:all");
+                        s
+                    })
+                    .collect(),
             });
         }
 
