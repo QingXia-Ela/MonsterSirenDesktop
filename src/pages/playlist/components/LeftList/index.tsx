@@ -7,10 +7,11 @@ import $settingBasic from '@/store/models/settings/basic';
 import { basicConfig } from '@/types/Config';
 import $DummyPlaylist from '@/store/models/dummyPlaylist';
 
-interface LeftListProps {}
+interface LeftListProps { }
 
 const namespaceReg = /(\w+):.+/;
 
+// todo!: refactor this and improve performance
 function parseAlbumListToBottomList(
   list: {
     cid: string;
@@ -46,7 +47,23 @@ function parseAlbumListToBottomList(
       });
     }
     // official playlist
-    // todo!: 增加隐藏塞壬唱片音乐处理
+    // request id `siren:all`
+    else if (sirenListMode === 'collect') {
+      // 有打平列表了，直接跳过
+      if (map['siren']?.data.length) continue
+      // 没有打平列表，直接把所有歌曲塞进去
+      map['siren'] = {
+        title: '塞壬唱片官方专辑',
+        namespace: 'siren',
+        data: [{
+          type: 'img',
+          src: '/siren.png',
+          id: 'siren:all',
+          title: '全歌曲播放列表',
+          subTitle: "Ciallo～(∠・ω< )⌒★"
+        }],
+      }
+    }
     // 第一种分类方法是展示所有专辑列表，第二种是将所有歌曲收录进当前列表
     else if (!isNaN(parseInt(element.cid))) {
       if (sirenListMode !== 'hide' && !map['siren']) {
@@ -67,10 +84,6 @@ function parseAlbumListToBottomList(
             title: element.name,
             subTitle: element.artists?.join(','),
           });
-          break;
-
-        // todo!: 打平模式，需要做额外设计，需要有一个特殊 id 可以获取所有的歌曲
-        case 'collect':
           break;
       }
     }

@@ -19,8 +19,8 @@ use serde::{Deserialize, Serialize};
 use warp::{reject::Rejection, reply::Response};
 type FilterType = Vec<[&'static str; 2]>;
 
-const ALBUMS_URL: &str = "https://monster-siren.com/api/albums";
-const SONGS_URL: &str = "https://monster-siren.com/api/songs";
+const ALBUMS_URL: &str = "https://monster-siren.hypergryph.com/api/albums";
+const SONGS_URL: &str = "https://monster-siren.hypergryph.com/api/songs";
 
 fn change_body(body: String, filter_rules: FilterType, port: u16, cdn_port: u16) -> String {
     let mut basic = body
@@ -147,6 +147,21 @@ impl MusicInject for SirenInjector {
     }
 
     async fn get_album(&self, cid: String) -> Result<Album, PluginRequestError> {
+        // todo!: add speical cid `all` for all songs
+        if cid == "all" {
+            return Ok(Album {
+                artistes: vec!["塞壬唱片-MSR".to_string()],
+                cid: String::from("all"),
+                cn_namespace: String::from("塞壬唱片音乐集"),
+                name: String::from("塞壬唱片音乐集"),
+                intro: String::from("该播放列表包含所有的塞壬唱片音乐"),
+                belong: String::from("siren"),
+                cover_url: String::from("/siren.png"),
+                cover_de_url: String::from("/siren.png"),
+                songs: self.get_songs().await,
+            });
+        }
+
         let res = self
             .request_and_get_response(&format!("{}/api/album/{}/detail", SIREN_WEBSITE, cid))
             .await?;
@@ -168,7 +183,7 @@ impl MusicInject for SirenInjector {
 
 pub fn get_injector() -> MusicInjector {
     MusicInjector::new(
-        "".to_string(),
+        "siren".to_string(),
         String::from("塞壬唱片"),
         String::from("#fff"),
         None,

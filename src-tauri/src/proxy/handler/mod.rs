@@ -176,6 +176,7 @@ pub async fn handle_request_with_plugin(
                 .await
                 .into_response())
         }
+        // todo!: add namespace specific api like "/songs/:namespace" and "/albums/:namespace", which can call target plugin utils
         _ => {
             Logger::debug("no match, request will be handled by vanilla api");
             let res = handle_request(port, cdn_port, path, headers, filter_rules).await;

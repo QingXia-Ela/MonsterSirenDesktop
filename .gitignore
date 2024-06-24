@@ -30,3 +30,6 @@ dist-ssr
 src/assets/fonts/**/*.*
 !src/assets/fonts/**/iconfont.css
 !src/assets/fonts/**/iconfont.ttf
+
+# counter
+.VSCodeCounter
