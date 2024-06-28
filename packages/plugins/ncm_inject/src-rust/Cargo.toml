@@ -8,6 +8,10 @@ edition = "2021"
 [dependencies]
 async-trait = "0.1.77"
 monster-siren-desktop = { path = "../../../../src-tauri" }
+reqwest = "0.12.5"
+serde_json = "1.0.118"
+tokio = "1.38.0"
+warp = "0.3.7"
 
 # Compile to a dll lib
 [lib]

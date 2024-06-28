@@ -4,7 +4,7 @@ import Styles from './index.module.scss';
 import LeftList from './components/LeftList';
 import RightDetails from './components/RightDetails';
 
-interface PlayListProps extends RouterCombineProps { }
+interface PlayListProps extends RouterCombineProps {}
 
 const PlayList: FunctionComponent<PlayListProps> = ({ active, ...props }) => {
   // first active always show
@@ -12,7 +12,7 @@ const PlayList: FunctionComponent<PlayListProps> = ({ active, ...props }) => {
   // delay css control show to next tick
   requestAnimationFrame(() => {
     setcssActive(active);
-  })
+  });
 
   return (
     <div

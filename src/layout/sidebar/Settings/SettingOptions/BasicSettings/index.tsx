@@ -13,7 +13,7 @@ import HoverWhiteBg from '@/components/HoverWhiteBg';
 import SubTitle from '../../components/SubTitle';
 import Select from '@/components/Select';
 
-interface BasicSettingsProps { }
+interface BasicSettingsProps {}
 
 const SELECT_OPTIONS = CloseModeChooses.map(({ title, value }) => ({
   value,
@@ -26,7 +26,8 @@ const PLAYLIST_OPTIONS = PlaylistModeChooses.map(({ title, value }) => ({
 }));
 
 const BasicSettings: FunctionComponent<BasicSettingsProps> = () => {
-  const { closeAutoPlay, closeMode, showSirenMusicListMode } = useStore($settingBasic);
+  const { closeAutoPlay, closeMode, showSirenMusicListMode } =
+    useStore($settingBasic);
 
   return (
     <div className='w-full flex flex-col gap-1'>

@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node src-node/index.cjs",
-    "build": "node bin/build.js && cd src-rust && cargo build"
+    "build": "node bin/build.js && cd src-rust && cargo build",
+    "build:node": "node bin/build.js"
   },
   "keywords": [],
   "author": "",

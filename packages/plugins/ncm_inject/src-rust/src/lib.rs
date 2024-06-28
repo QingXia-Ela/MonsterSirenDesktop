@@ -1,5 +1,6 @@
 use std::ffi::c_void;
 mod injector;
+mod netease_struct;
 
 pub static NODE_JS_BUNDLE: &str = include_str!("../../dist-node/bundle.cjs");
 

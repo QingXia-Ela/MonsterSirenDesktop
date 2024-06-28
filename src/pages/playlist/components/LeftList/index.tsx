@@ -1,7 +1,10 @@
 import { FunctionComponent } from 'react';
 import ListLeftBottomDetails from './components/BottomList';
 import useSirenStore from '@/hooks/useSirenStore';
-import $PlayListState, { clearCurrentAlbum, setCurrentAlbumId } from '@/store/pages/playlist';
+import $PlayListState, {
+  clearCurrentAlbum,
+  setCurrentAlbumId,
+} from '@/store/pages/playlist';
 import { useStore } from '@nanostores/react';
 import $settingBasic from '@/store/models/settings/basic';
 import { basicConfig } from '@/types/Config';
@@ -10,7 +13,7 @@ import $settingLocalMusic from '@/store/models/settings/localMusic';
 import SirenStore from '@/store/SirenStore';
 import { SettingsManager } from '@/store/models/settings';
 
-interface LeftListProps { }
+interface LeftListProps {}
 
 const namespaceReg = /(\w+):.+/;
 
@@ -105,7 +108,8 @@ $settingLocalMusic.subscribe(() => {
 
 // todo!: 当本地文件夹被移除时需要检查当前页选择的文件夹是否为被移除的文件夹，如果是则需要清空激活状态
 const LeftList: FunctionComponent<LeftListProps> = () => {
-  const { currentAlbumId: activeId, albumList: currentAlbum } = useStore($PlayListState);
+  const { currentAlbumId: activeId, albumList: currentAlbum } =
+    useStore($PlayListState);
   const { showSirenMusicListMode } = useStore($settingBasic);
   // const dummyPlayListInfo = useStore($DummyPlaylist)
   const albumList = useSirenStore((s) => s.music.albumList);

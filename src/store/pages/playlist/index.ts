@@ -102,7 +102,7 @@ export function clearCurrentAlbum() {
     loading: false,
     currentAlbumInfo,
     fetchedAlbumList: false,
-    albumList
+    albumList,
   });
 }
 
