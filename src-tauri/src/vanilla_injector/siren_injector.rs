@@ -1,3 +1,5 @@
+use std::fmt::format;
+
 use crate::{
     constants::SIREN_WEBSITE,
     global_struct::{
@@ -142,9 +144,9 @@ impl MusicInject for SirenInjector {
             .request_and_get_response(&format!("{}/api/song/{}", SIREN_WEBSITE, cid))
             .await?;
 
-        // todo!: modify album_cid to `siren:all`
-
-        let res: ResponseMsg<Song> = serde_json::from_str(&res.as_str()).unwrap();
+        let mut res: ResponseMsg<Song> = serde_json::from_str(&res.as_str()).unwrap();
+        res.data.cid = String::from("siren:all");
+        res.data.album_cid = String::from("siren:all");
         Ok(res.data)
     }
 
@@ -166,6 +168,7 @@ impl MusicInject for SirenInjector {
                     .map(|mut s| {
                         // todo!: add cid prefix `siren:` to lead frontend request to this injector, so that can modify response and redirect to `siren:all` playlist
                         s.album_cid = String::from("siren:all");
+                        s.cid = format!("siren:{}", s.cid);
                         s
                     })
                     .collect(),

@@ -1,7 +1,6 @@
 type EventName = 'change' | 'created' | 'atomAdd';
 import type { WritableAtom } from 'nanostores';
 
-
 export default function createEffectManager(data: any) {
   const atomMap = new Map<string, WritableAtom<any>>();
   const eventMap: Record<EventName | string, Array<(...args: any[]) => any>> = {

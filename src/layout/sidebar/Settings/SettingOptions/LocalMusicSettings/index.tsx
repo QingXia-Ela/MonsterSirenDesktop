@@ -6,9 +6,12 @@ import Button from '@/components/Button';
 import { invoke } from '@tauri-apps/api';
 import { open } from '@tauri-apps/api/dialog';
 import Dialog from '@/components/Dialog';
-import { addLocalFolder, removeLocalFolder } from '@/store/models/settings/localMusic';
+import {
+  addLocalFolder,
+  removeLocalFolder,
+} from '@/store/models/settings/localMusic';
 
-interface LocalMusicSettingsProps { }
+interface LocalMusicSettingsProps {}
 
 const GET_FOLDERS = 'plugin:local|get_folders';
 const ADD_FOLDER = 'plugin:local|add_folder';
