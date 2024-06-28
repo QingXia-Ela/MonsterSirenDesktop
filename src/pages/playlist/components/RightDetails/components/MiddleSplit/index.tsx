@@ -7,14 +7,13 @@ import { useStore } from '@nanostores/react';
 import $PlayListState from '@/store/pages/playlist';
 import SirenStore from '@/store/SirenStore';
 
-interface RightDetailsMiddleSplitProps {}
+interface RightDetailsMiddleSplitProps { }
 
 const RightDetailsMiddleSplit: FunctionComponent<
   RightDetailsMiddleSplitProps
 > = () => {
   const [searchValue, setSearchValue] = useState('');
   const store = useStore($PlayListState);
-  console.log(store.currentAlbumInfo);
 
   const play = () => {
     SirenStore.dispatch({

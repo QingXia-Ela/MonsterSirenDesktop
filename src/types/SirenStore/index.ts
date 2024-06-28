@@ -102,7 +102,6 @@ const initalProps = {
   },
   music: {
     keyword: '',
-    albumList: [],
     currentPage: 0,
     albumDetailVisible: false,
     currentAlbum: null,

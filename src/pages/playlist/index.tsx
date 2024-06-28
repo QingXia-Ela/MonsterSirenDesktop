@@ -4,15 +4,15 @@ import Styles from './index.module.scss';
 import LeftList from './components/LeftList';
 import RightDetails from './components/RightDetails';
 
-interface PlayListProps extends RouterCombineProps {}
+interface PlayListProps extends RouterCombineProps { }
 
 const PlayList: FunctionComponent<PlayListProps> = ({ active, ...props }) => {
   // first active always show
   const [cssActive, setcssActive] = useState(true);
   // delay css control show to next tick
-  useEffect(() => {
+  requestAnimationFrame(() => {
     setcssActive(active);
-  }, [active]);
+  })
 
   return (
     <div

@@ -13,7 +13,7 @@ import HoverWhiteBg from '@/components/HoverWhiteBg';
 import SubTitle from '../../components/SubTitle';
 import Select from '@/components/Select';
 
-interface BasicSettingsProps {}
+interface BasicSettingsProps { }
 
 const SELECT_OPTIONS = CloseModeChooses.map(({ title, value }) => ({
   value,
@@ -26,7 +26,7 @@ const PLAYLIST_OPTIONS = PlaylistModeChooses.map(({ title, value }) => ({
 }));
 
 const BasicSettings: FunctionComponent<BasicSettingsProps> = () => {
-  const { closeAutoPlay, closeMode } = useStore($settingBasic);
+  const { closeAutoPlay, closeMode, showSirenMusicListMode } = useStore($settingBasic);
 
   return (
     <div className='w-full flex flex-col gap-1'>
@@ -47,8 +47,8 @@ const BasicSettings: FunctionComponent<BasicSettingsProps> = () => {
       </StyledTooltip>
       <Select
         // TODO!: optimize it to auto generate, don't know why it can't auto generate when value is ""
-        placeholder='将所有专辑打平为一个音乐列表'
-        value={closeMode}
+        placeholder='未知'
+        value={showSirenMusicListMode}
         height='2.5rem'
         options={PLAYLIST_OPTIONS}
         onChange={(v) => changeShowListMode(v)}

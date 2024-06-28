@@ -70,6 +70,9 @@ export async function updateAlbumList() {
   // });
 }
 
+/**
+ * @param id 专辑 id
+ */
 export async function setCurrentAlbumId(id: string) {
   $PlayListState.set({
     ...$PlayListState.get(),
@@ -88,6 +91,18 @@ export async function setCurrentAlbumId(id: string) {
     currentAlbumData: res.songs,
     currentAlbumInfo: info,
     loading: false,
+  });
+}
+
+export function clearCurrentAlbum() {
+  const { albumList, currentAlbumInfo } = $PlayListState.get();
+  $PlayListState.set({
+    currentAlbumId: '',
+    currentAlbumData: [],
+    loading: false,
+    currentAlbumInfo,
+    fetchedAlbumList: false,
+    albumList
   });
 }
 
