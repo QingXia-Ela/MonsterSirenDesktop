@@ -61,7 +61,7 @@ impl PluginManager {
                 get_js_string(&lib, "get_node_js_bundle").unwrap_or_default(),
                 get_js_string(&lib, "get_frontend_js").unwrap_or_default(),
                 // this method cause error
-                get_plugin_injector(&lib),
+                get_plugin_injector(&lib, self.app.clone()),
                 lib,
             )
         };

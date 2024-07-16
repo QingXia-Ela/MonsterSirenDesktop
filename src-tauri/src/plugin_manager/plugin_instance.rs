@@ -109,6 +109,6 @@ impl PluginInstance {
 
     /// 此处返回的是一个全新的 injector，而不是之前创建的引用
     pub unsafe fn get_injector(&self) -> Result<MusicInjector, PluginError> {
-        get_plugin_injector(&self.plugin_lib)
+        get_plugin_injector(&self.plugin_lib, self.app.clone())
     }
 }

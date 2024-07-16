@@ -32,6 +32,8 @@ pub trait MusicInject: Send + Sync {
 
 #[repr(C)]
 pub struct MusicInjector {
+    /// tauri app handle
+    pub app: tauri::AppHandle,
     /// injector request namespace, will use as only key in request
     pub namespace: String,
     /// cn namespace, will use at the place where need cn translate.
@@ -67,6 +69,7 @@ impl Debug for MusicInjector {
 
 impl MusicInjector {
     pub fn new(
+        app: tauri::AppHandle,
         namespace: String,
         cn_namespace: String,
         color: String,
@@ -74,6 +77,7 @@ impl MusicInjector {
         request_interceptor: Box<dyn MusicInject>,
     ) -> Self {
         Self {
+            app,
             namespace,
             cn_namespace,
             color,

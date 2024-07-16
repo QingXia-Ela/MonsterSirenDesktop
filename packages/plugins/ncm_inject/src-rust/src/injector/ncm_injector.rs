@@ -101,8 +101,9 @@ impl MusicInject for NCMInjector {
     }
 }
 
-pub fn get_ncm_injector() -> MusicInjector {
+pub fn get_ncm_injector(app: tauri::AppHandle) -> MusicInjector {
     MusicInjector::new(
+        app,
         String::from("ncm"),
         String::from("网易云音乐"),
         String::from("red"),

@@ -9,7 +9,8 @@ use crate::{
 
 type FuncPointer<'a> = libloading::Symbol<'a, unsafe extern "C" fn() -> *const i8>;
 
-type InitFuncPointer<'a> = libloading::Symbol<'a, unsafe extern "C" fn() -> *mut c_void>;
+type InitFuncPointer<'a> =
+    libloading::Symbol<'a, unsafe extern "C" fn(app: tauri::AppHandle) -> *mut c_void>;
 
 pub fn is_support_node() -> Result<(), std::io::Error> {
     let mut cmd = std::process::Command::new("node");
@@ -62,12 +63,15 @@ unsafe fn parse_pointer_to_injector(injector_pointer: *mut c_void) -> Box<MusicI
     injector
 }
 
-pub unsafe fn get_plugin_injector(lib: &Library) -> Result<MusicInjector, PluginError> {
+pub unsafe fn get_plugin_injector(
+    lib: &Library,
+    app: tauri::AppHandle,
+) -> Result<MusicInjector, PluginError> {
     let symbol = lib.get::<InitFuncPointer>("init".as_bytes());
 
     match symbol {
         Ok(s) => {
-            let injector_pointer = s();
+            let injector_pointer = s(app.clone());
             Ok(*parse_pointer_to_injector(injector_pointer))
         }
         Err(e) => Err(PluginError::new(e.to_string())),

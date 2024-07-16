@@ -42,7 +42,7 @@ fn init(app: tauri::AppHandle) {
     );
     let mut main_window = app.get_window("main").unwrap();
 
-    // Use box to make manager has 'static lifetime, DO NOT REMOVE BOX::LEAK and Box::NEW
+    // Use box to make manager has 'static lifetime, DO NOT REMOVE `Box::leak` and `Box::new`
     // todo!: 取消内存泄露的方式来防止被回收
     let plugin_manager = Box::leak(Box::new(plugin_manager::PluginManager::new(
         app.app_handle(),

@@ -4,7 +4,7 @@ import GlobalNotifyChannel, { NotifyMessageProps } from './channel';
 import { IconButton } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 
-interface GlobalNotifyComponentProps {}
+interface GlobalNotifyComponentProps { }
 
 let queue: NotifyMessageProps[] = [];
 
@@ -44,7 +44,7 @@ const GlobalNotifyComponent: FunctionComponent<
         // remove msg, trigger rerender to next msg
         setCurMsg(undefined);
       }, 300);
-    }, 5000);
+    }, 6000);
   }
 
   const handleClose = (

@@ -20,6 +20,9 @@ const Snackbar: FunctionComponent<SnackbarProps> = ({
 }) => {
   return (
     <MuiSnackbar
+      style={{
+        width: '20%'
+      }}
       anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
       {...props}
     >

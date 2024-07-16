@@ -107,8 +107,9 @@ impl MusicInject for TemplateInjector {
     }
 }
 
-pub fn get_injector() -> MusicInjector {
+pub fn get_injector(app: tauri::AppHandle) -> MusicInjector {
     MusicInjector::new(
+        app,
         "template".to_string(),
         "模板".to_string(),
         "#000000".to_string(),

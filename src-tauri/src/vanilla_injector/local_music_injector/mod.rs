@@ -317,11 +317,12 @@ impl MusicInject for LocalMusicInjector {
     }
 }
 
-pub fn get_injector() -> MusicInjector {
+pub fn get_injector(app: tauri::AppHandle) -> MusicInjector {
     let index_data: IndexDataType = Arc::new(Mutex::new(IndexMap::new()));
     let local_inject = Box::new(LocalMusicInjector::new(Arc::clone(&index_data)));
 
     let mut music_inject = MusicInjector::new(
+        app,
         "local".to_string(),
         String::from("本地音乐"),
         String::from("gray"),

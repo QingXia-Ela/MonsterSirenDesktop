@@ -54,6 +54,7 @@ async fn handle_request(
     filter_rules: FilterType,
 ) -> Result<impl warp::Reply, warp::Rejection> {
     // cache
+    // todo!: add disk / inline save cdn cache
     unsafe {
         if let Some(v) = REQUEST_CACHE
             .lock()

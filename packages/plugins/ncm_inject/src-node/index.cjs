@@ -29,6 +29,14 @@ const collect = {
   // 以下为自定义api
   /** 设置用户UID */
   "uid_set": async (query) => {
+    if (!query.uid) {
+      return {
+        status: 400,
+        body: {
+          message: 'uid is required',
+        }
+      }
+    }
     user_uid = query.uid
     return {
       status: 200,
@@ -38,6 +46,14 @@ const collect = {
     }
   },
   "uid_get": async () => {
+    if (!user_uid) {
+      return {
+        status: 400,
+        body: {
+          message: 'uid is not set',
+        }
+      }
+    }
     return {
       status: 200,
       body: {

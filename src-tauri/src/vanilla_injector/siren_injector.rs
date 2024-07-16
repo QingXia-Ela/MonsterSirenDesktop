@@ -2,6 +2,7 @@ use std::fmt::format;
 
 use crate::{
     constants::SIREN_WEBSITE,
+    global_event::frontend_notify::notify_error,
     global_struct::{
         music_injector::{MusicInject, MusicInjector},
         siren::{
@@ -18,6 +19,7 @@ use reqwest::{
     Client,
 };
 use serde::{Deserialize, Serialize};
+use tauri::App;
 use warp::{reject::Rejection, reply::Response};
 type FilterType = Vec<[&'static str; 2]>;
 
@@ -43,16 +45,19 @@ fn change_body(body: String, filter_rules: FilterType, port: u16, cdn_port: u16)
 #[derive(Serialize, Deserialize)]
 struct SongsReponse<T> {
     list: Vec<T>,
-    autoplay: Option<bool>,
+    /// 自动播放的目标，如果为空则选取播放列表第一首歌
+    autoplay: Option<String>,
 }
 
 struct SirenInjector {
     client: Client,
+    app: tauri::AppHandle,
 }
 
 impl SirenInjector {
-    fn new() -> Self {
+    fn new(app: tauri::AppHandle) -> Self {
         Self {
+            app,
             client: Client::new(),
         }
     }
@@ -132,9 +137,16 @@ impl MusicInject for SirenInjector {
     async fn get_songs(&self) -> Vec<BriefSong> {
         let res = self.request_and_get_response(&SONGS_URL.to_string()).await;
         if let Ok(res) = res {
-            let res: ResponseMsg<SongsReponse<BriefSong>> =
-                serde_json::from_str(&res.as_str()).unwrap();
-            return res.data.list;
+            let res: Result<ResponseMsg<SongsReponse<BriefSong>>, serde_json::Error> =
+                serde_json::from_str(&res.as_str());
+
+            match res {
+                Ok(res) => return res.data.list,
+                Err(err) => {
+                    notify_error(&self.app, format!("获取歌曲列表失败，错误信息：{:?}", err));
+                    return vec![];
+                }
+            }
         }
         vec![]
     }
@@ -194,12 +206,14 @@ impl MusicInject for SirenInjector {
     }
 }
 
-pub fn get_injector() -> MusicInjector {
+pub fn get_injector(app: tauri::AppHandle) -> MusicInjector {
+    let injector_app = app.clone();
     MusicInjector::new(
+        app,
         "siren".to_string(),
         String::from("塞壬唱片"),
         String::from("#fff"),
         None,
-        Box::new(SirenInjector::new()),
+        Box::new(SirenInjector::new(injector_app)),
     )
 }
