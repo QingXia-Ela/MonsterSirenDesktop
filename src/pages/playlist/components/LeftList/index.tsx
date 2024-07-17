@@ -13,7 +13,7 @@ import $settingLocalMusic from '@/store/models/settings/localMusic';
 import SirenStore from '@/store/SirenStore';
 import { SettingsManager } from '@/store/models/settings';
 
-interface LeftListProps {}
+interface LeftListProps { }
 
 const namespaceReg = /(\w+):.+/;
 
@@ -114,8 +114,7 @@ const LeftList: FunctionComponent<LeftListProps> = () => {
   // const dummyPlayListInfo = useStore($DummyPlaylist)
   const albumList = useSirenStore((s) => s.music.albumList);
 
-  // get album list if list doesn't exist
-  // this process will also trigger on vanilla page change to `music`
+  // todo!: add user custom playlist here
 
   // todo!: change player list fetch by promise event, and combine with tauri
   // network transform is slow if some inject is slow, the network needs to wait all inject finish
@@ -123,12 +122,6 @@ const LeftList: FunctionComponent<LeftListProps> = () => {
     albumList,
     showSirenMusicListMode,
   );
-
-  // console.log(activeId, playerList.some((item) => item.cid == activeId), currentAlbum);
-
-  // if (activeId.length && !currentAlbum.some((item) => item.cid === activeId)) {
-  //   clearCurrentAlbum()
-  // }
 
   const onSelect = (cid: string) => {
     // 原生 store 不适用，会有原生页面副作用

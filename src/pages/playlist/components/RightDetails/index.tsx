@@ -10,7 +10,7 @@ import Divider from '@mui/material/Divider';
 import SirenStore from '@/store/SirenStore';
 import navigate from '@/router/utils/navigate';
 
-interface RightDetailsProps {}
+interface RightDetailsProps { }
 
 // function find
 
@@ -57,6 +57,7 @@ function CtxMenu({
     navigate(`/music/${event.cid}`);
     handleClose();
   };
+  // todo!: add cid get info and control ctx menu
   return (
     <>
       <BlackMenuItem onClick={play}>播放</BlackMenuItem>
