@@ -10,7 +10,7 @@ import Divider from '@mui/material/Divider';
 import SirenStore from '@/store/SirenStore';
 import navigate from '@/router/utils/navigate';
 
-interface RightDetailsProps { }
+interface RightDetailsProps {}
 
 // function find
 

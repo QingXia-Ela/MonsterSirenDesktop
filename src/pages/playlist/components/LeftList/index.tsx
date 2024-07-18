@@ -13,7 +13,7 @@ import $settingLocalMusic from '@/store/models/settings/localMusic';
 import SirenStore from '@/store/SirenStore';
 import { SettingsManager } from '@/store/models/settings';
 
-interface LeftListProps { }
+interface LeftListProps {}
 
 const namespaceReg = /(\w+):.+/;
 
