@@ -45,6 +45,7 @@ impl ApiProxy {
     ) -> Self {
         // basic injector
         let mut s = vec![
+            #[cfg(debug_assertions)]
             template_injector::get_injector(app.clone()),
             siren_injector::get_injector(app.clone()),
             local_music_injector::get_injector(app.clone()),

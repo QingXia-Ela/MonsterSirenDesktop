@@ -10,10 +10,10 @@ pub struct CustomPlaylistManager {
     app: tauri::AppHandle,
 }
 
-fn create_empty_playlist(id: &String) -> SinglePlaylistInfo {
+fn create_empty_playlist(id: &String, name: &String) -> SinglePlaylistInfo {
     SinglePlaylistInfo {
         id: id.clone(),
-        name: "".to_string(),
+        name: name.clone(),
         songs: vec![],
         description: "".to_string(),
         cover_url: "".to_string(),
@@ -31,11 +31,11 @@ async fn get_playlist_from_disk(
     }
 }
 
-async fn create_playlist_to_disk(basepath: &String, playlist_id: &String) {
+async fn create_playlist_to_disk(basepath: &String, playlist_id: &String, name: &String) {
     // todo!: add error handling
     let _ = fs::write(
         format!("{}\\{}", basepath, playlist_id),
-        serde_json::to_string(&create_empty_playlist(playlist_id)).unwrap(),
+        serde_json::to_string(&create_empty_playlist(playlist_id, name)).unwrap(),
     )
     .await;
 }
@@ -54,7 +54,7 @@ async fn remove_playlist_from_disk(basepath: &String, playlist_id: &String) {
     let _ = fs::remove_file(format!("{}\\{}", basepath, playlist_id)).await;
 }
 
-// todo!: optimize performance
+// todo!: optimize performance, decrease disk writes
 impl CustomPlaylistManager {
     pub fn new(base_url: String, data: PlaylistDataType, app: tauri::AppHandle) -> Self {
         Self {
@@ -71,19 +71,21 @@ impl CustomPlaylistManager {
                 if !exist {
                     playlist.songs.push(song);
                 }
+                let _ = update_playlist_to_disk(&self.base_url, playlist).await;
             }
             None => (),
         }
     }
 
     pub async fn remove_song(&self, playlist_id: String, cid: String) {
-        self.remove_songs(playlist_id, vec![cid]).await
+        self.remove_songs(playlist_id, vec![cid]).await;
     }
 
     pub async fn remove_songs(&self, playlist_id: String, cids: Vec<String>) {
         match self.data.lock().await.get_mut(&playlist_id) {
             Some(playlist) => {
                 playlist.songs.retain(|x| !cids.contains(&x.cid));
+                let _ = update_playlist_to_disk(&self.base_url, playlist).await;
             }
             None => (),
         }
@@ -97,6 +99,7 @@ impl CustomPlaylistManager {
                     .iter_mut()
                     .find(|x| x.cid == old_song_id)
                     .map(|x| *x = new_song);
+                let _ = update_playlist_to_disk(&self.base_url, playlist).await;
             }
             None => (),
         }
@@ -107,6 +110,7 @@ impl CustomPlaylistManager {
         match self.data.lock().await.get_mut(&playlist_id) {
             Some(playlist) => {
                 playlist.songs = new_songs;
+                let _ = update_playlist_to_disk(&self.base_url, playlist).await;
             }
             None => (),
         }
@@ -132,6 +136,7 @@ impl CustomPlaylistManager {
             description: "".to_string(),
             cover_url: "".to_string(),
         };
+        create_playlist_to_disk(&self.base_url, &id, &playlist.name).await;
         self.data.lock().await.insert(id, playlist);
         // update_playlist_to_disk(self.app.path_resolver().app_dir().display().to_string(), playlist)
     }
@@ -153,6 +158,8 @@ impl CustomPlaylistManager {
         match map.get(&playlist_id) {
             Some(playlist) => {
                 new_playlist.songs = playlist.songs.clone();
+                // todo!: optimize
+                let _ = update_playlist_to_disk(&self.base_url, &new_playlist).await;
                 map.insert(playlist_id, new_playlist);
             }
             None => (),

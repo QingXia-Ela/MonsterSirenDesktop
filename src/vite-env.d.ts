@@ -18,3 +18,8 @@ declare global {
     export { siren_config, siren_store, siren_audio_instance, siren_router };
   }
 }
+
+// Use this type to extend tauri api
+// declare module "@tauri-apps/api/tauri" {
+//   function invoke(cmd: "test", args: { a: string }): Promise<number>
+// }

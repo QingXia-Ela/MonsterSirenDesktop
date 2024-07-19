@@ -1,9 +1,9 @@
-use crate::{global_event::frontend_notify::*, global_struct::siren::BriefSong};
-
 use super::{manager::CustomPlaylistManager, pub_struct::SinglePlaylistInfo};
+use crate::{global_event::frontend_notify::*, global_struct::siren::BriefSong};
 use tauri::{AppHandle, Manager, Runtime, State};
 
 #[tauri::command]
+#[monster_siren_macro::command_ts_export("playlist")]
 async fn add_playlist<R: Runtime>(
     app: tauri::AppHandle<R>,
     manager: State<'_, CustomPlaylistManager>,
