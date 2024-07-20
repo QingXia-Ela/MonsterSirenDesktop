@@ -1,6 +1,9 @@
+use ts_rs::TS;
+
 use crate::global_struct::siren::{Album, BriefAlbum, BriefSong};
 
-#[derive(Debug, Clone, serde::Serialize, serde::Deserialize)]
+#[derive(Debug, Clone, serde::Serialize, serde::Deserialize, TS)]
+#[ts(export)]
 pub struct SinglePlaylistInfo {
     pub name: String,
     pub id: String,

@@ -2,9 +2,9 @@ mod utils;
 
 extern crate proc_macro;
 
-use md5::compute;
+use convert_case::{Case, Casing};
 use proc_macro::TokenStream;
-use quote::{quote, ToTokens};
+use quote::ToTokens;
 use syn::{parse_macro_input, ItemFn};
 use utils::{get_plugin_str, parse_type_2_ts};
 use uuid::Uuid;
@@ -22,7 +22,7 @@ fn parse_args_to_js_object(args: Vec<syn::FnArg>) -> String {
                 // todo!: optimize filter rules
                 // maybe it can only approval the struct can be serialize
                 if pat.ne(/* tauri app */ "app") && pat.ne(/* resource manager */ "manager") {
-                    content.push_str(&format!(" {}: {},", pat, res));
+                    content.push_str(&format!(" {}: {},", pat.to_case(Case::Camel), res));
                 }
             }
             _ => {}
