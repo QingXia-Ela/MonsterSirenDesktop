@@ -11,7 +11,7 @@ fn main() {
     let _ = fs::create_dir_all(format!("{}/target/declarations", project_root));
     // 读取之前宏写入的所有 TypeScript 声明
     // target/declarations/*.d.ts
-    let mut content = String::from("declare module \"@tauri-apps/api/tauri\" {\n");
+    let mut content = String::from("declare module \"@tauri-apps/api/tauri\" {\n\tfunction invoke<T>(cmd: string, args: Record<string, any>): Promise<T>;\n");
     let declaretions = fs::read_dir(format!("{}/target/declarations", project_root));
     match declaretions {
         Ok(files) => {
@@ -33,6 +33,7 @@ fn main() {
     // 写入到最终的 TypeScript 定义文件
     fs::write(format!("{}/bindings/invoke.d.ts", types_root), content)
         .expect("Unable to write file");
+    let _ = fs::remove_dir_all(format!("{}/target/declarations", project_root));
 
     println!("Cargo:rerun-if-changed=src");
 }

@@ -7,6 +7,7 @@ use proc_macro::TokenStream;
 use quote::{quote, ToTokens};
 use syn::{parse_macro_input, ItemFn};
 use utils::{get_plugin_str, parse_type_2_ts};
+use uuid::Uuid;
 
 fn parse_args_to_js_object(args: Vec<syn::FnArg>) -> String {
     let mut content = String::from("{");
@@ -73,9 +74,10 @@ fn get_plugin_namespace(attr: TokenStream) -> String {
 /// ```
 #[proc_macro_attribute]
 pub fn command_ts_export(attr: TokenStream, item: TokenStream) -> TokenStream {
+    let return_val = item.clone();
     let input_fn = parse_macro_input!(item as ItemFn);
     // let attr = parse_macro_input!(attr as syn::Item);
-    let return_fn = input_fn.clone();
+    // let input_fn = return_fn.clone();
     if !cfg!(debug_assertions) {
         let fn_name = input_fn.sig.ident.to_string();
 
@@ -105,23 +107,19 @@ pub fn command_ts_export(attr: TokenStream, item: TokenStream) -> TokenStream {
             return_type
         );
 
-        std::fs::create_dir_all("target/declarations").expect("Unable to create directory");
+        let _ = std::fs::create_dir_all("target/declarations");
         // 将 TypeScript 声明写入到文件中（简化处理，实际使用时应考虑并发写入问题）
-        std::fs::write(
+        let _ = std::fs::write(
             format!(
                 "target/declarations/{}_{}.d.ts",
                 fn_name,
                 // paruse id to string
-                String::from_utf8(compute(&fn_name).to_vec()).unwrap()
+                Uuid::new_v4().to_string() // String::from_utf8(compute(&fn_name).to_vec()).unwrap()
             ),
             ts_declaration,
-        )
-        .expect("Unable to write to file");
+        );
     }
 
     // 返回原始函数
-    quote! {
-        #return_fn
-    }
-    .into()
+    return_val
 }

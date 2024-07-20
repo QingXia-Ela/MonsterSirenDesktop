@@ -1,4 +1,5 @@
 /// <reference types="vite/client" />
+/// <reference types="@monster-siren-desktop/types/bindings/invoke" />
 
 import { SirenRouter } from './types/SirenRouter';
 import type { SirenStore } from './types/SirenStore';
