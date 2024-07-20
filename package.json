@@ -31,6 +31,7 @@
     "dva": "^2.4.1",
     "esbuild": "^0.19.0",
     "lodash": "^4.17.21",
+    "material-ui-popup-state": "^5.1.0",
     "nanostores": "^0.9.3",
     "react": "^18.2.0",
     "react-custom-scrollbars": "^4.2.1",
@@ -40,7 +41,6 @@
     "sass": "^1.69.1",
     "styled-components": "^6.0.7",
     "swr": "^2.2.4",
-    "material-ui-popup-state": "^5.1.0",
     "tdesign-react": "^1.2.6"
   },
   "devDependencies": {
@@ -53,6 +53,7 @@
     "@storybook/react": "7.4.6",
     "@storybook/react-vite": "7.4.6",
     "@storybook/testing-library": "0.2.2",
+    "@szhsin/react-menu": "^4.1.0",
     "@tauri-apps/cli": "^1.4.0",
     "@types/http-proxy": "^1.17.12",
     "@types/lodash": "^4.14.199",

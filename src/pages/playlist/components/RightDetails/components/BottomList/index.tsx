@@ -1,15 +1,11 @@
 import Scrollbar from '@/components/Scrollbar';
-import { FunctionComponent, createRef, useRef, useState } from 'react';
+import { FunctionComponent, useState } from 'react';
 import SingleItem from './SingleItem';
 import { useStore } from '@nanostores/react';
 import $PlayListState from '@/store/pages/playlist';
 import EmptyTips from '../EmptyTips';
-import {
-  usePopupState,
-  bindMenu,
-  bindContextMenu,
-} from 'material-ui-popup-state/hooks';
-import BlackMenu from '@/components/ContextMenu/BlackMenu';
+import BlackMenu from '@/components/ContextMenu/BlackMenuV2';
+import { useMenuState } from '@szhsin/react-menu'
 
 interface RightDetailsBottomListProps {
   ContextMenu?: (...args: any) => JSX.Element;
@@ -28,39 +24,55 @@ function findItemId(e: React.MouseEvent<HTMLElement>) {
   return null;
 }
 
-const RightDetailsBottomList: FunctionComponent<
-  RightDetailsBottomListProps
-> = ({ ContextMenu }) => {
-  const { currentAlbumData: list, currentAlbumInfo: info } =
-    useStore($PlayListState);
-
-  const popupState = usePopupState({
-    variant: 'popover',
-    popupId: 'playlistRightDetailSongList',
-  });
-  const ctxData = bindContextMenu(popupState);
-
+const useControlledMenu = (options: any) => {
+  const [anchorPoint, setAnchorPoint] = useState<any>();
+  const [menuProps, toggleMenu] = useMenuState(options);
   const [event, setEvent] = useState<{
     e: React.MouseEvent<HTMLElement>;
     // todo!: change cid to full song info
     cid: string;
   } | null>(null);
 
-  // todo!: optimize this, it will trigger when ctx menu close
-  const onContextMenu = (e: React.MouseEvent<HTMLElement>) => {
-    // cid 现在附着在 data-item-id
-    const cid = findItemId(e);
-    if (cid) {
-      setEvent({ e, cid });
-      ctxData.onContextMenu(e);
+  const contextProps = {
+    onContextMenu: (e: any) => {
+      e.preventDefault();
+      setAnchorPoint({ x: e.clientX, y: e.clientY });
+      toggleMenu(true);
+
+      let cid = findItemId(e);
+      if (cid) {
+        setEvent({ e, cid });
+      }
     }
   };
+
+  return {
+    event,
+    contextProps,
+    menuProps: {
+      ...menuProps,
+      anchorPoint,
+      onClose: () => toggleMenu(false)
+    },
+    operation: {
+      close: () => toggleMenu(false)
+    }
+  };
+};
+
+const RightDetailsBottomList: FunctionComponent<
+  RightDetailsBottomListProps
+> = ({ ContextMenu }) => {
+  const { currentAlbumData: list, currentAlbumInfo: info } =
+    useStore($PlayListState);
+  const { event, contextProps, menuProps, operation } = useControlledMenu({
+    transition: true
+  })
 
   return list.length ? (
     <>
       <Scrollbar
-        {...ctxData}
-        onContextMenu={onContextMenu}
+        {...contextProps}
         marginBarHeightLimit={1.2}
         VirtuosoOptions={{
           className: 'scrollbar__hidden',
@@ -87,17 +99,10 @@ const RightDetailsBottomList: FunctionComponent<
       />
       {ContextMenu && (
         <BlackMenu
-          anchorOrigin={{
-            vertical: 'bottom',
-            horizontal: 'left',
-          }}
-          transformOrigin={{
-            vertical: 'top',
-            horizontal: 'left',
-          }}
-          {...bindMenu(popupState)}
+          {...menuProps}
+          theming='dark'
         >
-          <ContextMenu popupState={popupState} event={event} />
+          <ContextMenu popupState={operation} event={event} />
         </BlackMenu>
       )}
     </>

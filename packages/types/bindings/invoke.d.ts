@@ -4,8 +4,8 @@ declare module "@tauri-apps/api/tauri" {
 	function invoke(cmd: "plugin:playlist|add_playlist", args: { name: string, }): Promise<any>;
 	function invoke(cmd: "plugin:playlist|add_song_to_playlist", args: { playlist_id: string, song: any, }): Promise<any>;
 	function invoke(cmd: "plugin:playlist|add_song_to_playlist", args: { playlist_id: string, song: any, }): Promise<any>;
-	function invoke(cmd: "plugin:playlist|get_all_playlists", args: {}): Promise<any>;
-	function invoke(cmd: "plugin:playlist|get_all_playlists", args: {}): Promise<any>;
+	function invoke(cmd: "plugin:playlist|get_all_playlists", args: { }): Promise<any>;
+	function invoke(cmd: "plugin:playlist|get_all_playlists", args: { }): Promise<any>;
 	function invoke(cmd: "plugin:playlist|get_playlist", args: { playlist_id: string, }): Promise<any>;
 	function invoke(cmd: "plugin:playlist|get_playlist", args: { playlist_id: string, }): Promise<any>;
 	function invoke(cmd: "plugin:playlist|get_song", args: { playlist_id: string, cid: string, }): Promise<any>;

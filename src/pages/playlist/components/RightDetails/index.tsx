@@ -5,32 +5,15 @@ import RightDetailsBottomList from './components/BottomList';
 import { useStore } from '@nanostores/react';
 import $PlayListState from '@/store/pages/playlist';
 import { usePopupState } from 'material-ui-popup-state/hooks';
-import BlackMenuItem from '@/components/ContextMenu/BlackMenu/BlackMenuItem';
-import Divider from '@mui/material/Divider';
+import BlackMenuItem from '@/components/ContextMenu/BlackMenuV2/BlackMenuItem';
 import SirenStore from '@/store/SirenStore';
 import navigate from '@/router/utils/navigate';
+import Divider from '@/components/ContextMenu/BlackMenuV2/Divider';
+import SubMenu from '@/components/ContextMenu/BlackMenuV2/SubMenu';
 
-interface RightDetailsProps {}
+interface RightDetailsProps { }
 
 // function find
-
-const MyDivider: FunctionComponent<{ children?: string }> = ({
-  children = '',
-}) => (
-  <Divider
-    sx={{
-      borderColor: '#ffffff88',
-      width: '80%',
-      margin: '0.1250rem auto',
-      fontSize: '0.1875rem',
-      '&::before, &::after': {
-        borderColor: '#ffffff88',
-      },
-    }}
-  >
-    {children}
-  </Divider>
-);
 
 /**
  * Note: this component will refresh when ctx open.
@@ -58,6 +41,7 @@ function CtxMenu({
     handleClose();
   };
   // todo!: add cid get info and control ctx menu
+
   return (
     <>
       <BlackMenuItem onClick={play}>播放</BlackMenuItem>
@@ -69,7 +53,11 @@ function CtxMenu({
       {/* <MyDivider />
       <BlackMenuItem onClick={handleClose}>显示信息</BlackMenuItem>
       <BlackMenuItem onClick={handleClose}>编辑信息</BlackMenuItem> */}
-      <MyDivider />
+      <Divider />
+      <SubMenu label='测试'>
+        <BlackMenuItem onClick={handleClose}>测试</BlackMenuItem>
+        <BlackMenuItem onClick={handleClose}>测试</BlackMenuItem>
+      </SubMenu>
       <BlackMenuItem onClick={handleClose}>下载歌曲</BlackMenuItem>
     </>
   );
