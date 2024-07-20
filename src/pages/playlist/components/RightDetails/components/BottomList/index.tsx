@@ -5,7 +5,7 @@ import { useStore } from '@nanostores/react';
 import $PlayListState from '@/store/pages/playlist';
 import EmptyTips from '../EmptyTips';
 import BlackMenu from '@/components/ContextMenu/BlackMenuV2';
-import { useMenuState } from '@szhsin/react-menu'
+import { useMenuState } from '@szhsin/react-menu';
 
 interface RightDetailsBottomListProps {
   ContextMenu?: (...args: any) => JSX.Element;
@@ -43,7 +43,7 @@ const useControlledMenu = (options: any) => {
       if (cid) {
         setEvent({ e, cid });
       }
-    }
+    },
   };
 
   return {
@@ -52,11 +52,11 @@ const useControlledMenu = (options: any) => {
     menuProps: {
       ...menuProps,
       anchorPoint,
-      onClose: () => toggleMenu(false)
+      onClose: () => toggleMenu(false),
     },
     operation: {
-      close: () => toggleMenu(false)
-    }
+      close: () => toggleMenu(false),
+    },
   };
 };
 
@@ -66,8 +66,8 @@ const RightDetailsBottomList: FunctionComponent<
   const { currentAlbumData: list, currentAlbumInfo: info } =
     useStore($PlayListState);
   const { event, contextProps, menuProps, operation } = useControlledMenu({
-    transition: true
-  })
+    transition: true,
+  });
 
   return list.length ? (
     <>
@@ -98,10 +98,7 @@ const RightDetailsBottomList: FunctionComponent<
         }}
       />
       {ContextMenu && (
-        <BlackMenu
-          {...menuProps}
-          theming='dark'
-        >
+        <BlackMenu {...menuProps} theming='dark'>
           <ContextMenu popupState={operation} event={event} />
         </BlackMenu>
       )}

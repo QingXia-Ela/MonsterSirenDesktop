@@ -6,7 +6,7 @@ import 'tdesign-react/es/style/index.css';
 // ctx menu animate
 import '@szhsin/react-menu/dist/index.css';
 import '@szhsin/react-menu/dist/transitions/slide.css';
-import "@szhsin/react-menu/dist/theme-dark.css";
+import '@szhsin/react-menu/dist/theme-dark.css';
 
 import $settingAdvancement from './store/models/settings/advancement';
 

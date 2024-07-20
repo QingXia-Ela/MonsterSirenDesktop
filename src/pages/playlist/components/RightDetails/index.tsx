@@ -11,7 +11,7 @@ import navigate from '@/router/utils/navigate';
 import Divider from '@/components/ContextMenu/BlackMenuV2/Divider';
 import SubMenu from '@/components/ContextMenu/BlackMenuV2/SubMenu';
 
-interface RightDetailsProps { }
+interface RightDetailsProps {}
 
 // function find
 

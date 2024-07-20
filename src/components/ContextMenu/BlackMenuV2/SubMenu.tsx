@@ -4,7 +4,7 @@ import { SubMenu, SubMenuProps } from '@szhsin/react-menu';
 export default styled(({ ...p }: SubMenuProps) => (
   <SubMenu {...p} className={`text-nowrap ${p.className ?? ''}`} />
 ))(() => ({
-  ".szh-menu__item": {
+  '.szh-menu__item': {
     fontFamily: 'SourceHanSansCN-Normal',
     height: '0.5rem',
     fontSize: '0.34rem',
@@ -14,8 +14,8 @@ export default styled(({ ...p }: SubMenuProps) => (
     '&:hover': {
       backgroundColor: '#333',
     },
-    "&::after": {
-      right: ".4rem"
-    }
-  }
+    '&::after': {
+      right: '.4rem',
+    },
+  },
 }));

@@ -1,7 +1,9 @@
 import styled from '@emotion/styled';
 import { ControlledMenu, ControlledMenuProps } from '@szhsin/react-menu';
 
-export default styled(({ ...p }: ControlledMenuProps) => <ControlledMenu {...p} />)(() => ({
+export default styled(({ ...p }: ControlledMenuProps) => (
+  <ControlledMenu {...p} />
+))(() => ({
   '.szh-menu': {
     color: 'white',
     minWidth: '4rem',
