@@ -31,6 +31,43 @@ async fn get_playlist_from_disk(
     }
 }
 
+async fn get_all_playlists_from_disk(basepath: &String) -> Vec<SinglePlaylistInfo> {
+    // todo!: add error handling instead of ignore
+    match fs::read_dir(basepath).await {
+        Ok(mut entries) => {
+            let mut res: Vec<SinglePlaylistInfo> = vec![];
+            loop {
+                let entry = entries.next_entry().await;
+                if let Ok(entry) = entry {
+                    if let Some(entry) = entry {
+                        let file_name = entry.file_name();
+                        let file_name = file_name.to_str();
+                        if let Some(file_name) = file_name {
+                            if file_name.ends_with(".json") {
+                                let content =
+                                    fs::read_to_string(format!("{}\\{}", basepath, file_name))
+                                        .await;
+                                if let Ok(content) = content {
+                                    if let Ok(playlist) =
+                                        serde_json::from_str::<SinglePlaylistInfo>(&content)
+                                    {
+                                        res.push(playlist);
+                                    }
+                                }
+                            }
+                        }
+                    } else {
+                        return res;
+                    }
+                } else {
+                    return res;
+                }
+            }
+        }
+        Err(_) => vec![],
+    }
+}
+
 async fn create_playlist_to_disk(basepath: &String, playlist_id: &String, name: &String) {
     // todo!: add error handling
     let _ = fs::write(
@@ -134,7 +171,7 @@ impl CustomPlaylistManager {
             name,
             songs: vec![],
             description: "".to_string(),
-            cover_url: "".to_string(),
+            cover_url: "/siren.png".to_string(),
         };
         create_playlist_to_disk(&self.base_url, &id, &playlist.name).await;
         self.data.lock().await.insert(id, playlist);
@@ -142,7 +179,7 @@ impl CustomPlaylistManager {
     }
 
     pub async fn remove_playlist(&self, playlist_id: String) {
-        self.data.lock().await.remove(&playlist_id);
+        self.data.lock().await.swap_remove(&playlist_id);
         remove_playlist_from_disk(&self.base_url, &playlist_id).await
     }
 
@@ -164,14 +201,29 @@ impl CustomPlaylistManager {
             }
             None => (),
         }
-        // update_playlist_to_disk(self.app.path_resolver().app_dir().display().to_string(), new_playlist)
     }
 
-    pub async fn get_playlist(&self, playlist_id: String) -> Option<SinglePlaylistInfo> {
+    /// Get playlist by playlist_id
+    ///
+    /// This method will auto add `custom:` prefix when it doesn't exist
+    pub async fn get_playlist(&self, mut playlist_id: String) -> Option<SinglePlaylistInfo> {
+        if !playlist_id.starts_with("custom:") {
+            playlist_id = String::from("custom:") + playlist_id.as_str();
+        }
+        // todo!: add fetch from disk
         self.data.lock().await.get(&playlist_id).map(|x| x.clone())
     }
 
     pub async fn get_all_playlists(&self) -> Vec<SinglePlaylistInfo> {
-        self.data.lock().await.values().map(|x| x.clone()).collect()
+        // todo!: add fetch from disk
+        let disk_data = get_all_playlists_from_disk(&self.base_url).await;
+        let return_data = disk_data.clone();
+        let mut data = self.data.lock().await;
+        data.clear();
+        for playlist in disk_data {
+            let id = playlist.id.clone();
+            data.insert(id, playlist);
+        }
+        return_data
     }
 }

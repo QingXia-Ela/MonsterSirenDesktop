@@ -19,47 +19,53 @@ use crate::{
 
 pub type PlaylistDataType = Arc<Mutex<IndexMap<String, SinglePlaylistInfo>>>;
 
-struct CustomPlaylistInjector {}
+struct CustomPlaylistInjector {
+    manager: CustomPlaylistManager,
+}
 
 impl CustomPlaylistInjector {
-    pub fn new() -> Self {
-        Self {}
+    pub fn new(manager: CustomPlaylistManager) -> Self {
+        Self { manager }
     }
 }
 
 #[async_trait::async_trait]
 impl MusicInject for CustomPlaylistInjector {
     async fn get_albums(&self) -> Vec<BriefAlbum> {
-        vec![]
+        self.manager
+            .get_all_playlists()
+            .await
+            .into_iter()
+            .map(|x| x.into())
+            .collect()
     }
 
     async fn get_songs(&self) -> Vec<BriefSong> {
         vec![]
     }
 
-    async fn get_song(&self, cid: String) -> Result<Song, PluginRequestError> {
-        todo!()
+    // Custom playlist always store the song from other namespace,
+    // So it doesn't have any song which is belong to itself.
+    async fn get_song(&self, _cid: String) -> Result<Song, PluginRequestError> {
+        Err(PluginRequestError::new("该方法不应该被调用！".to_string()))
     }
 
     async fn get_album(&self, cid: String) -> Result<Album, PluginRequestError> {
-        todo!()
+        match self.manager.get_playlist(cid).await {
+            Some(playlist) => Ok(playlist.into()),
+            None => Err(PluginRequestError::new("该播放列表不存在!".to_string())),
+        }
     }
 }
 
+// todo!: clean up it
 pub fn get_injector(app: tauri::AppHandle) -> MusicInjector {
     let index_data: PlaylistDataType = Arc::new(Mutex::new(IndexMap::new()));
 
     let inject_app = app.clone();
     let manager_app = app.clone();
+    let manager_app_2 = app.clone();
     let plugin_app = app.clone();
-    let music_inject = MusicInjector::new(
-        inject_app,
-        "local".to_string(),
-        String::from("自定义播放列表"),
-        String::from("white"),
-        None,
-        Box::new(CustomPlaylistInjector::new()),
-    );
 
     let mut data_path = plugin_app
         .path_resolver()
@@ -69,10 +75,24 @@ pub fn get_injector(app: tauri::AppHandle) -> MusicInjector {
         .unwrap()
         .to_string();
     data_path.push_str("\\playlist");
+
+    let music_inject = MusicInjector::new(
+        inject_app,
+        "custom".to_string(),
+        String::from("自定义播放列表"),
+        String::from("white"),
+        None,
+        Box::new(CustomPlaylistInjector::new(CustomPlaylistManager::new(
+            data_path.clone(),
+            Arc::clone(&index_data),
+            manager_app,
+        ))),
+    );
+
     match fs::create_dir_all(&data_path) {
         Ok(_) => {
             let manager =
-                CustomPlaylistManager::new(data_path, Arc::clone(&index_data), manager_app);
+                CustomPlaylistManager::new(data_path, Arc::clone(&index_data), manager_app_2);
             let _ = plugin_app.plugin(tauri_plugin::init(manager));
         }
         Err(_) => {

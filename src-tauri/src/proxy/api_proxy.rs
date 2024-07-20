@@ -1,4 +1,5 @@
-use crate::vanilla_injector::{local_music_injector, template_injector};
+use crate::global_event::frontend_notify::notify_error;
+use crate::vanilla_injector::{custom_playlist_injector, local_music_injector, template_injector};
 use futures::executor::block_on;
 use indexmap::IndexMap;
 use std::sync::Arc;
@@ -45,12 +46,13 @@ impl ApiProxy {
     ) -> Self {
         // basic injector
         let mut s = vec![
-            #[cfg(debug_assertions)]
             template_injector::get_injector(app.clone()),
+            custom_playlist_injector::get_injector(app.clone()),
             siren_injector::get_injector(app.clone()),
             local_music_injector::get_injector(app.clone()),
         ];
         injectors.into_iter().for_each(|i| s.push(i));
+        let wating_injectors: Vec<String> = s.iter().map(|i| i.get_namespace()).collect();
 
         let mut injector_map: IndexMap<String, MusicInjector> = IndexMap::new();
         // init fn run only once
@@ -59,6 +61,20 @@ impl ApiProxy {
                 f(app.app_handle());
             }
             injector_map.insert(m.get_namespace(), m);
+        }
+        if wating_injectors.len() != injector_map.len() {
+            let loaded_injectors: Vec<String> =
+                injector_map.values().map(|i| i.get_namespace()).collect();
+            let not_existing_injectors: Vec<String> = wating_injectors
+                .into_iter()
+                .filter(|i| !loaded_injectors.contains(i))
+                .collect();
+            let msg = format!(
+                "一些播放器注入插件似乎未加载: {:?}。相关功能已被禁用",
+                not_existing_injectors
+            );
+            println!("{:?}", msg);
+            notify_error(&app, msg);
         }
 
         let arc_map = Arc::new(injector_map);

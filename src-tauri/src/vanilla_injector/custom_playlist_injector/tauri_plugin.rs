@@ -1,5 +1,5 @@
 use super::{manager::CustomPlaylistManager, pub_struct::SinglePlaylistInfo};
-use crate::{global_event::frontend_notify::*, global_struct::siren::BriefSong};
+use crate::global_struct::siren::BriefSong;
 use tauri::{AppHandle, Manager, Runtime, State};
 
 #[tauri::command]
@@ -14,6 +14,7 @@ async fn add_playlist<R: Runtime>(
 }
 
 #[tauri::command]
+#[monster_siren_macro::command_ts_export("playlist")]
 async fn remove_playlist<R: Runtime>(
     app: tauri::AppHandle<R>,
     manager: State<'_, CustomPlaylistManager>,
@@ -34,6 +35,7 @@ async fn update_playlist<R: Runtime>(
 }
 
 #[tauri::command]
+#[monster_siren_macro::command_ts_export("playlist")]
 async fn get_playlist<R: Runtime>(
     app: tauri::AppHandle<R>,
     manager: State<'_, CustomPlaylistManager>,
@@ -46,6 +48,7 @@ async fn get_playlist<R: Runtime>(
 }
 
 #[tauri::command]
+#[monster_siren_macro::command_ts_export("playlist")]
 async fn add_song_to_playlist<R: Runtime>(
     app: tauri::AppHandle<R>,
     manager: State<'_, CustomPlaylistManager>,
@@ -57,17 +60,19 @@ async fn add_song_to_playlist<R: Runtime>(
 }
 
 #[tauri::command]
+#[monster_siren_macro::command_ts_export("playlist")]
 async fn remove_song_from_playlist<R: Runtime>(
     app: tauri::AppHandle<R>,
     manager: State<'_, CustomPlaylistManager>,
     playlist_id: String,
-    cid: String,
+    song_cid: String,
 ) -> Result<(), String> {
-    manager.remove_song(playlist_id, cid).await;
+    manager.remove_song(playlist_id, song_cid).await;
     Ok(())
 }
 
 #[tauri::command]
+#[monster_siren_macro::command_ts_export("playlist")]
 async fn update_songs_in_playlist<R: Runtime>(
     app: tauri::AppHandle<R>,
     manager: State<'_, CustomPlaylistManager>,
@@ -79,6 +84,7 @@ async fn update_songs_in_playlist<R: Runtime>(
 }
 
 #[tauri::command]
+#[monster_siren_macro::command_ts_export("playlist")]
 async fn get_all_playlists<R: Runtime>(
     app: tauri::AppHandle<R>,
     manager: State<'_, CustomPlaylistManager>,
@@ -87,6 +93,7 @@ async fn get_all_playlists<R: Runtime>(
 }
 
 #[tauri::command]
+#[monster_siren_macro::command_ts_export("playlist")]
 async fn update_song<R: Runtime>(
     app: tauri::AppHandle<R>,
     manager: State<'_, CustomPlaylistManager>,
@@ -101,6 +108,7 @@ async fn update_song<R: Runtime>(
 }
 
 #[tauri::command]
+#[monster_siren_macro::command_ts_export("playlist")]
 async fn get_song<R: Runtime>(
     app: tauri::AppHandle<R>,
     manager: State<'_, CustomPlaylistManager>,
@@ -114,6 +122,7 @@ async fn get_song<R: Runtime>(
 }
 
 #[tauri::command]
+#[monster_siren_macro::command_ts_export("playlist")]
 async fn update_playlist_metadata<R: Runtime>(
     app: tauri::AppHandle<R>,
     manager: State<'_, CustomPlaylistManager>,

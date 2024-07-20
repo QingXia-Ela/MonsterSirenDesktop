@@ -2068,9 +2068,11 @@ dependencies = [
 name = "monster-siren-macro"
 version = "0.1.0"
 dependencies = [
+ "md5",
  "quote",
  "serde_json",
  "syn 1.0.109",
+ "uuid",
 ]
 
 [[package]]

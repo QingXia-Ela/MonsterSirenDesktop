@@ -2,6 +2,7 @@ mod utils;
 
 extern crate proc_macro;
 
+use md5::compute;
 use proc_macro::TokenStream;
 use quote::{quote, ToTokens};
 use syn::{parse_macro_input, ItemFn};
@@ -107,7 +108,12 @@ pub fn command_ts_export(attr: TokenStream, item: TokenStream) -> TokenStream {
         std::fs::create_dir_all("target/declarations").expect("Unable to create directory");
         // 将 TypeScript 声明写入到文件中（简化处理，实际使用时应考虑并发写入问题）
         std::fs::write(
-            format!("target/declarations/{}.d.ts", fn_name),
+            format!(
+                "target/declarations/{}_{}.d.ts",
+                fn_name,
+                // paruse id to string
+                String::from_utf8(compute(&fn_name).to_vec()).unwrap()
+            ),
             ts_declaration,
         )
         .expect("Unable to write to file");
