@@ -1,5 +1,5 @@
 use super::{manager::CustomPlaylistManager, pub_struct::SinglePlaylistInfo};
-use crate::global_struct::siren::BriefSong;
+use crate::global_struct::siren::{BriefSong, Song};
 use tauri::{AppHandle, Manager, Runtime, State};
 
 #[tauri::command]
@@ -8,9 +8,11 @@ async fn add_playlist<R: Runtime>(
     app: tauri::AppHandle<R>,
     manager: State<'_, CustomPlaylistManager>,
     name: String,
-) -> Result<(), String> {
-    manager.add_playlist(name).await;
-    Ok(())
+) -> Result<SinglePlaylistInfo, String> {
+    match manager.add_playlist(name).await {
+        Ok(res) => Ok(res),
+        Err(err) => Err(err.to_string()),
+    }
 }
 
 #[tauri::command]
@@ -41,7 +43,7 @@ async fn get_playlist<R: Runtime>(
     manager: State<'_, CustomPlaylistManager>,
     playlist_id: String,
 ) -> Result<SinglePlaylistInfo, String> {
-    match manager.get_playlist(playlist_id).await {
+    match manager.get_playlist(&playlist_id).await {
         Some(playlist) => Ok(playlist),
         None => Err("not found".into()),
     }
@@ -71,25 +73,26 @@ async fn remove_song_from_playlist<R: Runtime>(
     Ok(())
 }
 
-#[tauri::command]
-#[monster_siren_macro::command_ts_export("playlist")]
-async fn update_songs_in_playlist<R: Runtime>(
-    app: tauri::AppHandle<R>,
-    manager: State<'_, CustomPlaylistManager>,
-    playlist_id: String,
-    songs: Vec<BriefSong>,
-) -> Result<(), String> {
-    manager.update_songs(playlist_id, songs).await;
-    Ok(())
-}
+// #[tauri::command]
+// #[monster_siren_macro::command_ts_export("playlist")]
+// async fn update_songs_in_playlist<R: Runtime>(
+//     app: tauri::AppHandle<R>,
+//     manager: State<'_, CustomPlaylistManager>,
+//     playlist_id: String,
+//     songs: Vec<BriefSong>,
+// ) -> Result<(), String> {
+//     manager.update_songs(playlist_id, songs).await;
+//     Ok(())
+// }
 
 #[tauri::command]
 #[monster_siren_macro::command_ts_export("playlist")]
 async fn get_all_playlists<R: Runtime>(
     app: tauri::AppHandle<R>,
     manager: State<'_, CustomPlaylistManager>,
+    force_refresh: bool,
 ) -> Result<Vec<SinglePlaylistInfo>, String> {
-    Ok(manager.get_all_playlists().await)
+    Ok(manager.get_all_playlists(force_refresh).await)
 }
 
 #[tauri::command]
@@ -114,7 +117,7 @@ async fn get_song<R: Runtime>(
     manager: State<'_, CustomPlaylistManager>,
     playlist_id: String,
     cid: String,
-) -> Result<BriefSong, String> {
+) -> Result<Song, String> {
     match manager.get_song(playlist_id, cid).await {
         Some(song) => Ok(song),
         None => Err("not found".into()),
@@ -159,7 +162,7 @@ pub fn init<R: Runtime>(manager: CustomPlaylistManager) -> tauri::plugin::TauriP
             get_playlist,
             add_song_to_playlist,
             remove_song_from_playlist,
-            update_songs_in_playlist,
+            // update_songs_in_playlist,
             update_song,
             get_song,
             get_all_playlists,

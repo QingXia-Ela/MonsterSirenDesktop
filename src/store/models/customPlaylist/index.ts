@@ -13,12 +13,23 @@ const $CustomPlaylist = atom<{
   playlist: [],
 });
 
-invoke('plugin:playlist|get_all_playlists', {}).then((data) => {
+invoke('plugin:playlist|get_all_playlists', {
+  forceRefresh: false
+}).then((data) => {
   $CustomPlaylist.set({ playlist: data });
 });
 
 export async function addSongToPlaylist(playlistId: string, song: any) {
-  await invoke('plugin:playlist|add_song_to_playlist', { playlist_id: playlistId, song });
+  await invoke('plugin:playlist|add_song_to_playlist', {
+    playlistId,
+    song,
+  });
+}
+
+export async function createPlaylist(name: string) {
+  let res = await invoke("plugin:playlist|add_playlist", { name })
+  $CustomPlaylist.set({ playlist: [...$CustomPlaylist.get().playlist, res] })
+  return res
 }
 
 export default $CustomPlaylist;

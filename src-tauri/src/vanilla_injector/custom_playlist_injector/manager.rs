@@ -1,22 +1,26 @@
-use crate::global_struct::siren::BriefSong;
-use tokio::fs;
+use std::{collections::HashMap, time::SystemTime};
+
+use crate::global_struct::siren::{response_msg::ResponseMsg, BriefSong, Song};
+use lazy_static::lazy_static;
+use tokio::{fs, sync::Mutex};
 use uuid::Uuid;
 
 use super::{pub_struct::SinglePlaylistInfo, PlaylistDataType};
 
-pub struct CustomPlaylistManager {
-    base_url: String,
-    data: PlaylistDataType,
-    app: tauri::AppHandle,
+lazy_static! {
+    static ref GLOBAL_DISK_UPDATE_TIME: Mutex<SystemTime> = Mutex::new(SystemTime::UNIX_EPOCH);
 }
+
+const API_PROXY_PORT: u16 = 11452;
 
 fn create_empty_playlist(id: &String, name: &String) -> SinglePlaylistInfo {
     SinglePlaylistInfo {
-        id: id.clone(),
+        id: format!("custom:{}", id),
         name: name.clone(),
         songs: vec![],
         description: "".to_string(),
         cover_url: "".to_string(),
+        song_map: HashMap::new(),
     }
 }
 
@@ -68,19 +72,27 @@ async fn get_all_playlists_from_disk(basepath: &String) -> Vec<SinglePlaylistInf
     }
 }
 
-async fn create_playlist_to_disk(basepath: &String, playlist_id: &String, name: &String) {
+async fn create_playlist_to_disk(
+    basepath: &String,
+    playlist_id: &String,
+    name: &String,
+) -> std::io::Result<()> {
     // todo!: add error handling
-    let _ = fs::write(
-        format!("{}\\{}", basepath, playlist_id),
+    fs::write(
+        format!("{}\\{}.json", basepath, playlist_id),
         serde_json::to_string(&create_empty_playlist(playlist_id, name)).unwrap(),
     )
-    .await;
+    .await
 }
 
 async fn update_playlist_to_disk(basepath: &String, playlist: &SinglePlaylistInfo) {
     // todo!: add error handling
     let _ = fs::write(
-        format!("{}\\{}", basepath, playlist.id),
+        format!(
+            "{}\\{}.json",
+            basepath,
+            playlist.id.clone().replace("custom:", "")
+        ),
         serde_json::to_string(playlist).unwrap(),
     )
     .await;
@@ -89,6 +101,13 @@ async fn update_playlist_to_disk(basepath: &String, playlist: &SinglePlaylistInf
 async fn remove_playlist_from_disk(basepath: &String, playlist_id: &String) {
     // todo!: add error handling
     let _ = fs::remove_file(format!("{}\\{}", basepath, playlist_id)).await;
+}
+
+pub struct CustomPlaylistManager {
+    base_url: String,
+    /// Key 包含 `custom:` 作为开头
+    data: PlaylistDataType,
+    app: tauri::AppHandle,
 }
 
 // todo!: optimize performance, decrease disk writes
@@ -101,12 +120,15 @@ impl CustomPlaylistManager {
         }
     }
 
+    /// 传入的 id 不应该包含 namespace
     pub async fn add_song(&self, playlist_id: String, song: BriefSong) {
+        let custom_id = Uuid::new_v4().to_string();
         match self.data.lock().await.get_mut(&playlist_id) {
             Some(playlist) => {
-                let exist = playlist.songs.iter().any(|x| x.cid == song.cid);
+                let exist = playlist.song_map.values().any(|x| x.cid.eq(&song.cid));
                 if !exist {
-                    playlist.songs.push(song);
+                    playlist.song_map.insert(custom_id.clone(), song);
+                    playlist.songs.push(custom_id);
                 }
                 let _ = update_playlist_to_disk(&self.base_url, playlist).await;
             }
@@ -121,50 +143,109 @@ impl CustomPlaylistManager {
     pub async fn remove_songs(&self, playlist_id: String, cids: Vec<String>) {
         match self.data.lock().await.get_mut(&playlist_id) {
             Some(playlist) => {
-                playlist.songs.retain(|x| !cids.contains(&x.cid));
+                playlist.songs.retain(|x| !cids.contains(&x));
+                cids.iter().for_each(|x| {
+                    playlist.song_map.remove(x);
+                });
                 let _ = update_playlist_to_disk(&self.base_url, playlist).await;
             }
             None => (),
         }
     }
 
+    /// Old song id 是 custom 命名空间下的id
     pub async fn update_song(&self, playlist_id: String, old_song_id: String, new_song: BriefSong) {
         match self.data.lock().await.get_mut(&playlist_id) {
             Some(playlist) => {
-                playlist
-                    .songs
-                    .iter_mut()
-                    .find(|x| x.cid == old_song_id)
-                    .map(|x| *x = new_song);
-                let _ = update_playlist_to_disk(&self.base_url, playlist).await;
+                match playlist.songs.iter_mut().find(|x| old_song_id.eq(*x)) {
+                    Some(x) => {
+                        // new song info inherits old song info
+                        playlist.song_map.insert(old_song_id.clone(), new_song);
+                        *x = old_song_id;
+                        let _ = update_playlist_to_disk(&self.base_url, playlist).await;
+                    }
+                    None => (),
+                }
             }
             None => (),
         }
     }
 
     /// Use new songs replace old songs.
+    #[deprecated = "This methods doesn't work correctly now and wait for fix. You can use update_songs instead."]
+    #[allow(dead_code)]
     pub async fn update_songs(&self, playlist_id: String, new_songs: Vec<BriefSong>) {
         match self.data.lock().await.get_mut(&playlist_id) {
             Some(playlist) => {
-                playlist.songs = new_songs;
+                playlist.songs = new_songs.iter().map(|x| x.cid.clone()).collect();
+                // playlist.song_map
+                let mut new_song_map = HashMap::new();
+                for song in new_songs {
+                    new_song_map.insert(song.cid.clone(), song);
+                }
+                playlist.song_map = new_song_map;
                 let _ = update_playlist_to_disk(&self.base_url, playlist).await;
             }
             None => (),
         }
     }
 
-    pub async fn get_song(&self, playlist_id: String, cid: String) -> Option<BriefSong> {
+    pub async fn get_song(&self, mut playlist_id: String, cid: String) -> Option<Song> {
+        if !playlist_id.starts_with("custom:") {
+            playlist_id = format!("custom:{}", playlist_id);
+        }
         match self.data.lock().await.get(&playlist_id) {
-            Some(playlist) => playlist
-                .songs
-                .iter()
-                .find(|x| x.cid == cid)
-                .map(|x| x.clone()),
+            Some(playlist) => match playlist.song_map.get(&cid) {
+                Some(song) => {
+                    let song = song.clone();
+                    // todo!: maybe here can add a fetch cache
+                    let res = reqwest::get(format!(
+                        "http://localhost:{}/song/{}",
+                        API_PROXY_PORT, &song.cid
+                    ))
+                    .await;
+                    if let Ok(res) = res {
+                        if let Ok(song) = res.json::<ResponseMsg<Song>>().await {
+                            let mut song = song.data;
+                            // modify cid and albumCid to local
+                            song.cid = format!("custom:{}", cid);
+                            song.album_cid = playlist_id;
+                            return Some(song);
+                        } else {
+                            println!("JSON parse error");
+                            return None;
+                        }
+                    } else {
+                        println!("Error: {:?}", res);
+                        return None;
+                    }
+                }
+                None => None,
+            },
             None => None,
         }
     }
 
-    pub async fn add_playlist(&self, name: String) {
+    /// This method return modified data (`cid` and `album_cid`). The time complexity is **O(n)** (`n` is the number of playlist)
+    pub async fn get_song_without_playlist_id(&self, cid: String) -> Option<Song> {
+        let playlist_ids = {
+            self.data
+                .lock()
+                .await
+                .keys()
+                .cloned()
+                .collect::<Vec<String>>()
+        };
+
+        for playlist_id in playlist_ids {
+            if let Some(song) = self.get_song(playlist_id, cid.clone()).await {
+                return Some(song);
+            }
+        }
+        None
+    }
+
+    pub async fn add_playlist(&self, name: String) -> std::io::Result<SinglePlaylistInfo> {
         let id = Uuid::new_v4().to_string();
         let playlist = SinglePlaylistInfo {
             id: id.clone(),
@@ -172,19 +253,21 @@ impl CustomPlaylistManager {
             songs: vec![],
             description: "".to_string(),
             cover_url: "/siren.png".to_string(),
+            song_map: HashMap::new(),
         };
-        create_playlist_to_disk(&self.base_url, &id, &playlist.name).await;
-        self.data.lock().await.insert(id, playlist);
+        create_playlist_to_disk(&self.base_url, &id, &playlist.name).await?;
+        self.data.lock().await.insert(id, playlist.clone());
+        Ok(playlist)
         // update_playlist_to_disk(self.app.path_resolver().app_dir().display().to_string(), playlist)
     }
 
     pub async fn remove_playlist(&self, playlist_id: String) {
         self.data.lock().await.swap_remove(&playlist_id);
-        remove_playlist_from_disk(&self.base_url, &playlist_id).await
+        remove_playlist_from_disk(&self.base_url, &playlist_id).await;
     }
 
     /// Use new info to replace old info
-    /// The songs property will be ignore, and only modify the other properties
+    /// The songs, song_map property will be ignore
     // todo!: add error throw
     pub async fn update_playlist_metadata(
         &self,
@@ -195,6 +278,7 @@ impl CustomPlaylistManager {
         match map.get(&playlist_id) {
             Some(playlist) => {
                 new_playlist.songs = playlist.songs.clone();
+                new_playlist.song_map = playlist.song_map.clone();
                 // todo!: optimize
                 let _ = update_playlist_to_disk(&self.base_url, &new_playlist).await;
                 map.insert(playlist_id, new_playlist);
@@ -203,27 +287,33 @@ impl CustomPlaylistManager {
         }
     }
 
-    /// Get playlist by playlist_id
-    ///
-    /// This method will auto add `custom:` prefix when it doesn't exist
-    pub async fn get_playlist(&self, mut playlist_id: String) -> Option<SinglePlaylistInfo> {
-        if !playlist_id.starts_with("custom:") {
-            playlist_id = String::from("custom:") + playlist_id.as_str();
-        }
+    /// playlist_id should include namespace
+    pub async fn get_playlist(&self, playlist_id: &String) -> Option<SinglePlaylistInfo> {
         // todo!: add fetch from disk
-        self.data.lock().await.get(&playlist_id).map(|x| x.clone())
+        self.data.lock().await.get(playlist_id).map(|x| x.clone())
     }
 
-    pub async fn get_all_playlists(&self) -> Vec<SinglePlaylistInfo> {
+    // This method is call in high frequency, need to optimize
+    pub async fn get_all_playlists(&self, force_refresh: bool) -> Vec<SinglePlaylistInfo> {
         // todo!: add fetch from disk
-        let disk_data = get_all_playlists_from_disk(&self.base_url).await;
-        let return_data = disk_data.clone();
-        let mut data = self.data.lock().await;
-        data.clear();
-        for playlist in disk_data {
-            let id = playlist.id.clone();
-            data.insert(id, playlist);
+        let mut time_lock = GLOBAL_DISK_UPDATE_TIME.lock().await;
+        // 1 minute
+        if force_refresh || time_lock.elapsed().unwrap().as_secs() > 60 {
+            let disk_data = get_all_playlists_from_disk(&self.base_url).await;
+            let return_data = disk_data.clone();
+            {
+                let mut data = self.data.lock().await;
+                data.clear();
+                for playlist in disk_data {
+                    let id = playlist.id.clone();
+                    data.insert(id, playlist);
+                }
+            }
+            println!("Refresh disk data: {:?}", return_data);
+            *time_lock = SystemTime::now();
+            return return_data;
+        } else {
+            return self.data.lock().await.values().cloned().collect();
         }
-        return_data
     }
 }

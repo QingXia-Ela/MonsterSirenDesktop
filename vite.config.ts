@@ -17,6 +17,9 @@ export default defineConfig(async () => ({
     port: 8000,
     strictPort: true,
   },
+  define: {
+    __DEV__: process.env.NODE_ENV !== "production",
+  },
   resolve: {
     alias: {
       "@": "/src",

@@ -5,7 +5,7 @@ export default styled(({ ...p }: MenuItemProps) => (
   <MenuItem {...p} className={`text-nowrap ${p.className ?? ''}`} />
 ))(() => ({
   fontFamily: 'SourceHanSansCN-Normal',
-  height: '0.5rem',
+  height: '0.56rem',
   fontSize: '0.34rem',
   transition: 'background-color .3s',
   color: '#fff',
