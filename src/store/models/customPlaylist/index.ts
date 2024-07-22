@@ -14,7 +14,7 @@ const $CustomPlaylist = atom<{
 });
 
 invoke('plugin:playlist|get_all_playlists', {
-  forceRefresh: false
+  forceRefresh: false,
 }).then((data) => {
   $CustomPlaylist.set({ playlist: data });
 });
@@ -26,10 +26,25 @@ export async function addSongToPlaylist(playlistId: string, song: any) {
   });
 }
 
+export async function removeSongFromPlaylist(playlistId: string, songCid: string) {
+  $CustomPlaylist.set({
+    playlist: $CustomPlaylist.get().playlist.map((x) => {
+      if (x.id === playlistId) {
+        x.songs = x.songs.filter((x: any) => x !== songCid);
+      }
+      return x;
+    }),
+  })
+  await invoke('plugin:playlist|remove_song_from_playlist', {
+    playlistId,
+    songCid,
+  });
+}
+
 export async function createPlaylist(name: string) {
-  let res = await invoke("plugin:playlist|add_playlist", { name })
-  $CustomPlaylist.set({ playlist: [...$CustomPlaylist.get().playlist, res] })
-  return res
+  let res = await invoke('plugin:playlist|add_playlist', { name });
+  $CustomPlaylist.set({ playlist: [...$CustomPlaylist.get().playlist, res] });
+  return res;
 }
 
 export default $CustomPlaylist;

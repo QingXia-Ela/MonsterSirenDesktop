@@ -106,7 +106,10 @@ impl LocalMusicManager {
                         v.push(BriefSong {
                             album_cid: folder.clone().to_string(),
                             // provide full file path for file_server read directly
-                            cid: sha256::digest(path.clone().to_str().unwrap()).to_string(),
+                            cid: format!(
+                                "local:{}",
+                                sha256::digest(path.clone().to_str().unwrap()).to_string()
+                            ),
                             name: path.file_name().unwrap().to_str().unwrap().to_string(),
                             artists: vec![],
                             size: Some(metadata.file_size()),
@@ -235,7 +238,8 @@ impl MusicInject for LocalMusicInjector {
     // Use full path as song cid.
     // Spend O(n) time to search. n is the number of song.
     // todo!: optimize it. this method is often to use.
-    async fn get_song(&self, cid: String) -> Result<Song, PluginRequestError> {
+    async fn get_song(&self, mut cid: String) -> Result<Song, PluginRequestError> {
+        cid = format!("local:{}", cid);
         for (path, folder) in self.index.lock().await.iter() {
             for song in folder {
                 if cid == song.cid {
@@ -297,7 +301,7 @@ impl MusicInject for LocalMusicInjector {
             .replace("\\\\", ":\\");
         match self.index.lock().await.get(&cid) {
             Some(v) => {
-                let songs = v.clone().into_iter().map(add_namespace_for_song).collect();
+                let songs = v.clone();
                 return Ok(Album {
                     // cid shouldn't include `\\`, which will lead music page error when switch album and show album img
                     cid: format!("local:{}", cid.replace("\\", ":")),

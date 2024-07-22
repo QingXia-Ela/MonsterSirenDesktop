@@ -1,5 +1,6 @@
 use super::{manager::CustomPlaylistManager, pub_struct::SinglePlaylistInfo};
 use crate::global_struct::siren::{BriefSong, Song};
+use crate::vanilla_injector::custom_playlist_injector::utils::remove_custom_prefix;
 use tauri::{AppHandle, Manager, Runtime, State};
 
 #[tauri::command]
@@ -69,7 +70,9 @@ async fn remove_song_from_playlist<R: Runtime>(
     playlist_id: String,
     song_cid: String,
 ) -> Result<(), String> {
-    manager.remove_song(playlist_id, song_cid).await;
+    manager
+        .remove_song(playlist_id, remove_custom_prefix(song_cid))
+        .await;
     Ok(())
 }
 

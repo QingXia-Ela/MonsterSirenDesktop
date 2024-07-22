@@ -3,14 +3,18 @@ import RightDetailsTopInfo from './components/TopInfo';
 import RightDetailsMiddleSplit from './components/MiddleSplit';
 import RightDetailsBottomList from './components/BottomList';
 import { useStore } from '@nanostores/react';
-import $PlayListState from '@/store/pages/playlist';
+import $PlayListState, { setCurrentAlbumId } from '@/store/pages/playlist';
 import { usePopupState } from 'material-ui-popup-state/hooks';
 import BlackMenuItem from '@/components/ContextMenu/BlackMenuV2/BlackMenuItem';
 import SirenStore from '@/store/SirenStore';
 import navigate from '@/router/utils/navigate';
 import Divider from '@/components/ContextMenu/BlackMenuV2/Divider';
 import SubMenu from '@/components/ContextMenu/BlackMenuV2/SubMenu';
-import $CustomPlaylist, { addSongToPlaylist, createPlaylist } from '@/store/models/customPlaylist';
+import $CustomPlaylist, {
+  addSongToPlaylist,
+  createPlaylist,
+  removeSongFromPlaylist,
+} from '@/store/models/customPlaylist';
 import Dialog from '@/components/Dialog';
 import Input from '@/components/Input';
 import Button from '@/components/Button';
@@ -22,6 +26,38 @@ interface RightDetailsProps { }
 const addSongToPlaylistByCid = async (pid: string, cid: string) => {
   const { data } = await (await getSong(cid)).json();
   await addSongToPlaylist(pid, data);
+};
+
+const addSongWithNotice = async (playlist_id: string, cid: string, callback?: Function) => {
+  try {
+    await addSongToPlaylistByCid(playlist_id, cid);
+    GlobalNotifyChannel.emit('notify', {
+      severity: 'success',
+      content: '歌曲添加成功',
+    });
+    callback?.();
+  } catch (e: any) {
+    GlobalNotifyChannel.emit('notify', {
+      severity: 'error',
+      content: '歌曲添加失败: ' + e,
+    });
+  }
+};
+
+const removeSongWithNotice = async (playlist_id: string, cid: string, callback?: Function) => {
+  try {
+    await removeSongFromPlaylist(playlist_id, cid);
+    GlobalNotifyChannel.emit('notify', {
+      severity: 'success',
+      content: '歌曲删除成功',
+    });
+    callback?.();
+  } catch (e: any) {
+    GlobalNotifyChannel.emit('notify', {
+      severity: 'error',
+      content: '歌曲删除失败: ' + e,
+    });
+  }
 }
 
 /**
@@ -30,6 +66,7 @@ const addSongToPlaylistByCid = async (pid: string, cid: string) => {
  * Just use params and operation.
  * @returns
  */
+// todo!: make each injector has own context menu.
 function CtxMenu({
   popupState,
   event,
@@ -37,12 +74,14 @@ function CtxMenu({
   popupState: ReturnType<typeof usePopupState>;
   event: { e: React.MouseEvent<HTMLElement>; cid: string };
 }) {
-  const { playlist } = useStore($CustomPlaylist)
+  const { currentAlbumId } =
+    useStore($PlayListState);
+  const { playlist } = useStore($CustomPlaylist);
   const handleClose = () => popupState.close();
   const [nameDialog, setNameDialog] = useState(false);
   const [name, setName] = useState('');
 
-  // this method will also change album.
+  // this method will also change current album.
   const play = () => {
     SirenStore.dispatch({
       type: 'player/selectSong',
@@ -55,43 +94,40 @@ function CtxMenu({
   const openDialog = () => {
     setNameDialog(true);
     handleClose();
-  }
+  };
   const closeDialog = () => {
     setName('');
     setNameDialog(false);
-  }
+  };
   const callTauriCreatePlaylist = () => {
-    createPlaylist(name).then(async (playlist: any) => {
-      GlobalNotifyChannel.emit('notify', {
-        severity: "success",
-        content: '创建播放列表成功: ' + (__DEV__ ? `歌单ID: ${playlist.id}` : ''),
+    createPlaylist(name)
+      .then(async (playlist: any) => {
+        GlobalNotifyChannel.emit('notify', {
+          severity: 'success',
+          content:
+            '创建播放列表成功: ' + (__DEV__ ? `歌单ID: ${playlist.id}` : ''),
+        });
+        await addSongWithNotice(playlist.id, event.cid, handleClose);
+        // 触发播放列表页更新
+        siren_store.dispatch({
+          type: "music/getAlbumList"
+        })
+        closeDialog();
       })
-      await addSongToPlaylist(playlist.id, event.cid)
-      closeDialog();
-    }).catch((e) => {
-      GlobalNotifyChannel.emit('notify', {
-        severity: "error",
-        content: '创建播放列表失败: ' + e.message,
+      .catch((e) => {
+        GlobalNotifyChannel.emit('notify', {
+          severity: 'error',
+          content: '创建播放列表失败: ' + e,
+        });
+        // console.error(e);
       });
-      // console.error(e);
-    })
-  }
+  };
 
-  const addSongWithNotice = async (playlist_id: string, cid: string) => {
-    try {
-      await addSongToPlaylistByCid(playlist_id, cid)
-      GlobalNotifyChannel.emit('notify', {
-        severity: "success",
-        content: '歌曲添加成功',
-      })
-      handleClose();
-    } catch (e: any) {
-      GlobalNotifyChannel.emit('notify', {
-        severity: "error",
-        content: '歌曲添加失败: ' + e,
-      })
-    }
-  }
+  const refreshAlbum = () => {
+    // 原生 store 不适用，会有原生页面副作用
+    handleClose();
+    setCurrentAlbumId(currentAlbumId);
+  };
 
   return (
     <>
@@ -107,6 +143,7 @@ function CtxMenu({
         </div>
       </Dialog>
       <BlackMenuItem onClick={play}>播放</BlackMenuItem>
+      <Divider />
       {/* <BlackMenuItem onClick={handleClose}>下一首播放</BlackMenuItem> */}
       {/* <BlackMenuItem onClick={handleClose}>添加到播放列表</BlackMenuItem> */}
       {/* <MyDivider /> */}
@@ -117,27 +154,17 @@ function CtxMenu({
       <BlackMenuItem onClick={handleClose}>编辑信息</BlackMenuItem> */}
       <SubMenu label='添加到播放列表'>
         <BlackMenuItem onClick={openDialog}>+ 新建播放列表</BlackMenuItem>
-        {
-          playlist.map((item) => (
-            <BlackMenuItem
-              style={{ paddingLeft: '.76rem' }}
-              key={item.id}
-              onClick={() => addSongWithNotice(item.id, event.cid)}
-            // onClick={() => {
-            //   SirenStore.dispatch({
-            //     type: 'player/selectSong',
-            //     cid: item.cid,
-            //   });
-            //   // navigate will help to init route, it can make jump correctly.
-            //   navigate(`/music/${item.cid}`);
-            //   handleClose();
-            // }}
-            >
-              {item.name}
-            </BlackMenuItem>
-          ))
-        }
+        {playlist.map((item) => (
+          <BlackMenuItem
+            style={{ paddingLeft: '.76rem' }}
+            key={item.id}
+            onClick={() => addSongWithNotice(item.id, event.cid, handleClose)}
+          >
+            {item.name}
+          </BlackMenuItem>
+        ))}
       </SubMenu>
+      {currentAlbumId.startsWith('custom:') && <BlackMenuItem onClick={() => removeSongWithNotice(currentAlbumId, event.cid, refreshAlbum)}>从播放列表移除</BlackMenuItem>}
       <Divider />
       <BlackMenuItem onClick={handleClose}>下载歌曲</BlackMenuItem>
     </>

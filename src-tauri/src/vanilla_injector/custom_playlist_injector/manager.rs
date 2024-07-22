@@ -1,6 +1,9 @@
 use std::{collections::HashMap, time::SystemTime};
 
-use crate::global_struct::siren::{response_msg::ResponseMsg, BriefSong, Song};
+use crate::{
+    global_struct::siren::{response_msg::ResponseMsg, BriefSong, Song},
+    Logger::{debug, error},
+};
 use lazy_static::lazy_static;
 use tokio::{fs, sync::Mutex};
 use uuid::Uuid;
@@ -205,15 +208,24 @@ impl CustomPlaylistManager {
                     ))
                     .await;
                     if let Ok(res) = res {
-                        if let Ok(song) = res.json::<ResponseMsg<Song>>().await {
-                            let mut song = song.data;
-                            // modify cid and albumCid to local
-                            song.cid = format!("custom:{}", cid);
-                            song.album_cid = playlist_id;
-                            return Some(song);
-                        } else {
-                            println!("JSON parse error");
-                            return None;
+                        match res.json::<ResponseMsg<Song>>().await {
+                            Ok(song) => {
+                                let mut song = song.data;
+                                // modify cid and albumCid to local
+                                song.cid = format!("custom:{}", cid);
+                                song.album_cid = playlist_id;
+                                return Some(song);
+                            }
+                            Err(e) => {
+                                error(
+                                    format!(
+                                        "JSON parse error: {}, playlist_id: {}, cid: {}",
+                                        e, playlist_id, cid
+                                    )
+                                    .as_str(),
+                                );
+                                return None;
+                            }
                         }
                     } else {
                         println!("Error: {:?}", res);
@@ -248,7 +260,7 @@ impl CustomPlaylistManager {
     pub async fn add_playlist(&self, name: String) -> std::io::Result<SinglePlaylistInfo> {
         let id = Uuid::new_v4().to_string();
         let playlist = SinglePlaylistInfo {
-            id: id.clone(),
+            id: format!("custom:{}", id.clone()),
             name,
             songs: vec![],
             description: "".to_string(),
@@ -256,7 +268,10 @@ impl CustomPlaylistManager {
             song_map: HashMap::new(),
         };
         create_playlist_to_disk(&self.base_url, &id, &playlist.name).await?;
-        self.data.lock().await.insert(id, playlist.clone());
+        self.data
+            .lock()
+            .await
+            .insert(format!("custom:{}", id.clone()), playlist.clone());
         Ok(playlist)
         // update_playlist_to_disk(self.app.path_resolver().app_dir().display().to_string(), playlist)
     }
@@ -309,8 +324,8 @@ impl CustomPlaylistManager {
                     data.insert(id, playlist);
                 }
             }
-            println!("Refresh disk data: {:?}", return_data);
             *time_lock = SystemTime::now();
+            debug("Refresh disk data now.");
             return return_data;
         } else {
             return self.data.lock().await.values().cloned().collect();

@@ -1,6 +1,7 @@
 mod manager;
 mod pub_struct;
 mod tauri_plugin;
+mod utils;
 use std::{fs, sync::Arc};
 
 use futures::lock::Mutex;

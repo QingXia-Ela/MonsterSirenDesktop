@@ -17,10 +17,10 @@ declare global {
     // this instance may also can get the `AudioContext`? so that we can do some unbelievable things.
     const siren_audio_instance: any;
     export { siren_config, siren_store, siren_audio_instance, siren_router };
-    declare const __DEV__: boolean;
   }
 }
 
+declare const __DEV__: boolean;
 // Use this type to extend tauri api
 // declare module "@tauri-apps/api/tauri" {
 //   function invoke(cmd: "test", args: { a: string }): Promise<number>

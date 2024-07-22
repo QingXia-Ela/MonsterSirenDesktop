@@ -12,8 +12,9 @@ import $DummyPlaylist from '@/store/models/dummyPlaylist';
 import $settingLocalMusic from '@/store/models/settings/localMusic';
 import SirenStore from '@/store/SirenStore';
 import { SettingsManager } from '@/store/models/settings';
+import $CustomPlaylist from '@/store/models/customPlaylist';
 
-interface LeftListProps {}
+interface LeftListProps { }
 
 const namespaceReg = /(\w+):.+/;
 
@@ -108,10 +109,10 @@ $settingLocalMusic.subscribe(() => {
 
 // todo!: 当本地文件夹被移除时需要检查当前页选择的文件夹是否为被移除的文件夹，如果是则需要清空激活状态
 const LeftList: FunctionComponent<LeftListProps> = () => {
-  const { currentAlbumId: activeId, albumList: currentAlbum } =
+  const { currentAlbumId: activeId } =
     useStore($PlayListState);
   const { showSirenMusicListMode } = useStore($settingBasic);
-  // const dummyPlayListInfo = useStore($DummyPlaylist)
+  // 上方已经触发响应式更新，所以这里直接 useStore 即可
   const albumList = useSirenStore((s) => s.music.albumList);
 
   // todo!: add user custom playlist here
