@@ -129,6 +129,7 @@ impl CustomPlaylistManager {
     }
 
     /// 传入的 id 不应该包含 namespace
+    // todo!: 处理从一个自定义列表添加到另一个自定义列表的特殊情况
     pub async fn add_song(&self, playlist_id: String, song: BriefSong) {
         let custom_id = Uuid::new_v4().to_string();
         match self.data.lock().await.get_mut(&playlist_id) {

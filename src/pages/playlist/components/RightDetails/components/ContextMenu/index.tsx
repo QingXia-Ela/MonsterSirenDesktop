@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useStore } from '@nanostores/react';
 import $PlayListState, { setCurrentAlbumId } from '@/store/pages/playlist';
 import { usePopupState } from 'material-ui-popup-state/hooks';
@@ -83,6 +83,11 @@ function CtxMenu({
   const [nameDialog, setNameDialog] = useState(false);
   const [name, setName] = useState('');
 
+  let nameInputRef = useRef<any>();
+  useEffect(() => {
+    nameInputRef.current?.focus();
+  });
+
   // this method will also change current album.
   const play = () => {
     SirenStore.dispatch({
@@ -135,7 +140,11 @@ function CtxMenu({
   return (
     <>
       <Dialog open={nameDialog} title='新建播放列表'>
-        <Input value={name} onChange={(e) => setName(e.target.value)} />
+        <Input
+          ref={nameInputRef}
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
         <div className='flex justify-end gap-2 mt-1'>
           <Button size='small' onClick={closeDialog}>
             取消

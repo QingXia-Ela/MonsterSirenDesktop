@@ -90,7 +90,7 @@ function PlaylistLeftCtxMenu({ cid, handleClose }: PlaylistLeftCtxMenuProps) {
     // force refresh
     SirenStore.dispatch({
       type: 'music/getAlbumList',
-    })
+    });
     setConfirmDel(false);
   };
 
@@ -115,7 +115,10 @@ function PlaylistLeftCtxMenu({ cid, handleClose }: PlaylistLeftCtxMenuProps) {
             confirm={() => setModifyInfo(false)}
             close={() => setModifyInfo(false)}
           />
-          <BlackMenuItem style={{ paddingLeft: '.64rem' }} onClick={() => setModifyInfo(true)}>
+          <BlackMenuItem
+            style={{ paddingLeft: '.64rem' }}
+            onClick={() => setModifyInfo(true)}
+          >
             编辑歌单信息
           </BlackMenuItem>
         </>

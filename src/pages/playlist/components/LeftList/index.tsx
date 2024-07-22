@@ -1,7 +1,10 @@
 import { FunctionComponent, useState } from 'react';
 import ListLeftBottomDetails from './components/BottomList';
 import useSirenStore from '@/hooks/useSirenStore';
-import $PlayListState, { setCurrentAlbumId } from '@/store/pages/playlist';
+import $PlayListState, {
+  clearCurrentAlbum,
+  setCurrentAlbumId,
+} from '@/store/pages/playlist';
 import { useStore } from '@nanostores/react';
 import $settingBasic from '@/store/models/settings/basic';
 import { basicConfig } from '@/types/Config';
@@ -151,6 +154,11 @@ const LeftList: FunctionComponent<LeftListProps> = () => {
     transition: true,
   });
 
+  // 当前激活id不在播放列表中时，清空当前播放列表信息
+  if (activeId.length && !albumList.some((item) => item.cid === activeId)) {
+    clearCurrentAlbum();
+  }
+
   // todo!: change player list fetch by promise event, and combine with tauri
   // network transform is slow if some inject is slow, the network needs to wait all inject finish
   const playerList = parseAlbumListToBottomList(
@@ -169,7 +177,6 @@ const LeftList: FunctionComponent<LeftListProps> = () => {
     clearTimeout(timer);
   };
   const closeCtxMenu = () => {
-    console.log('call');
     toggleMenu(false);
   };
 
@@ -178,7 +185,7 @@ const LeftList: FunctionComponent<LeftListProps> = () => {
       <div className='text-[.6em] font-bold'>播放列表</div>
       <BlackMenuV2
         {...menuProps}
-        onClose={() => toggleMenu(false)}
+        onClose={closeCtxMenu}
         anchorPoint={anchorPoint}
         theming='dark'
       >
