@@ -109,8 +109,7 @@ $settingLocalMusic.subscribe(() => {
 
 // todo!: 当本地文件夹被移除时需要检查当前页选择的文件夹是否为被移除的文件夹，如果是则需要清空激活状态
 const LeftList: FunctionComponent<LeftListProps> = () => {
-  const { currentAlbumId: activeId } =
-    useStore($PlayListState);
+  const { currentAlbumId: activeId } = useStore($PlayListState);
   const { showSirenMusicListMode } = useStore($settingBasic);
   // 上方已经触发响应式更新，所以这里直接 useStore 即可
   const albumList = useSirenStore((s) => s.music.albumList);
@@ -128,6 +127,10 @@ const LeftList: FunctionComponent<LeftListProps> = () => {
     // 原生 store 不适用，会有原生页面副作用
     setCurrentAlbumId(cid);
   };
+  const onCtxMenu = (cid: string) => {
+    // e.preventDefault();
+    console.log(cid);
+  };
 
   return (
     <div className='w-20 flex flex-col'>
@@ -135,6 +138,7 @@ const LeftList: FunctionComponent<LeftListProps> = () => {
       <ListLeftBottomDetails
         activeId={activeId}
         onClickItem={onSelect}
+        onCtxMenuOnItem={onCtxMenu}
         ListData={playerList}
       />
     </div>

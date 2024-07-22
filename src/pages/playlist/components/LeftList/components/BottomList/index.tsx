@@ -16,6 +16,18 @@ interface ListLeftBottomDetailsProps {
   activeId?: string;
   ScrollbarDegNum?: number;
   onClickItem?: (id: string) => void;
+  onCtxMenuOnItem?: (id: string) => void;
+}
+
+function findDOMNode(root: HTMLElement, cb: (dom: HTMLElement) => boolean) {
+  let t: HTMLElement | null = root;
+
+  while (t) {
+    if (cb(t)) {
+      return t;
+    }
+    t = t.parentElement;
+  }
 }
 
 const ListLeftBottomDetails: FunctionComponent<ListLeftBottomDetailsProps> = ({
@@ -23,19 +35,40 @@ const ListLeftBottomDetails: FunctionComponent<ListLeftBottomDetailsProps> = ({
   activeId,
   ScrollbarDegNum,
   onClickItem,
+  onCtxMenuOnItem,
 }) => {
   const rootDom = useRef<HTMLDivElement | null>();
 
   const onClick = (e: React.MouseEvent) => {
+    if (!onClickItem) return
     let t: HTMLElement | null = e.target as HTMLElement;
 
-    while (t && t != rootDom.current) {
-      const albumId = t.getAttribute('data-id');
+    let target = findDOMNode(t, (dom) => {
+      return !!dom.getAttribute('data-id')
+    })
+    if (target) {
+      const albumId = target.getAttribute('data-id');
       if (albumId) {
-        onClickItem?.(albumId);
+        onClickItem(albumId);
         return;
       }
-      t = t.parentElement;
+    }
+  };
+
+  const onCtxMenu = (e: React.MouseEvent) => {
+    if (!onCtxMenuOnItem) return
+    e.preventDefault();
+    let t: HTMLElement | null = e.target as HTMLElement;
+
+    let target = findDOMNode(t, (dom) => {
+      return !!dom.getAttribute('data-id')
+    })
+    if (target) {
+      const albumId = target.getAttribute('data-id');
+      if (albumId) {
+        onCtxMenuOnItem(albumId);
+        return;
+      }
     }
   };
 
@@ -43,6 +76,7 @@ const ListLeftBottomDetails: FunctionComponent<ListLeftBottomDetailsProps> = ({
     <div
       className={Styles.list}
       onClick={onClick}
+      onContextMenu={onCtxMenu}
       ref={(v) => (rootDom.current = v)}
     >
       {ListData.length ? (

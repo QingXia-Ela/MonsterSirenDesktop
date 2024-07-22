@@ -70,13 +70,13 @@ export async function updateAlbumList() {
   // });
 }
 
-let lastOpId: string
+let lastOpId: string;
 /**
  * @param id 专辑 id
  */
 export async function setCurrentAlbumId(id: string) {
   // 防止上一个 Promise 未完成但是下一个 Promise 已经被触发导致的数据覆盖
-  lastOpId = id
+  lastOpId = id;
   $PlayListState.set({
     ...$PlayListState.get(),
     currentAlbumId: id,
