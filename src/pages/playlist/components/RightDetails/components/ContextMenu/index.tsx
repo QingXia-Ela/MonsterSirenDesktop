@@ -112,7 +112,7 @@ function CtxMenu({
         });
         await addSongWithNotice(playlist.id, event.cid, handleClose);
         // 触发播放列表页更新
-        siren_store.dispatch({
+        SirenStore.dispatch({
           type: 'music/getAlbumList',
         });
         closeDialog();

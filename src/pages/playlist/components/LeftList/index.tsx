@@ -1,21 +1,23 @@
-import { FunctionComponent } from 'react';
+import { FunctionComponent, useState } from 'react';
 import ListLeftBottomDetails from './components/BottomList';
 import useSirenStore from '@/hooks/useSirenStore';
-import $PlayListState, {
-  clearCurrentAlbum,
-  setCurrentAlbumId,
-} from '@/store/pages/playlist';
+import $PlayListState, { setCurrentAlbumId } from '@/store/pages/playlist';
 import { useStore } from '@nanostores/react';
 import $settingBasic from '@/store/models/settings/basic';
 import { basicConfig } from '@/types/Config';
-import $DummyPlaylist from '@/store/models/dummyPlaylist';
 import $settingLocalMusic from '@/store/models/settings/localMusic';
 import SirenStore from '@/store/SirenStore';
-import { SettingsManager } from '@/store/models/settings';
-import $CustomPlaylist from '@/store/models/customPlaylist';
+import BlackMenuV2 from '@/components/ContextMenu/BlackMenuV2';
+import PlaylistLeftCtxMenu from './components/CtxMenu';
+import { useMenuState } from '@szhsin/react-menu';
 
 interface LeftListProps { }
 
+$settingLocalMusic.subscribe(() => {
+  SirenStore.dispatch({
+    type: 'music/getAlbumList',
+  });
+});
 const namespaceReg = /(\w+):.+/;
 
 // todo!: refactor this and improve performance
@@ -101,20 +103,53 @@ function parseAlbumListToBottomList(
   return Object.values(map);
 }
 
-$settingLocalMusic.subscribe(() => {
-  SirenStore.dispatch({
-    type: 'music/getAlbumList',
-  });
-});
+// const useControlledMenu = (options: any) => {
+//   const [anchorPoint, setAnchorPoint] = useState<any>();
+//   const [menuProps, toggleMenu] = useMenuState(options);
+//   const [event, setEvent] = useState<{
+//     e: React.MouseEvent<HTMLElement>;
+//     // todo!: change cid to full song info
+//     cid: string;
+//   } | null>(null);
 
+//   const contextProps = {
+//     onContextMenu: (e: any) => {
+//       e.preventDefault();
+//       setAnchorPoint({ x: e.clientX, y: e.clientY });
+//       toggleMenu(true);
+
+//       let cid = findItemId(e);
+//       if (cid) {
+//         setEvent({ e, cid });
+//       }
+//     },
+//   };
+
+//   return {
+//     event,
+//     contextProps,
+//     menuProps: {
+//       ...menuProps,
+//       anchorPoint,
+//       onClose: () => toggleMenu(false),
+//     },
+//     operation: {
+//       close: () => toggleMenu(false),
+//     },
+//   };
+// };
+let timer: any = null;
 // todo!: 当本地文件夹被移除时需要检查当前页选择的文件夹是否为被移除的文件夹，如果是则需要清空激活状态
 const LeftList: FunctionComponent<LeftListProps> = () => {
+  const [anchorPoint, setAnchorPoint] = useState<any>();
   const { currentAlbumId: activeId } = useStore($PlayListState);
   const { showSirenMusicListMode } = useStore($settingBasic);
   // 上方已经触发响应式更新，所以这里直接 useStore 即可
   const albumList = useSirenStore((s) => s.music.albumList);
-
-  // todo!: add user custom playlist here
+  const [ctxCid, setCtxCid] = useState<string>('');
+  const [menuProps, toggleMenu] = useMenuState({
+    transition: true,
+  });
 
   // todo!: change player list fetch by promise event, and combine with tauri
   // network transform is slow if some inject is slow, the network needs to wait all inject finish
@@ -123,18 +158,32 @@ const LeftList: FunctionComponent<LeftListProps> = () => {
     showSirenMusicListMode,
   );
 
-  const onSelect = (cid: string) => {
+  const onSelect = (_e: any, cid: string) => {
     // 原生 store 不适用，会有原生页面副作用
     setCurrentAlbumId(cid);
   };
-  const onCtxMenu = (cid: string) => {
-    // e.preventDefault();
-    console.log(cid);
+  const onCtxMenu = (e: React.MouseEvent, cid: string) => {
+    setCtxCid(cid);
+    setAnchorPoint({ x: e.clientX, y: e.clientY });
+    toggleMenu(true);
+    clearTimeout(timer);
+  };
+  const closeCtxMenu = () => {
+    console.log('call');
+    toggleMenu(false);
   };
 
   return (
     <div className='w-20 flex flex-col'>
       <div className='text-[.6em] font-bold'>播放列表</div>
+      <BlackMenuV2
+        {...menuProps}
+        onClose={() => toggleMenu(false)}
+        anchorPoint={anchorPoint}
+        theming='dark'
+      >
+        <PlaylistLeftCtxMenu handleClose={closeCtxMenu} cid={ctxCid} />
+      </BlackMenuV2>
       <ListLeftBottomDetails
         activeId={activeId}
         onClickItem={onSelect}

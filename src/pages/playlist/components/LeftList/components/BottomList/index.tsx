@@ -15,8 +15,8 @@ interface ListLeftBottomDetailsProps {
    */
   activeId?: string;
   ScrollbarDegNum?: number;
-  onClickItem?: (id: string) => void;
-  onCtxMenuOnItem?: (id: string) => void;
+  onClickItem?: (e: React.MouseEvent, id: string) => void;
+  onCtxMenuOnItem?: (e: React.MouseEvent, id: string) => void;
 }
 
 function findDOMNode(root: HTMLElement, cb: (dom: HTMLElement) => boolean) {
@@ -40,33 +40,33 @@ const ListLeftBottomDetails: FunctionComponent<ListLeftBottomDetailsProps> = ({
   const rootDom = useRef<HTMLDivElement | null>();
 
   const onClick = (e: React.MouseEvent) => {
-    if (!onClickItem) return
+    if (!onClickItem) return;
     let t: HTMLElement | null = e.target as HTMLElement;
 
     let target = findDOMNode(t, (dom) => {
-      return !!dom.getAttribute('data-id')
-    })
+      return !!dom.getAttribute('data-id');
+    });
     if (target) {
       const albumId = target.getAttribute('data-id');
       if (albumId) {
-        onClickItem(albumId);
+        onClickItem(e, albumId);
         return;
       }
     }
   };
 
   const onCtxMenu = (e: React.MouseEvent) => {
-    if (!onCtxMenuOnItem) return
+    if (!onCtxMenuOnItem) return;
     e.preventDefault();
     let t: HTMLElement | null = e.target as HTMLElement;
 
     let target = findDOMNode(t, (dom) => {
-      return !!dom.getAttribute('data-id')
-    })
+      return !!dom.getAttribute('data-id');
+    });
     if (target) {
       const albumId = target.getAttribute('data-id');
       if (albumId) {
-        onCtxMenuOnItem(albumId);
+        onCtxMenuOnItem(e, albumId);
         return;
       }
     }

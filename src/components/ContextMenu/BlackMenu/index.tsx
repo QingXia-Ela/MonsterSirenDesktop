@@ -1,6 +1,9 @@
 import styled from '@emotion/styled';
 import Menu, { MenuProps } from '@mui/material/Menu';
 
+/**
+ * @deprecated - use V2 instead
+ */
 export default styled(({ ...p }: MenuProps) => <Menu {...p} />)(() => ({
   '.MuiPaper-root': {
     color: 'white',

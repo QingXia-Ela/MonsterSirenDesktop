@@ -30,6 +30,10 @@ export async function removeSongFromPlaylist(
   playlistId: string,
   songCid: string,
 ) {
+  await invoke('plugin:playlist|remove_song_from_playlist', {
+    playlistId,
+    songCid,
+  });
   $CustomPlaylist.set({
     playlist: $CustomPlaylist.get().playlist.map((x) => {
       if (x.id === playlistId) {
@@ -38,16 +42,19 @@ export async function removeSongFromPlaylist(
       return x;
     }),
   });
-  await invoke('plugin:playlist|remove_song_from_playlist', {
-    playlistId,
-    songCid,
-  });
 }
 
 export async function createPlaylist(name: string) {
   let res = await invoke('plugin:playlist|add_playlist', { name });
   $CustomPlaylist.set({ playlist: [...$CustomPlaylist.get().playlist, res] });
   return res;
+}
+
+export async function removePlaylist(playlistId: string) {
+  let res = await invoke('plugin:playlist|remove_playlist', { playlistId });
+  $CustomPlaylist.set({
+    playlist: $CustomPlaylist.get().playlist.filter((x) => x.id !== playlistId),
+  });
 }
 
 export default $CustomPlaylist;

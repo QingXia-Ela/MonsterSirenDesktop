@@ -6,8 +6,7 @@ import { useStore } from '@nanostores/react';
 import $PlayListState from '@/store/pages/playlist';
 import CtxMenu from './components/ContextMenu';
 
-interface RightDetailsProps { }
-
+interface RightDetailsProps {}
 
 const RightDetails: FunctionComponent<RightDetailsProps> = () => {
   const { currentAlbumInfo: info } = useStore($PlayListState);

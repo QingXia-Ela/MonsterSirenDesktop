@@ -1,9 +1,9 @@
 import styled from '@emotion/styled';
-import MenuItem, {
-  MenuItemProps,
-  MenuItemClasses,
-} from '@mui/material/MenuItem';
+import MenuItem, { MenuItemProps } from '@mui/material/MenuItem';
 
+/**
+ * @deprecated - use V2 instead
+ */
 export default styled(({ ...p }: MenuItemProps) => (
   <MenuItem {...p} className={`text-nowrap ${p.className ?? ''}`} />
 ))(() => ({

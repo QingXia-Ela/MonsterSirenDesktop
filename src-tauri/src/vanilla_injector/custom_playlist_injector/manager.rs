@@ -103,7 +103,12 @@ async fn update_playlist_to_disk(basepath: &String, playlist: &SinglePlaylistInf
 
 async fn remove_playlist_from_disk(basepath: &String, playlist_id: &String) {
     // todo!: add error handling
-    let _ = fs::remove_file(format!("{}\\{}", basepath, playlist_id)).await;
+    let _ = fs::remove_file(format!(
+        "{}\\{}.json",
+        basepath,
+        playlist_id.replace("custom:", "")
+    ))
+    .await;
 }
 
 pub struct CustomPlaylistManager {
@@ -279,6 +284,7 @@ impl CustomPlaylistManager {
     pub async fn remove_playlist(&self, playlist_id: String) {
         self.data.lock().await.swap_remove(&playlist_id);
         remove_playlist_from_disk(&self.base_url, &playlist_id).await;
+        let _ = self.get_all_playlists(true).await;
     }
 
     /// Use new info to replace old info
