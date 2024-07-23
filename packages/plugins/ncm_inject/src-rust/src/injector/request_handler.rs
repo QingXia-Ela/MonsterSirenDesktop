@@ -70,7 +70,11 @@ impl NcmRequestHandler {
 
     /// Only allow get single song.
     #[tokio::main]
-    pub async fn get_song(&self, cid: String) -> Result<Song, PluginRequestError> {
+    pub async fn get_song(
+        &self,
+        album_cid: String,
+        cid: String,
+    ) -> Result<Song, PluginRequestError> {
         if let Ok(res) = self
             .client
             .get(format!("{REQUEST_BASE}/song/detail?ids={cid}"))
@@ -81,7 +85,7 @@ impl NcmRequestHandler {
                 Ok(res) => match get_netease_audio_info(&cid).await {
                     Ok(info) => Ok(info.into_siren_song(
                         res.songs[0].clone(),
-                        String::new(),
+                        album_cid,
                         get_netease_audio_lyric(&cid).await,
                     )),
                     Err(e) => Err(e),

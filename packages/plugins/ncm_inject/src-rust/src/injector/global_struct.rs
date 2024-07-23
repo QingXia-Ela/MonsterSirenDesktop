@@ -58,9 +58,9 @@ pub struct NeteasePlaylistDetailSingleSong {
 impl NeteasePlaylistDetailSingleSong {
     fn to_siren_brief_song(self, album_cid: String) -> BriefSong {
         BriefSong {
-            cid: format!("ncm:{}", self.id),
+            cid: format!("ncm:{}-{}", album_cid, self.id),
             name: self.name,
-            album_cid,
+            album_cid: format!("ncm:{}", album_cid),
             artists: self.ar.into_iter().map(|a| a.name).collect(),
             size: None,
             create_time: None,
@@ -135,7 +135,7 @@ impl NeteaseSongDownloadInfo {
         Song {
             cid: format!("ncm:{}", self.id),
             name: detail.name,
-            album_cid,
+            album_cid: format!("ncm:{}", album_cid),
             source_url: if let Some(url) = self.url {
                 url
             } else {
