@@ -14,7 +14,7 @@ import BlackMenuV2 from '@/components/ContextMenu/BlackMenuV2';
 import PlaylistLeftCtxMenu from './components/CtxMenu';
 import { useMenuState } from '@szhsin/react-menu';
 
-interface LeftListProps { }
+interface LeftListProps {}
 
 $settingLocalMusic.subscribe(() => {
   SirenStore.dispatch({

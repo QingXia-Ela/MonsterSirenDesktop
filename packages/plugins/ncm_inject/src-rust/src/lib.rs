@@ -1,4 +1,5 @@
 use std::ffi::c_void;
+
 mod injector;
 mod netease_struct;
 
@@ -20,8 +21,6 @@ pub extern "C" fn get_node_js_bundle() -> *const i8 {
 
 #[no_mangle]
 pub extern "C" fn init(app: tauri::AppHandle) -> *mut c_void {
-    // println!("Hello from ncm_inject!");
-    // injector::get_ncm_injector()
     let injector = injector::ncm_injector::get_ncm_injector(app);
     let boxed_injector = Box::new(injector);
 

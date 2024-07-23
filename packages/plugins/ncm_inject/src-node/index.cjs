@@ -1,10 +1,21 @@
 const fs = require('fs')
 const path = require('path')
 const tmpPath = require('os').tmpdir()
+const homePath = require('os').homedir()
 const { cookieToJson } = require('NeteaseCloudMusicApi/util/index')
 const UserPlaylist = require('NeteaseCloudMusicApi/module/user_playlist')
 
 let user_uid = process.env.NETEASE_USER_UID || null
+
+fs.readFile(
+  path.resolve(homePath, '.ncm_uid'),
+  'utf-8',
+  (err, data) => {
+    if (!err) {
+      user_uid = data
+    }
+  }
+)
 
 const parseRoute = (/** @type {string} */ fileName) => `/${fileName.replace(/\.js$/i, '').replace(/_/g, '/')}`
 // module import
@@ -22,8 +33,11 @@ const collect = {
   "playlist_track_all": require("NeteaseCloudMusicApi/module/playlist_track_all"),
   /** 歌曲详情 */
   "song_detail": require("NeteaseCloudMusicApi/module/song_detail"),
-  /** 歌曲url */
-  "song_url": require("NeteaseCloudMusicApi/module/song_url"),
+  /** 歌词 */
+  "lyric": require("NeteaseCloudMusicApi/module/lyric"),
+  /** 歌曲url @deprecated */
+  // "song_url": require("NeteaseCloudMusicApi/module/song_url"),
+  "song_download_url": require("NeteaseCloudMusicApi/module/song_download_url"),
   /** 游客token注册 */
   "register_anonimous": require("NeteaseCloudMusicApi/module/register_anonimous"),
   // 以下为自定义api
@@ -38,6 +52,11 @@ const collect = {
       }
     }
     user_uid = query.uid
+    fs.writeFileSync(
+      path.resolve(homePath, '.ncm_uid'),
+      user_uid,
+      'utf-8',
+    )
     return {
       status: 200,
       body: {
@@ -48,14 +67,14 @@ const collect = {
   "uid_get": async () => {
     if (!user_uid) {
       return {
-        status: 400,
+        code: 400,
         body: {
           message: 'uid is not set',
         }
       }
     }
     return {
-      status: 200,
+      code: 200,
       body: {
         uid: user_uid
       }

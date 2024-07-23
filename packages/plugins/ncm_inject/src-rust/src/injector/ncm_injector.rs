@@ -5,6 +5,8 @@ use monster_siren_desktop::{
 
 use async_trait::async_trait;
 
+use super::{OkUidReponseBody, UidResponseWrapper};
+
 fn get_sh() -> Song {
     Song {
         cid: "ncm:114514".to_string(),
@@ -47,6 +49,18 @@ fn get_bk() -> Song {
     }
 }
 
+async fn get_user_uid() -> Option<String> {
+    let res = reqwest::get("http://localhost:53753/uid/get").await;
+
+    match res {
+        Ok(res) => match res.json::<UidResponseWrapper<OkUidReponseBody>>().await {
+            Ok(res) => Some(res.body.uid),
+            Err(_) => None,
+        },
+        Err(_) => None,
+    }
+}
+
 #[repr(C)]
 struct NCMInjector {}
 
@@ -59,6 +73,9 @@ impl NCMInjector {
 #[async_trait]
 impl MusicInject for NCMInjector {
     async fn get_albums(&self) -> Vec<BriefAlbum> {
+        if let None = get_user_uid().await {
+            return vec![];
+        }
         vec![BriefAlbum {
             cid: "ncm:1919810".to_string(),
             cn_namespace: "网易云音乐".to_string(),
@@ -67,10 +84,12 @@ impl MusicInject for NCMInjector {
                 .to_string(),
             artistes: vec!["μ's".to_string()],
         }]
+        // 请求 user/playlist 获取用户歌单
     }
 
     async fn get_songs(&self) -> Vec<BriefSong> {
         vec![get_sh().into(), get_bk().into()]
+        // 返回空数组
     }
 
     async fn get_song(&self, cid: String) -> Result<Song, PluginRequestError> {
@@ -78,6 +97,8 @@ impl MusicInject for NCMInjector {
             "114514" => get_sh(),
             _ => get_bk(),
         })
+        // 请求 song/url?id=cid 获取歌曲音频 url
+        // 请求 song/detail?ids=cid 获取歌曲详情
     }
 
     async fn get_album(&self, _cid: String) -> Result<Album, PluginRequestError> {
@@ -98,6 +119,7 @@ impl MusicInject for NCMInjector {
             ],
             songs: vec![get_sh().into(), get_bk().into()],
         })
+        // 请求 playlist/detail?id=cid 获取歌单详情
     }
 }
 
