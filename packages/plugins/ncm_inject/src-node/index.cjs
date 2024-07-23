@@ -36,7 +36,8 @@ const collect = {
   /** 歌词 */
   "lyric": require("NeteaseCloudMusicApi/module/lyric"),
   /** 歌曲url @deprecated */
-  // "song_url": require("NeteaseCloudMusicApi/module/song_url"),
+  "song_url": require("NeteaseCloudMusicApi/module/song_url"),
+  /** 新版歌曲下载url */
   "song_download_url": require("NeteaseCloudMusicApi/module/song_download_url"),
   /** 游客token注册 */
   "register_anonimous": require("NeteaseCloudMusicApi/module/register_anonimous"),

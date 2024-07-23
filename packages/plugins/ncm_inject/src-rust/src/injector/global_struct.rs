@@ -12,7 +12,7 @@ pub struct SingleNeteaseUserPlaylist {
 impl From<SingleNeteaseUserPlaylist> for BriefAlbum {
     fn from(value: SingleNeteaseUserPlaylist) -> Self {
         Self {
-            cid: value.id.to_string(),
+            cid: format!("ncm:{}", value.id),
             name: value.name,
             cn_namespace: "网易云音乐".to_string(),
             cover_url: value.cover_img_url,
@@ -58,7 +58,7 @@ pub struct NeteasePlaylistDetailSingleSong {
 impl NeteasePlaylistDetailSingleSong {
     fn to_siren_brief_song(self, album_cid: String) -> BriefSong {
         BriefSong {
-            cid: self.id.to_string(),
+            cid: format!("ncm:{}", self.id),
             name: self.name,
             album_cid,
             artists: self.ar.into_iter().map(|a| a.name).collect(),
@@ -87,7 +87,7 @@ pub struct NeteasePlaylistDetailResponse {
 impl From<NeteasePlaylistDetailResponse> for Album {
     fn from(value: NeteasePlaylistDetailResponse) -> Self {
         Self {
-            cid: value.playlist.id.to_string(),
+            cid: format!("ncm:{}", value.playlist.id),
             name: value.playlist.name,
             cn_namespace: "网易云音乐".to_string(),
             intro: value.playlist.description.unwrap_or_default(),
@@ -115,12 +115,14 @@ pub struct NeteaseSongsDetailResponse {
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct NeteaseSongDownloadInfo {
     pub id: u64,
-    pub url: String,
+    /// Sometimes url cannot get, on this time code will change to other instead of 200.
+    pub url: Option<String>,
+    pub code: i32,
     pub br: u32,
     pub size: u32,
-    pub md5: String,
-    pub r#type: String,
-    pub level: String,
+    pub md5: Option<String>,
+    pub r#type: Option<String>,
+    pub level: Option<String>,
 }
 
 impl NeteaseSongDownloadInfo {
@@ -131,10 +133,14 @@ impl NeteaseSongDownloadInfo {
         lyric_url: Option<String>,
     ) -> Song {
         Song {
-            cid: self.id.to_string(),
+            cid: format!("ncm:{}", self.id),
             name: detail.name,
             album_cid,
-            source_url: self.url,
+            source_url: if let Some(url) = self.url {
+                url
+            } else {
+                String::new()
+            },
             lyric_url,
             mv_url: None,
             mv_cover_url: None,

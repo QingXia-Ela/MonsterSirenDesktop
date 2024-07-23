@@ -2,13 +2,24 @@ use libloading::Library;
 use tauri::Manager;
 
 use super::plugin_utils::*;
-use crate::{global_struct::music_injector::MusicInjector, plugin_error::PluginError, Logger};
-use std::{fmt::Debug, io::Write, os::windows::process::CommandExt};
+use crate::{
+    global_struct::music_injector::MusicInjector,
+    plugin_error::PluginError,
+    Logger::{self, debug},
+};
+use std::{
+    fmt::Debug,
+    io::{Read, Write},
+    os::windows::process::CommandExt,
+    process::Stdio,
+};
 
 pub fn get_node_process() -> Result<std::process::Child, std::io::Error> {
     let child = std::process::Command::new("node")
         .creation_flags(0x08000000)
         .stdin(std::process::Stdio::piped())
+        .stdout(Stdio::piped())
+        .stderr(Stdio::piped())
         .spawn()?;
 
     Logger::debug(format!("A new node process running with pid {}", child.id()).as_str());
@@ -70,6 +81,14 @@ impl PluginInstance {
 
     pub fn start(&mut self) -> Result<(), std::io::Error> {
         if self.node_js_string.len() > 10 && is_support_node().is_ok() {
+            debug(
+                format!(
+                    "nodejs_call by {}, len: {}",
+                    self.injector.namespace,
+                    self.node_js_string.len()
+                )
+                .as_str(),
+            );
             let mut res = call_node_js_bundle(self.app.clone(), &self.node_js_string)?;
 
             // Assuming `call_node_js_bundle` already writes the JS string to stdin, flush it.
@@ -84,6 +103,8 @@ impl PluginInstance {
             // Dropping the stdin to signal Node.js that there are no more data to read.
             drop(res.stdin.take()); // This will close the stdin stream.
 
+            // let output = res.wait_with_output().unwrap();
+            // println!("{:?}", String::from_utf8(output.stderr));
             self.node_js_process = Some(res);
         }
 

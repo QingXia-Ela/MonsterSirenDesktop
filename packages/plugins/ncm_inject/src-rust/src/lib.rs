@@ -26,3 +26,47 @@ pub extern "C" fn init(app: tauri::AppHandle) -> *mut c_void {
 
     Box::into_raw(boxed_injector) as *mut c_void
 }
+
+#[cfg(test)]
+mod running_nodejs_test {
+    use std::{
+        io::{Read, Write},
+        os::windows::process::CommandExt,
+    };
+
+    use crate::NODE_JS_BUNDLE;
+
+    pub fn get_node_process() -> Result<std::process::Child, std::io::Error> {
+        let child = std::process::Command::new("node")
+            .creation_flags(0x08000000)
+            .stdin(std::process::Stdio::piped())
+            .stdout(std::process::Stdio::piped())
+            .stderr(std::process::Stdio::piped())
+            .spawn()?;
+
+        Ok(child)
+    }
+
+    pub fn call_node_js_bundle(js: &str) -> Result<std::process::Child, std::io::Error> {
+        let mut child = get_node_process()?;
+        if let Some(ref mut stdin) = child.stdin {
+            stdin.write_all(js.as_bytes())?;
+        }
+
+        Ok(child)
+    }
+    #[test]
+    fn run() {
+        let mut child = call_node_js_bundle(NODE_JS_BUNDLE).unwrap();
+        // child.wait().unwrap();
+        // if let Some(ref mut stdout) = child.stderr {
+        //     let mut so_str = String::new();
+        //     loop {
+        //         stdout.read_to_string(&mut so_str);
+        //         println!("{so_str}");
+        //     }
+        // }
+        let output = child.wait_with_output().unwrap();
+        println!("{:?}", String::from_utf8(output.stderr));
+    }
+}

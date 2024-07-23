@@ -71,7 +71,7 @@ impl PluginManager {
                 lib,
                 self.app.clone(),
                 injector,
-                node.clone(),
+                node,
                 frontend.clone(),
             );
 
