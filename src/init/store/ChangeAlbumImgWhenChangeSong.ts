@@ -19,8 +19,10 @@ SirenStore.subscribe(() => {
       songDetail: { songCoverUrl },
     },
   } = SirenStore.getState();
+  // todo!: 修复直接播放列表内某一首歌曲时首先展示专辑 url 的问题。因为是先获取 song url，然后再次获取 album 图像，因此导致了覆盖。可以用一个优先级处理一下
   if (currentSongCoverImg !== songCoverUrl) {
     currentSongCoverImg = songCoverUrl;
+
     SirenStore.dispatch({
       type: 'musicPlay/setAlbumDetail',
       data: {

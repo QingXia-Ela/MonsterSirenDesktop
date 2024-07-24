@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>登录到网易云</title>
+    <style>
+        .mb-2 {
+            margin-bottom: .5rem;
+        }
+    </style>
+</head>
+
+<body>
+    <h3>登录网易云</h3>
+    <div class="mb-2">
+        <input type="text" id="account" placeholder="手机号" />
+    </div>
+    <div class="mb-2">
+        <input type="text" id="captcha" placeholder="手机验证码" />
+    </div>
+    <div class="mb-2">
+        <button id="send" onclick="sendCaptcha()">发送验证码</button>
+        <button id="login" onclick="requestLogin()">登录</button>
+    </div>
+</body>
+
+<script>
+    const sendBtn = document.getElementById("send")
+    const loginBtn = document.getElementById("login")
+
+    function sleep(time = 1000) {
+        return new Promise((resolve) => setTimeout(resolve, time));
+    }
+
+    async function fetchCaptchaSend(cellphone) {
+        try {
+            const res = await (await fetch("http://localhost:53753/captcha/sent?phone=" + cellphone)).json()
+            console.log('fetchCaptchaSend', res);
+        } catch (e) {
+            alert("请求失败，错误信息：" + e)
+        }
+    }
+    async function verifyLogin(cellphone, captcha) {
+        const res = await (await fetch(`http://localhost:53753/captcha/verify?phone=${cellphone}&captcha=${captcha}`)).json()
+        console.log('verifyLogin', res);
+        return res;
+    }
+    async function fetchLogin(cellphone, captcha) {
+        try {
+            const res = await (await fetch(`http://localhost:53753/login/cellphone?phone=${cellphone}&captcha=${captcha}&realIP=116.25.146.177`)).json()
+            if (res.cookie) {
+                alert("登录成功，可以关闭本页面开始听音乐了")
+            }
+            console.log('fetchLogin', res);
+        } catch (e) {
+            alert("请求登录失败，错误信息：" + e)
+        }
+    }
+    /** @type {HTMLInputElement} */
+    const accountInput = document.getElementById("account")
+    /** @type {HTMLInputElement} */
+    const captchaInput = document.getElementById("captcha")
+
+    async function sendCaptcha() {
+        let accountValue = accountInput.value
+        if (!accountValue || isNaN(Number(accountValue))) {
+            alert("手机号输入有误，请正确输入！多次输入错误和登录失败可能导致今天无法进行登陆操作。")
+            return
+        }
+        await fetchCaptchaSend(accountValue)
+        alert("验证码已发送！")
+        let cnt = 60
+        let timer = setInterval(() => {
+            if (cnt <= 0) {
+                clearInterval(timer)
+                sendBtn.innerHTML = `重新发送`
+                sendBtn.removeAttribute("disabled")
+            }
+            else {
+                cnt--
+                sendBtn.innerHTML = `重新发送(${cnt})`
+                sendBtn.setAttribute("disabled", "")
+            }
+        }, 1000)
+    }
+
+    async function requestLogin() {
+        let accountValue = accountInput.value
+        if (!accountValue || isNaN(Number(accountValue))) {
+            alert("手机号输入有误，请正确输入！多次输入错误和登录失败可能导致今天无法进行登陆操作。")
+            return
+        }
+
+        let captchaValue = captchaInput.value
+        if (!captchaValue) {
+            alert("验证码输入有误，请正确输入！多次输入错误和登录失败可能导致今天无法进行登陆操作。")
+            return
+        }
+        if ((await verifyLogin(accountValue, captchaValue)).data) {
+            await sleep()
+            await fetchLogin(accountValue, captchaValue)
+        }
+    }
+</script>
+
+</html>

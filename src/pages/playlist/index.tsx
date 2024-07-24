@@ -1,10 +1,10 @@
 import { RouterCombineProps } from '@/router/types';
-import { FunctionComponent, useEffect, useState } from 'react';
+import { FunctionComponent, useState } from 'react';
 import Styles from './index.module.scss';
 import LeftList from './components/LeftList';
 import RightDetails from './components/RightDetails';
 
-interface PlayListProps extends RouterCombineProps {}
+interface PlayListProps extends RouterCombineProps { }
 
 const PlayList: FunctionComponent<PlayListProps> = ({ active, ...props }) => {
   // first active always show

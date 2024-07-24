@@ -41,6 +41,7 @@ pub struct NeteaseBriefArtist {
 pub struct NeteaseBriefAlbum {
     pub id: u64,
     pub name: String,
+    #[serde(rename = "picUrl")]
     pub pic_url: Option<String>,
     // tns: Vec<String>,
 }
@@ -148,7 +149,7 @@ impl NeteaseSongDownloadInfo {
             artists: detail.ar.into_iter().map(|a| a.name).collect(),
             size: Some(self.size.into()),
             create_time: None,
-            song_cover_url: None,
+            song_cover_url: detail.al.pic_url,
         }
     }
 }

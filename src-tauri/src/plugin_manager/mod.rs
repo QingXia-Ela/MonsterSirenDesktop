@@ -56,7 +56,7 @@ impl PluginManager {
 
     pub fn load_plugin(&mut self, path: String) -> Result<String, PluginError> {
         let (node, frontend, plugin_injector, lib) = unsafe {
-            let lib = libloading::Library::new(&path).expect("load ncm_inject failed");
+            let lib = libloading::Library::new(&path).expect("load inject failed");
             (
                 get_js_string(&lib, "get_node_js_bundle").unwrap_or_default(),
                 get_js_string(&lib, "get_frontend_js").unwrap_or_default(),
@@ -108,7 +108,13 @@ impl PluginManager {
     pub fn start_all_plugin() {}
 
     /// Stop a plugin.
-    pub fn kill_plugin(namespace: String) {}
+    pub fn kill_plugin(&mut self, namespace: String) -> Option<plugin_instance::PluginInstance> {
+        self.plugin_map.remove(&namespace)
+    }
+
+    pub fn kill_all_plugin(&mut self) {
+        self.plugin_map.values_mut().for_each(|p| p.unload());
+    }
 
     /// A macro, same as running `kill_plugin` and `start_plugin` next;
     pub fn restart_plugin(namespace: String) {}

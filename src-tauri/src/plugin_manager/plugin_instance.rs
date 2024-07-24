@@ -1,6 +1,8 @@
 use libloading::Library;
 use tauri::Manager;
 
+// type a =CommandL
+
 use super::plugin_utils::*;
 use crate::{
     global_struct::music_injector::MusicInjector,
@@ -46,6 +48,7 @@ pub struct PluginInstance {
     pub node_js_process: Option<std::process::Child>,
     pub node_js_string: String,
     pub frontend_js_string: String,
+    pub pid: Option<u32>,
 }
 
 impl Debug for PluginInstance {
@@ -59,6 +62,17 @@ impl Debug for PluginInstance {
             .finish()
     }
 }
+
+// child process will not kill unless we call kill manually
+// this happen when father exit and memory drop?
+// impl Drop for PluginInstance {
+//     fn drop(&mut self) {
+//         if let Some(ref mut child) = self.node_js_process {
+//             let _ = child.kill();
+//             let _ = child.wait();
+//         }
+//     }
+// }
 
 impl PluginInstance {
     pub fn new(
@@ -76,6 +90,7 @@ impl PluginInstance {
             node_js_process: None,
             node_js_string,
             frontend_js_string,
+            pid: None,
         }
     }
 
@@ -90,6 +105,7 @@ impl PluginInstance {
                 .as_str(),
             );
             let mut res = call_node_js_bundle(self.app.clone(), &self.node_js_string)?;
+            self.pid = Some(res.id());
 
             // Assuming `call_node_js_bundle` already writes the JS string to stdin, flush it.
             res.stdin
@@ -124,7 +140,7 @@ impl PluginInstance {
 
     pub fn unload(&mut self) {
         if let Some(mut process) = self.node_js_process.take() {
-            process.kill().unwrap();
+            let _ = process.kill();
         }
     }
 

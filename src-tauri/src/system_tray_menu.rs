@@ -1,6 +1,9 @@
+use std::sync::{Arc, Mutex};
+
 use crate::global_event::{audio_instance, store};
 use crate::global_utils::get_main_window;
-use tauri::{CustomMenuItem, SystemTrayMenu};
+use crate::plugin_manager::PluginManager;
+use tauri::{CustomMenuItem, Manager, SystemTrayMenu};
 use tauri::{SystemTray, SystemTrayEvent};
 
 fn show_and_focus(app: &tauri::AppHandle) {
@@ -16,6 +19,7 @@ pub fn system_tray_event_handler(app: &tauri::AppHandle, event: SystemTrayEvent)
         }
         SystemTrayEvent::MenuItemClick { id, .. } => match id.as_str() {
             "quit" => {
+                // app.manage(state)
                 std::process::exit(0);
             }
             "show" => {
