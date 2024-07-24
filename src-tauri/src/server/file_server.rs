@@ -2,13 +2,15 @@ mod handle_request;
 pub mod utils;
 use futures::{executor::block_on, lock::Mutex};
 use handle_request::handle_request;
+use reqwest::StatusCode;
 use std::{
     collections::HashMap,
     net::SocketAddrV4,
     sync::Arc,
     thread::{self, JoinHandle},
 };
-use warp::Filter;
+use warp::http::Response;
+use warp::{filters::path::FullPath, Filter};
 
 pub struct FileServer {
     pub port: u16,
@@ -34,15 +36,36 @@ impl FileServer {
     #[tokio::main]
     pub async fn listen(&self) {
         let alias_clone = Arc::clone(&self.path_alias);
-        let proxy = warp::path::full()
+        // 用于处理一些只能通过url获取的资源如歌词，塞壬唱片网页中歌词是直接通过url获取，而不是内联在歌曲详细信息
+        let echo = warp::get()
+            .and(warp::path("echo"))
+            .and(warp::query::<HashMap<String, String>>())
+            // @see https://github.com/seanmonstar/warp/blob/master/examples/dyn_reply.rs
+            .map(|p: HashMap<String, String>| match p.get("value") {
+                Some(value) => Response::builder()
+                    .header("Content-Type", "application/octet-stream")
+                    .header("Access-Control-Allow-Origin", "*")
+                    .body(value.replace("[", "\n[")),
+                None => Response::builder()
+                    .status(StatusCode::NOT_FOUND)
+                    .body("".to_string()),
+            });
+        let file_handle = warp::path::full()
             .and(warp::query::<HashMap<String, String>>())
             .and(warp::header::optional::<String>("range"))
-            .and_then(move |p, q, r| {
-                let alias_clone = Arc::clone(&alias_clone);
-                handle_request(p, q, r, alias_clone)
-            });
+            // .and_then(move |p, q, r| {
+            //     let alias_clone = Arc::clone(&alias_clone);
+            //     handle_request(p, q, r, alias_clone)
+            // });
+            .and_then(
+                move |p: FullPath, q: HashMap<String, String>, r: Option<String>| {
+                    let alias_clone = Arc::clone(&alias_clone);
+                    handle_request(p, q, r, alias_clone)
+                },
+            );
+        let routes = warp::get().and(echo.or(file_handle));
         let addr: SocketAddrV4 = format!("127.0.0.1:{}", self.port).parse().unwrap();
-        warp::serve(proxy).run(addr).await;
+        warp::serve(routes).run(addr).await;
     }
     /// Insert alias.
     ///
@@ -67,10 +90,10 @@ pub fn spawn_file_server(port: u16, init_alias: Option<HashMap<String, String>>)
 
 #[cfg(test)]
 mod server_test {
-    use super::*;
     // note: this test will not end unless you stop it manually.
+    use super::*;
     #[tokio::test]
     pub async fn test_insert_alias() {
-        // let _ = spawn_file_server(11453, None).join();
+        let _ = spawn_file_server(11453, None).join();
     }
 }

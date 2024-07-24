@@ -35,7 +35,6 @@ impl MusicInject for NCMInjector {
     async fn get_song(&self, cid: String) -> Result<Song, PluginRequestError> {
         // 请求 song/url?id=cid 获取歌曲音频 url
         // 请求 song/detail?ids=cid 获取歌曲详情
-        // todo!: 处理歌曲 id 不包含播放列表 id 来源的问题
         match cid.split_once("-") {
             Some((album_cid, cid)) => self
                 .request_handler

@@ -18,12 +18,15 @@ pub struct NcmRequestHandler {
 
 async fn get_netease_audio_lyric(cid: &String) -> Option<String> {
     // todo!: finish this
-    // if let Ok(res) = reqwest::get(format!("{REQUEST_BASE}/lyric?id={cid}").as_str()).await {
-    //     if let Ok(res) = res.json::<NeteaseLyricResponse>().await {
-    //         // todo!: add multi lrc support
-    //         return Some(res.lrc.lyric);
-    //     }
-    // }
+    if let Ok(res) = reqwest::get(format!("{REQUEST_BASE}/lyric?id={cid}").as_str()).await {
+        if let Ok(res) = res.json::<NeteaseLyricResponse>().await {
+            // todo!: add multi lrc support
+            return Some(format!(
+                "http://localhost:11453/echo?value={}",
+                res.lrc.lyric
+            ));
+        }
+    }
     None
 }
 
