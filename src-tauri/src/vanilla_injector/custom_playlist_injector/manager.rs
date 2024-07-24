@@ -310,12 +310,14 @@ impl CustomPlaylistManager {
     }
 
     /// playlist_id should include namespace
+    // todo!: 过滤掉命名空间不存在的歌曲
     pub async fn get_playlist(&self, playlist_id: &String) -> Option<SinglePlaylistInfo> {
         // todo!: add fetch from disk
         self.data.lock().await.get(playlist_id).map(|x| x.clone())
     }
 
     // This method is call in high frequency, need to optimize
+    // todo!: 过滤掉命名空间不存在的歌曲
     pub async fn get_all_playlists(&self, force_refresh: bool) -> Vec<SinglePlaylistInfo> {
         // todo!: add fetch from disk
         let mut time_lock = GLOBAL_DISK_UPDATE_TIME.lock().await;
