@@ -106,41 +106,6 @@ function parseAlbumListToBottomList(
   return Object.values(map);
 }
 
-// const useControlledMenu = (options: any) => {
-//   const [anchorPoint, setAnchorPoint] = useState<any>();
-//   const [menuProps, toggleMenu] = useMenuState(options);
-//   const [event, setEvent] = useState<{
-//     e: React.MouseEvent<HTMLElement>;
-//     // todo!: change cid to full song info
-//     cid: string;
-//   } | null>(null);
-
-//   const contextProps = {
-//     onContextMenu: (e: any) => {
-//       e.preventDefault();
-//       setAnchorPoint({ x: e.clientX, y: e.clientY });
-//       toggleMenu(true);
-
-//       let cid = findItemId(e);
-//       if (cid) {
-//         setEvent({ e, cid });
-//       }
-//     },
-//   };
-
-//   return {
-//     event,
-//     contextProps,
-//     menuProps: {
-//       ...menuProps,
-//       anchorPoint,
-//       onClose: () => toggleMenu(false),
-//     },
-//     operation: {
-//       close: () => toggleMenu(false),
-//     },
-//   };
-// };
 let timer: any = null;
 // todo!: 当本地文件夹被移除时需要检查当前页选择的文件夹是否为被移除的文件夹，如果是则需要清空激活状态
 const LeftList: FunctionComponent<LeftListProps> = () => {

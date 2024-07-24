@@ -15,6 +15,7 @@ const GlobalNotifyComponent: FunctionComponent<
   const [curMsg, setCurMsg] = useState<NotifyMessageProps>();
   const [open, setOpen] = useState(false);
 
+  // todo!: optimize this, seperate side effects
   useEffect(() => {
     // 当事件在同一帧被触发时 react 只会接受最后一个触发
     // 这个 channel 对于每个 key 只会有一个监听函数，新函数会替代旧函数，所以直接调用 listen api

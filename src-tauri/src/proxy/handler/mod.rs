@@ -21,6 +21,7 @@ use reqwest::{
 use std::{borrow::BorrowMut, collections::HashMap, sync::Arc};
 use warp::{
     filters::path::FullPath,
+    reject::Rejection,
     reply::{Reply, Response},
 };
 
@@ -35,8 +36,9 @@ lazy_static! {
   static ref ALBUM_REGEX: Regex = Regex::new(r"/album/(?P<namespace>\w+):(?P<id>.+)/.+").unwrap();
 }
 
-fn parse_plugin_request_error_2_warp_rejection(err: PluginRequestError) -> warp::Rejection {
-    warp::reject::custom(err)
+fn parse_plugin_request_error_2_warp_rejection(err: PluginRequestError) -> warp::reply::Response {
+    // warp::reject::
+    err.into()
 }
 
 /// Get response from string
@@ -131,7 +133,7 @@ pub async fn handle_request_with_plugin(
                     ));
                 }
                 Err(e) => {
-                    return Err(parse_plugin_request_error_2_warp_rejection(e.into()));
+                    return Ok(parse_plugin_request_error_2_warp_rejection(e.into()));
                 }
             };
         }
@@ -157,7 +159,7 @@ pub async fn handle_request_with_plugin(
                     ));
                 }
                 Err(e) => {
-                    return Err(parse_plugin_request_error_2_warp_rejection(e.into()));
+                    return Ok(parse_plugin_request_error_2_warp_rejection(e.into()));
                 }
             };
         }

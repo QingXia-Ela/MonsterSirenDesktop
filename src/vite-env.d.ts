@@ -1,11 +1,14 @@
 /// <reference types="vite/client" />
 /// <reference types="@monster-siren-desktop/types/bindings/invoke" />
 
+import { NotifyMessageProps } from './global_event/frontend_notify/channel';
+import Channel from './tools/channel';
 import { SirenRouter } from './types/SirenRouter';
 import type { SirenStore } from './types/SirenStore';
 
 declare global {
   declare module globalThis {
+    const inject_notify: Channel<NotifyMessageProps>;
     // todo!: finish typescript type declaration
     const siren_config: Record<string, any>;
     const siren_store: SirenStore;

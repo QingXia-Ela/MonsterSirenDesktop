@@ -16,6 +16,7 @@ const {
 const $PlayListState = atom<{
   currentAlbumId: string;
   loading: boolean;
+  status: 'pending' | 'ok' | 'error' | 'init';
   currentAlbumInfo: AlbumData;
   currentAlbumData: SirenStoreState['player']['list'];
   fetchedAlbumList: boolean;
@@ -23,6 +24,7 @@ const $PlayListState = atom<{
 }>({
   currentAlbumId: albumDetail.cid,
   loading: false,
+  status: 'init',
   // todo!: remove artistes and change to correct type
   currentAlbumInfo: { ...albumDetail, artistes: [] },
   currentAlbumData: [],
@@ -71,29 +73,55 @@ export async function updateAlbumList() {
 }
 
 let lastOpId: string;
+let timer: any;
 /**
  * @param id 专辑 id
  */
 export async function setCurrentAlbumId(id: string) {
   // 防止上一个 Promise 未完成但是下一个 Promise 已经被触发导致的数据覆盖
+  timer = +new Date();
   lastOpId = id;
   $PlayListState.set({
     ...$PlayListState.get(),
+    status: 'pending',
     currentAlbumId: id,
     loading: true,
   });
 
   // todo!: add type declare
-  const [{ data: res }, info] = await Promise.all([
-    getListData(id),
-    getAlbumData(id),
-  ]);
+  try {
+    const [{ data: res }, info] = await Promise.all([
+      getListData(id),
+      getAlbumData(id),
+    ]);
+    let end_req_time = /* 1.5 sec at least wait */ 1000 + +new Date() - timer;
+    setTimeout(
+      () => {
+        if (!info) {
+          $PlayListState.set({
+            ...$PlayListState.get(),
+            status: 'error',
+            loading: false,
+          });
+          return;
+        }
 
-  if (lastOpId === id) {
+        if (lastOpId === id) {
+          $PlayListState.set({
+            ...$PlayListState.get(),
+            status: 'ok',
+            currentAlbumData: res.songs,
+            currentAlbumInfo: info,
+            loading: false,
+          });
+        }
+      },
+      end_req_time > 0 ? end_req_time : 0,
+    );
+  } catch (e) {
     $PlayListState.set({
       ...$PlayListState.get(),
-      currentAlbumData: res.songs,
-      currentAlbumInfo: info,
+      status: 'error',
       loading: false,
     });
   }
@@ -104,6 +132,7 @@ export function clearCurrentAlbum() {
   $PlayListState.set({
     currentAlbumId: '',
     currentAlbumData: [],
+    status: 'init',
     loading: false,
     currentAlbumInfo,
     fetchedAlbumList: false,

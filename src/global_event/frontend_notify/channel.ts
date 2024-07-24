@@ -16,4 +16,6 @@ export interface NotifyMessageProps {
  */
 const GlobalNotifyChannel = new Channel<NotifyMessageProps>();
 
+window.inject_notify = GlobalNotifyChannel;
+
 export default GlobalNotifyChannel;

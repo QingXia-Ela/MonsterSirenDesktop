@@ -18,6 +18,7 @@ import './global_event';
 import './optimize';
 import SidebarWrapper from './layout/sidebar/wrapper';
 import SirenStore from './store/SirenStore';
+import GlobalNotifyChannel from './global_event/frontend_notify/channel';
 
 // action
 if ($settingAdvancement.get().logStore) {
@@ -45,6 +46,15 @@ window.addEventListener('keydown', (e) => {
 // 获取专辑列表
 SirenStore.dispatch({
   type: 'music/getAlbumList',
+});
+
+// 捕获全局错误
+window.addEventListener('error', (event) => {
+  GlobalNotifyChannel.emit('notify', {
+    severity: 'error',
+    title: '全局错误',
+    content: event.error.message,
+  });
 });
 
 ReactDOM.createRoot(

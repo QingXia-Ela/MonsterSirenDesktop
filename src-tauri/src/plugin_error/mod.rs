@@ -1,14 +1,31 @@
-use reqwest;
-use warp;
+use reqwest::{self, StatusCode};
+use serde::{Deserialize, Serialize};
+use warp::{self, reply::Reply};
 
-#[derive(Debug)]
+#[derive(Debug, Serialize, Deserialize)]
 pub struct PluginRequestError {
+    #[serde(rename = "msg")]
     message: String,
 }
 
 impl PluginRequestError {
     pub fn new(message: String) -> Self {
         PluginRequestError { message }
+    }
+
+    pub fn to_json(&self) -> String {
+        serde_json::to_string(self).unwrap()
+    }
+}
+
+impl From<PluginRequestError> for warp::reply::Response {
+    fn from(value: PluginRequestError) -> Self {
+        warp::reply::with_header(
+            warp::reply::with_status(value.to_json(), StatusCode::INTERNAL_SERVER_ERROR),
+            "Access-Control-Allow-Origin",
+            "*",
+        )
+        .into_response()
     }
 }
 

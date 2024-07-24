@@ -183,6 +183,8 @@ pub fn get_basic_filter_rules(mut settings: Vec<CdnProxyRules>) -> FilterType {
         }
     }
 
+    // todo!: 增加移除 google analysis 和 hg sdk 的跟踪
+
     rules
 }
 

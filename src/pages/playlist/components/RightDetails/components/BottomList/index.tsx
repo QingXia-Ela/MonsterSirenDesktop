@@ -6,6 +6,8 @@ import $PlayListState from '@/store/pages/playlist';
 import EmptyTips from '../EmptyTips';
 import BlackMenu from '@/components/ContextMenu/BlackMenuV2';
 import { useMenuState } from '@szhsin/react-menu';
+import RetryTips from '../RetryTips';
+import PendingTips from '../PendingTips';
 
 interface RightDetailsBottomListProps {
   ContextMenu?: (...args: any) => JSX.Element;
@@ -63,11 +65,20 @@ const useControlledMenu = (options: any) => {
 const RightDetailsBottomList: FunctionComponent<
   RightDetailsBottomListProps
 > = ({ ContextMenu }) => {
-  const { currentAlbumData: list, currentAlbumInfo: info } =
-    useStore($PlayListState);
+  const {
+    currentAlbumData: list,
+    currentAlbumInfo: info,
+    status,
+  } = useStore($PlayListState);
   const { event, contextProps, menuProps, operation } = useControlledMenu({
     transition: true,
   });
+
+  if (status === 'error') {
+    return <RetryTips />;
+  } else if (status === 'pending') {
+    return <PendingTips />;
+  }
 
   return list.length ? (
     <>
