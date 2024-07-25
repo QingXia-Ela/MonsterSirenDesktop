@@ -63,7 +63,6 @@ fn main() {
     let builder = tauri::Builder::default().setup(move |app| {
         let core_app = app.get_window("main").unwrap();
         core_app.eval("window.siren_config = {}").unwrap();
-        // todo!: 在恰当的地方调用 unload 事件来释放插件资源
         init(app.handle());
         Logger::info("App init finished");
         Ok(())
@@ -77,8 +76,10 @@ fn main() {
             tauri_commands::change_tray_tooltip
         ])
         .on_window_event(move |event| match event.event() {
+            //  Destroyed is trigger on window close, hide to system tray is trigger on other event
             WindowEvent::Destroyed => {
                 let app = event.window().app_handle();
+                // todo!: optimize this
                 app.state::<Arc<Mutex<PluginManager>>>()
                     .lock()
                     .unwrap()

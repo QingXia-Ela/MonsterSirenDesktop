@@ -310,7 +310,7 @@ impl CustomPlaylistManager {
     }
 
     /// playlist_id should include namespace
-    // todo!: 过滤掉命名空间不存在的歌曲
+    // todo!: 过滤掉命名空间不存在的歌曲，参考思路可以调用 app manage 的 `Arc<Mutex<PlulginManager>>` 来获取所有命名空间，但是需要考虑并发冲突
     pub async fn get_playlist(&self, playlist_id: &String) -> Option<SinglePlaylistInfo> {
         // todo!: add fetch from disk
         self.data.lock().await.get(playlist_id).map(|x| x.clone())

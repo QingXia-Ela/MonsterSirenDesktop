@@ -18,6 +18,9 @@ await esbuild.build({
   },
   external: ['fs'],
   minify: true,
+  loader: {
+    '.html': "text"
+  }
 })
 
 logger.info('build node code ./dist/bundle.cjs success')

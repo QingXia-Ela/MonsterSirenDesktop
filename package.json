@@ -14,7 +14,8 @@
     "lint": "npx prettier ./src --write",
     "storybook": "set STORYBOOK=true&& storybook dev -p 6006",
     "build-storybook": "storybook build",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "release": "release-it"
   },
   "dependencies": {
     "@emotion/react": "^11.11.1",
@@ -45,6 +46,7 @@
   },
   "devDependencies": {
     "@iconify/react": "^4.1.1",
+    "@release-it/conventional-changelog": "^8.0.1",
     "@storybook/addon-essentials": "7.4.6",
     "@storybook/addon-interactions": "7.4.6",
     "@storybook/addon-links": "7.4.6",
@@ -78,6 +80,7 @@
     "lint-staged": "^15.1.0",
     "postcss": "^8.4.26",
     "prettier": "3.0.3",
+    "release-it": "^17.6.0",
     "storybook": "7.4.6",
     "tailwindcss": "^3.3.3",
     "typescript": "^5.3.2",
