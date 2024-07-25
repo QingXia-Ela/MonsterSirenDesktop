@@ -11,3 +11,8 @@ inject.css
 
 # ts-rs bindings
 bindings
+
+# siren resources
+assets/siren
+
+ignored-assets

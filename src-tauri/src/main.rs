@@ -3,6 +3,7 @@
     all(not(debug_assertions), target_os = "windows"),
     windows_subsystem = "windows"
 )]
+// include!(concat!(env!("OUT_DIR"), "/inline_siren_resources.rs"));
 extern crate lazy_static;
 #[allow(non_snake_case)]
 mod Logger;
@@ -27,6 +28,7 @@ use proxy::{api_proxy::spawn_api_proxy, cdn_proxy::spawn_cdn_proxy};
 use server::file_server::spawn_file_server;
 use std::sync::{Arc, Mutex};
 use tauri::*;
+use Logger::debug;
 
 /// invoke on setup hook
 ///
@@ -50,7 +52,7 @@ fn init(app: tauri::AppHandle) -> Arc<Mutex<PluginManager>> {
     let _ = plugin_manager.start();
     config::init_window_from_config(&mut main_window, &app_config);
     spawn_file_server(11453, None);
-    spawn_cdn_proxy(&app_config);
+    spawn_cdn_proxy(app.app_handle(), &app_config);
     spawn_api_proxy(app.app_handle(), plugin_manager.get_all_injector());
     let arc_manager = Arc::new(Mutex::new(plugin_manager));
     app.manage(Arc::clone(&arc_manager));
@@ -85,11 +87,11 @@ fn main() {
                     .unwrap()
                     .kill_all_plugin();
                 #[cfg(debug_assertions)]
-                println!("destroyed");
+                debug("destroyed");
             }
             e => {
-                #[cfg(debug_assertions)]
-                println!("event: {:?}", e);
+                // #[cfg(debug_assertions)]
+                // debug(format!("event: {:?}", e).as_str());
             }
         })
         .run(tauri::generate_context!())
