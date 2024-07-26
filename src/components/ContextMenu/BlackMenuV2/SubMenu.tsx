@@ -13,10 +13,10 @@ export default styled(({ ...p }: SubMenuProps) => (
     color: '#fff',
     padding: '0.2rem 0.4rem',
     '&:hover': {
-      backgroundColor: '#333',
+      backgroundColor: '#333 !important',
     },
     '&::after': {
-      right: '.4rem',
+      right: '.4rem !important',
     },
   },
 }));

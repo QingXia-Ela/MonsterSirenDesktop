@@ -9,8 +9,9 @@ const options = {
 };
 
 export default async function startSirenWebsiteScrape() {
-  if ((await fs.stat(options.directory)).isDirectory())
-    await fs.rmdir(options.directory, { recursive: true });
+  try {
+    await fs.rm(options.directory, { recursive: true });
+  } catch (e) { }
   // with async/await
   return await scrape(options);
 

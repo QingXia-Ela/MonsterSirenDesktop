@@ -36,7 +36,10 @@ function Plugin() {
       sourceSirenStr = sourceSirenStr
         .replace('window.g_useSSR = true;', '')
         .replace(initalProps, '')
-        .replace(`<link data-react-helmet="true" rel="manifest" href="/manifest.json">`, "");
+        .replace(
+          `<link data-react-helmet="true" rel="manifest" href="/manifest.json">`,
+          '',
+        );
 
       if (process.env.NODE_ENV === 'production') {
         // download siren website vanilla files.

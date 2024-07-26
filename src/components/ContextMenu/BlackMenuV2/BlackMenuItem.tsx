@@ -9,8 +9,8 @@ export default styled(({ ...p }: MenuItemProps) => (
   fontSize: '0.34rem',
   transition: 'background-color .3s',
   color: '#fff',
-  padding: '0.2rem 0.4rem',
+  padding: '0.2rem 0.4rem !important',
   '&:hover': {
-    backgroundColor: '#333',
+    backgroundColor: '#333 !important',
   },
 }));

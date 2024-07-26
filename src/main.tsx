@@ -48,15 +48,6 @@ SirenStore.dispatch({
   type: 'music/getAlbumList',
 });
 
-// 捕获全局错误
-window.addEventListener('error', (event) => {
-  GlobalNotifyChannel.emit('notify', {
-    severity: 'error',
-    title: '全局错误',
-    content: event.error.message,
-  });
-});
-
 ReactDOM.createRoot(
   document.getElementById('inject-app') as HTMLElement,
 ).render(
@@ -72,3 +63,12 @@ ReactDOM.createRoot(
     <SidebarWrapper />
   </React.StrictMode>,
 );
+
+// 捕获全局错误
+window.addEventListener('error', (event) => {
+  GlobalNotifyChannel.emit('notify', {
+    severity: 'error',
+    title: '错误',
+    content: event.error.message,
+  });
+});
