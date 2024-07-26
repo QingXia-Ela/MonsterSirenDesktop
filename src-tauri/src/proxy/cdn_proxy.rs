@@ -1,9 +1,8 @@
-use include_dir::{include_dir, Dir, DirEntry};
+use include_dir::{include_dir, DirEntry};
 use monster_siren_desktop::logger::debug;
 use std::{
     borrow::BorrowMut,
     collections::{HashMap, HashSet},
-    io::Read,
     net::SocketAddrV4,
     sync::Arc,
     thread::{self, JoinHandle},
@@ -11,7 +10,6 @@ use std::{
 
 use futures::executor::block_on;
 use lazy_static::lazy_static;
-use once_cell::sync::Lazy;
 use reqwest::{
     header::{HeaderMap, ACCESS_CONTROL_ALLOW_ORIGIN, CONTENT_LENGTH},
     Client,
@@ -42,6 +40,8 @@ fn parse_dir_2_kv(dir: &DirEntry, map: &mut HashMap<String, Vec<u8>>) {
         }
     }
 }
+
+#[derive(Debug)]
 pub struct CdnProxy {}
 
 impl CdnProxy {
@@ -53,29 +53,26 @@ impl CdnProxy {
     /// })
     /// ```
     #[tokio::main]
-    pub async fn new(port: u16, api_port: u16, filter_rules: FilterType) -> Self {
+    pub async fn new(
+        port: u16,
+        api_port: u16,
+        filter_rules: FilterType,
+        mut cdn_cache: Option<HashMap<String, Vec<u8>>>,
+    ) -> Self {
         let proxy = warp::path::full()
             .and(warp::header::headers_cloned())
             .and_then(move |p, h| handle_request(p, h, port, api_port, filter_rules.clone()));
 
-        // insert siren assets
-        // todo!:  sdk need to handle
-        let dirmap = include_dir!("$CARGO_MANIFEST_DIR/ignored-assets/web.hycdn.cn");
-        {
+        let mut static_assets_header = HeaderMap::new();
+        static_assets_header.insert(ACCESS_CONTROL_ALLOW_ORIGIN, "*".parse().unwrap());
+
+        if let Some(mut cdn_cache) = cdn_cache {
             let mut cache = REQUEST_CACHE.lock().await;
 
-            let mut static_assets_header = HeaderMap::new();
-            static_assets_header.insert(ACCESS_CONTROL_ALLOW_ORIGIN, "*".parse().unwrap());
+            // web sdk return empty js, just only trigger umi load successful event so that website can be loaded
+            cdn_cache.insert(String::from("hg_web_sdk/lib/sdk.entry.js"), vec![]);
 
-            let mut inline_assets_map = HashMap::new();
-
-            // web sdk return empty js
-            inline_assets_map.insert(String::from("hg_web_sdk/lib/sdk.entry.js"), vec![]);
-
-            for entry in dirmap.entries() {
-                parse_dir_2_kv(entry, &mut inline_assets_map);
-            }
-            for (k, v) in inline_assets_map.into_iter() {
+            for (k, v) in cdn_cache.into_iter() {
                 let b = bytes::Bytes::from(v);
 
                 cache.insert(
@@ -110,7 +107,6 @@ async fn handle_request(
     } else {
         path.as_str()
     };
-    // todo!: add disk / inline save cdn cache
     if let Some(v) = REQUEST_CACHE.lock().await.get(target_url) {
         #[cfg(debug_assertions)]
         debug(format!("Cache hit: {}", path.as_str()).as_str());
@@ -206,6 +202,7 @@ pub enum CdnProxyRules {
     ExposeHistory,
     ExposeAudioContext,
     RemoveServiceWorker,
+    RemoveSdkEntry,
 }
 
 pub fn get_basic_filter_rules(mut settings: Vec<CdnProxyRules>) -> FilterType {
@@ -217,6 +214,7 @@ pub fn get_basic_filter_rules(mut settings: Vec<CdnProxyRules>) -> FilterType {
         CdnProxyRules::ExposeAudioContext,
         CdnProxyRules::LogStoreChange,
         CdnProxyRules::RemoveServiceWorker,
+        CdnProxyRules::RemoveSdkEntry,
     ]);
     let settings = settings
         .into_iter()
@@ -247,6 +245,10 @@ pub fn get_basic_filter_rules(mut settings: Vec<CdnProxyRules>) -> FilterType {
                 "&&navigator.serviceWorker.register(\"/service-worker.js\")",
                 "",
             ]),
+            CdnProxyRules::RemoveSdkEntry => rules.push([
+                ",window.document.head.appendChild(s)),s.addEventListener(\"error\",u)",
+                ")",
+            ]),
         }
     }
 
@@ -262,8 +264,18 @@ pub fn spawn_cdn_proxy(app: tauri::AppHandle, config: &crate::config::Config) ->
         rules.push(CdnProxyRules::PreventAutoplay)
     }
 
+    let mut cdn_cache = HashMap::new();
+
+    // insert siren assets
+    // if inline code is write in tokio codeblock will cause inline twice time when bundle
+    let dirmap = include_dir!("$CARGO_MANIFEST_DIR/ignored-assets/web.hycdn.cn");
+
+    for entry in dirmap.entries() {
+        parse_dir_2_kv(entry, &mut cdn_cache);
+    }
+
     thread::spawn(|| {
-        CdnProxy::new(11451, 11452, get_basic_filter_rules(rules));
+        CdnProxy::new(11451, 11452, get_basic_filter_rules(rules), Some(cdn_cache));
     })
 }
 

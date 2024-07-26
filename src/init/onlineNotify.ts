@@ -1,4 +1,4 @@
-import GlobalNotifyChannel from "@/global_event/frontend_notify/channel";
+import GlobalNotifyChannel from '@/global_event/frontend_notify/channel';
 
 function onlineSwitchTip(online: boolean) {
   if (online) {
@@ -16,13 +16,13 @@ function onlineSwitchTip(online: boolean) {
   }
 }
 
-window.addEventListener('online', () => onlineSwitchTip(true))
-window.addEventListener('offline', () => onlineSwitchTip(false))
+window.addEventListener('online', () => onlineSwitchTip(true));
+window.addEventListener('offline', () => onlineSwitchTip(false));
 
 if (!window.navigator.onLine) {
   GlobalNotifyChannel.emit('notify', {
     severity: 'info',
     title: '无网络',
     content: '你似乎处于离线模式，部分在线功能已停用。',
-  })
+  });
 }

@@ -11,7 +11,7 @@ const options = {
 export default async function startSirenWebsiteScrape() {
   try {
     await fs.rm(options.directory, { recursive: true });
-  } catch (e) { }
+  } catch (e) {}
   // with async/await
   return await scrape(options);
 
