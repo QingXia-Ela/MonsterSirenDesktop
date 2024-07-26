@@ -15,14 +15,17 @@
 #inject-sidebar {
   @font-face {
     font-family: 'SourceHanSansCN-Bold';
-    src: url(@/assets/fonts/SourceHanSansCN-Bold.otf);
+    // todo!: reduce file size
+    src: url(@/assets/fonts/SourceHanSansCN-Bold.woff2);
   }
 
   z-index: 1000;
   position: fixed;
   top: 0;
   left: 0;
-  font-family: 'SourceHanSansCN-Bold', 'Microsoft Yahei', sans-serif;
+  font-family: 'SourceHanSansCN-Bold',
+  'Microsoft Yahei',
+  sans-serif;
 }
 
 // make css level lower
@@ -62,6 +65,7 @@
 }
 
 .scrollbar__hidden {
+
   /* webkit */
   &::-webkit-scrollbar {
     width: 0;

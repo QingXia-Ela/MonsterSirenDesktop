@@ -1,5 +1,5 @@
 use include_dir::{include_dir, Dir, DirEntry};
-use monster_siren_desktop::Logger::debug;
+use monster_siren_desktop::logger::debug;
 use std::{
     borrow::BorrowMut,
     collections::{HashMap, HashSet},
@@ -59,12 +59,19 @@ impl CdnProxy {
             .and_then(move |p, h| handle_request(p, h, port, api_port, filter_rules.clone()));
 
         // insert siren assets
+        // todo!:  sdk need to handle
         let dirmap = include_dir!("$CARGO_MANIFEST_DIR/ignored-assets/web.hycdn.cn");
         {
             let mut cache = REQUEST_CACHE.lock().await;
+
             let mut static_assets_header = HeaderMap::new();
             static_assets_header.insert(ACCESS_CONTROL_ALLOW_ORIGIN, "*".parse().unwrap());
+
             let mut inline_assets_map = HashMap::new();
+
+            // web sdk return empty js
+            inline_assets_map.insert(String::from("hg_web_sdk/lib/sdk.entry.js"), vec![]);
+
             for entry in dirmap.entries() {
                 parse_dir_2_kv(entry, &mut inline_assets_map);
             }
@@ -198,6 +205,7 @@ pub enum CdnProxyRules {
     ExposeStore,
     ExposeHistory,
     ExposeAudioContext,
+    RemoveServiceWorker,
 }
 
 pub fn get_basic_filter_rules(mut settings: Vec<CdnProxyRules>) -> FilterType {
@@ -208,6 +216,7 @@ pub fn get_basic_filter_rules(mut settings: Vec<CdnProxyRules>) -> FilterType {
         CdnProxyRules::ExposeHistory,
         CdnProxyRules::ExposeAudioContext,
         CdnProxyRules::LogStoreChange,
+        CdnProxyRules::RemoveServiceWorker,
     ]);
     let settings = settings
         .into_iter()
@@ -233,6 +242,10 @@ pub fn get_basic_filter_rules(mut settings: Vec<CdnProxyRules>) -> FilterType {
             CdnProxyRules::ExposeAudioContext => rules.push([
                 "c.instance=void 0",
                 "c.instance=void 0;window.siren_audio_instance=c.getInstance()",
+            ]),
+            CdnProxyRules::RemoveServiceWorker => rules.push([
+                "&&navigator.serviceWorker.register(\"/service-worker.js\")",
+                "",
             ]),
         }
     }

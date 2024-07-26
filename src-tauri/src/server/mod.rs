@@ -18,7 +18,7 @@ use reqwest::{
 };
 use warp::{filters::path::FullPath, Filter};
 
-use crate::{constants::AUDIO_SUFFIX, Logger};
+use crate::{constants::AUDIO_SUFFIX, logger};
 
 pub struct FileServer;
 
@@ -44,7 +44,7 @@ fn generate_raw_msg(code: u16, msg: &str) -> String {
 
 // todo!: limit file open scope. Add cache.
 fn read_file(path: &String) -> Result<Vec<u8>, Error> {
-    Logger::debug(format!("request file path: {}", path).as_str());
+    logger::debug(format!("request file path: {}", path).as_str());
     let mut buf = vec![];
     fs::File::open(path)?.read_to_end(&mut buf)?;
     Ok(buf)

@@ -5,8 +5,6 @@
 )]
 // include!(concat!(env!("OUT_DIR"), "/inline_siren_resources.rs"));
 extern crate lazy_static;
-#[allow(non_snake_case)]
-mod Logger;
 mod client_env;
 mod client_path;
 mod config;
@@ -15,6 +13,8 @@ mod global_enum;
 mod global_event;
 mod global_struct;
 mod global_utils;
+#[allow(non_snake_case)]
+mod logger;
 mod plugin_error;
 mod plugin_manager;
 mod proxy;
@@ -23,12 +23,12 @@ mod system_tray_menu;
 mod tauri_commands;
 pub mod vanilla_injector;
 
+use logger::debug;
 use plugin_manager::PluginManager;
 use proxy::{api_proxy::spawn_api_proxy, cdn_proxy::spawn_cdn_proxy};
 use server::file_server::spawn_file_server;
 use std::sync::{Arc, Mutex};
 use tauri::*;
-use Logger::debug;
 
 /// invoke on setup hook
 ///
@@ -66,7 +66,7 @@ fn main() {
         let core_app = app.get_window("main").unwrap();
         core_app.eval("window.siren_config = {}").unwrap();
         init(app.handle());
-        Logger::info("App init finished");
+        logger::info("App init finished");
         Ok(())
     });
     builder

@@ -1,5 +1,5 @@
 use super::utils::{self, deserialize_range_string};
-use crate::Logger;
+use crate::logger;
 use futures::lock::Mutex;
 use lazy_static::lazy_static;
 use reqwest::{
@@ -19,7 +19,7 @@ lazy_static! {
 
 // todo!: limit file open scope. Add cache.
 fn read_file(path: &String) -> Result<Vec<u8>, std::io::Error> {
-    Logger::debug(format!("request file path: {}", path).as_str());
+    logger::debug(format!("request file path: {}", path).as_str());
     let mut buf = vec![];
     fs::File::open(path)?.read_to_end(&mut buf)?;
     Ok(buf)

@@ -1,0 +1,14 @@
+{
+  "Sans-Regular": {
+    "tt": "https://localhost:11451/siren/site/fonts/SourceHanSansCN-Regular.ttf",
+    "eot": "https://localhost:11451/siren/site/fonts/SourceHanSansCN-Regular.eot",
+    "svg": "https://localhost:11451/siren/site/fonts/SourceHanSansCN-Regular.svg",
+    "woff": "https://localhost:11451/siren/site/fonts/SourceHanSansCN-Regular.woff"
+  },
+  "Sans-Bold": {
+    "tt": "https://localhost:11451/siren/site/fonts/SourceHanSansCN-Bold.ttf",
+    "eot": "https://localhost:11451/siren/site/fonts/SourceHanSansCN-Bold.eot",
+    "svg": "https://localhost:11451/siren/site/fonts/SourceHanSansCN-Bold.svg",
+    "woff": "https://localhost:11451/siren/site/fonts/SourceHanSansCN-Bold.woff"
+  }
+}

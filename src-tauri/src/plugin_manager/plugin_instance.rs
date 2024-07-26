@@ -6,8 +6,8 @@ use tauri::Manager;
 use super::plugin_utils::*;
 use crate::{
     global_struct::music_injector::MusicInjector,
+    logger::{self, debug},
     plugin_error::PluginError,
-    Logger::{self, debug},
 };
 use std::{
     fmt::Debug,
@@ -24,7 +24,7 @@ pub fn get_node_process() -> Result<std::process::Child, std::io::Error> {
         .stderr(Stdio::piped())
         .spawn()?;
 
-    Logger::debug(format!("A new node process running with pid {}", child.id()).as_str());
+    logger::debug(format!("A new node process running with pid {}", child.id()).as_str());
 
     Ok(child)
 }

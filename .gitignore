@@ -28,6 +28,7 @@ dist-*
 
 # font
 src/assets/fonts/**/*.*
+!src/assets/fonts/**/*.woff2
 !src/assets/fonts/**/iconfont.css
 !src/assets/fonts/**/iconfont.ttf
 

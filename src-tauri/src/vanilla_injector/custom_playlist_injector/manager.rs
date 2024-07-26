@@ -2,7 +2,7 @@ use std::{collections::HashMap, time::SystemTime};
 
 use crate::{
     global_struct::siren::{response_msg::ResponseMsg, BriefSong, Song},
-    Logger::{debug, error},
+    logger::{debug, error},
 };
 use lazy_static::lazy_static;
 use tokio::{fs, sync::Mutex};

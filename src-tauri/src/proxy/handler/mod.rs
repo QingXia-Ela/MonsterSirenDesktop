@@ -8,8 +8,8 @@ use crate::{
         },
     },
     global_utils::decode_brotli,
+    logger,
     plugin_error::PluginRequestError,
-    Logger,
 };
 use indexmap::IndexMap;
 use lazy_static::lazy_static;
@@ -111,10 +111,10 @@ pub async fn handle_request_with_plugin(
     injector_map: Arc<IndexMap<String, MusicInjector>>,
 ) -> Result<impl warp::Reply, warp::Rejection> {
     let p = path.as_str();
-    Logger::info(format!("request path: {}", p).as_str());
+    logger::info(format!("request path: {}", p).as_str());
     // song
     if let Some(caps) = SONG_REGEX.captures(p) {
-        Logger::debug("song request capture");
+        logger::debug("song request capture");
 
         let namesp = &caps["namespace"];
         let id = &caps["id"];
@@ -140,7 +140,7 @@ pub async fn handle_request_with_plugin(
     }
     // album
     else if let Some(caps) = ALBUM_REGEX.captures(p) {
-        Logger::debug("album request capture");
+        logger::debug("album request capture");
 
         let namesp = &caps["namespace"];
         let id = &caps["id"];
@@ -167,20 +167,20 @@ pub async fn handle_request_with_plugin(
     // api without namespace
     match p {
         "/songs" => {
-            Logger::debug("match global api /songs, result will modify by plugins");
+            logger::debug("match global api /songs, result will modify by plugins");
             Ok(get_songs_from_injector_map(injector_map)
                 .await
                 .into_response())
         }
         "/albums" => {
-            Logger::debug("match global api /albums, result will modify by plugins");
+            logger::debug("match global api /albums, result will modify by plugins");
             Ok(get_albums_from_injector_map(injector_map)
                 .await
                 .into_response())
         }
         // todo!: add namespace specific api like "/songs/:namespace" and "/albums/:namespace", which can call target plugin utils
         _ => {
-            Logger::debug("no match, request will be handled by vanilla api");
+            logger::debug("no match, request will be handled by vanilla api");
             let res = handle_request(port, cdn_port, path, headers, filter_rules).await;
             match res {
                 Ok(r) => Ok(r.into_response()),

@@ -10,8 +10,8 @@ use std::{
 
 use crate::{
     global_struct::music_injector::MusicInjector,
+    logger,
     plugin_error::{PluginError, PluginRequestError},
-    Logger,
 };
 
 extern crate libloading;
