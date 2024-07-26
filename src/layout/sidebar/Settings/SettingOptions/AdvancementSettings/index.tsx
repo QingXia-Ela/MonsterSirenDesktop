@@ -12,10 +12,11 @@ import $settingAdvancement, {
 import Checkbox from '@/components/Checkbox';
 import HoverWhiteBg from '@/components/HoverWhiteBg';
 
-interface AdvancementSettingsProps { }
+interface AdvancementSettingsProps {}
 
 const AdvancementSettings: FunctionComponent<AdvancementSettingsProps> = () => {
-  const { logStore, allowContextMenu, allowRefreshPage } = useStore($settingAdvancement);
+  const { logStore, allowContextMenu, allowRefreshPage } =
+    useStore($settingAdvancement);
   return (
     <div className='w-full flex flex-col gap-1'>
       <SubTitle>开发者工具</SubTitle>

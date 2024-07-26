@@ -34,16 +34,16 @@ window.addEventListener('contextmenu', (e) => {
 
 window.addEventListener('keydown', (e) => {
   if (!(process.env.NODE_ENV === 'production')) {
-    return
+    return;
   }
   switch (e.key) {
-    case "F12":
+    case 'F12':
       if ($settingAdvancement.get().allowContextMenu) {
         e.preventDefault();
       }
       break;
 
-    case "F5":
+    case 'F5':
       if ($settingAdvancement.get().allowRefreshPage) {
         window.location.reload();
       }
