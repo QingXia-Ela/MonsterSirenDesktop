@@ -35,9 +35,9 @@ export interface downloadConfig {
   parseFileType?: string;
 }
 
-export interface outputDeviceConfig {}
+export interface outputDeviceConfig { }
 
-export interface desktopLrcConfig {}
+export interface desktopLrcConfig { }
 
 export interface advancementConfig {
   enable?: boolean;
@@ -45,11 +45,13 @@ export interface advancementConfig {
   apiProxyPort?: number;
   logStore?: boolean;
   allowContextMenu?: boolean;
+  allowRefreshPage?: boolean;
 }
 
 interface AppConfig {
   basic: basicConfig;
   background: backgroundConfig;
+  /** @deprecated 由单独的 injector 管理，不再由设置接管 */
   localMusic: localMusicConfig;
   download: downloadConfig;
   outputDevice: outputDeviceConfig;

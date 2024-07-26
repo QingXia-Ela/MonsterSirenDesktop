@@ -6,15 +6,16 @@ import { invoke } from '@tauri-apps/api';
 import { useStore } from '@nanostores/react';
 import $settingAdvancement, {
   changeAllowContextMenu,
+  changeAllowRefreshPage,
   changeLogStore,
 } from '@/store/models/settings/advancement';
 import Checkbox from '@/components/Checkbox';
 import HoverWhiteBg from '@/components/HoverWhiteBg';
 
-interface AdvancementSettingsProps {}
+interface AdvancementSettingsProps { }
 
 const AdvancementSettings: FunctionComponent<AdvancementSettingsProps> = () => {
-  const { logStore, allowContextMenu } = useStore($settingAdvancement);
+  const { logStore, allowContextMenu, allowRefreshPage } = useStore($settingAdvancement);
   return (
     <div className='w-full flex flex-col gap-1'>
       <SubTitle>开发者工具</SubTitle>
@@ -35,7 +36,7 @@ const AdvancementSettings: FunctionComponent<AdvancementSettingsProps> = () => {
           </Checkbox>
         </HoverWhiteBg>
       </StyledTooltip>
-      <SubTitle>右键菜单</SubTitle>
+      <SubTitle>其他设置</SubTitle>
       <HoverWhiteBg>
         <Checkbox
           checked={allowContextMenu}
@@ -43,6 +44,15 @@ const AdvancementSettings: FunctionComponent<AdvancementSettingsProps> = () => {
           theme='config'
         >
           允许按下鼠标右键弹出浏览器右键菜单
+        </Checkbox>
+      </HoverWhiteBg>
+      <HoverWhiteBg>
+        <Checkbox
+          checked={allowRefreshPage}
+          onChange={changeAllowRefreshPage}
+          theme='config'
+        >
+          允许通过F5刷新页面
         </Checkbox>
       </HoverWhiteBg>
     </div>

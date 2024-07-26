@@ -67,6 +67,7 @@
     "cdnProxyPort": 0,
     "apiProxyPort": 0,
     "logStore": false,
-    "allowContextMenu": false
+    "allowContextMenu": false,
+    "allowRefreshPage": false
   }
 }

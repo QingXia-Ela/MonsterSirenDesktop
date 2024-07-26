@@ -9,6 +9,7 @@ pub struct Config {
     pub apiProxyPort: u16,
     pub logStore: bool,
     pub allowContextMenu: bool,
+    pub allowRefreshPage: bool,
 }
 
 pub fn init(main_window: &mut tauri::Window, config: &Config) {

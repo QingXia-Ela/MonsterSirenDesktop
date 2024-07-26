@@ -13,4 +13,8 @@ export function changeAllowContextMenu(allowContextMenu: boolean) {
   $settingAdvancement.set({ ...$settingAdvancement.get(), allowContextMenu });
 }
 
+export function changeAllowRefreshPage(allowRefreshPage: boolean) {
+  $settingAdvancement.set({ ...$settingAdvancement.get(), allowRefreshPage });
+}
+
 export default $settingAdvancement;

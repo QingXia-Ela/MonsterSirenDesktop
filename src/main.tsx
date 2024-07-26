@@ -32,14 +32,25 @@ window.addEventListener('contextmenu', (e) => {
   }
 });
 
-// 生产环境禁用F12
 window.addEventListener('keydown', (e) => {
-  if (
-    process.env.NODE_ENV === 'production' &&
-    e.key === 'F12' &&
-    !$settingAdvancement.get().allowContextMenu
-  ) {
-    e.preventDefault();
+  if (!(process.env.NODE_ENV === 'production')) {
+    return
+  }
+  switch (e.key) {
+    case "F12":
+      if ($settingAdvancement.get().allowContextMenu) {
+        e.preventDefault();
+      }
+      break;
+
+    case "F5":
+      if ($settingAdvancement.get().allowRefreshPage) {
+        window.location.reload();
+      }
+      break;
+
+    default:
+      break;
   }
 });
 
