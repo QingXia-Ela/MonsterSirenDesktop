@@ -80,6 +80,7 @@ impl ApiProxy {
 
         let arc_map = Arc::new(injector_map);
         let cloned_map = arc_map.clone();
+        app.manage::<Arc<IndexMap<String, MusicInjector>>>(arc_map);
 
         ApiProxy {
             port,

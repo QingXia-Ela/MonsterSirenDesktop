@@ -75,7 +75,8 @@ fn main() {
         .invoke_handler(generate_handler![
             tauri_commands::open_devtools,
             tauri_commands::greet,
-            tauri_commands::change_tray_tooltip
+            tauri_commands::change_tray_tooltip,
+            tauri_commands::get_all_injector_metadata
         ])
         .on_window_event(move |event| match event.event() {
             //  Destroyed is trigger on window close, hide to system tray is trigger on other event
@@ -89,7 +90,7 @@ fn main() {
                 #[cfg(debug_assertions)]
                 debug("destroyed");
             }
-            e => {
+            _e => {
                 // #[cfg(debug_assertions)]
                 // debug(format!("event: {:?}", e).as_str());
             }

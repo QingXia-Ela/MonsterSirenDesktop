@@ -8,6 +8,7 @@ export interface SirenPlayerType {
       name: string;
       albumCid: string;
       artists: string[];
+      duration: number | null;
     }>;
     mode: 'list' | 'album' | 'loop' | 'random';
     current: string | null;

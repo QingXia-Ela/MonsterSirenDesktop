@@ -57,7 +57,7 @@ pub fn get_ncm_injector(app: tauri::AppHandle) -> MusicInjector {
         app,
         String::from("ncm"),
         String::from("网易云音乐"),
-        String::from("red"),
+        String::from("#c20c0c"),
         None,
         Box::new(NCMInjector::new()),
     )

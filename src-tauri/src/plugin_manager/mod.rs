@@ -9,7 +9,7 @@ use std::{
 };
 
 use crate::{
-    global_struct::music_injector::MusicInjector,
+    global_struct::music_injector::{MusicInjector, MusicInjectorMetadata},
     logger,
     plugin_error::{PluginError, PluginRequestError},
 };
@@ -146,6 +146,26 @@ impl PluginManager {
             }
         }
         Ok(plugins)
+    }
+
+    pub fn get_injector_metadata_by_possible_name(
+        &self,
+        possible_name: String,
+    ) -> Option<MusicInjectorMetadata> {
+        for (_, plugin) in &self.plugin_map {
+            if possible_name.contains(format!("{}:", plugin.injector.get_namespace()).as_str()) {
+                return Some(plugin.injector.get_metadata());
+            }
+        }
+        None
+    }
+
+    pub fn get_all_injector_metadata(&self) -> Vec<MusicInjectorMetadata> {
+        let mut res = vec![];
+        for (_, plugin) in &self.plugin_map {
+            res.push(plugin.injector.get_metadata());
+        }
+        res
     }
 }
 

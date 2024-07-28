@@ -212,7 +212,7 @@ pub fn get_injector(app: tauri::AppHandle) -> MusicInjector {
         app,
         "siren".to_string(),
         String::from("塞壬唱片"),
-        String::from("#fff"),
+        String::from("#eee"),
         None,
         Box::new(SirenInjector::new(injector_app)),
     )

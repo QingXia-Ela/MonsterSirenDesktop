@@ -3,6 +3,7 @@ use std::fmt::Debug;
 use super::siren::{Album, BriefAlbum, BriefSong, Song};
 use crate::plugin_error::PluginRequestError;
 use async_trait::async_trait;
+use serde::{Deserialize, Serialize};
 
 /// Music Inject trait
 /// Use it to create a music injector
@@ -28,6 +29,15 @@ pub trait MusicInject: Send + Sync {
     async fn get_song(&self, id: String) -> Result<Song, PluginRequestError>;
     /// Id will remove namespace
     async fn get_album(&self, id: String) -> Result<Album, PluginRequestError>;
+}
+
+#[repr(C)]
+#[derive(Clone, Debug, Serialize, Deserialize)]
+pub struct MusicInjectorMetadata {
+    pub namespace: String,
+    #[serde(rename = "cnNamespace")]
+    pub cn_namespace: String,
+    pub color: String,
 }
 
 #[repr(C)]
@@ -84,6 +94,14 @@ impl MusicInjector {
             frontend_js,
             request_interceptor,
             init_fn: None,
+        }
+    }
+
+    pub fn get_metadata(&self) -> MusicInjectorMetadata {
+        MusicInjectorMetadata {
+            namespace: self.namespace.clone(),
+            cn_namespace: self.cn_namespace.clone(),
+            color: self.color.clone(),
         }
     }
 

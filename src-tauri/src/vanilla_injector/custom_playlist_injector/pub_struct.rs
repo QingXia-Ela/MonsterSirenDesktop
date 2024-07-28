@@ -7,6 +7,7 @@ use crate::global_struct::siren::{Album, BriefAlbum, BriefSong};
 #[derive(Debug, Clone, serde::Serialize, serde::Deserialize, TS)]
 #[ts(export)]
 // todo!: add metadata struct create
+// todo!: add source namespace tag record
 pub struct SinglePlaylistInfo {
     pub name: String,
     /// song_map 下的歌曲 `albumCid` 字段必须与该部分相同，否则会导致播放列表切换到别处
