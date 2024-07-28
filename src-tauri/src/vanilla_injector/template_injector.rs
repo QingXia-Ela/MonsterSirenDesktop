@@ -32,6 +32,7 @@ fn get_sh() -> Song {
         create_time: None,
         song_cover_url: None,
         size: None,
+        duration: None,
     }
 }
 
@@ -52,6 +53,7 @@ fn get_bk() -> Song {
         create_time: None,
         song_cover_url: None,
         size: None,
+        duration: None,
     }
 }
 struct TemplateInjector {}

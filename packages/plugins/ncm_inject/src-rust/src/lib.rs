@@ -9,13 +9,11 @@ pub static FRONTEND_JS: &str = include_str!("../../dist-browser/index.js");
 
 #[no_mangle]
 pub extern "C" fn get_frontend_js() -> *const i8 {
-    // todo!: 处理脚本在 dll 产物内被打包两次的问题
     FRONTEND_JS.as_ptr() as *const i8
 }
 
 #[no_mangle]
 pub extern "C" fn get_node_js_bundle() -> *const i8 {
-    // todo!: 处理脚本在 dll 产物内被打包两次的问题
     NODE_JS_BUNDLE.as_ptr() as *const i8
 }
 
@@ -58,14 +56,6 @@ mod running_nodejs_test {
     #[test]
     fn run() {
         let mut child = call_node_js_bundle(NODE_JS_BUNDLE).unwrap();
-        // child.wait().unwrap();
-        // if let Some(ref mut stdout) = child.stderr {
-        //     let mut so_str = String::new();
-        //     loop {
-        //         stdout.read_to_string(&mut so_str);
-        //         println!("{so_str}");
-        //     }
-        // }
         let output = child.wait_with_output().unwrap();
         println!("{:?}", String::from_utf8(output.stderr));
     }

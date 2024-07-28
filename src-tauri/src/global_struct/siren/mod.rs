@@ -44,6 +44,7 @@ pub struct BriefSong {
     pub size: Option<u64>,
     #[serde(rename = "createTime")]
     pub create_time: Option<u64>,
+    pub duration: Option<u64>,
 }
 
 impl ToResponseJson for BriefSong {}
@@ -74,6 +75,8 @@ pub struct Song {
     #[serde(rename = "songCoverUrl")]
     /// Note: This field is not in the vanilla siren api, it only provide for application
     pub song_cover_url: Option<String>,
+    /// Note: This field is not in the vanilla siren api, it only provide for application
+    pub duration: Option<u64>,
 }
 
 impl ToResponseJson for Song {}
@@ -133,6 +136,7 @@ impl From<SirenBriefSongWithoutAlbumCid> for BriefSong {
             artists: siren_song.artists,
             size: None,
             create_time: None,
+            duration: None,
         }
     }
 }
@@ -215,6 +219,7 @@ impl From<Song> for BriefSong {
             artists: siren_song.artists,
             size: siren_song.size,
             create_time: siren_song.create_time,
+            duration: siren_song.duration,
         }
     }
 }

@@ -46,6 +46,13 @@ pub struct NeteaseBriefAlbum {
     // tns: Vec<String>,
 }
 
+// todo!: add size show
+// #[derive(Serialize, Deserialize, Debug, Clone)]
+// https://docs-neteasecloudmusicapi.vercel.app/docs/#/?id=%e7%bd%91%e6%98%93%e4%ba%91%e9%9f%b3%e4%b9%90-api
+// pub struct NeteasePlaylistDetailQuality {
+
+// }
+
 #[derive(Serialize, Deserialize, Debug, Clone)]
 pub struct NeteasePlaylistDetailSingleSong {
     pub name: String,
@@ -54,6 +61,10 @@ pub struct NeteasePlaylistDetailSingleSong {
     pub ar: Vec<NeteaseBriefArtist>,
     /// album
     pub al: NeteaseBriefAlbum,
+    /// duration
+    pub dt: u64,
+    #[serde(rename = "publishTime")]
+    pub publish_time: i64,
 }
 
 impl NeteasePlaylistDetailSingleSong {
@@ -65,7 +76,9 @@ impl NeteasePlaylistDetailSingleSong {
             album_cid: format!("ncm:{}", album_cid),
             artists: self.ar.into_iter().map(|a| a.name).collect(),
             size: None,
-            create_time: None,
+            // todo!: Does here i64 to u64 has problem?
+            create_time: Some(self.publish_time as u64),
+            duration: Some(self.dt),
         }
     }
 }
@@ -125,6 +138,8 @@ pub struct NeteaseSongDownloadInfo {
     pub md5: Option<String>,
     pub r#type: Option<String>,
     pub level: Option<String>,
+    /// Song duration
+    pub time: u64,
 }
 
 impl NeteaseSongDownloadInfo {
@@ -150,6 +165,7 @@ impl NeteaseSongDownloadInfo {
             size: Some(self.size.into()),
             create_time: None,
             song_cover_url: detail.al.pic_url,
+            duration: Some(self.time),
         }
     }
 }

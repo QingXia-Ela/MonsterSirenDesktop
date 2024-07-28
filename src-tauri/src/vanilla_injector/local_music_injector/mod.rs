@@ -1,7 +1,8 @@
 // todo!: album cid optimize or change it to sha256 calc value
 // todo!: optimize it.
 use crate::constants::AUDIO_SUFFIX;
-use crate::global_utils::{get_main_window, is_audio_suffix};
+use crate::global_utils::is_audio_suffix;
+use crate::logger::debug;
 use crate::{
     global_struct::{
         music_injector::{MusicInject, MusicInjector},
@@ -16,6 +17,8 @@ use percent_encoding::{percent_decode, utf8_percent_encode, NON_ALPHANUMERIC};
 use std::os::windows::fs::MetadataExt;
 use std::{fs, sync::Arc};
 use tokio::fs as tokio_fs;
+
+use super::utils::get_audio_duration_from_path;
 
 mod inject_event;
 mod tauri_plugin;
@@ -59,17 +62,16 @@ impl LocalMusicManager {
         }
     }
 
-    // update song and folder info to config file.
+    /// update song and folder info to disk config file.
     // todo!: control it can return error
     pub async fn update(&self) {
         // todo!("rescan and update index");
         // let res = res.;
-        tokio_fs::write(
+        let _ = tokio_fs::write(
             &self.folder_record_path,
             serde_json::to_string(&self.get_index_vec().await).unwrap(),
         )
-        .await
-        .unwrap();
+        .await;
     }
 
     pub async fn get_folders(&self) -> Vec<String> {
@@ -90,6 +92,8 @@ impl LocalMusicManager {
 
     // todo!: return error type.
     pub async fn add_folder(&self, folder: &String) {
+        #[cfg(debug_assertions)]
+        debug(format!("local_music_injector add_folder call: {}", folder).as_str());
         // parse path from `/` to `\\`, don't ask me why I do this, because http request path will change `\\` to `/` 🧐
         let mut folder = folder.replace("/", "\\");
         // prevent folder path without `\\` lead the each file path is wrong
@@ -114,12 +118,17 @@ impl LocalMusicManager {
                             artists: vec![],
                             size: Some(metadata.file_size()),
                             create_time: Some(metadata.creation_time()),
+                            duration: if let Some(path) = path.to_str() {
+                                get_audio_duration_from_path(path).await
+                            } else {
+                                None
+                            },
                         })
                     }
                 }
                 self.index.lock().await.insert(folder, v);
             }
-            Err(e) => return,
+            Err(_e) => return,
         }
         self.update().await
     }
@@ -131,7 +140,7 @@ impl LocalMusicManager {
         if !folder.ends_with("\\") {
             folder.push_str("\\");
         }
-        self.index.lock().await.remove(&folder);
+        self.index.lock().await.swap_remove(&folder);
         self.update().await
     }
 
@@ -284,6 +293,7 @@ impl MusicInject for LocalMusicInjector {
                         // todo!: finish it in future. Now local injector still cannot read img from audio metadata.
                         song_cover_url: None,
                         cid,
+                        duration: song.duration,
                     });
                 }
             }
