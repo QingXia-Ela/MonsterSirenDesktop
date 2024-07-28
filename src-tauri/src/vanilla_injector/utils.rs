@@ -15,3 +15,8 @@ pub async fn get_audio_duration_from_path(path: &str) -> Option<u64> {
     }
     None
 }
+
+// todo!: finish get audio img cover by id3 or mp4ameta lib, return a base64 string
+pub async fn get_audio_cover_from_path(path: &str) -> Option<String> {
+    None
+}

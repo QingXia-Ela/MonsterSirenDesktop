@@ -8,7 +8,9 @@ import BlackMenu from '@/components/ContextMenu/BlackMenuV2';
 import { useMenuState } from '@szhsin/react-menu';
 import RetryTips from '../RetryTips';
 import PendingTips from '../PendingTips';
-import useInjectorMetadata, { InjectorMetadata } from '@/hooks/useInjectorMetadata';
+import useInjectorMetadata, {
+  InjectorMetadata,
+} from '@/hooks/useInjectorMetadata';
 
 interface RightDetailsBottomListProps {
   ContextMenu?: (...args: any) => JSX.Element;
@@ -66,19 +68,22 @@ const useControlledMenu = (options: any) => {
 function parseU64Duration2Time(duration: number) {
   const minute = Math.floor(duration / 60000);
   const second = Math.floor((duration % 60000) / 1000);
-  return `${minute < 10 ? '0' + minute : minute}:${second < 10 ? '0' + second : second}`;
+  return `${minute < 10 ? '0' + minute : minute}:${
+    second < 10 ? '0' + second : second
+  }`;
 }
 
 function getTagsBySongCid(cid: string, data: InjectorMetadata[]) {
   return data
     .filter((item) => {
-      return cid.includes(`${item.namespace}:`)
-    }).map((data) => {
+      return cid.includes(`${item.namespace}:`);
+    })
+    .map((data) => {
       return {
         content: data.cnNamespace,
-        color: data.color
-      }
-    })
+        color: data.color,
+      };
+    });
 }
 const RightDetailsBottomList: FunctionComponent<
   RightDetailsBottomListProps
@@ -92,7 +97,7 @@ const RightDetailsBottomList: FunctionComponent<
     transition: true,
   });
 
-  const { data: injectorData } = useInjectorMetadata()
+  const { data: injectorData } = useInjectorMetadata();
 
   if (status === 'error') {
     return <RetryTips />;
@@ -100,7 +105,7 @@ const RightDetailsBottomList: FunctionComponent<
     return <PendingTips />;
   }
 
-  console.log(list)
+  console.log(list);
 
   return list.length ? (
     <>
@@ -118,7 +123,11 @@ const RightDetailsBottomList: FunctionComponent<
                 name={list[idx].name}
                 author={list[idx].artists?.join(',')}
                 album={info.name}
-                time={list[idx].duration ? parseU64Duration2Time(list[idx].duration!) : ''}
+                time={
+                  list[idx].duration
+                    ? parseU64Duration2Time(list[idx].duration!)
+                    : ''
+                }
                 tags={getTagsBySongCid(list[idx].cid, injectorData)}
               />
             ),
