@@ -27,7 +27,10 @@ if ($settingAdvancement.get().logStore) {
 
 // 禁用右键菜单
 window.addEventListener('contextmenu', (e) => {
-  if (process.env.NODE_ENV === 'production') {
+  if (
+    process.env.NODE_ENV === 'production' &&
+    !$settingAdvancement.get().allowContextMenu
+  ) {
     e.preventDefault();
   }
 });
@@ -37,15 +40,11 @@ window.addEventListener('keydown', (e) => {
     return;
   }
   switch (e.key) {
-    case 'F12':
-      if ($settingAdvancement.get().allowContextMenu) {
-        e.preventDefault();
-      }
-      break;
-
     case 'F5':
       if ($settingAdvancement.get().allowRefreshPage) {
         window.location.reload();
+      } else {
+        e.preventDefault();
       }
       break;
 

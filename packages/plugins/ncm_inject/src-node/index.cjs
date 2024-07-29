@@ -4,7 +4,6 @@ const tmpPath = require('os').tmpdir()
 const homePath = require('os').homedir()
 const { cookieToJson } = require('NeteaseCloudMusicApi/util/index')
 const UserPlaylist = require('NeteaseCloudMusicApi/module/user_playlist')
-const serverModule = require('NeteaseCloudMusicApi/server')
 
 let user_uid = process.env.NETEASE_USER_UID || null
 
@@ -141,11 +140,12 @@ async function start() {
   }
   // 启动时更新anonymous_token
   await generateConfig()
-  let server = await serverModule.serveNcmApi({
+  // 必须在这里才引入，因为内部会读取anonymous_token，如果在顶层引用会导致文件没创建就读取了
+  let server = await require('NeteaseCloudMusicApi/server').serveNcmApi({
     // todo!: 支持外部自定义端口
     port: 53753,
-    checkVersion: true,
     moduleDefs: parseCollect(collect),
+    checkVersion: false
   })
   // server.use("/login-page", () => require("../src-login/index.html"))
 }
