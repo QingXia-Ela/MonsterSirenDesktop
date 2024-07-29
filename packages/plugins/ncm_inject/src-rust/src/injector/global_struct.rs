@@ -171,9 +171,56 @@ impl NeteaseSongDownloadInfo {
 }
 
 #[derive(Serialize, Deserialize, Debug, Clone)]
-pub struct NeteaseSongDownloadReponse {
+pub struct NeteaseSongDownloadResponse {
     pub code: i32,
     pub data: NeteaseSongDownloadInfo,
+}
+
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct NeteaseSongUrlSingleData {
+    pub id: u64,
+    pub url: Option<String>,
+    pub br: u32,
+    pub size: u64,
+    pub md5: Option<String>,
+    pub r#type: Option<String>,
+    pub code: i32,
+    /// Song duration
+    pub time: u64,
+}
+
+impl NeteaseSongUrlSingleData {
+    pub fn into_siren_song(
+        self,
+        detail: NeteasePlaylistDetailSingleSong,
+        album_cid: String,
+        lyric_url: Option<String>,
+    ) -> Song {
+        Song {
+            cid: self.id.to_string(),
+            name: detail.name,
+            album_cid: format!("ncm:{}", album_cid),
+            source_url: if let Some(url) = self.url {
+                url
+            } else {
+                String::new()
+            },
+            lyric_url,
+            mv_url: None,
+            mv_cover_url: None,
+            artists: detail.ar.into_iter().map(|a| a.name).collect(),
+            size: Some(self.size.into()),
+            create_time: None,
+            song_cover_url: detail.al.pic_url,
+            duration: Some(self.time),
+        }
+    }
+}
+
+#[derive(Serialize, Deserialize, Debug, Clone)]
+pub struct NeteaseSongUrlResponse {
+    pub code: i32,
+    pub data: Vec<NeteaseSongUrlSingleData>,
 }
 
 #[derive(Serialize, Deserialize, Debug, Clone)]

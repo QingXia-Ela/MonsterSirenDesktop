@@ -27,10 +27,7 @@ pub extern "C" fn init(app: tauri::AppHandle) -> *mut c_void {
 
 #[cfg(test)]
 mod running_nodejs_test {
-    use std::{
-        io::{Read, Write},
-        os::windows::process::CommandExt,
-    };
+    use std::{io::Write, os::windows::process::CommandExt};
 
     use crate::NODE_JS_BUNDLE;
 
