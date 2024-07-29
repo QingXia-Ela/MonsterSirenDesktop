@@ -79,6 +79,8 @@ impl NeteasePlaylistDetailSingleSong {
             // todo!: Does here i64 to u64 has problem?
             create_time: Some(self.publish_time as u64),
             duration: Some(self.dt),
+            song_cover_url: self.al.pic_url,
+            custom_data: None,
         }
     }
 }
@@ -197,7 +199,7 @@ impl NeteaseSongUrlSingleData {
         lyric_url: Option<String>,
     ) -> Song {
         Song {
-            cid: self.id.to_string(),
+            cid: format!("ncm:{}-{}", album_cid, self.id),
             name: detail.name,
             album_cid: format!("ncm:{}", album_cid),
             source_url: if let Some(url) = self.url {

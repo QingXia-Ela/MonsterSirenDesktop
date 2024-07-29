@@ -1,4 +1,6 @@
 pub mod response_msg;
+use std::collections::HashMap;
+
 use serde::{Deserialize, Serialize};
 use ts_rs::TS;
 
@@ -45,6 +47,10 @@ pub struct BriefSong {
     #[serde(rename = "createTime")]
     pub create_time: Option<u64>,
     pub duration: Option<u64>,
+    #[serde(rename = "songCoverUrl")]
+    pub song_cover_url: Option<String>,
+    #[serde(rename = "customData")]
+    pub custom_data: Option<HashMap<String, String>>,
 }
 
 impl ToResponseJson for BriefSong {}
@@ -137,6 +143,8 @@ impl From<SirenBriefSongWithoutAlbumCid> for BriefSong {
             size: None,
             create_time: None,
             duration: None,
+            song_cover_url: None,
+            custom_data: None,
         }
     }
 }
@@ -220,6 +228,8 @@ impl From<Song> for BriefSong {
             size: siren_song.size,
             create_time: siren_song.create_time,
             duration: siren_song.duration,
+            song_cover_url: siren_song.song_cover_url,
+            custom_data: None,
         }
     }
 }
