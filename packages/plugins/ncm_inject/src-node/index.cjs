@@ -38,15 +38,14 @@ const collect = {
   "lyric": require("NeteaseCloudMusicApi/module/lyric"),
   /** 检查 */
   "check_music": require("NeteaseCloudMusicApi/module/check_music"),
-  // 1: require("NeteaseCloudMusicApi/module/song"),
-  /** 歌曲url @deprecated */
+  /** 歌曲url */
   "song_url": require("NeteaseCloudMusicApi/module/song_url"),
   /** 新版歌曲url */
   "song_url_v1": require("NeteaseCloudMusicApi/module/song_url_v1"),
   /** 新版歌曲下载url */
   "song_download_url": require("NeteaseCloudMusicApi/module/song_download_url"),
   /** 游客token注册 */
-  "register_anonimous": require("NeteaseCloudMusicApi/module/register_anonimous"),
+  "register_anonimous": require("./register_anonimous.cjs"),
   /** 刷新cookie */
   "login_refresh": require("NeteaseCloudMusicApi/module/login_refresh"),
   /** 登陆状态 */

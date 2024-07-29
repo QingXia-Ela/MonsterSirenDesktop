@@ -55,7 +55,7 @@ mod running_nodejs_test {
     }
     #[test]
     fn run() {
-        let mut child = call_node_js_bundle(NODE_JS_BUNDLE).unwrap();
+        let child = call_node_js_bundle(NODE_JS_BUNDLE).unwrap();
         let output = child.wait_with_output().unwrap();
         println!("{:?}", String::from_utf8(output.stderr));
     }
