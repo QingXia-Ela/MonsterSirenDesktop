@@ -60,16 +60,7 @@ impl NcmRequestHandler {
     }
 
     #[tokio::main]
-    pub async fn ping(&self) {
-        let res = self
-            .client
-            .get(format!("{REQUEST_BASE}/pong"))
-            .send()
-            .await
-            .unwrap();
-
-        // if res.status()
-    }
+    pub async fn ping(&self) {}
 
     /// Only allow get single song.
     #[tokio::main]

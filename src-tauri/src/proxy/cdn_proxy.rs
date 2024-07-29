@@ -182,6 +182,8 @@ async fn handle_request(
 
 fn change_body(body: String, port: u16, api_port: u16, filter_rules: FilterType) -> String {
     let mut basic = body
+        // fontset api handle
+        .replace("/api/fontset", "/fontset")
         // replace cdn
         .replace("web.hycdn.cn", format!("localhost:{}", port).as_str())
         .replace("https", "http")

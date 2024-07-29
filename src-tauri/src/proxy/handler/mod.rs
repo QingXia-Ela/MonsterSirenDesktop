@@ -128,9 +128,18 @@ pub async fn handle_request_with_plugin(
                         msg: "".to_string(),
                         data: r,
                     };
-                    return Ok(get_response_from_string(
-                        serde_json::to_string(&res).unwrap(),
-                    ));
+                    match serde_json::to_string(&res) {
+                        Ok(s) => {
+                            return Ok(get_response_from_string(s));
+                        }
+                        Err(e) => {
+                            #[cfg(debug_assertions)]
+                            logger::error(format!("{:?}", e).as_str());
+                            return Ok(parse_plugin_request_error_2_warp_rejection(
+                                PluginRequestError::new(format!("{:?}", e)),
+                            ));
+                        }
+                    }
                 }
                 Err(e) => {
                     return Ok(parse_plugin_request_error_2_warp_rejection(e.into()));
@@ -154,9 +163,18 @@ pub async fn handle_request_with_plugin(
                         msg: "".to_string(),
                         data: r,
                     };
-                    return Ok(get_response_from_string(
-                        serde_json::to_string(&res).unwrap(),
-                    ));
+                    match serde_json::to_string(&res) {
+                        Ok(s) => {
+                            return Ok(get_response_from_string(s));
+                        }
+                        Err(e) => {
+                            #[cfg(debug_assertions)]
+                            logger::error(format!("{:?}", e).as_str());
+                            return Ok(parse_plugin_request_error_2_warp_rejection(
+                                PluginRequestError::new(format!("{:?}", e)),
+                            ));
+                        }
+                    }
                 }
                 Err(e) => {
                     return Ok(parse_plugin_request_error_2_warp_rejection(e.into()));
