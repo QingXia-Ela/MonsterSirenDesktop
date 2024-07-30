@@ -6,7 +6,7 @@ import { useStore } from '@nanostores/react';
 import $PlayListState from '@/store/pages/playlist';
 import CtxMenu from './components/ContextMenu';
 
-interface RightDetailsProps { }
+interface RightDetailsProps {}
 
 const RightDetails: FunctionComponent<RightDetailsProps> = () => {
   const { currentAlbumInfo: info } = useStore($PlayListState);
@@ -19,7 +19,10 @@ const RightDetails: FunctionComponent<RightDetailsProps> = () => {
       />
       <RightDetailsMiddleSplit onSearch={setSearchKeyword} />
       <div className='flex-1'>
-        <RightDetailsBottomList ContextMenu={CtxMenu} searchKeyword={searchKeyword} />
+        <RightDetailsBottomList
+          ContextMenu={CtxMenu}
+          searchKeyword={searchKeyword}
+        />
       </div>
     </div>
   );

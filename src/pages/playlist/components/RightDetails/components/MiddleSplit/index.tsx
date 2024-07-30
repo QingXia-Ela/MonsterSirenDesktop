@@ -19,17 +19,17 @@ const RightDetailsMiddleSplit: FunctionComponent<
 
   useEffect(() => {
     setSearchValue('');
-  }, [store.currentAlbumId])
+  }, [store.currentAlbumId]);
 
   useEffect(() => {
     let timer = setTimeout(() => {
       onSearch?.(searchValue);
-    }, 500)
+    }, 500);
 
     return () => {
       clearTimeout(timer);
-    }
-  }, [searchValue])
+    };
+  }, [searchValue]);
 
   const play = () => {
     SirenStore.dispatch({
