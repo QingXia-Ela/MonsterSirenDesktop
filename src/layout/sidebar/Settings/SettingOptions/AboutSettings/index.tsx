@@ -2,7 +2,7 @@ import { FunctionComponent } from 'react';
 import { version } from '@/../package.json';
 import Button from '@/components/Button';
 
-interface AboutSettingsProps {}
+interface AboutSettingsProps { }
 
 const AboutSettings: FunctionComponent<AboutSettingsProps> = () => {
   return (
@@ -35,7 +35,7 @@ const AboutSettings: FunctionComponent<AboutSettingsProps> = () => {
       <span>
         本软件为同人作品，不代表官方任何内容。软件行为本身与官方均无关。
       </span>
-      <span>软件在发布后除了漏洞以外不会进行任何更新</span>
+      <span>软件在发布后除了漏洞修复以外不会进行任何大型更新</span>
       <span>
         建议您在选择插件时只选用来自本仓库发布的插件，代码公开透明，且不会窃取隐私信息
       </span>

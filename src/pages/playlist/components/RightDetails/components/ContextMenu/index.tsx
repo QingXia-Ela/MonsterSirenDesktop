@@ -185,8 +185,8 @@ function CtxMenu({
           从播放列表移除
         </BlackMenuItem>
       )}
-      <Divider />
-      <BlackMenuItem onClick={handleClose}>下载歌曲</BlackMenuItem>
+      {/* <Divider /> */}
+      {/* <BlackMenuItem onClick={handleClose}>下载歌曲</BlackMenuItem> */}
     </>
   );
 }

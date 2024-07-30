@@ -136,13 +136,62 @@ declare module 'astro:content' {
 
 	type ContentEntryMap = {
 		"docs": {
-"起步/getting-start.md": {
-	id: "起步/getting-start.md";
+"插件/before-start.mdx": {
+	id: "插件/before-start.mdx";
+  slug: "插件/before-start";
+  body: string;
+  collection: "docs";
+  data: any
+} & { render(): Render[".mdx"] };
+"插件/install-node.mdx": {
+	id: "插件/install-node.mdx";
+  slug: "插件/install-node";
+  body: string;
+  collection: "docs";
+  data: any
+} & { render(): Render[".mdx"] };
+"新增功能/background-change.mdx": {
+	id: "新增功能/background-change.mdx";
+  slug: "新增功能/background-change";
+  body: string;
+  collection: "docs";
+  data: any
+} & { render(): Render[".mdx"] };
+"新增功能/interface-feature.mdx": {
+	id: "新增功能/interface-feature.mdx";
+  slug: "新增功能/interface-feature";
+  body: string;
+  collection: "docs";
+  data: any
+} & { render(): Render[".mdx"] };
+"新增功能/local-music.mdx": {
+	id: "新增功能/local-music.mdx";
+  slug: "新增功能/local-music";
+  body: string;
+  collection: "docs";
+  data: any
+} & { render(): Render[".mdx"] };
+"新增功能/playlist-feature.mdx": {
+	id: "新增功能/playlist-feature.mdx";
+  slug: "新增功能/playlist-feature";
+  body: string;
+  collection: "docs";
+  data: any
+} & { render(): Render[".mdx"] };
+"起步/getting-start.mdx": {
+	id: "起步/getting-start.mdx";
   slug: "起步/getting-start";
   body: string;
   collection: "docs";
   data: any
-} & { render(): Render[".md"] };
+} & { render(): Render[".mdx"] };
+"起步/notice.mdx": {
+	id: "起步/notice.mdx";
+  slug: "起步/notice";
+  body: string;
+  collection: "docs";
+  data: any
+} & { render(): Render[".mdx"] };
 };
 
 	};

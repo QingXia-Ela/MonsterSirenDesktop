@@ -13,6 +13,12 @@ export default defineConfig({
           autogenerate: {
             directory: '起步'
           }
+        },
+        {
+          label: "新增功能",
+          autogenerate: {
+            directory: '新增功能'
+          }
         }
       ]
     }),
