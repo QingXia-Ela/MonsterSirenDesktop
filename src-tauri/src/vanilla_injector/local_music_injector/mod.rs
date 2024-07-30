@@ -65,8 +65,6 @@ impl LocalMusicManager {
     /// update song and folder info to disk config file.
     // todo!: control it can return error
     pub async fn update(&self) {
-        // todo!("rescan and update index");
-        // let res = res.;
         let _ = tokio_fs::write(
             &self.folder_record_path,
             serde_json::to_string(&self.get_index_vec().await).unwrap(),
@@ -232,7 +230,6 @@ impl MusicInject for LocalMusicInjector {
                 cid: format!("local:{}", path.replace('\\', ":")),
                 name: path.clone(),
                 cn_namespace: String::from("本地音乐"),
-                // todo!: add default cover path
                 cover_url: String::from("/siren.png"),
                 artistes: vec![],
             })
@@ -260,7 +257,7 @@ impl MusicInject for LocalMusicInjector {
                         remove_audio_file_suffix(song.name.clone())
                     );
                     let lrc = tokio_fs::metadata(lrc_path.clone()).await;
-                    // todo!:  decrease format time.
+                    // todo!: decrease format usage.
                     return Ok(Song {
                         name: remove_audio_file_suffix(song.name.clone()),
                         album_cid: format!("local:{}", path),
@@ -321,7 +318,6 @@ impl MusicInject for LocalMusicInjector {
                     name: format!("本地音乐:{}", cid),
                     intro: format!("本地音乐: {}", cid),
                     belong: String::from("local"),
-                    // todo!: add default cover path
                     cover_url: String::from("/siren.png"),
                     cover_de_url: String::from("/siren.png"),
                     artistes: vec![],
