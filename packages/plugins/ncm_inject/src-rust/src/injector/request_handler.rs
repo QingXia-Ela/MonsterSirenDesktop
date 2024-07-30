@@ -7,8 +7,9 @@ use monster_siren_desktop::{
 use reqwest::Client;
 
 use super::global_struct::{
-    NeteaseLyricResponse, NeteasePlaylistDetailResponse, NeteaseSongDownloadInfo,
-    NeteaseSongDownloadReponse, NeteaseSongsDetailResponse, NeteaseUserPlaylistResponse,
+    NeteaseLyricResponse, NeteasePlaylistDetailResponse, NeteasePlaylistDetailSingleSong,
+    NeteaseSongDownloadInfo, NeteaseSongDownloadResponse, NeteaseSongUrlResponse,
+    NeteaseSongUrlSingleData, NeteaseSongsDetailResponse, NeteaseUserPlaylistResponse,
 };
 // use
 
@@ -30,11 +31,44 @@ async fn get_netease_audio_lyric(cid: &String) -> Option<String> {
     None
 }
 
+fn parse_download_response_2_siren_song(
+    res: NeteaseSongDownloadResponse,
+    detail: NeteasePlaylistDetailSingleSong,
+    cid: String,
+    lyric_url: Option<String>,
+) -> Result<Song, PluginRequestError> {
+    Ok(res.data.into_siren_song(detail, cid, lyric_url))
+}
+
+async fn get_netease_audio_url_by_song_url(
+    cid: &String,
+) -> Result<NeteaseSongUrlSingleData, PluginRequestError> {
+    match reqwest::get(format!("{REQUEST_BASE}/song/url?id={cid}").as_str()).await {
+        Ok(res) => match res.json::<NeteaseSongUrlResponse>().await {
+            Ok(res) => {
+                if let None = res.data[0].url {
+                    return Err(PluginRequestError::new(format!(
+                        "Get audio url fail with code: {}",
+                        &res.data[0].code
+                    )));
+                }
+                Ok(res.data[0].clone())
+            }
+            Err(_) => Err(PluginRequestError::new(
+                "get_netease_audio_url_json_parse".to_string(),
+            )),
+        },
+        Err(_) => Err(PluginRequestError::new(
+            "get_netease_audio_info".to_string(),
+        )),
+    }
+}
+
 async fn get_netease_audio_info(
     cid: &String,
 ) -> Result<NeteaseSongDownloadInfo, PluginRequestError> {
     match reqwest::get(format!("{REQUEST_BASE}/song/download/url?id={cid}").as_str()).await {
-        Ok(res) => match res.json::<NeteaseSongDownloadReponse>().await {
+        Ok(res) => match res.json::<NeteaseSongDownloadResponse>().await {
             Ok(res) => {
                 if let None = &res.data.url {
                     return Err(PluginRequestError::new(format!(
@@ -76,14 +110,26 @@ impl NcmRequestHandler {
             .await
         {
             return match res.json::<NeteaseSongsDetailResponse>().await {
-                Ok(res) => match get_netease_audio_info(&cid).await {
-                    Ok(info) => Ok(info.into_siren_song(
-                        res.songs[0].clone(),
-                        album_cid,
-                        get_netease_audio_lyric(&cid).await,
-                    )),
-                    Err(e) => Err(e),
-                },
+                Ok(res) => {
+                    // use url first, it has more song can get, but sometimes it return -105
+                    if let Ok(song_url_res) = get_netease_audio_url_by_song_url(&cid).await {
+                        return Ok(song_url_res.into_siren_song(
+                            res.songs[0].clone(),
+                            album_cid,
+                            get_netease_audio_lyric(&cid).await,
+                        ));
+                    }
+
+                    // this use download url, it has less song can get, but it can still can get song when song/url upgrade cause api cannot use normally
+                    match get_netease_audio_info(&cid).await {
+                        Ok(info) => Ok(info.into_siren_song(
+                            res.songs[0].clone(),
+                            album_cid,
+                            get_netease_audio_lyric(&cid).await,
+                        )),
+                        Err(e) => Err(e),
+                    }
+                }
                 Err(e) => Err(PluginRequestError::new("get_song".to_string())),
             };
         }

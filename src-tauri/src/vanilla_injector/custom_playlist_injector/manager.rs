@@ -130,12 +130,24 @@ impl CustomPlaylistManager {
 
     /// 传入的 id 不应该包含 namespace
     // todo!: 处理从一个自定义列表添加到另一个自定义列表的特殊情况
-    pub async fn add_song(&self, playlist_id: String, song: BriefSong) {
+    pub async fn add_song(&self, playlist_id: String, mut song: BriefSong) {
         let custom_id = Uuid::new_v4().to_string();
         match self.data.lock().await.get_mut(&playlist_id) {
             Some(playlist) => {
                 let exist = playlist.song_map.values().any(|x| x.cid.eq(&song.cid));
                 if !exist {
+                    // custom data set source tags for frontend
+                    if let Some((namesp, _)) = song.cid.split_once(":") {
+                        if let Some(_) = song.custom_data {
+                            // has other alias, pass it
+                        } else {
+                            let mut custom_data = HashMap::new();
+                            // #[brief_song::custom_data("sourceNamespace")]
+                            custom_data.insert("sourceNamespace".to_string(), namesp.to_string());
+                            song.custom_data = Some(custom_data)
+                        }
+                    }
+
                     playlist.song_map.insert(custom_id.clone(), song);
                     playlist.songs.push(custom_id);
                 }

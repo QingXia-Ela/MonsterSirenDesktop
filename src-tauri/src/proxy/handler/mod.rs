@@ -128,6 +128,10 @@ pub async fn handle_request_with_plugin(
                         msg: "".to_string(),
                         data: r,
                     };
+                    // TODO!: sometimes outer plugin like ncm will cause:
+                    // Exception 0xc0000005 encountered at address 0x7ff73e4aa428: Access violation reading location 0xffffffffffffffff
+                    // This is runtime error and happen on first request like /album
+                    // But sometimes it is ok to run, through ncm node is shutdown
                     match serde_json::to_string(&res) {
                         Ok(s) => {
                             return Ok(get_response_from_string(s));

@@ -27,10 +27,7 @@ pub extern "C" fn init(app: tauri::AppHandle) -> *mut c_void {
 
 #[cfg(test)]
 mod running_nodejs_test {
-    use std::{
-        io::{Read, Write},
-        os::windows::process::CommandExt,
-    };
+    use std::{io::Write, os::windows::process::CommandExt};
 
     use crate::NODE_JS_BUNDLE;
 
@@ -55,7 +52,7 @@ mod running_nodejs_test {
     }
     #[test]
     fn run() {
-        let mut child = call_node_js_bundle(NODE_JS_BUNDLE).unwrap();
+        let child = call_node_js_bundle(NODE_JS_BUNDLE).unwrap();
         let output = child.wait_with_output().unwrap();
         println!("{:?}", String::from_utf8(output.stderr));
     }

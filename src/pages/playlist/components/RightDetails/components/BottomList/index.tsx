@@ -11,6 +11,7 @@ import PendingTips from '../PendingTips';
 import useInjectorMetadata, {
   InjectorMetadata,
 } from '@/hooks/useInjectorMetadata';
+import { SirenStoreState } from '@/types/SirenStore';
 
 interface RightDetailsBottomListProps {
   ContextMenu?: (...args: any) => JSX.Element;
@@ -68,14 +69,22 @@ const useControlledMenu = (options: any) => {
 function parseU64Duration2Time(duration: number) {
   const minute = Math.floor(duration / 60000);
   const second = Math.floor((duration % 60000) / 1000);
-  return `${minute < 10 ? '0' + minute : minute}:${second < 10 ? '0' + second : second
-    }`;
+  return `${minute < 10 ? '0' + minute : minute}:${
+    second < 10 ? '0' + second : second
+  }`;
 }
 
-function getTagsBySongCid(cid: string, data: InjectorMetadata[]) {
+function getTagsBySong(
+  song: SirenStoreState['player']['list'][0],
+  data: InjectorMetadata[],
+) {
   return data
     .filter((item) => {
-      return cid.includes(`${item.namespace}:`);
+      return (
+        /** see #[brief_song::custom_data("sourceNamespace")] */ song.customData
+          ?.sourceNamespace === item.namespace ??
+        song.cid.includes(`${item.namespace}:`)
+      );
     })
     .map((data) => {
       return {
@@ -84,6 +93,7 @@ function getTagsBySongCid(cid: string, data: InjectorMetadata[]) {
       };
     });
 }
+
 const RightDetailsBottomList: FunctionComponent<
   RightDetailsBottomListProps
 > = ({ ContextMenu }) => {
@@ -125,7 +135,7 @@ const RightDetailsBottomList: FunctionComponent<
                     ? parseU64Duration2Time(list[idx].duration!)
                     : ''
                 }
-                tags={getTagsBySongCid(list[idx].cid, injectorData)}
+                tags={getTagsBySong(list[idx], injectorData)}
               />
             ),
           },

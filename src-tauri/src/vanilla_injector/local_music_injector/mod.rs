@@ -123,6 +123,8 @@ impl LocalMusicManager {
                             } else {
                                 None
                             },
+                            song_cover_url: None,
+                            custom_data: None,
                         })
                     }
                 }
