@@ -2,7 +2,7 @@ import { FunctionComponent } from 'react';
 import { version } from '@/../package.json';
 import Button from '@/components/Button';
 
-interface AboutSettingsProps { }
+interface AboutSettingsProps {}
 
 const AboutSettings: FunctionComponent<AboutSettingsProps> = () => {
   return (

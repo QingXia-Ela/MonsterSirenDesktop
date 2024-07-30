@@ -40,6 +40,9 @@ window.addEventListener('keydown', (e) => {
     return;
   }
   switch (e.key) {
+    case 'F12':
+      e.preventDefault();
+      break;
     case 'F5':
       if ($settingAdvancement.get().allowRefreshPage) {
         window.location.reload();
