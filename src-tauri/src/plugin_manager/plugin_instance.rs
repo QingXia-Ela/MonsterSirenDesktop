@@ -9,12 +9,7 @@ use crate::{
     logger::{self, debug},
     plugin_error::PluginError,
 };
-use std::{
-    fmt::Debug,
-    io::{Read, Write},
-    os::windows::process::CommandExt,
-    process::Stdio,
-};
+use std::{fmt::Debug, io::Write, os::windows::process::CommandExt, process::Stdio};
 
 pub fn get_node_process() -> Result<std::process::Child, std::io::Error> {
     let child = std::process::Command::new("node")

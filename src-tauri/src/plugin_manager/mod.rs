@@ -1,6 +1,7 @@
 mod plugin_instance;
 mod plugin_utils;
 
+use crate::client_path::PLUGIN_PATH;
 use plugin_utils::*;
 use std::{
     collections::HashMap,
@@ -9,7 +10,7 @@ use std::{
 
 use crate::{
     global_struct::music_injector::{MusicInjector, MusicInjectorMetadata},
-    plugin_error::{PluginError},
+    plugin_error::PluginError,
 };
 
 extern crate libloading;
@@ -131,8 +132,8 @@ impl PluginManager {
 
     pub fn list_plugins(dir: Option<String>) -> Result<Vec<String>, std::io::Error> {
         // ensure dir is exist
-        let _ = std::fs::create_dir_all("plugins");
-        let dirs = std::fs::read_dir(dir.unwrap_or_else(|| "plugins".to_string()))?;
+        let _ = std::fs::create_dir_all(PLUGIN_PATH);
+        let dirs = std::fs::read_dir(dir.unwrap_or_else(|| PLUGIN_PATH.to_string()))?;
 
         let mut plugins = Vec::new();
 

@@ -1,4 +1,3 @@
-
 use crate::{
     constants::SIREN_WEBSITE,
     global_event::frontend_notify::notify_error,
@@ -18,7 +17,7 @@ use reqwest::{
     Client,
 };
 use serde::{Deserialize, Serialize};
-use warp::{reply::Response};
+use warp::reply::Response;
 type FilterType = Vec<[&'static str; 2]>;
 
 const ALBUMS_URL: &str = "https://monster-siren.hypergryph.com/api/albums";
@@ -96,18 +95,17 @@ impl SirenInjector {
         for (k, v) in response_json.headers().iter() {
             header_map.insert(k.clone(), v.clone());
         }
-        let mut res_str = String::new();
 
-        match response.headers().get(CONTENT_ENCODING) {
+        let mut res_str = match response.headers().get(CONTENT_ENCODING) {
             Some(v) => match v.to_str() {
                 Ok("br") => {
                     let decoded =
                         decode_brotli(&response_json.bytes().await?.to_vec().as_slice()).unwrap();
-                    res_str = String::from_utf8(decoded).unwrap();
+                    String::from_utf8(decoded).unwrap()
                 }
-                _ => res_str = response_json.text().await?,
+                _ => response_json.text().await?,
             },
-            _ => res_str = response_json.text().await?,
+            _ => response_json.text().await?,
         };
         // todo!: sync cdn / api port with custom config
         res_str = change_body(res_str, vec![], 11452, 11451);

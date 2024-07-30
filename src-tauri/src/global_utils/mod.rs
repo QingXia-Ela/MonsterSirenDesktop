@@ -3,7 +3,7 @@ use tauri::{Manager, Runtime};
 
 use crate::constants::AUDIO_SUFFIX;
 
-pub fn decode_brotli(body: &[u8]) -> Result<Vec<u8>, ()> {
+pub fn decode_brotli(_body: &[u8]) -> Result<Vec<u8>, ()> {
     // let mut decompressor = DecompressorReader::new([u8; 1024]);
     todo!("use other brotli decoder");
     // let mut decoder = BrotliDecoder::new();

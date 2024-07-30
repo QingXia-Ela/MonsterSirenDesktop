@@ -1,3 +1,4 @@
+pub mod client_path;
 mod constants;
 pub mod global_event;
 pub mod global_struct;

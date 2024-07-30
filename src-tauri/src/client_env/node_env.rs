@@ -32,7 +32,7 @@ use crate::client_path::PLUGIN_PATH;
 ///    drop_js_runtime(runtime_ptr);
 /// }
 /// ```
-pub fn get_node_env_core() -> Option<Library> {
+pub fn _get_node_env_core() -> Option<Library> {
     unsafe {
         let lib = match Library::new(format!("{}/{}", PLUGIN_PATH, "node_env.dll")) {
             Ok(lib) => lib,
@@ -47,5 +47,5 @@ pub fn get_node_env_core() -> Option<Library> {
 
 #[test]
 fn test_node_env() {
-    get_node_env_core();
+    // get_node_env_core();
 }

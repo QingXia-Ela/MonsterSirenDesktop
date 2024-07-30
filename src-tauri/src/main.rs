@@ -6,7 +6,7 @@
 // include!(concat!(env!("OUT_DIR"), "/inline_siren_resources.rs"));
 extern crate lazy_static;
 mod client_env;
-mod client_path;
+pub mod client_path;
 mod config;
 pub mod constants;
 mod global_enum;
