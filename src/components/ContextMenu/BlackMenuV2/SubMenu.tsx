@@ -6,12 +6,12 @@ export default styled(({ ...p }: SubMenuProps) => (
 ))(() => ({
   // style sync with BlackMenuItem
   '.szh-menu__item': {
-    fontFamily: 'SourceHanSansCN-Normal',
-    height: '0.56rem',
-    fontSize: '0.34rem',
-    transition: 'background-color .3s',
-    color: '#fff',
-    padding: '0.2rem 0.4rem',
+    fontFamily: 'SourceHanSansCN-Normal !important',
+    height: '0.56rem !important',
+    fontSize: '0.34rem !important',
+    transition: 'background-color .3s !important',
+    color: '#fff !important',
+    padding: '0.2rem 0.4rem !important',
     '&:hover': {
       backgroundColor: '#333 !important',
     },

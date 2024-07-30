@@ -5,7 +5,7 @@ export default styled(({ ...p }: ControlledMenuProps) => (
   <ControlledMenu {...p} />
 ))(() => ({
   '.szh-menu': {
-    color: 'white',
+    color: 'white !important',
     minWidth: '4rem !important',
     backgroundColor: '#000 !important',
     boxShadow: '0 0 10px black !important',

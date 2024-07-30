@@ -6,12 +6,12 @@ const Divider: FunctionComponent<{ children?: string }> = ({
 }) => (
   <MuiDivider
     sx={{
-      borderColor: 'rgba(255, 255, 255, 0.2)',
-      width: '100%',
-      margin: '0.2rem auto',
-      fontSize: '0.24rem',
+      borderColor: 'rgba(255, 255, 255, 0.2) !importnat',
+      width: '100% !importnat',
+      margin: '0.2rem auto !importnat',
+      fontSize: '0.24rem !importnat',
       '&::before, &::after': {
-        borderColor: 'rgba(255, 255, 255, 0.2)',
+        borderColor: 'rgba(255, 255, 255, 0.2) !importnat',
       },
     }}
   >
