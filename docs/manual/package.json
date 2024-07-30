@@ -1,0 +1,17 @@
+{
+  "name": "manual",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@astrojs/starlight": "^0.25.3",
+    "astro": "^4.12.2"
+  }
+}
