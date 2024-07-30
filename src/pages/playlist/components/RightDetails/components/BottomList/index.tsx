@@ -12,9 +12,11 @@ import useInjectorMetadata, {
   InjectorMetadata,
 } from '@/hooks/useInjectorMetadata';
 import { SirenStoreState } from '@/types/SirenStore';
+import SearchEmptyTips from '../SearchEmptyTips';
 
 interface RightDetailsBottomListProps {
   ContextMenu?: (...args: any) => JSX.Element;
+  searchKeyword?: string;
 }
 
 function findItemId(e: React.MouseEvent<HTMLElement>) {
@@ -69,9 +71,8 @@ const useControlledMenu = (options: any) => {
 function parseU64Duration2Time(duration: number) {
   const minute = Math.floor(duration / 60000);
   const second = Math.floor((duration % 60000) / 1000);
-  return `${minute < 10 ? '0' + minute : minute}:${
-    second < 10 ? '0' + second : second
-  }`;
+  return `${minute < 10 ? '0' + minute : minute}:${second < 10 ? '0' + second : second
+    }`;
 }
 
 function getTagsBySong(
@@ -96,7 +97,7 @@ function getTagsBySong(
 
 const RightDetailsBottomList: FunctionComponent<
   RightDetailsBottomListProps
-> = ({ ContextMenu }) => {
+> = ({ ContextMenu, searchKeyword }) => {
   const {
     currentAlbumData: list,
     currentAlbumInfo: info,
@@ -114,7 +115,11 @@ const RightDetailsBottomList: FunctionComponent<
     return <PendingTips />;
   }
 
-  return list.length ? (
+  const finalList: any[] = searchKeyword?.length ? list.filter((item) => {
+    return item.name.toLowerCase().includes(searchKeyword);
+  }) : list
+
+  return finalList.length ? (
     <>
       <Scrollbar
         {...contextProps}
@@ -122,20 +127,20 @@ const RightDetailsBottomList: FunctionComponent<
         VirtuosoOptions={{
           className: 'scrollbar__hidden',
           VirtuosoProps: {
-            totalCount: list.length,
+            totalCount: finalList.length,
             itemContent: (idx) => (
               <SingleItem
-                data-item-id={list[idx].cid}
+                data-item-id={finalList[idx].cid}
                 key={idx}
-                name={list[idx].name}
-                author={list[idx].artists?.join(',')}
+                name={finalList[idx].name}
+                author={finalList[idx].artists?.join(',')}
                 album={info.name}
                 time={
-                  list[idx].duration
-                    ? parseU64Duration2Time(list[idx].duration!)
+                  finalList[idx].duration
+                    ? parseU64Duration2Time(finalList[idx].duration!)
                     : ''
                 }
-                tags={getTagsBySong(list[idx], injectorData)}
+                tags={getTagsBySong(finalList[idx], injectorData)}
               />
             ),
           },
@@ -148,7 +153,7 @@ const RightDetailsBottomList: FunctionComponent<
       )}
     </>
   ) : (
-    <EmptyTips />
+    searchKeyword?.length ? <SearchEmptyTips /> : <EmptyTips />
   );
 };
 

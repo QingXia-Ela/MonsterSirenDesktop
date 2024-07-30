@@ -20,6 +20,11 @@ pub fn system_tray_event_handler(app: &tauri::AppHandle, event: SystemTrayEvent)
         SystemTrayEvent::MenuItemClick { id, .. } => match id.as_str() {
             "quit" => {
                 // app.manage(state)
+                app.state::<Arc<Mutex<PluginManager>>>()
+                    .lock()
+                    .unwrap()
+                    .kill_all_plugin();
+
                 std::process::exit(0);
             }
             "show" => {

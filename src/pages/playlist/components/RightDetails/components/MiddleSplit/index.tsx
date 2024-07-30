@@ -1,19 +1,35 @@
 import RowZebraDivider from '@/components/Split';
 import SilverBorderButton from '@/components/SilverBorderButton';
-import { FunctionComponent, memo, useState } from 'react';
+import { FunctionComponent, memo, useEffect, useState } from 'react';
 import Styles from './index.module.scss';
 import NavSearch from '@/components/Input';
 import { useStore } from '@nanostores/react';
 import $PlayListState from '@/store/pages/playlist';
 import SirenStore from '@/store/SirenStore';
 
-interface RightDetailsMiddleSplitProps {}
+interface RightDetailsMiddleSplitProps {
+  onSearch?: (keyword: string) => void;
+}
 
 const RightDetailsMiddleSplit: FunctionComponent<
   RightDetailsMiddleSplitProps
-> = () => {
+> = ({ onSearch }) => {
   const [searchValue, setSearchValue] = useState('');
   const store = useStore($PlayListState);
+
+  useEffect(() => {
+    setSearchValue('');
+  }, [store.currentAlbumId])
+
+  useEffect(() => {
+    let timer = setTimeout(() => {
+      onSearch?.(searchValue);
+    }, 500)
+
+    return () => {
+      clearTimeout(timer);
+    }
+  }, [searchValue])
 
   const play = () => {
     SirenStore.dispatch({
@@ -74,7 +90,6 @@ const RightDetailsMiddleSplit: FunctionComponent<
       <div className={Styles.divider}>
         <RowZebraDivider />
       </div>
-      {/* todo!: finish search */}
       <NavSearch
         value={searchValue}
         onChange={(e) => setSearchValue(e.target.value)}
