@@ -1,6 +1,6 @@
 mod handle_request;
 pub mod utils;
-use futures::{executor::block_on, lock::Mutex};
+use futures::{lock::Mutex};
 use handle_request::handle_request;
 use reqwest::StatusCode;
 use std::{

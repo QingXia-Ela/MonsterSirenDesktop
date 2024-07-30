@@ -1,12 +1,10 @@
-use std::sync::{Arc, Mutex};
+use std::sync::{Arc};
 
 use indexmap::IndexMap;
-use tauri::{generate_handler, Manager};
+use tauri::{Manager};
 
 use crate::{
     global_struct::music_injector::{MusicInjector, MusicInjectorMetadata},
-    logger::debug,
-    plugin_manager::PluginManager,
 };
 
 // Learn more about Tauri commands at https://tauri.app/v1/guides/features/command

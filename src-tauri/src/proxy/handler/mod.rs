@@ -18,10 +18,9 @@ use reqwest::{
     header::{HeaderMap, *},
     Client,
 };
-use std::{borrow::BorrowMut, collections::HashMap, sync::Arc};
+use std::{borrow::BorrowMut, sync::Arc};
 use warp::{
     filters::path::FullPath,
-    reject::Rejection,
     reply::{Reply, Response},
 };
 

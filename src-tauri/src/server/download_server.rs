@@ -2,7 +2,7 @@ mod download_error;
 
 use std::{collections::HashMap, sync::Arc};
 // use std::hash::
-use reqwest::{Client, Response};
+use reqwest::{Client};
 use serde::{Deserialize, Serialize};
 use tokio::time::Instant;
 

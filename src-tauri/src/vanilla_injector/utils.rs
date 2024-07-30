@@ -1,6 +1,6 @@
 use rodio::{source::Source, Decoder};
 use std::io::BufReader;
-use std::{fs::File, time::Duration};
+use std::{fs::File};
 
 /// 获取音频时长，返回毫秒
 pub async fn get_audio_duration_from_path(path: &str) -> Option<u64> {

@@ -1,17 +1,15 @@
 mod plugin_instance;
 mod plugin_utils;
 
-use libloading::Library;
 use plugin_utils::*;
 use std::{
     collections::HashMap,
-    io::{self, Write},
+    io::{self},
 };
 
 use crate::{
     global_struct::music_injector::{MusicInjector, MusicInjectorMetadata},
-    logger,
-    plugin_error::{PluginError, PluginRequestError},
+    plugin_error::{PluginError},
 };
 
 extern crate libloading;

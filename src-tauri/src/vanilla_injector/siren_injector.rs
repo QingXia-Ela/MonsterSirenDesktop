@@ -1,4 +1,3 @@
-use std::fmt::format;
 
 use crate::{
     constants::SIREN_WEBSITE,
@@ -19,8 +18,7 @@ use reqwest::{
     Client,
 };
 use serde::{Deserialize, Serialize};
-use tauri::App;
-use warp::{reject::Rejection, reply::Response};
+use warp::{reply::Response};
 type FilterType = Vec<[&'static str; 2]>;
 
 const ALBUMS_URL: &str = "https://monster-siren.hypergryph.com/api/albums";

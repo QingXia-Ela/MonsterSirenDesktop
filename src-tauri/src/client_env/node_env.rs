@@ -1,6 +1,4 @@
-use std::ffi::c_void;
-
-use libloading::{Library, Symbol};
+use libloading::Library;
 
 use crate::client_path::PLUGIN_PATH;
 

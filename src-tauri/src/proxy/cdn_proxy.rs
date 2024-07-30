@@ -57,7 +57,7 @@ impl CdnProxy {
         port: u16,
         api_port: u16,
         filter_rules: FilterType,
-        mut cdn_cache: Option<HashMap<String, Vec<u8>>>,
+        cdn_cache: Option<HashMap<String, Vec<u8>>>,
     ) -> Self {
         let proxy = warp::path::full()
             .and(warp::header::headers_cloned())
