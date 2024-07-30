@@ -13,7 +13,7 @@ const $customRouter = atom({
 const activedPathSet = new Set();
 
 let path = '';
-const namespaceMusicPath = /\/music\/([\w|:]+)/g
+const namespaceMusicPath = /\/music\/([\w|:]+)/g;
 // listen path change
 SirenStore.subscribe(() => {
   // get real location instead store inner path
@@ -31,7 +31,8 @@ SirenStore.subscribe(() => {
     // 音乐切换时，路由也会变化，会导致自定义路由页退出展示
     // 发生音乐切换时，路由变化为 `/last/route` -> `/music/cid`
     // 因此假如下一个跳转页面是音乐页面则需要拦截此次操作
-    if (!currentPath.match(namespaceMusicPath)) $customRouter.set({ ...$customRouter.get(), path });
+    if (!currentPath.match(namespaceMusicPath))
+      $customRouter.set({ ...$customRouter.get(), path });
   }
 });
 
