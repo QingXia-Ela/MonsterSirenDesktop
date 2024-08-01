@@ -33,7 +33,7 @@ const RightDetailsMiddleSplit: FunctionComponent<
   }, [searchValue]);
 
   const play = () => {
-    let cid = store.currentAlbumData[0].cid
+    let cid = store.currentAlbumData[0].cid;
     if (cid) {
       SirenStore.dispatch({
         type: 'player/selectSong',
