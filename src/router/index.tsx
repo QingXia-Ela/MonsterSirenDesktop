@@ -19,12 +19,6 @@ const routes: RouteItem[] = [
     component: Download,
     name: '下载',
   },
-  // {
-  //   type: 'vanilla',
-  //   name: '正在播放',
-  //   element: document.createElement('a'),
-  //   addToNav: true,
-  // },
 ];
 
 export default routes;

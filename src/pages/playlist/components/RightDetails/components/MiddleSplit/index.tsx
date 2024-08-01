@@ -6,6 +6,7 @@ import NavSearch from '@/components/Input';
 import { useStore } from '@nanostores/react';
 import $PlayListState from '@/store/pages/playlist';
 import SirenStore from '@/store/SirenStore';
+import navigate from '@/router/utils/navigate';
 
 interface RightDetailsMiddleSplitProps {
   onSearch?: (keyword: string) => void;
@@ -32,10 +33,13 @@ const RightDetailsMiddleSplit: FunctionComponent<
   }, [searchValue]);
 
   const play = () => {
-    SirenStore.dispatch({
-      type: 'musicPlay/toAlbum',
-      cid: store.currentAlbumInfo.cid!,
-    });
+    let cid = store.currentAlbumData[0].cid
+    if (cid) {
+      SirenStore.dispatch({
+        type: 'player/selectSong',
+        cid,
+      });
+    }
   };
   return (
     <div className={Styles.middle_control}>

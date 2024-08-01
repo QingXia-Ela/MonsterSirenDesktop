@@ -114,7 +114,6 @@ const initalProps = {
       belong: '',
       coverUrl: '',
       coverDeUrl: null,
-      songs: [],
     },
   },
   loading: {
