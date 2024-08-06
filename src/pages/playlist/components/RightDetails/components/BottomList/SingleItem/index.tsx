@@ -16,6 +16,7 @@ interface SingleItemProps {
   tags?: TagProps[];
   operation?: any;
   [key: string]: any;
+  active?: boolean;
 }
 
 const SingleItem: FunctionComponent<SingleItemProps> = ({
@@ -25,10 +26,14 @@ const SingleItem: FunctionComponent<SingleItemProps> = ({
   time,
   tags,
   operation,
+  active,
   ...props
 }) => {
   return (
-    <div {...props} className={Styles.single_item}>
+    <div
+      {...props}
+      className={`${Styles.single_item} ${active && Styles.active}`}
+    >
       <div className='w-[40%] text_nowrap pr-1' title={name}>
         <FlowText>{name}</FlowText>
       </div>

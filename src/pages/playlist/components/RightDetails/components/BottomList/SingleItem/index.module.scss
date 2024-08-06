@@ -1,4 +1,5 @@
 .single_item {
+  position: relative;
   display: flex;
   align-items: center;
   height: 0.84rem;
@@ -17,6 +18,20 @@
 
   &:active {
     transform: scale(0.99);
+  }
+
+  &.active {
+    &::before {
+      content: '';
+      display: block;
+      position: absolute;
+      left: 0;
+      top: 0;
+      background: #fff;
+      width: 3px;
+      height: 100%;
+      box-shadow: 0 0 6px #fff;
+    }
   }
 }
 

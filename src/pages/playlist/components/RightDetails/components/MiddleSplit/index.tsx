@@ -33,12 +33,14 @@ const RightDetailsMiddleSplit: FunctionComponent<
   }, [searchValue]);
 
   const play = () => {
-    let cid = store.currentAlbumData[0].cid;
+    const cid = store.currentAlbumData[0]?.cid;
     if (cid) {
       SirenStore.dispatch({
         type: 'player/selectSong',
         cid,
       });
+      // todo!: 需要等待歌曲切换完成后才调用该方法
+      siren_audio_instance.play();
     }
   };
   return (

@@ -13,6 +13,8 @@ import useInjectorMetadata, {
 } from '@/hooks/useInjectorMetadata';
 import { SirenStoreState } from '@/types/SirenStore';
 import SearchEmptyTips from '../SearchEmptyTips';
+import SirenStore from '@/store/SirenStore';
+import useSirenStore from '@/hooks/useSirenStore';
 
 interface RightDetailsBottomListProps {
   ContextMenu?: (...args: any) => JSX.Element;
@@ -107,6 +109,7 @@ const RightDetailsBottomList: FunctionComponent<
   const { event, contextProps, menuProps, operation } = useControlledMenu({
     transition: true,
   });
+  const songId = useSirenStore((state) => state.player.songDetail.cid);
 
   const { data: injectorData } = useInjectorMetadata();
 
@@ -133,6 +136,7 @@ const RightDetailsBottomList: FunctionComponent<
             totalCount: finalList.length,
             itemContent: (idx) => (
               <SingleItem
+                active={songId === finalList[idx].cid}
                 data-item-id={finalList[idx].cid}
                 key={idx}
                 name={finalList[idx].name}

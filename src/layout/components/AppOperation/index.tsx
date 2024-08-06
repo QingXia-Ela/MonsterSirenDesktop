@@ -43,6 +43,10 @@ const AppOperation: FunctionComponent<AppOperationProps> = ({
   function gotoCurrentMusicPage() {
     const cur = SirenStore.getState().player.current;
     if (cur) {
+      SirenStore.dispatch({
+        type: 'player/selectSong',
+        cid: cur,
+      });
       navigate(`/music/${cur}`);
     }
   }

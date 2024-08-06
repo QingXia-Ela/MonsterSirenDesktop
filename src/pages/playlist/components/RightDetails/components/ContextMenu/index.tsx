@@ -94,8 +94,7 @@ function CtxMenu({
       type: 'player/selectSong',
       cid: event.cid,
     });
-    // navigate will help to init route, it can make jump correctly.
-    navigate(`/music/${event.cid}`);
+    siren_audio_instance.play();
     handleClose();
   };
   const openDialog = () => {

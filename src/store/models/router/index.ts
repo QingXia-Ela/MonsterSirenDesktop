@@ -31,7 +31,7 @@ SirenStore.subscribe(() => {
     }
     // 音乐切换时，路由也会变化，会导致自定义路由页退出展示
     // 发生音乐切换时，路由变化为 `/last/route` -> `/music/cid`
-    // 因此假如下一个跳转页面是音乐页面则需要拦截此次操作
+    // 因此假如下一个跳转页面是音乐页面，且当前页面不是音乐详情页面，则需要拦截自定义路由跳转操作
     if (
       !currentPath.match(namespaceMusicPath) &&
       // @ts-expect-error: path always compareable

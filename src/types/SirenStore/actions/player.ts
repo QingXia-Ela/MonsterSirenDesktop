@@ -56,6 +56,11 @@ export interface playerSetCurrent extends AnyAction {
 }
 
 export interface playerSetIsPlaying extends AnyAction {
+  /**
+   * **不建议直接使用，该 dispatch type 仅改变 view 层，不会真实进行播放**
+   *
+   * 如果想要实现播放切换，需要调用 `siren_audio_instance` 的 `play` `pause` `togglePlay` 方法
+   */
   type: 'player/setIsPlaying';
   isPlaying: boolean;
 }
