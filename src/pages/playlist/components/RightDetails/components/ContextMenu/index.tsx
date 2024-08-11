@@ -4,7 +4,6 @@ import $PlayListState, { setCurrentAlbumId } from '@/store/pages/playlist';
 import { usePopupState } from 'material-ui-popup-state/hooks';
 import BlackMenuItem from '@/components/ContextMenu/BlackMenuV2/BlackMenuItem';
 import SirenStore from '@/store/SirenStore';
-import navigate from '@/router/utils/navigate';
 import Divider from '@/components/ContextMenu/BlackMenuV2/Divider';
 import SubMenu from '@/components/ContextMenu/BlackMenuV2/SubMenu';
 import $CustomPlaylist, {
@@ -17,6 +16,7 @@ import Input from '@/components/Input';
 import Button from '@/components/Button';
 import GlobalNotifyChannel from '@/global_event/frontend_notify/channel';
 import { getSong } from '@/api/modules/song';
+import {} from 'dva';
 
 const addSongToPlaylistByCid = async (pid: string, cid: string) => {
   const { data } = await (await getSong(cid)).json();
@@ -94,7 +94,13 @@ function CtxMenu({
       type: 'player/selectSong',
       cid: event.cid,
     });
-    siren_audio_instance.play();
+    // 这里直接调用的原因是 store 在执行完副作用的结果后调用 audio_instace 实例 setSource 方法
+    // 该方法第三个参数即为设置完后是否播放，源码搜索 setSource 并跳转到最后一个即可看见
+    // 这里提前设置为 true 可触发 setSource 继续播放，缺点是无法保证状态是否正确
+    SirenStore.dispatch({
+      type: 'player/setIsPlaying',
+      isPlaying: true,
+    });
     handleClose();
   };
   const openDialog = () => {

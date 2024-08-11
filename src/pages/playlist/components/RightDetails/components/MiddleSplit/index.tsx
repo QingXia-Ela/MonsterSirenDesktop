@@ -39,8 +39,13 @@ const RightDetailsMiddleSplit: FunctionComponent<
         type: 'player/selectSong',
         cid,
       });
-      // todo!: 需要等待歌曲切换完成后才调用该方法
-      siren_audio_instance.play();
+      // 这里直接调用的原因是 store 在执行完副作用的结果后调用 audio_instace 实例 setSource 方法
+      // 该方法第三个参数即为设置完后是否播放，源码搜索 setSource 并跳转到最后一个即可看见
+      // 这里提前设置为 true 可触发 setSource 继续播放，缺点是无法保证状态是否正确
+      SirenStore.dispatch({
+        type: 'player/setIsPlaying',
+        isPlaying: true,
+      });
     }
   };
   return (
