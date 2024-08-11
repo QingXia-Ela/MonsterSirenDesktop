@@ -18,7 +18,13 @@ declare module globalThis {
   // such as store action `player/setIsPlaying`, it just change the state and dom show and do not effect the real audio element
   // this instance may also can get the `AudioContext`? so that we can do some unbelievable things.
   const siren_audio_instance: any;
-  export { siren_config, siren_store, siren_audio_instance, siren_router, inject_notify };
+  export {
+    siren_config,
+    siren_store,
+    siren_audio_instance,
+    siren_router,
+    inject_notify,
+  };
 }
 
 declare const __DEV__: boolean;
@@ -28,6 +34,6 @@ declare const __DEV__: boolean;
 // }
 
 declare module 'website-scraper' {
-  const mod: any
-  export default mod
+  const mod: any;
+  export default mod;
 }

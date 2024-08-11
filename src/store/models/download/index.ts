@@ -4,4 +4,4 @@ const $download = atom({
   fileList: [],
 });
 
-export default $download
+export default $download;

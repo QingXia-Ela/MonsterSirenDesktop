@@ -15,7 +15,7 @@ interface PosNum {
   y2: string | number;
 }
 
-interface SilverBorderProps { }
+interface SilverBorderProps {}
 
 export interface SilverBorderMethods {
   changeBorderPos: (p: PosNum, duration?: number, isLeave?: boolean) => void;

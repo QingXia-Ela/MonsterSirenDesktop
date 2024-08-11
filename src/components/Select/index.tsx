@@ -62,8 +62,9 @@ const Select: FunctionComponent<DropDownProps> = ({
 
   return (
     <div
-      className={`${Styles.dropdown} ${borderTheme !== 'none' && Styles[`dropdown--border-${borderTheme}`]
-        }`}
+      className={`${Styles.dropdown} ${
+        borderTheme !== 'none' && Styles[`dropdown--border-${borderTheme}`]
+      }`}
       onClick={handleClick}
       {...props}
     >

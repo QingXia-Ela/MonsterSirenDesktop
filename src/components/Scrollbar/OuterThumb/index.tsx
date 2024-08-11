@@ -1,7 +1,4 @@
-import React, {
-  CSSProperties,
-  useImperativeHandle,
-} from 'react';
+import React, { CSSProperties, useImperativeHandle } from 'react';
 import { positionValues } from 'react-custom-scrollbars';
 
 export interface ScrollClipPathProps {
@@ -57,7 +54,7 @@ const OuterThumb = React.forwardRef<OuterThumbMethods, OuterThumbProps>(
         ScrollTo: (pos) => {
           const { top, clientHeight, scrollHeight } = pos;
           const scrollbarHeightP =
-            Number((clientHeight / scrollHeight).toFixed(6)) * 100,
+              Number((clientHeight / scrollHeight).toFixed(6)) * 100,
             emptySpace = (100 - scrollbarHeightP) * top;
 
           setSP({

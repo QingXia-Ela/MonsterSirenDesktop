@@ -1,7 +1,7 @@
 import { FunctionComponent } from 'react';
 import DownloadedList from './components/DownloadedList';
 
-interface DownloadRightDetailsProps { }
+interface DownloadRightDetailsProps {}
 
 const DownloadRightDetails: FunctionComponent<
   DownloadRightDetailsProps

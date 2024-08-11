@@ -33,7 +33,7 @@ async function downloadFile(root: string, url: string, rootDir: string) {
   await fs.writeFile(filePath, Buffer.from(await res.arrayBuffer()));
   try {
     return await res.text();
-  } catch (e) { }
+  } catch (e) {}
   return '';
 }
 

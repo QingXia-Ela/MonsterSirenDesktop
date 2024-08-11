@@ -16,7 +16,7 @@ import Input from '@/components/Input';
 import Button from '@/components/Button';
 import GlobalNotifyChannel from '@/global_event/frontend_notify/channel';
 import { getSong } from '@/api/modules/song';
-import { } from 'dva';
+import {} from 'dva';
 
 const addSongToPlaylistByCid = async (pid: string, cid: string) => {
   const { data } = await (await getSong(cid)).json();

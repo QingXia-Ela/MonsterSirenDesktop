@@ -10,7 +10,7 @@ import $settingBackground, {
   throttleChangeBackgroundOpacity,
 } from '@/store/models/settings/background';
 
-interface PageStyleChangeProps { }
+interface PageStyleChangeProps {}
 
 const PAGE_OPTION_NAME_MAP = [
   {

@@ -1,12 +1,11 @@
-import {
-  DetailedHTMLProps,
-  HTMLAttributes,
-  forwardRef,
-} from 'react';
+import { DetailedHTMLProps, HTMLAttributes, forwardRef } from 'react';
 import Styles from './index.module.scss';
 
 interface NormalListItemProps
-  extends DetailedHTMLProps<HTMLAttributes<HTMLAnchorElement>, HTMLAnchorElement> {
+  extends DetailedHTMLProps<
+    HTMLAttributes<HTMLAnchorElement>,
+    HTMLAnchorElement
+  > {
   invalid?: boolean;
   selected?: boolean;
   disabled?: boolean;
@@ -51,8 +50,9 @@ const NormalListItem = forwardRef<HTMLAnchorElement, NormalListItemProps>(
   ({ SmallScaleNum, className, children, ...p }, ref) => (
     <a
       {...p}
-      className={`${Styles.normal_list_item} ${getSpeicalStyle(p)} ${className ?? ''
-        }`}
+      className={`${Styles.normal_list_item} ${getSpeicalStyle(p)} ${
+        className ?? ''
+      }`}
       ref={ref}
       style={{
         ...p.style,

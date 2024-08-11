@@ -1,7 +1,7 @@
 import { FunctionComponent } from 'react';
 import Scrollbar from '@/components/Scrollbar';
 
-interface BasicListProps { }
+interface BasicListProps {}
 
 const BasicList: FunctionComponent<BasicListProps> = () => {
   return (

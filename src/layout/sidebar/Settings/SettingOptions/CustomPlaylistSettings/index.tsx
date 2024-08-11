@@ -1,6 +1,6 @@
 import { FunctionComponent } from 'react';
 
-interface AboutSettingsProps { }
+interface AboutSettingsProps {}
 
 const AboutSettings: FunctionComponent<AboutSettingsProps> = () => {
   return (
