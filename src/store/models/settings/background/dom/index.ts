@@ -93,6 +93,8 @@ function initBackground(url: string) {
   changeBackgroundStyle(default_bg_val);
 
   window.addEventListener('popstate', onHistoryChange);
+  // todo!: 直接监听路由变化时，假如发生了切歌，则会导致页面背景透明度变成歌曲页面的设置
+  // 目前这个问题很难解决
   unsubscrible = SirenStore.subscribe(() => {
     if (window.location.pathname !== currentActiveRoute) {
       currentActiveRoute = window.location.pathname;
