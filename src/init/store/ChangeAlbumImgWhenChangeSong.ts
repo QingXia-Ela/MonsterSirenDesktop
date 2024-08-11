@@ -9,21 +9,9 @@
 import SirenStore from '@/store/SirenStore';
 import throttle from 'lodash/throttle';
 
-let currentSongCoverImg: string | null = null;
-
 const setAlbumCover = throttle((finalCoverUrl: string) => {
-  // todo!: 修复播放新列表时列表图片替代歌曲图片的问题
-  if (currentSongCoverImg !== finalCoverUrl) {
-    currentSongCoverImg = finalCoverUrl;
-
-    SirenStore.dispatch({
-      type: 'musicPlay/setAlbumDetail',
-      data: {
-        ...SirenStore.getState().musicPlay.albumDetail,
-        coverUrl: currentSongCoverImg,
-      },
-    });
-  }
+  // 直接修改的原因是在切换歌曲时播放界面一定会发生组件更新，不需要响应式修改
+  SirenStore.getState().musicPlay.albumDetail.coverUrl = finalCoverUrl;
 }, 300);
 
 SirenStore.subscribe(() => {
