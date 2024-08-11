@@ -1,5 +1,39 @@
 # Changelog
 
+## [0.2.0](https://github.com/QingXia-Ela/MonsterSirenDesktop/compare/0.1.0...0.2.0) (2024-08-11)
+
+
+### ✨ Feat
+
+* 关闭点击播放时的页面跳转行为 ([ad5d747](https://github.com/QingXia-Ela/MonsterSirenDesktop/commit/ad5d7476ca0baefc6576640d9cc54b5aa2a3e81f))
+* 增加软件使用手册 ([4c1769e](https://github.com/QingXia-Ela/MonsterSirenDesktop/commit/4c1769ea693fcadc5cac1168e1639aaa7ca4b0ae))
+
+
+### 🐛 Bug Fixes
+
+* 修复播放列表播放时没有等到歌曲切换完毕后播放的问题 ([e8518e1](https://github.com/QingXia-Ela/MonsterSirenDesktop/commit/e8518e10d738b1a2f1c7aa8d613225a2c33f7666))
+* 修复不正确字体路径导致首页加载失败的问题 ([f736fe9](https://github.com/QingXia-Ela/MonsterSirenDesktop/commit/f736fe94d86a07c2ada647e3e2701ee454fd0f5d))
+* 修复歌曲切换时导致自定义页面消失的问题 ([7998073](https://github.com/QingXia-Ela/MonsterSirenDesktop/commit/799807334fdce144b3d91b47898f2a527741885a))
+* 修复软件首次页面展示时背景色彩不正确的问题 ([27774c5](https://github.com/QingXia-Ela/MonsterSirenDesktop/commit/27774c59f321edcd1f5ab2a21035c2b4b63ded96))
+* 修复生产环境下按下 f12 可以打开开发者工具的问题 ([cd6d80d](https://github.com/QingXia-Ela/MonsterSirenDesktop/commit/cd6d80d967d1f7b889026ca26496326d745b4bc6))
+* 修复生产环境右键菜单样式丢失的问题 ([4de2ba9](https://github.com/QingXia-Ela/MonsterSirenDesktop/commit/4de2ba992b07bbd2be25646e5358079bcf97f2b2))
+* 再次修复歌曲切换时导致自定义页面消失的问题 ([fa98198](https://github.com/QingXia-Ela/MonsterSirenDesktop/commit/fa981980609794418ea5b4f425dc8ffc7ff72af1))
+
+
+### 📝 Documentation
+
+* 更新使用手册 ([a117d5f](https://github.com/QingXia-Ela/MonsterSirenDesktop/commit/a117d5f78ebb5cbd9b438a9d9adf8ee631b0fbd6))
+
+
+### 🚩 Chore
+
+* 移除一部分不必要的todo ([035e456](https://github.com/QingXia-Ela/MonsterSirenDesktop/commit/035e456fabf66e650d5e95eed1987be45439e879))
+* cargo fix result ([6ed5edc](https://github.com/QingXia-Ela/MonsterSirenDesktop/commit/6ed5edc945bb7b22fe627d19c5f92bf1a1870ac0))
+* lint ([4da9ee5](https://github.com/QingXia-Ela/MonsterSirenDesktop/commit/4da9ee5da3c8c9444b4cb50334a24c209e1946e5))
+* lint ([9e909e5](https://github.com/QingXia-Ela/MonsterSirenDesktop/commit/9e909e5b42e6db1068ebc81c1b7765234720c197))
+* try fix cargo warn ([5012dbb](https://github.com/QingXia-Ela/MonsterSirenDesktop/commit/5012dbba184cc0108dda367c1938136a77893e07))
+* update readme ([cfe94b7](https://github.com/QingXia-Ela/MonsterSirenDesktop/commit/cfe94b7672ded238e83176a7dceaee66dc2cea34))
+
 ## [0.1.0](https://github.com/QingXia-Ela/MonsterSirenDesktop/compare/0.0.1-alpha.1...0.1.0) (2024-07-30)
 
 
