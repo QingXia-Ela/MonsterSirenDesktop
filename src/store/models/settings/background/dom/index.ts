@@ -100,6 +100,11 @@ function initBackground(url: string) {
     }
   });
 
+  // 该方法访问了 Background Store，而在首个任务循环中该 store 其实并没有完成初始化，所以需要延时以保证进入第一个页面时能够正确展示色彩
+  setTimeout(() => {
+    onHistoryChange();
+  });
+
   initialized = true;
 }
 
@@ -120,10 +125,10 @@ function destroyBackground() {
 
 const onStateChange = ({ enable, url }: CONFIG_TYPE['background']) => {
   if (!initialized && enable) {
-    initBackground(getEncodedUrl(url));
+    initBackground(getEncodedUrl(url ?? ''));
   } else if (initialized && enable) {
     // no effect when other page change because current page value is not changed
-    changeBackgroundImage(getEncodedUrl(url));
+    changeBackgroundImage(getEncodedUrl(url ?? ''));
     onHistoryChange();
   } else if (!enable) {
     destroyBackground();

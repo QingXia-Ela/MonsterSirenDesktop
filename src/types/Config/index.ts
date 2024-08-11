@@ -17,7 +17,7 @@ export interface basicConfig {
 export interface backgroundConfig {
   enable?: boolean;
   url?: string;
-  backgroundOptions?: Array<{
+  backgroundOptions: Array<{
     pageName: string;
     opacity: number;
     blur: number;

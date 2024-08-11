@@ -12,6 +12,7 @@ import throttle from 'lodash/throttle';
 let currentSongCoverImg: string | null = null;
 
 const setAlbumCover = throttle((finalCoverUrl: string) => {
+  // todo!: 修复播放新列表时列表图片替代歌曲图片的问题
   if (currentSongCoverImg !== finalCoverUrl) {
     currentSongCoverImg = finalCoverUrl;
 
