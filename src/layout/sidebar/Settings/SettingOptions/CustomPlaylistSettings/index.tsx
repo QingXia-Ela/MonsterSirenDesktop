@@ -1,7 +1,6 @@
 import { FunctionComponent } from 'react';
-import Button from '@/components/Button';
 
-interface AboutSettingsProps {}
+interface AboutSettingsProps { }
 
 const AboutSettings: FunctionComponent<AboutSettingsProps> = () => {
   return (

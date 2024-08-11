@@ -10,8 +10,8 @@ import FlowText from '@/components/FlowText';
 
 interface ListLeftBottomDetailItemProps
   extends React.DetailedHTMLProps<
-    React.HTMLAttributes<HTMLDivElement>,
-    HTMLDivElement
+    React.HTMLAttributes<HTMLAnchorElement>,
+    HTMLAnchorElement
   > {
   item: SingleBottomListItemType;
   active?: boolean;
@@ -43,20 +43,21 @@ const getInnerContent = (i: SingleBottomListItemType) => {
   return <></>;
 };
 
-const getDescriptionStyle = (t: SingleBottomListItemType) => {
-  // @ts-expect-error: empty type will get default val
-  switch (t.type) {
-    case 'img':
-      return Styles.img;
-    case 'icon':
-      return Styles.icon;
-  }
-};
+// const getDescriptionStyle = (t: SingleBottomListItemType) => {
+//   // @ts-expect-error: empty type will get default val
+//   switch (t.type) {
+//     case 'img':
+//       return Styles.img;
+//     case 'icon':
+//       return Styles.icon;
+//   }
+// };
 
 const ListLeftBottomDetailItem: FunctionComponent<
   ListLeftBottomDetailItemProps
 > = ({ item, active = false, ...p }) => {
   return (
+    // @ts-expect-error: just ref type error
     <NormalListItem
       {...p}
       className={`${Styles.list_item} ${active && Styles.active}`}

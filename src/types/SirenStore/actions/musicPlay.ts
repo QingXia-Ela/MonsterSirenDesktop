@@ -10,7 +10,7 @@ export interface SirenMusicPlayType {
       belong: string;
       coverUrl: string | null;
       coverDeUrl: string | null;
-      songs: Array<Omit<SirenStoreState['player']['list'][0], 'albumCid'>>;
+      songs: SirenStoreState['player']['list'];
     };
   };
 }

@@ -53,7 +53,8 @@ export async function createPlaylist(name: string) {
 }
 
 export async function removePlaylist(playlistId: string) {
-  let res = await invoke('plugin:playlist|remove_playlist', { playlistId });
+  // todo!: 增加 invoke 值接受
+  await invoke('plugin:playlist|remove_playlist', { playlistId });
   $CustomPlaylist.set({
     playlist: $CustomPlaylist.get().playlist.filter((x) => x.id !== playlistId),
   });

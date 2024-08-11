@@ -36,8 +36,8 @@ importers:
         specifier: ^1.4.0
         version: 1.4.0
       '@tweenjs/tween.js':
-        specifier: ^21.0.0
-        version: registry.npmmirror.com/@tweenjs/tween.js@21.0.0
+        specifier: ^21.1.1
+        version: registry.npmmirror.com/@tweenjs/tween.js@21.1.1
       '@types/react-transition-group':
         specifier: ^4.4.7
         version: registry.npmmirror.com/@types/react-transition-group@4.4.7
@@ -8721,10 +8721,10 @@ packages:
     engines: {node: '>=10.13.0'}
     dev: true
 
-  registry.npmmirror.com/@tweenjs/tween.js@21.0.0:
-    resolution: {integrity: sha512-qVfOiFh0U8ZSkLgA6tf7kj2MciqRbSCWaJZRwftVO7UbtVDNsZAXpWXqvCDtIefvjC83UJB+vHTDOGm5ibXjEA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@tweenjs/tween.js/-/tween.js-21.0.0.tgz}
+  registry.npmmirror.com/@tweenjs/tween.js@21.1.1:
+    resolution: {integrity: sha512-O2GetAwEC/0MOiRb3lxCLIt/eeugoDPX0nu+1SFWLqGKf835ZdWsfM9RzDpjF+aKkpYMhvOnEhO+SxMnHHjpfw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@tweenjs/tween.js/-/tween.js-21.1.1.tgz}
     name: '@tweenjs/tween.js'
-    version: 21.0.0
+    version: 21.1.1
     dev: false
 
   registry.npmmirror.com/@types/acorn@4.0.6:

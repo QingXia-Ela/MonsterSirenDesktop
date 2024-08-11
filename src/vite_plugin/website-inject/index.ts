@@ -1,10 +1,7 @@
 import { PluginOption } from 'vite';
-import fs from 'fs/promises';
-import path from 'path';
 import startSirenWebsiteScrape from './website-grap';
-// import './website-inject/createServer';
 
-const CDN_PATH = 'https://web.hycdn.cn/';
+// const CDN_PATH = 'https://web.hycdn.cn/';
 
 function replaceStr(str: string, oldStr: string, newStr: string) {
   return str
@@ -22,7 +19,7 @@ let sourceSirenStr: string;
 function Plugin() {
   return {
     name: 'website-inject',
-    async transformIndexHtml(html, ctx) {
+    async transformIndexHtml(html) {
       if (process.env.STORYBOOK) return html;
 
       if (!sourceSirenStr) {

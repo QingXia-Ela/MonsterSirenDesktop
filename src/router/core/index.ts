@@ -1,12 +1,11 @@
 // TODO!: 重构路由核心
-import { Fragment, createElement, useEffect } from 'react';
+import { useEffect } from 'react';
 import routes from '..';
 import getSirenCtx from '@/hooks/getSirenCtx';
-import { PathRouteItem, RouteItem, VanillaRouteItem } from '../types';
+import { PathRouteItem } from '../types';
 import Styles from './index.module.scss';
 import $customRouter, {
   setCanRoute,
-  setPageEntered,
   setRouterPath,
 } from '@/store/models/router';
 
@@ -78,12 +77,12 @@ export function createView() {
           }
           break;
         }
-        case 'vanilla': {
-          const { element, name = '' } = v as VanillaRouteItem;
-          element.className += navClassName;
-          element.innerHTML = name;
-          nav.appendChild(element);
-        }
+        // case 'vanilla': {
+        //   const { element, name = '' } = v as VanillaRouteItem;
+        //   element.className += navClassName;
+        //   element.innerHTML = name;
+        //   nav.appendChild(element);
+        // }
       }
     });
   }, []);

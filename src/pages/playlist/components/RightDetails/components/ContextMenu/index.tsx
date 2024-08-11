@@ -16,7 +16,7 @@ import Input from '@/components/Input';
 import Button from '@/components/Button';
 import GlobalNotifyChannel from '@/global_event/frontend_notify/channel';
 import { getSong } from '@/api/modules/song';
-import {} from 'dva';
+import { } from 'dva';
 
 const addSongToPlaylistByCid = async (pid: string, cid: string) => {
   const { data } = await (await getSong(cid)).json();
@@ -117,7 +117,6 @@ function CtxMenu({
         GlobalNotifyChannel.emit('notify', {
           severity: 'success',
           content:
-            // @ts-expect-error: __DEV__ define in vite
             '创建播放列表成功: ' + (__DEV__ ? `歌单ID: ${playlist.id}` : ''),
         });
         await addSongWithNotice(playlist.id, event.cid, handleClose);

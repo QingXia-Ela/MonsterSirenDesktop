@@ -10,7 +10,6 @@ interface RightOptionDetailProps extends PropsWithChildren {
 const RightOptionDetail: FunctionComponent<RightOptionDetailProps> = ({
   optionList,
   value,
-  children,
 }) => {
   return (
     <div className="w-full font-['Microsoft Yahei']">

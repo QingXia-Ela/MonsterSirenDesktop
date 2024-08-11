@@ -1,5 +1,4 @@
-import { HTMLAttributes, useEffect } from 'react';
-import { RouteItem, RouterCombineProps } from './types';
+import { RouteItem } from './types';
 import PlayList from '@/pages/playlist';
 import Download from '@/pages/download';
 /**

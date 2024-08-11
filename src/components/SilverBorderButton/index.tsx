@@ -2,20 +2,18 @@ import { throttle } from 'lodash';
 import {
   createRef,
   FunctionComponent,
-  PropsWithChildren,
   useEffect,
-  useState,
 } from 'react';
 import SilverBorder, { SilverBorderMethods } from './border';
 import Styles from './index.module.scss';
 
-interface SilverBorderButtonProps {}
+interface SilverBorderButtonProps extends React.DetailedHTMLProps<
+  React.ButtonHTMLAttributes<HTMLButtonElement>,
+  HTMLButtonElement
+> { }
 
 const SilverBorderButton: FunctionComponent<
-  React.DetailedHTMLProps<
-    React.ButtonHTMLAttributes<HTMLButtonElement>,
-    HTMLButtonElement
-  >
+  SilverBorderButtonProps
 > = ({ children, ...p }) => {
   const svgWrapper = createRef<HTMLButtonElement>();
   const Border = createRef<SilverBorderMethods>();

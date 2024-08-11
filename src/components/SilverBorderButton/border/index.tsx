@@ -1,16 +1,12 @@
-import { DebouncedFunc, throttle } from 'lodash';
 import {
   createRef,
   forwardRef,
-  FunctionComponent,
-  memo,
   RefObject,
   useEffect,
   useImperativeHandle,
-  useState,
 } from 'react';
 import Styles from './index.module.scss';
-import { Tween, Easing } from '@tweenjs/tween.js';
+import { Tween } from '@tweenjs/tween.js';
 
 interface PosNum {
   x1: string | number;
@@ -19,7 +15,7 @@ interface PosNum {
   y2: string | number;
 }
 
-interface SilverBorderProps {}
+interface SilverBorderProps { }
 
 export interface SilverBorderMethods {
   changeBorderPos: (p: PosNum, duration?: number, isLeave?: boolean) => void;
@@ -39,7 +35,7 @@ const handleRadialGradient = (
 
 /** 可优化 */
 const SilverBorder = forwardRef<SilverBorderMethods, SilverBorderProps>(
-  (props, ref) => {
+  (_props, ref) => {
     const r1 = createRef<SVGRadialGradientElement>();
     const r2 = createRef<SVGRadialGradientElement>();
 

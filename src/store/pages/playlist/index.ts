@@ -45,12 +45,14 @@ async function getListData(id: string) {
   return await (await getAlbumDetail(id)).json();
 }
 
+// @ts-expect-error: maybe use in future
 async function getAlbumListData() {
   return (await (await getAlbums()).json()) as AlbumBriefData[];
 }
 
 const albumIdReg = /(\w+):(.+)/;
 
+// @ts-expect-error: maybe use in future
 function parseAlbumData(albumList: AlbumBriefData[]) {
   const map: Record<string, AlbumBriefData[]> = {};
 
@@ -64,8 +66,7 @@ function parseAlbumData(albumList: AlbumBriefData[]) {
 }
 
 export async function updateAlbumList() {
-  const data = await getAlbumListData();
-
+  // const data = await getAlbumListData();
   // $PlayListState.set({
   //   ...$PlayListState.get(),
   //   albumList: data,

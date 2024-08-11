@@ -1,5 +1,4 @@
 import React, {
-  FunctionComponent,
   CSSProperties,
   useImperativeHandle,
 } from 'react';
@@ -28,6 +27,7 @@ export interface OuterThumbMethods {
   ScrollTo: (pos: positionValues, ScrollbarDegNum?: number) => void;
 }
 
+// @ts-expect-error
 const OuterThumbStyle: CSSProperties = {
   position: 'absolute',
   top: 0,
@@ -57,7 +57,7 @@ const OuterThumb = React.forwardRef<OuterThumbMethods, OuterThumbProps>(
         ScrollTo: (pos) => {
           const { top, clientHeight, scrollHeight } = pos;
           const scrollbarHeightP =
-              Number((clientHeight / scrollHeight).toFixed(6)) * 100,
+            Number((clientHeight / scrollHeight).toFixed(6)) * 100,
             emptySpace = (100 - scrollbarHeightP) * top;
 
           setSP({

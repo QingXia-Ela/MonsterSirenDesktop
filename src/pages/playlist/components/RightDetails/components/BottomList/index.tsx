@@ -13,7 +13,6 @@ import useInjectorMetadata, {
 } from '@/hooks/useInjectorMetadata';
 import { SirenStoreState } from '@/types/SirenStore';
 import SearchEmptyTips from '../SearchEmptyTips';
-import SirenStore from '@/store/SirenStore';
 import useSirenStore from '@/hooks/useSirenStore';
 
 interface RightDetailsBottomListProps {
@@ -73,9 +72,8 @@ const useControlledMenu = (options: any) => {
 function parseU64Duration2Time(duration: number) {
   const minute = Math.floor(duration / 60000);
   const second = Math.floor((duration % 60000) / 1000);
-  return `${minute < 10 ? '0' + minute : minute}:${
-    second < 10 ? '0' + second : second
-  }`;
+  return `${minute < 10 ? '0' + minute : minute}:${second < 10 ? '0' + second : second
+    }`;
 }
 
 function getTagsBySong(
@@ -121,8 +119,8 @@ const RightDetailsBottomList: FunctionComponent<
 
   const finalList: any[] = searchKeyword?.length
     ? list.filter((item) => {
-        return item.name.toLowerCase().includes(searchKeyword);
-      })
+      return item.name.toLowerCase().includes(searchKeyword);
+    })
     : list;
 
   return finalList.length ? (

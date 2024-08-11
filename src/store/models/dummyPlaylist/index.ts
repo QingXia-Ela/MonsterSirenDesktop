@@ -6,7 +6,6 @@
  * 用于存储页面临时播放列表，仅提供给自定义页面使用
  */
 
-import SirenStore from '@/store/SirenStore';
 import { atom } from 'nanostores';
 
 /**

@@ -62,7 +62,7 @@ export default function createEffectManager(data: any) {
    * @return {WritableAtom} The atom instance.
    */
   function getAtom<T>(key: string): WritableAtom<T> {
-    return atomMap.get(key);
+    return atomMap.get(key) as WritableAtom<T>;
   }
 
   setTimeout(() => {

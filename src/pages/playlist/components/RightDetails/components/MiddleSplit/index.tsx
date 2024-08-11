@@ -6,7 +6,6 @@ import NavSearch from '@/components/Input';
 import { useStore } from '@nanostores/react';
 import $PlayListState from '@/store/pages/playlist';
 import SirenStore from '@/store/SirenStore';
-import navigate from '@/router/utils/navigate';
 
 interface RightDetailsMiddleSplitProps {
   onSearch?: (keyword: string) => void;

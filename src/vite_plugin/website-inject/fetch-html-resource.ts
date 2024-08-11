@@ -33,7 +33,7 @@ async function downloadFile(root: string, url: string, rootDir: string) {
   await fs.writeFile(filePath, Buffer.from(await res.arrayBuffer()));
   try {
     return await res.text();
-  } catch (e) {}
+  } catch (e) { }
   return '';
 }
 
@@ -45,7 +45,7 @@ function getAllUrlFromSirenHtml(str: string) {
     console.log('None url found');
     return [];
   }
-  Object.entries(urlList).map(([key, value]) => {
+  Object.entries(urlList).map(([_key, value]) => {
     res.add(value);
   });
   return Array.from(res);
@@ -55,6 +55,7 @@ function sleep(time: number) {
   return new Promise((resolve) => setTimeout(resolve, time));
 }
 
+// @ts-expect-error: use in future?
 async function downloadFileToDist(sirenInjectHtml: string) {
   // todo!: add cache to instead each time download
   const urls = getAllUrlFromSirenHtml(sirenInjectHtml);

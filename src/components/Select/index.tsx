@@ -2,8 +2,6 @@ import React, {
   FunctionComponent,
   HTMLAttributes,
   ReactNode,
-  createRef,
-  useEffect,
   useState,
 } from 'react';
 import Styles from './index.module.scss';
@@ -64,9 +62,8 @@ const Select: FunctionComponent<DropDownProps> = ({
 
   return (
     <div
-      className={`${Styles.dropdown} ${
-        borderTheme !== 'none' && Styles[`dropdown--border-${borderTheme}`]
-      }`}
+      className={`${Styles.dropdown} ${borderTheme !== 'none' && Styles[`dropdown--border-${borderTheme}`]
+        }`}
       onClick={handleClick}
       {...props}
     >

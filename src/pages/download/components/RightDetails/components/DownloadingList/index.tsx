@@ -4,7 +4,6 @@ import React, { FunctionComponent } from 'react';
 import { Progress } from 'tdesign-react';
 
 const ItemOperation = ({
-  id,
   downloading,
 }: {
   id: string;
@@ -12,9 +11,8 @@ const ItemOperation = ({
 }) => (
   <>
     <i
-      className={`text-[.5rem] iconfont ${
-        downloading ? 'icon-24gl-pauseCircle' : 'icon-24gl-playCircle'
-      }`}
+      className={`text-[.5rem] iconfont ${downloading ? 'icon-24gl-pauseCircle' : 'icon-24gl-playCircle'
+        }`}
     ></i>
     <i className='text-[.5rem] iconfont icon-24gl-trash2'></i>
   </>
@@ -65,7 +63,7 @@ const SingleItem: React.FC<{
   </a>
 );
 
-interface DownloadingListProps {}
+interface DownloadingListProps { }
 
 const DownloadingList: FunctionComponent<DownloadingListProps> = () => {
   return (

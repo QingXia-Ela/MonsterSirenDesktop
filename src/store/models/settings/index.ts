@@ -5,7 +5,6 @@ import {
   writeTextFile,
   BaseDirectory,
   createDir,
-  exists,
 } from '@tauri-apps/api/fs';
 import { WritableAtom, atom } from 'nanostores';
 

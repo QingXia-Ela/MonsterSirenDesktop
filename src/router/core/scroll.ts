@@ -1,6 +1,7 @@
 /**
- * @deprecated
+ * @deprecated 没用！
  */
+// @ts-nocheck
 import SirenStore from '@/store/SirenStore';
 import routes from '..';
 import { throttle } from 'lodash';
@@ -16,7 +17,7 @@ getSirenCtx()?.querySelector('#layout')?.append(CustomRouterContainer);
 const TAIL_PATH = '/contact';
 
 const addedRoutes = routes.filter(({ addToNav }) => addToNav);
-const hiddenRoutes = routes.filter(({ addToNav }) => !addToNav);
+// const hiddenRoutes = routes.filter(({ addToNav }) => !addToNav);
 
 const activateSet = new Set<string>();
 

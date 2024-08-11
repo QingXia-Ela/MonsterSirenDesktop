@@ -1,10 +1,12 @@
-import getSirenCtx from '@/hooks/getSirenCtx';
-import { FunctionComponent, useEffect, useState } from 'react';
+/**
+ * 缩略播放列表，目前暂时没启用
+ * 
+ * 因为在工具栏顶部有直接跳转播放页面的快捷方式，所以暂时不用这个
+ */
+import { FunctionComponent } from 'react';
 import { Portal } from '@mui/material';
-import Styles from './index.module.scss';
-import PlayListHeader from './components/header';
 
-interface PlayListProps {}
+interface PlayListProps { }
 
 const injectElement = document.querySelector('#inject-app') as HTMLDivElement;
 

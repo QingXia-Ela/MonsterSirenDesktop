@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import getSirenCtx from '@/hooks/getSirenCtx';
 import Styles from './index.module.css';
 import { Portal } from '@mui/material';
@@ -23,7 +23,7 @@ function SideBar({ open, setOpen }: SideBarProps) {
     setOpen(false);
     layout.style.filter = '';
     layout.style.pointerEvents = '';
-    saveSettings().then(() => {});
+    saveSettings().then(() => { });
   };
 
   if (open) {

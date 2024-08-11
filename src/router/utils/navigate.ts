@@ -1,6 +1,5 @@
 import $customRouter, {
   setCanRoute,
-  setPageEntered,
   setRouterPath,
 } from '@/store/models/router';
 

@@ -1,5 +1,3 @@
-import { useEffect } from 'react';
-
 function useBackground(doc: Document) {
   const layout = doc.getElementById('layout') as HTMLDivElement;
 

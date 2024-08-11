@@ -1,5 +1,5 @@
 import StyledTooltip from '@/components/mui/Tooltip';
-import { FunctionComponent, createRef, useState } from 'react';
+import { FunctionComponent, useState } from 'react';
 import SubTitle from '../../../components/SubTitle';
 import Select from '@/components/Select';
 import DisabledMark from '@/components/DisabledMark';
@@ -10,7 +10,7 @@ import $settingBackground, {
   throttleChangeBackgroundOpacity,
 } from '@/store/models/settings/background';
 
-interface PageStyleChangeProps {}
+interface PageStyleChangeProps { }
 
 const PAGE_OPTION_NAME_MAP = [
   {

@@ -13,7 +13,6 @@ interface AppOperationProps {
 }
 
 const AppOperation: FunctionComponent<AppOperationProps> = ({
-  open,
   setOpen,
 }) => {
   const [min, setMin] = useState(false);
@@ -71,9 +70,8 @@ const AppOperation: FunctionComponent<AppOperationProps> = ({
       {/* window maximize */}
       <Suspense>
         <a
-          className={`iconfont icon-24gl-${min ? 'minimize' : 'square'} ${
-            Styles.iconfont
-          }`}
+          className={`iconfont icon-24gl-${min ? 'minimize' : 'square'} ${Styles.iconfont
+            }`}
           onClick={changeWindowSize}
         ></a>
       </Suspense>

@@ -1,4 +1,4 @@
-import { FunctionComponent, useMemo, useRef } from 'react';
+import { FunctionComponent, useRef } from 'react';
 import Styles from './index.module.scss';
 import WhiteZebraScrollbars from '@/components/Scrollbar';
 import { BottomListType } from '../constant';

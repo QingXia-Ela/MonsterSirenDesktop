@@ -23,7 +23,7 @@ export const Primary: Story = {
   args: {
     value: 'test',
     placeholder: '请选择',
-    listHeight: '2.1rem',
+    // listHeight: '2.1rem',
     height: '2.8rem',
     closeAfterSelect: false,
     arrow: false,

@@ -34,7 +34,7 @@ const wss = new WebSocketServer({
   port: 30012,
 });
 
-let TauriWs = null;
+let TauriWs: any = null;
 
 wss.on('connection', (ws) => {
   logger.info('connection established.');
@@ -60,7 +60,7 @@ async function build() {
 const Plugin = function () {
   return {
     name: 'tauri-hmr',
-    options(options) {
+    options() {
       build().then(() => {
         logger.info(`Update and build successfully.`);
       });

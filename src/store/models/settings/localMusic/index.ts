@@ -1,4 +1,4 @@
-import { SettingsManager, saveSettings } from '../';
+import { SettingsManager } from '../';
 import { CONFIG_TYPE } from '../types';
 
 const $settingLocalMusic =

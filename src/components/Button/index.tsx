@@ -1,4 +1,4 @@
-import { ButtonHTMLAttributes, FunctionComponent, forwardRef } from 'react';
+import { ButtonHTMLAttributes, forwardRef } from 'react';
 import Styles from './index.module.scss';
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
