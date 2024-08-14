@@ -194,7 +194,6 @@ impl CustomPlaylistManager {
 
     /// Use new songs replace old songs.
     #[deprecated = "This methods doesn't work correctly now and wait for fix. You can use update_songs instead."]
-    #[allow(dead_code)]
     pub async fn update_songs(&self, playlist_id: String, new_songs: Vec<BriefSong>) {
         match self.data.lock().await.get_mut(&playlist_id) {
             Some(playlist) => {

@@ -6,7 +6,8 @@
   "editor.tabSize": 2,
   "rust-analyzer.diagnostics.disabled": [
     "unresolved-macro-call",
-    "unresolved-proc-macro"
+    "unresolved-proc-macro",
+    "dead_code"
   ],
   "[mdx]": {
     "editor.formatOnSave": false

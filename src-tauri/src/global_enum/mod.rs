@@ -1,6 +1,5 @@
 // const SONGS_REGEX: &str = r"^/song/(\d+)$";
 // const ALBUMS_REGEX: &str = r"^/album/(\d+)/data$";
-
 #[derive(PartialEq, Eq)]
 pub enum SirenApiPath {
     /// Get all songs

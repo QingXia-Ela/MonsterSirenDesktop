@@ -8,7 +8,7 @@
     "build": "vite build",
     "preview": "vite preview",
     "start": "tauri dev",
-    "tauri": "tauri dev",
+    "tauri:dev": "tauri dev",
     "tauri:build": "tauri build",
     "build:types": "cd src-tauri && cargo test && cd ../bin && node move_types.cjs",
     "lint": "npx prettier ./src --write",
