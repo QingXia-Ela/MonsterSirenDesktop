@@ -4,9 +4,11 @@ import GlobalNotifyChannel, { NotifyMessageProps } from './channel';
 import { IconButton } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 
-interface GlobalNotifyComponentProps {}
+interface GlobalNotifyComponentProps { }
 
 let queue: NotifyMessageProps[] = [];
+
+let timer: any = null
 
 const GlobalNotifyComponent: FunctionComponent<
   GlobalNotifyComponentProps
@@ -38,7 +40,7 @@ const GlobalNotifyComponent: FunctionComponent<
     setCurMsg(msgQueue[0]);
     setMsgQueue(msgQueue.slice(1));
     setOpen(true);
-    setTimeout(() => {
+    timer = setTimeout(() => {
       // close it and wait anime
       setOpen(false);
       setTimeout(() => {
@@ -57,6 +59,10 @@ const GlobalNotifyComponent: FunctionComponent<
     }
 
     setOpen(false);
+    setTimeout(() => {
+      // remove msg, trigger rerender to next msg
+      setCurMsg(undefined);
+    }, 300);
   };
 
   const Action = (
