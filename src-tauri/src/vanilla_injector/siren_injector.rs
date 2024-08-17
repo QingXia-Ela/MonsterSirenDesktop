@@ -153,7 +153,7 @@ impl MusicInject for SirenInjector {
             .await?;
 
         let mut res: ResponseMsg<Song> = serde_json::from_str(&res.as_str()).unwrap();
-        res.data.cid = String::from("siren:all");
+        res.data.cid = format!("siren:{}", res.data.cid);
         res.data.album_cid = String::from("siren:all");
         Ok(res.data)
     }

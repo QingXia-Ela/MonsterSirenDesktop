@@ -225,7 +225,8 @@ impl CustomPlaylistManager {
                     ))
                     .await;
                     if let Ok(res) = res {
-                        match res.json::<ResponseMsg<Song>>().await {
+                        let body = res.text().await.unwrap();
+                        match serde_json::from_str::<ResponseMsg<Song>>(&body) {
                             Ok(song) => {
                                 let mut song = song.data;
                                 // modify cid and albumCid to local
@@ -236,8 +237,8 @@ impl CustomPlaylistManager {
                             Err(e) => {
                                 error(
                                     format!(
-                                        "JSON parse error: {}, playlist_id: {}, cid: {}",
-                                        e, playlist_id, cid
+                                        "JSON parse error: {}, playlist_id: {}, cid: {}, response_body: {}",
+                                        e, playlist_id, cid, String::from_utf8(Vec::from(body)).unwrap()
                                     )
                                     .as_str(),
                                 );

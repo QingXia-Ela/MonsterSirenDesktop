@@ -3,7 +3,6 @@
     all(not(debug_assertions), target_os = "windows"),
     windows_subsystem = "windows"
 )]
-// include!(concat!(env!("OUT_DIR"), "/inline_siren_resources.rs"));
 extern crate lazy_static;
 mod client_env;
 pub mod client_path;

@@ -140,7 +140,15 @@ async fn handle_request(
     let mut request_builder = client.get(&target_url);
     request_builder = request_builder.header("referer", SIREN_WEBSITE);
 
-    let response_file = Box::new(request_builder.send().await.unwrap());
+    let response_file = request_builder.send().await;
+
+    let response_file = match response_file {
+        Ok(r) => r,
+        Err(_) => {
+            return Err(warp::reject::not_found());
+        }
+    };
+
     let mut response = warp::reply::Response::new("".into());
 
     let mut header_map = HeaderMap::new();
