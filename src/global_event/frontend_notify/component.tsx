@@ -4,11 +4,11 @@ import GlobalNotifyChannel, { NotifyMessageProps } from './channel';
 import { IconButton } from '@mui/material';
 import CloseIcon from '@mui/icons-material/Close';
 
-interface GlobalNotifyComponentProps { }
+interface GlobalNotifyComponentProps {}
 
 let queue: NotifyMessageProps[] = [];
 
-let timer: any = null
+let timer: any = null;
 
 const GlobalNotifyComponent: FunctionComponent<
   GlobalNotifyComponentProps
