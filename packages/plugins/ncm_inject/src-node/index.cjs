@@ -147,6 +147,8 @@ async function start() {
     moduleDefs: parseCollect(collect),
     checkVersion: false
   })
-  // server.use("/login-page", () => require("../src-login/index.html"))
+  server.get("/login-page", (req, res) => res
+    .set("Content-Type", "text/html; charset=utf-8")
+    .send(require("../src-login/index.html")))
 }
 start()
