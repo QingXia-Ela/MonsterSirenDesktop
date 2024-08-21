@@ -217,6 +217,24 @@ importers:
         specifier: ^8.13.0
         version: 8.13.0
 
+  docs/eccentric-ellipse:
+    dependencies:
+      '@astrojs/check':
+        specifier: ^0.9.3
+        version: registry.npmmirror.com/@astrojs/check@0.9.3(prettier@3.0.3)(typescript@5.5.4)
+      '@astrojs/starlight':
+        specifier: ^0.26.1
+        version: registry.npmmirror.com/@astrojs/starlight@0.26.1(astro@4.12.2)
+      astro:
+        specifier: ^4.10.2
+        version: registry.npmmirror.com/astro@4.12.2(@types/node@20.4.5)(sass@1.69.1)(typescript@5.5.4)
+      sharp:
+        specifier: ^0.32.5
+        version: registry.npmmirror.com/sharp@0.32.5
+      typescript:
+        specifier: ^5.5.4
+        version: registry.npmmirror.com/typescript@5.5.4
+
   docs/manual:
     dependencies:
       '@astrojs/check':
@@ -2681,12 +2699,6 @@ packages:
     resolution: {integrity: sha512-bL/O7YBxsFt55YHU021oL+xz+B/9HvGNId3F9xURN16aeqDK9juHGktdkCSXz+U4nqFACq6ZFvWomOzhV+zfPw==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@astrojs/compiler/-/compiler-2.10.3.tgz}
     name: '@astrojs/compiler'
     version: 2.10.3
-    dev: false
-
-  registry.npmmirror.com/@astrojs/compiler@2.9.2:
-    resolution: {integrity: sha512-Vpu0Ffsj8SoV+N0DFHlxxOMKHwSC9059Xy/OlG1t6uFYSoJXxkBC2WyF6igO7x10V+8uJrhOxaXr3nA90kJXow==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@astrojs/compiler/-/compiler-2.9.2.tgz}
-    name: '@astrojs/compiler'
-    version: 2.9.2
     dev: false
 
   registry.npmmirror.com/@astrojs/internal-helpers@0.4.1:
@@ -10134,7 +10146,7 @@ packages:
     engines: {node: ^18.17.1 || ^20.3.0 || >=21.0.0, npm: '>=9.6.5', pnpm: '>=7.1.0'}
     hasBin: true
     dependencies:
-      '@astrojs/compiler': registry.npmmirror.com/@astrojs/compiler@2.9.2
+      '@astrojs/compiler': registry.npmmirror.com/@astrojs/compiler@2.10.3
       '@astrojs/internal-helpers': registry.npmmirror.com/@astrojs/internal-helpers@0.4.1
       '@astrojs/markdown-remark': registry.npmmirror.com/@astrojs/markdown-remark@5.2.0
       '@astrojs/telemetry': registry.npmmirror.com/@astrojs/telemetry@3.1.0
