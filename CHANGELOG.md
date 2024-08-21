@@ -1,6 +1,6 @@
 # Changelog
 
-## [1.1.0](https://github.com/QingXia-Ela/MonsterSirenDesktop/compare/0.2.0...1.1.0) (2024-08-21)
+## [1.0.0](https://github.com/QingXia-Ela/MonsterSirenDesktop/compare/0.2.0...1.0.0) (2024-08-21)
 
 
 ### ✨ Feat
