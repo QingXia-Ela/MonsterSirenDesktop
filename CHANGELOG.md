@@ -1,5 +1,37 @@
 # Changelog
 
+## [1.1.0](https://github.com/QingXia-Ela/MonsterSirenDesktop/compare/0.2.0...1.1.0) (2024-08-21)
+
+
+### ✨ Feat
+
+* 更新图标 ([f30b170](https://github.com/QingXia-Ela/MonsterSirenDesktop/commit/f30b170ea4d74a465c684e56bdaa44d1a50d44c4))
+* 增加网易云登录页面 ([f628fd1](https://github.com/QingXia-Ela/MonsterSirenDesktop/commit/f628fd12c0e11d251991f7e6d371c516f94dc24c))
+
+
+### 🐛 Bug Fixes
+
+* 修复歌曲封面切换失败的问题 ([eb77684](https://github.com/QingXia-Ela/MonsterSirenDesktop/commit/eb776842be66e74122b400ddf4981a93bdf07f11))
+* 修复消息组件关闭后隔了很长时间才展示下一条消息的问题 ([05be5e3](https://github.com/QingXia-Ela/MonsterSirenDesktop/commit/05be5e392ece404a1acda4c6aec4c97297af0410))
+* 修复siren cid 错误问题 ([b93852d](https://github.com/QingXia-Ela/MonsterSirenDesktop/commit/b93852d9870d079259d403d83c3ea3586cd3f0be))
+
+
+### 📝 Documentation
+
+* 更新文档 ([818d31d](https://github.com/QingXia-Ela/MonsterSirenDesktop/commit/818d31d94cc13fe729eb31ee7fa28416ace35bea))
+* 增加文档构建工作流 ([7d957de](https://github.com/QingXia-Ela/MonsterSirenDesktop/commit/7d957dec3c59cd7a184ec4784a24834c069918d6))
+
+
+### 🚩 Chore
+
+* 封包，开始清理操作 ([410451c](https://github.com/QingXia-Ela/MonsterSirenDesktop/commit/410451c2e202efc096e781ce2267caf94d718858))
+* 修复ts错误 ([116223d](https://github.com/QingXia-Ela/MonsterSirenDesktop/commit/116223d86685e773e56848a53963ff904c3382a8))
+* 增加默认路径icon ([ed96304](https://github.com/QingXia-Ela/MonsterSirenDesktop/commit/ed96304aff98008b5a56cb044a86d45338664446))
+* lint ([83f8033](https://github.com/QingXia-Ela/MonsterSirenDesktop/commit/83f80332d7c7887b7ad83121d8b87a2b96ce542d))
+* lint ([0811ed1](https://github.com/QingXia-Ela/MonsterSirenDesktop/commit/0811ed12857af5a7bd66bd753597c5540e5312dc))
+* update docs ([b426f5b](https://github.com/QingXia-Ela/MonsterSirenDesktop/commit/b426f5b20ee9223dbd2b3037da6627e71d083780))
+* Update to 1.0.0 ([59d2d6a](https://github.com/QingXia-Ela/MonsterSirenDesktop/commit/59d2d6a3f6e4e4b7aaba8c92891d988cdab87d69))
+
 ## [0.2.0](https://github.com/QingXia-Ela/MonsterSirenDesktop/compare/0.1.0...0.2.0) (2024-08-11)
 
 
