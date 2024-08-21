@@ -3,6 +3,7 @@ import starlight from '@astrojs/starlight';
 
 export default defineConfig({
   // 你的配置在这里...
+  base: `/MonsterSirenDesktop/`,
   integrations: [
     starlight({
       title: '塞壬唱片桌面版开发/使用手册',
