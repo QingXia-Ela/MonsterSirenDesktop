@@ -9,6 +9,7 @@ async function buildAll() {
   await fs.copyFile("./src-tauri/target/release/MonsterSirenDesktop.exe", "./dist-release/MonsterSirenDesktop.exe");
   process.chdir("packages/plugins/ncm_inject");
   await execa("pnpm release");
+  await fs.mkdir(path.join("..", "..", "..", "dist-release", "plugins"));
   await fs.copyFile("./src-rust/target/release/ncm_inject.dll", path.join("..", "..", "..", "dist-release", "plugins", "ncm_inject.dll"));
 }
 

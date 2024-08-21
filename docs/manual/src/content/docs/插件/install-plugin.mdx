@@ -1,0 +1,27 @@
+---
+title: 安装插件
+head: []
+sidebar:
+  hidden: false
+---
+
+import { FileTree } from '@astrojs/starlight/components';
+
+这一步应该是最简单的，你可以去到 [Releases](https://github.com/QingXia-Ela/MonsterSirenDesktop/releases)，下载本仓库的 dll 插件
+
+选取最新的版本，找到以 `dll` 结尾的文件，并下载。
+
+仓库官方的插件是 `ncm_inject.dll`，即网易云注入实现。
+
+在音乐app本体文件夹下新建一个文件夹，名字为 `plugins`，然后将你下载好的 `dll` 文件拷贝到这个文件夹下。
+
+此时你的整个目录看起来应该是这样子：
+
+
+<FileTree>
+- plugins
+  - ncm_inject.dll 网易云插件
+- MonsterSirenDesktop.exe 软件本体
+</FileTree>
+
+接下来就是启动软件，软件启动完成后，访问 http://localhost:53753/login-page ，假如发现进入了登录界面，那么就证明插件安装成功了！

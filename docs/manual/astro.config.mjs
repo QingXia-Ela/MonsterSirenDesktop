@@ -19,6 +19,25 @@ export default defineConfig({
           autogenerate: {
             directory: '新增功能'
           }
+        },
+        {
+          label: "插件",
+          autogenerate: {
+            directory: '插件'
+          }
+        },
+        {
+          label: "插件开发手册",
+          collapsed: true,
+          autogenerate: {
+            directory: '插件开发手册'
+          }
+        },
+        {
+          label: "参考",
+          autogenerate: {
+            directory: 'QA'
+          }
         }
       ]
     }),
