@@ -2263,7 +2263,7 @@ dependencies = [
 
 [[package]]
 name = "monster-siren-desktop"
-version = "0.1.0"
+version = "1.0.0"
 dependencies = [
  "async-trait",
  "bytes 1.6.1",

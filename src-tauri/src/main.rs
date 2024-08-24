@@ -45,8 +45,6 @@ fn init(app: tauri::AppHandle) -> Arc<Mutex<PluginManager>> {
     );
     let mut main_window = app.get_window("main").unwrap();
 
-    // Use box to make manager has 'static lifetime, DO NOT REMOVE `Box::leak` and `Box::new`
-    // todo!: 取消内存泄露的方式来防止被回收
     let mut plugin_manager = PluginManager::new(app.app_handle());
     let _ = plugin_manager.start();
     config::init_window_from_config(&mut main_window, &app_config);
