@@ -1,5 +1,30 @@
 # Changelog
 
+## [1.0.1](https://github.com/QingXia-Ela/MonsterSirenDesktop/compare/1.0.0...1.0.1) (2024-08-25)
+
+
+### 🐛 Bug Fixes
+
+* 修复播放列表页触发播放该列表时路由错误的问题 ([79558f9](https://github.com/QingXia-Ela/MonsterSirenDesktop/commit/79558f9ff765e2fee9a582671c1af550b72480e8))
+
+
+### 📝 Documentation
+
+* 更新文档配置 ([09d36a6](https://github.com/QingXia-Ela/MonsterSirenDesktop/commit/09d36a61ea2545f70c1a9d2608a91114439bed92))
+* 更新文档配置 ([5e2da5b](https://github.com/QingXia-Ela/MonsterSirenDesktop/commit/5e2da5bc7a35f05729344bc585fb968a6b02e330))
+* 修复文档错误问题 ([095c577](https://github.com/QingXia-Ela/MonsterSirenDesktop/commit/095c577d5c9710dbfe4baf8d99bae4f3360f30aa))
+* 修复文档错误问题 ([78f54b6](https://github.com/QingXia-Ela/MonsterSirenDesktop/commit/78f54b68643d3af25d9b015aaf39d8f2eca63166))
+* 修复文档首页错误问题 ([7ab262a](https://github.com/QingXia-Ela/MonsterSirenDesktop/commit/7ab262a4c40b7f8f02daab274730adb77c6d3e86))
+
+
+### 🚩 Chore
+
+* 更新 workflow ([fafa9a0](https://github.com/QingXia-Ela/MonsterSirenDesktop/commit/fafa9a0ce7649744956c50212f5a230c559e7af1))
+* 更新版本号 ([d917328](https://github.com/QingXia-Ela/MonsterSirenDesktop/commit/d917328059f78e03644fe05392c27c6d2ec68eb7))
+* 修改changelog版本号 ([f60f3f1](https://github.com/QingXia-Ela/MonsterSirenDesktop/commit/f60f3f1d67a6991ad042a41aa712749a64665b47))
+* 移除 workflow 不必要的步骤 ([188ece5](https://github.com/QingXia-Ela/MonsterSirenDesktop/commit/188ece5db54deb1455bc1499a5e5bc5ebf5353ee))
+* lint ([c648b7c](https://github.com/QingXia-Ela/MonsterSirenDesktop/commit/c648b7c9dd78dbb64e01eb56d02fc56f3e23788f))
+
 ## [1.0.0](https://github.com/QingXia-Ela/MonsterSirenDesktop/compare/0.2.0...1.0.0) (2024-08-21)
 
 
