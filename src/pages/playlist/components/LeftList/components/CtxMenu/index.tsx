@@ -81,7 +81,7 @@ function PlaylistLeftCtxMenu({ cid, handleClose }: PlaylistLeftCtxMenuProps) {
   const play = async () => {
     handleClose();
     const res = await (await getAlbumDetail(cid)).json();
-    const songId = res.data.songs[0]?.cid
+    const songId = res.data.songs[0]?.cid;
     if (songId) {
       SirenStore.dispatch({
         type: 'player/selectSong',
