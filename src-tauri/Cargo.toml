@@ -1,6 +1,6 @@
 [package]
 name = "monster-siren-desktop"
-version = "1.0.0"
+version = "1.0.2"
 description = "Monster siren website desktop app with tauri upgrade."
 authors = ["you"]
 license = ""
