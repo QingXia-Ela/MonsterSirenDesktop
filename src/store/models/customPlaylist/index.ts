@@ -20,8 +20,6 @@ invoke('plugin:playlist|get_all_playlists', {
 });
 
 export async function addSongToPlaylist(playlistId: string, song: any) {
-  console.log(song);
-
   await invoke('plugin:playlist|add_song_to_playlist', {
     playlistId,
     song,

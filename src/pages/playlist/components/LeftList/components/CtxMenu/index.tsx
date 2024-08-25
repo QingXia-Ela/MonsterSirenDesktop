@@ -1,3 +1,4 @@
+import { getAlbumDetail } from '@/api/modules/album';
 import Button from '@/components/Button';
 import BlackMenuItem from '@/components/ContextMenu/BlackMenuV2/BlackMenuItem';
 import Divider from '@/components/ContextMenu/BlackMenuV2/Divider';
@@ -77,12 +78,20 @@ async function removePlaylistWithNotice(cid: string) {
 function PlaylistLeftCtxMenu({ cid, handleClose }: PlaylistLeftCtxMenuProps) {
   const [confirmDel, setConfirmDel] = useState(false);
   const [modifyInfo, setModifyInfo] = useState(false);
-  const play = () => {
-    SirenStore.dispatch({
-      type: 'musicPlay/toAlbum',
-      cid,
-    });
+  const play = async () => {
     handleClose();
+    const res = await (await getAlbumDetail(cid)).json();
+    const songId = res.data.songs[0]?.cid
+    if (songId) {
+      SirenStore.dispatch({
+        type: 'player/selectSong',
+        cid: songId,
+      });
+      SirenStore.dispatch({
+        type: 'player/setIsPlaying',
+        isPlaying: true,
+      });
+    }
   };
   const callTauriDeletePlaylist = async () => {
     handleClose();
