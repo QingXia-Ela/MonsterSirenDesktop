@@ -3,9 +3,9 @@ use crate::vanilla_injector::{custom_playlist_injector, local_music_injector, te
 use futures::executor::block_on;
 use indexmap::IndexMap;
 use std::sync::Arc;
-use std::{thread::JoinHandle};
+use std::thread::JoinHandle;
 use std::{net::SocketAddrV4, thread};
-use tauri::{Manager};
+use tauri::Manager;
 use warp::Filter;
 
 use crate::{
