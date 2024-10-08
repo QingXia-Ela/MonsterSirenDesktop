@@ -1,6 +1,6 @@
 [package]
 name = "monster-siren-desktop"
-version = "1.0.0"
+version = "1.0.2"
 description = "Monster siren website desktop app with tauri upgrade."
 authors = ["you"]
 license = ""
@@ -60,3 +60,13 @@ id3 = "1.14.0"
 # DO NOT REMOVE!!
 custom-protocol = ["tauri/custom-protocol"]
 plugin_inject = []
+
+[profile.dev]
+incremental = true # Compile your binary in smaller steps.
+
+[profile.release]
+codegen-units = 1 # Allows LLVM to perform better optimization.
+lto = true        # Enables link-time-optimizations.
+opt-level = "s"   # Prioritizes small binary size. Use `3` if you prefer speed.
+panic = "abort"   # Higher performance by disabling panic handlers.
+strip = true      # Ensures debug symbols are removed.

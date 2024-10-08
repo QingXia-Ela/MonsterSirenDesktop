@@ -57,7 +57,8 @@ const GlobalNotifyComponent: FunctionComponent<
     if (reason === 'clickaway') {
       return;
     }
-
+    // 相当于提前触发定时器内容，所以需要清理
+    clearTimeout(timer);
     setOpen(false);
     setTimeout(() => {
       // remove msg, trigger rerender to next msg
